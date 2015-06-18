@@ -1,0 +1,312 @@
+pro hmilc, frame, quake
+;set quake = 1 to plot quake and ribbon plots
+
+;hmilc, 61, 1
+
+;restore, '/disk/solar3/jsr2/Data/SDO/hmi-16-03-15.sav'
+;restore, '/disk/solar3/jsr2/Data/SDO/hmi-20-02-15.sav'
+
+restore, '/disk/solar3/jsr2/Data/SDO/hmi-16-05-15.sav'
+
+f = string(frame)
+ff = strcompress('/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/'+f+'/hmi-high-intenstiy-pixels-frame-'+f+'.dat',/remove_all)
+filename = ff
+
+;;;;;;;open files 
+openr,lun,filename,/get_lun
+
+;;;count lines in file
+nlines = file_lines(filename)
+
+;;;make array to fill with values from the file
+h=intarr(2,nlines)
+
+;;;read file contents into array
+readf,lun,h
+
+;;close file and free up file unit number
+free_lun, lun
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;make array to contain plotting values for intensity based on frame specific flare area
+;aslo used to calculate average pre/post-flare pixel values for contrast calculations
+nnn = n_elements(diff)
+boxarr = fltarr(nnn)
+;bgarr = fltarr(nnn)
+for i = 0, nnn-1, 1 do begin
+boxarr[i] = total(diff[i].data[h[0,*],h[1,*]]) 
+;bgarr[i] = total(sbhmimap[i].data[h[0,*],h[1,*]]) 
+
+endfor
+
+
+imin = fltarr(nnn)
+imin[*] = (total(boxarr[35:55])+total(boxarr[75:95]))/(40*nlines)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Sarah's pixel locations [arcsec]:
+;quake is at = 517,264 
+;ribbon position = 511, 272
+if (quake eq 1) then begin
+;qk location?: x = 506, y = 264
+qkxa = 517.2; qkxp = 53.4999      ;519;506;517
+qkya = 261.4; qkyp = 77.1667      ;262;264;264;263 
+;qkxa = 516.6; qkxp = 52.4999      ;519;506;517
+;qkya = 261.4; qkyp = 77.1667      ;262;264;264;263 
+
+;qkxa = (qkxp - diffindex[0].crpix1 + 1)*diffindex[0].cdelt1
+;53.1666
+;81.5000
+
+rbxa = 511
+rbya = 272
+;43.1666
+;94.8333
+
+;;;;;;;;;;;;;;;quake location corrections
+qkxpcorr1 = 52.4999  ;516.6
+qkypcorr1 = 77.1667  ;261.4
+;qkxacorr1 = (qkxpcorr1 - diffindex[0].crpix1 + 1)*diffindex[0].cdelt1 = 518.100
+;qkyacorr1 = (qkypcorr1 - diffindex[0].crpix2 + 1)*diffindex[0].cdelt2 = 263.700
+
+qkxpcorr2 = 51.4999  ;518.000
+qkypcorr2 = 77.1667  ;261.400
+;qkxacorr2 = (qkxpcorr2 - diffindex[0].crpix1 + 1)*diffindex[0].cdelt1 = 518.100
+;qkyacorr2 = (qkypcorr2 - diffindex[0].crpix2 + 1)*diffindex[0].cdelt2 = 264.300
+
+qkxpcorr3 = 57.4999 ;519.6
+qkypcorr3 = 77.1667 ;261.4
+;qkxacorr3 = (qkxpcorr3 - diffindex[0].crpix1 + 1)*diffindex[0].cdelt1 = 518.100
+;qkyacorr3 = (qkypcorr3 - diffindex[0].crpix2 + 1)*diffindex[0].cdelt2 = 264.900
+
+;qkxpcorr4 = 56
+;qkypcorr4 = 81
+;qkxacorr4 = (qkxpcorr4 - diffindex[0].crpix1 + 1)*diffindex[0].cdelt1 = 518.700
+;qkyacorr4 = (qkypcorr4 - diffindex[0].crpix2 + 1)*diffindex[0].cdelt2 = 263.700
+
+;qkxpcorr5 = 56
+;qkypcorr5 = 82
+;qkxacorr5 = (qkxpcorr5 - diffindex[0].crpix1 + 1)*diffindex[0].cdelt1 = 518.700
+;qkyacorr5 = (qkypcorr5 - diffindex[0].crpix2 + 1)*diffindex[0].cdelt2 = 264.300
+
+;qkxpcorr6 = 56
+;qkypcorr6 = 83
+;qkxacorr6 = (qkxpcorr6 - diffindex[0].crpix1 + 1)*diffindex[0].cdelt1 = 518.700
+;qkyacorr6 = (qkypcorr6 - diffindex[0].crpix2 + 1)*diffindex[0].cdelt2 = 264.900
+
+
+;rbxacorr = 511
+;rbyacorr = 275.68889
+;rbxpcorr = (rbxacorr/diffindex[0].cdelt1) + diffindex[0].crpix1 - 1 = 43
+;rbypcorr = (rbyacorr/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1 = 100
+rbxpcorr = 43
+rbypcorr = 100
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;convert arcsecs to pixels
+qkxp = (qkxa/diffindex[0].cdelt1) + diffindex[0].crpix1 - 1
+qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
+rbxp = (rbxa/diffindex[0].cdelt1) + diffindex[0].crpix1 - 1
+rbyp = (rbya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
+;print, qkxp, qkyp, rbxp, rbyp
+;;take pre and post flare values from multiple frames and pixels to make a averaged non-flare pixel intensity
+
+qkimax = fltarr(nnn)
+qkimax1 = fltarr(nnn)
+qkimax2 = fltarr(nnn)
+qkimax3 = fltarr(nnn)
+rbimax = fltarr(nnn)
+qkcontrast = fltarr(nnn)
+qkcontrast1 = fltarr(nnn)
+qkcontrast2 = fltarr(nnn)
+qkcontrast3 = fltarr(nnn)
+rbcontrast = fltarr(nnn)
+
+;imin[*] = (total(bgarr[35:55])+total(bgarr[75:95]))/(40*nlines)
+
+for i = 0, nnn-1, 1 do begin
+;;calculate contrast value for quake pixel on all frames to save time
+qkimax[i] = diff[i].data[qkxp, qkyp]
+qkimax1[i] = diff[i].data[qkxpcorr1, qkypcorr1]
+qkimax2[i] = diff[i].data[qkxpcorr2, qkypcorr2]
+qkimax3[i] = diff[i].data[qkxpcorr3, qkypcorr3]
+
+qkcontrast[i] = (qkimax[i] - imin[0])/imin[0]
+qkcontrast1[i] = (qkimax1[i] - imin[0])/imin[0]
+qkcontrast2[i] = (qkimax2[i] - imin[0])/imin[0]
+qkcontrast3[i] = (qkimax3[i] - imin[0])/imin[0]
+
+;;calculate contrast value for ribbon pixel on all frames to save time
+;rbimax[i] = diff[i].data[rbxp, rbyp]
+rbimax[i] = diff[i].data[rbxpcorr, rbypcorr]
+
+rbcontrast[i] = (rbimax[i] - imin[0])/imin[0]
+endfor
+
+endif
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;find intensitie contrasts based on frame number flare pixel area
+iminpac = imin[*]*nlines
+imax = boxarr[frame]
+pixareacontrast = ((imax-iminpac[0])/iminpac[0])
+pixareacontraststr = string(pixareacontrast, format = '(f0.2)')
+paconstr = strcompress(pixareacontraststr, /remove_all)
+
+;;Single pixel method 
+;mxhmi = max(sbhmimap[frame].data)
+;ind = where(sbhmimap[frame].data eq mxhmi)
+;loc = array_indices(sbhmimap[frame].data, ind)
+;mnhmi = min(sbhmimap[*].data[loc[0],loc[1]])
+;relativeinc = (mxhmi - mnhmi)/mnhmi
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;Relative Energy Calculation
+;area = fltarr[1]
+;1 steradian = 4.25e10 arcseconds
+;area[0] = (((nlines61 + nlines62 + nlines63 + nlines64)/4)*(hmiindex[0].cdelt1*hmiindex[0].cdelt1))/4.25e10
+;passbandwidth = 7.6e-9
+;relativepower = !dpi*relativeinc*area[0]*passbandwidth
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;PLOTS;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+if (quake eq 1) then begin
+;quake and ribbon light curve plots
+;QUAKE
+qkareacon = max(qkcontrast[0:79])
+quakeloccontraststr = string(qkareacon, format = '(f0.2)')
+qkconstr = strcompress(quakeloccontraststr, /remove_all)
+
+lcq = strcompress('/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/hmi-lc-quake-location.eps',/remove_all)
+lcfile = lcq
+angstrom = '!6!sA!r!u!9 %!6!n'
+titl =  strcompress('SDO-HMI-6173'+angstrom+'-QUAKE-LOCATION-INTENSITY' ,/remove_all)
+ytitl = '[DN Pixel!E-1!N]'
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename=lcfile,/portrait,/encapsulated, decomposed=0,color=1
+
+utplot,diff[0:79].time, qkimax, linestyle = 0, title = titl, ytitle = ytitl,xmargin = [12,3],/ynoz
+xyouts, 0.2, 0.9, 'Max Intensity Contrast = '+qkconstr, /norm
+device,/close
+set_plot,mydevice
+;;;;;;;;;;;;;quake location correction 1
+qkareacon = max(qkcontrast1[0:79])
+quakeloccontraststr = string(qkareacon, format = '(f0.2)')
+qkconstr = strcompress(quakeloccontraststr, /remove_all)
+
+lcq = strcompress('/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/hmi-lc-quake-location1.eps',/remove_all)
+lcfile = lcq
+angstrom = '!6!sA!r!u!9 %!6!n'
+titl =  strcompress('SDO-HMI-6173'+angstrom+'-QUAKE-LOCATION-1-INTENSITY' ,/remove_all)
+ytitl = '[DN Pixel!E-1!N]'
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename=lcfile,/portrait,/encapsulated, decomposed=0,color=1
+
+utplot,diff[0:79].time, qkimax1, linestyle = 0, title = titl, ytitle = ytitl,xmargin = [12,3],/ynoz
+xyouts, 0.2, 0.9, 'Max Intensity Contrast = '+qkconstr, /norm
+device,/close
+set_plot,mydevice
+
+
+;;;;;;;;;;;;;quake location correction 2
+qkareacon = max(qkcontrast2[0:79])
+quakeloccontraststr = string(qkareacon, format = '(f0.2)')
+qkconstr = strcompress(quakeloccontraststr, /remove_all)
+
+lcq = strcompress('/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/hmi-lc-quake-location2.eps',/remove_all)
+lcfile = lcq
+angstrom = '!6!sA!r!u!9 %!6!n'
+titl =  strcompress('SDO-HMI-6173'+angstrom+'-QUAKE-LOCATION-2-INTENSITY' ,/remove_all)
+ytitl = '[DN Pixel!E-1!N]'
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename=lcfile,/portrait,/encapsulated, decomposed=0,color=1
+
+utplot,diff[0:79].time, qkimax2, linestyle = 0, title = titl, ytitle = ytitl,xmargin = [12,3],/ynoz
+xyouts, 0.2, 0.9, 'Max Intensity Contrast = '+qkconstr, /norm
+device,/close
+set_plot,mydevice
+
+;;;;;;;;;;;;;quake location correction 3
+qkareacon = max(qkcontrast3[0:79])
+quakeloccontraststr = string(qkareacon, format = '(f0.2)')
+qkconstr = strcompress(quakeloccontraststr, /remove_all)
+
+lcq = strcompress('/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/hmi-lc-quake-location3.eps',/remove_all)
+lcfile = lcq
+angstrom = '!6!sA!r!u!9 %!6!n'
+titl =  strcompress('SDO-HMI-6173'+angstrom+'-QUAKE-LOCATION-3-INTENSITY' ,/remove_all)
+ytitl = '[DN Pixel!E-1!N]'
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename=lcfile,/portrait,/encapsulated, decomposed=0,color=1
+
+utplot,diff[0:79].time, qkimax3, linestyle = 0, title = titl, ytitle = ytitl,xmargin = [12,3],/ynoz
+xyouts, 0.2, 0.9, 'Max Intensity Contrast = '+qkconstr, /norm
+device,/close
+set_plot,mydevice
+
+
+;RIBBON;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+rbareacon = max(rbcontrast[0:79])
+ribbonloccontraststr = string(rbareacon, format = '(f0.2)')
+rbconstr = strcompress(ribbonloccontraststr, /remove_all)
+
+lcr = strcompress('/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/hmi-lc-ribbon-location.eps',/remove_all)
+lcfile = lcr
+angstrom = '!6!sA!r!u!9 %!6!n'
+titl =  strcompress('SDO-HMI-6173'+angstrom+'-RIBBON-LOCATION-INTENSITY' ,/remove_all)
+ytitl = '[DN Pixel!E-1!N]'
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename=lcfile,/portrait,/encapsulated, decomposed=0,color=1
+
+utplot,diff[0:79].time, rbimax, linestyle = 0, title = titl, ytitle = ytitl,xmargin = [12,3],/ynoz
+xyouts, 0.2, 0.9, 'Max Intensity Contrast = '+rbconstr, /norm
+device,/close
+set_plot,mydevice
+
+endif
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Frame specific pixel area plot
+mx = max(boxarr[0:79])
+mn = min(boxarr[0:79])
+mxx = mx + 0.05*mx
+mnn = mn - 0.05*mn
+lcf = strcompress('/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/'+f+'/hmi-lc-'+f+'.eps',/remove_all)
+lcfile = lcf
+angstrom = '!6!sA!r!u!9 %!6!n'
+titl =  strcompress('SDO-HMI-6173'+angstrom+'-INTENSITY' ,/remove_all)
+ytitl = '[DN Pixel!E-1!N]'
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename=lcfile,/portrait,/encapsulated, decomposed=0,color=1
+
+utplot,diff[0:79].time, boxarr, linestyle = 0, title = titl, ytitle = ytitl,xmargin = [12,3], yr = [mnn, mxx],/ynoz
+xyouts, 0.2, 0.9, 'Intensity Contrast = '+paconstr, /norm
+device,/close
+set_plot,mydevice
+end

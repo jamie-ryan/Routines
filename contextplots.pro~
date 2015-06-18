@@ -1,0 +1,99 @@
+pro contextplots
+
+;restore,'hmi-20-02-15.sav' 
+;restore,'iris-20-02-15.sav' 
+;restore, 'hmi-16-03-15.sav'
+;restore, '/disk/solar8/sam/29mar14/sji_mgii_saub.sav'
+;restore, '/disk/solar8/sam/29mar14/sji_1400map.sav'
+
+restore,'/disk/solar8/sam/29mar14/egmap6_arcsec_masked_lev1.sav'
+restore, '/disk/solar3/jsr2/Data/SDO/hmi-16-05-15.sav'
+restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;CONTEXT CONTOUR PLOTS
+;;;RHESSI, ACOUSTIC POWER AND SUNSPOT CONTOURS
+;
+;Plot #1
+;17:44:48
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename='/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/hmi-context.eps',/portrait,/encapsulated, decomposed=0,color=1		
+;!P.MULTI = [0, 2, 1]
+
+;;;HMI, no processing, no sunspot contours
+loadct,3 ;red = intensity map
+plot_map, sbhmimap[64], dmin = 0, dmax = 2000, title = 'HMI Photosphere Continuum'
+loadct,1 ;blue = acoustic power
+plot_map,sbegmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 255
+loadct,4 ;blue/green/red/yellow = xray
+plot_map, ;RHESSI, /over, levels = [], /drot, color = ?
+
+device,/close
+set_plot,mydevice
+
+
+;;;;;;;;;;;;;;;;;;
+mydevice=!d.name
+set_plot,'ps'
+device,filename='/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/diff-context.eps',/portrait,/encapsulated, decomposed=0,color=1			
+
+;;;HMI diff
+loadct, 3 ; intensity
+plot_map, diff[64], dmin = 0, dmax = 2000, title = 'HMI Photosphere Difference'
+loadct, 1 ; acoustic power
+plot_map,sbegmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 255
+loadct,4 ; x-ray
+plot_map, ;RHESSI, /over, levels = [], /drot, color = ?
+loadct,0 ; sunspots
+plot_map, sbhmimap[64], /over, levels = [15000,30000], color = 255
+
+device,/close
+set_plot,mydevice
+
+
+
+;;;;;;;;;;;;;;;;;
+mydevice=!d.name
+set_plot,'ps'
+device,filename='/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/iris-mgii-context.eps',/portrait,/encapsulated, decomposed=0,color=1			
+
+;;;mgII
+loadct,3 ; intensity
+plot_map, submg[166], dmin = 0, dmax = 2000, title = 'IRIS SJ Chromosphere'
+loadct, 1 ; acoustic power
+plot_map,sbegmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 255
+loadct,4 ; x-ray
+plot_map, ;RHESSI, /over, levels = [], /drot, color = ?
+loadct,0 ; sunspots
+plot_map, sbhmimap[64], /over, levels = [15000,30000], color = 255
+
+device,/close
+set_plot,mydevice
+
+;;;;;;;;;;;;;;;
+mydevice=!d.name
+set_plot,'ps'
+device,filename='/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/iris-siiv-context.eps',/portrait,/encapsulated, decomposed=0,color=1			
+
+
+;;;siIV
+loadct,3 ; intensity
+plot_map, map1400[500], /log, title = '17:44:46 IRIS Transition Region'
+loadct, 1 ; acoustic power
+plot_map,sbegmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 255
+loadct,4 ; x-ray
+plot_map, ;RHESSI, /over, levels = [], /drot, color = ?
+loadct,0 ; sunspots
+plot_map, sbhmimap[64], /over,levels = [15000,30000], color = 255
+
+;xyouts, 0.25, 0.38, 'Sunspot Contours', /norm, color = 255
+device,/close
+set_plot,mydevice
+
+
+end
