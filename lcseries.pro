@@ -107,7 +107,7 @@ boxarrmg[i] = total(submg[17 + i].data[hmg[0,*],hmg[1,*]])
 endfor
 ;;;flux and energy of flare area
 F_area_mgii = flux_func(boxarrmg, 2796, 1)
-E_area_mgii = energy_func(F_area_mgii, 2796)
+E_area_mgii = energy_func(F_area_mgii, 2796, 1)
 tmg = submg[17:*].time
 
 
@@ -120,7 +120,7 @@ boxarrmgw[i] = total(diff2832[i].data[hmgw[0,*],hmgw[1,*]])
 endfor
 ;;;flux and energy of flare area
 F_area_mgiiw = flux_func(boxarrmgw, 2832, 1)
-E_area_mgiiw = energy_func(F_area_mgiiw, 2832)
+E_area_mgiiw = energy_func(F_area_mgiiw, 2832, 1)
 tmgw = diff2832.time
 
 ;;siiv;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;501?
@@ -131,8 +131,8 @@ for i = 0, nsi-1, 1 do begin
 boxarrsi[i] = total(map1400[387 + i].data[hsi[0,*],hsi[1,*]]) 
 endfor
 ;;;flux and energy of flare area
-F_area_siiv = flux_func(boxarrmgw, 1400, 1)
-E_area_siiv = energy_func(F_area_siiv, 1400)
+F_area_siiv = flux_func(boxarrsi, 1400, 1)
+E_area_siiv = energy_func(F_area_siiv, 1400, 1)
 tsi = map1400[387:*].time
 
 
@@ -149,7 +149,7 @@ exet = execute(comi)
 endfor
 ;calculate flux and energy
 Fspqk = flux_func(spboxarr, 1400, 0)
-Espqk = energy_func(Fspqk, 1400)
+Espqk = energy_func(Fspqk, 1400, 0)
 tsp = timearr
 
 ;sp ribbon
@@ -169,7 +169,7 @@ exet = execute(comi)
 endfor
 ;calculate flux and energy
 Fsprb = flux_func(rbboxarr, 1400, 0)
-Esprb = energy_func(Fsprb, 1400)
+Esprb = energy_func(Fsprb, 1400, 0)
  
 
 
@@ -323,9 +323,9 @@ rbmgwcontrast[i] = (rbmgwmax[i] - iminmgwrb)/iminmgwrb
 endfor   
 ;calculate flux and energy
 Fmgwqk = flux_func(qkmgwmax, 2832, 1)
-Emgwqk = energy_func(Fmgwqk, 2832)
+Emgwqk = energy_func(Fmgwqk, 2832, 1)
 Fmgwrb = flux_func(rbmgwmax, 2832, 1)
-Emgwrb = energy_func(Fmgwrb, 2832)
+Emgwrb = energy_func(Fmgwrb, 2832, 1)
 
 
 
@@ -342,9 +342,9 @@ rbmgcontrast[i] = (rbmgmax[i] - iminmg[0])/iminmg[0]
 endfor
 ;calculate flux and energy
 Fmgqk = flux_func(qkmgmax, 2976, 1)
-Emgqk = energy_func(Fmgqk, 2976)
+Emgqk = energy_func(Fmgqk, 2976, 1)
 Fmgrb = flux_func(rbmgmax, 2976, 1)
-Emgrb = energy_func(Fmgrb, 2976)
+Emgrb = energy_func(Fmgrb, 2976, 1)
 
 
 
@@ -361,9 +361,9 @@ rbsicontrast[i] = (rbsimax[i] - iminsi[0])/iminsi[0]
 endfor
 ;calculate flux and energy
 Fsiqk = flux_func(qksimax, 1400, 1)
-Esiqk = energy_func(Fsiqk, 1400)
+Esiqk = energy_func(Fsiqk, 1400, 1)
 Fsirb = flux_func(rbsimax, 1400, 1)
-Esirb = energy_func(Fsirb, 1400)
+Esirb = energy_func(Fsirb, 1400, 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 save, F_area_siiv,E_area_siiv, F_area_mgii,E_area_mgii,F_area_mgiiw,E_area_mgiiw, Fsprb,Esprb,Fsiqk,Esiqk, Fsirb,Esirb, Fmgqk, Emgrb, Fmgwqk, Emgwrb,tmg, tmgw, tsi, tsp, filename = 'flux-energy-iris-sj.sav'

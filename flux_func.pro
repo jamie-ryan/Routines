@@ -1,5 +1,32 @@
 function flux_func, array, wave, sji 
-
+;+
+; NAME:
+;       flux_func()   
+; PURPOSE: 
+;       To convert IRIS observations from DN/pixel to erg/s/cm^(-2)/angstrom/sr
+;
+; CALLING SEQUENCE: 
+;       F = flux_func( array, wavelength, sji) 
+;
+; INPUT PARAMETERS: 
+;       array   the IRIS data array, slit-jaw or or spectrograph
+;       wave    the wavelength of the data contained in the array in angstroms
+;		eg, 1400 or 2796 or 2832	
+;	sji	sji stands for slit-jaw image...set to 1 for yes and 0 for no	
+;
+; OUTPUT PARAMETERS:
+;       F	a fluxarray containing intensity data in units of erg/s/cm^(-2)/angstrom/sr
+;               
+;
+; EXAMPLES:
+;       
+; PROCEDURE:
+;       
+; NOTES:
+;       
+; MODIFICATION HISTORY:
+;       Written 03/06/15
+;-
 nnn = n_elements(array)
 F= fltarr(nnn)
 
