@@ -101,10 +101,10 @@ ii = string(i, format ='(I0)' )
 	dopplershift = 
 
 	;make plot of local spectrum compared to quake spectrum 
-	filey = dir+'IRIS-SPECTRA-SLIT-POS'+ii+'-PIXEL-'+jj
-	titl =  'IRIS-SPECTRA-SLIT-POS'+ii+'-PIXEL-'+jj
+	filey = dir+'IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj'.eps'
+	titl =  'IRIS-SPECTRA-SLIT-POS-'+ii+'-PIXEL-'+jj
 	ytitl = '[DN Pixel!E-1!N]'
-	xtitl = 'Wavelength'+angstrom
+	xtitl = 'Wavelength '+angstrom
 	mydevice=!d.name
 	set_plot,'ps'
 	device, filename= filey, /portrait, /encapsulated, decomposed=0, color=1
