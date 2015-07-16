@@ -29,7 +29,7 @@ function energy_func, Fluxarray, wave, sji
 ;-
 nnn = n_elements(Fluxarray)
 
-
+iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
 if (wave eq 1400) then lambda = 1.4e-7 else $
 
 if (wave eq 2796) then lambda = 2.796e-7 else lambda = 2.832e-7 

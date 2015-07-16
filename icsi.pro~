@@ -159,6 +159,7 @@ jump1:
    jump99:
 
    
-   return
+   return, specfit
+
    end
 

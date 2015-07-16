@@ -1,10 +1,8 @@
-=
-
 ; IDL Version 8.2.2 (linux x86_64 m64)
 ; Journal File for jsr2@msslex.mssl.ucl.ac.uk
 ; Working directory: /disk/solar3/jsr2/Data/SDO
-; Date: Tue Jul 14 16:43:57 2015
-
+; Date: Wed Jul 15 12:27:06 2015
+ 
 f = iris_files('../IRIS/iris_l2_20140329_140938_3860258481_raster_t000_r00173.fits')
 ;       0  ../IRIS/iris_l2_20140329_140938_3860258481_raster_t000_r00173.fits      31 MB
 d = iris_load(f)
@@ -23,22 +21,14 @@ d->show_lines
 ; 1   SJI_1400
 ; 2   SJI_2796
 ; 3   SJI_2832
-wav = getlam(8)
-; % Variable is undefined: GETLAM.
 wav = d-> getlam(8)
 spec = d->getvar(8,/load)
-int = spec[*,435,3]
-help, wav, int
-plot, wav, int, /xst
 int = spec[30:100,435,3]
 wav = wav[30:100]
-help, wav, int
-;;;;try icsi manually
-
+.r
    if not keyword_set(fact) then fact = 99
    if not keyword_set(int_dev_max) then int_dev_max = 1.e-5
    if not keyword_set(niterations) then niterations = 100
-
    nwav = n_elements(wav)
    nwavf = nwav*fact
    wavf = dblarr(nwavf)
@@ -50,7 +40,7 @@ help, wav, int
 	  wsub = (dindgen(fact) + 0.5)/fact*dwav(i)
 	  wavf(i*fact:(i+1)*fact-1) = wsub + 0.5*(wav(i) + wav(i-1))
    endfor
-
+end
 ;  First bin   
    dwav(0) = wav(1) - wav(0)   
    wsub = (dindgen(fact) + 0.5)/fact*dwav(0)
@@ -74,8 +64,7 @@ help, wav, int
 ; Percent deviation of spline fit average from true average (original resolution)
    int_dev_all = dblarr(niterations, nwav)
    i_d_max = dblarr(niterations)   ;   maximum for iteration
-
-
+.r
 ; Loop over iterations
    for i = 1, niterations-1 do begin
 ; Loop over original wavelength grid
@@ -133,18 +122,41 @@ jump1:
 ; Corrected intensities at the original grid positions
    int_cor = int_new_all(i-1,*)   
    jump99:
-
 specfit = create_struct('wavf',wavf, 'intf', intf, 'int_cor', int_cor)
-
+end
 ;Converged after        5 iterations
+help, specfit
+specfit = create_struct('wav', wav, 'int', int,'wavf',wavf, 'intf', intf, 'int_cor', int_cor)
+help, specfit
+st = max(wav)
+print, st
+;       2793.0260
+stt = min(wav)
+print, stt
+;       2791.2438
+nm = (st+stt)/2
+print, nm
+;       2792.1349
+nmstr = string(nm, f = 'I0')
+; % '(' expected.
+;   "I0"
+;    ^
+nmstr = string(nm, format = '(I0)')
+print, nmstr
+;2792
+structname = 'specfit'+nmstr
+print, structname
+;specfit2792
+specfit2792 = specfit
+help, specfit2792
+help, structname
+help, specfit2792
+save, structfit2792, filename = structname+'.sav'
+; % SAVE: Undefined item not saved: STRUCTFIT2792.
+save, specfit2792, filename = structname+'.sav'
+$ls
+wav = d->getlam(8)
+help, wav
+help, wav, dat
 help
-plot, wavf, intf
-window,1
-plot, wav,int
-print,inst
-;;;;maybe look into modifying the icsi.pro routine to return a structure or object
-;;;;return can only send one variable to the controlling level, therefore
-;;;put wavf, intf and anything else into a single structure/object
-;;;then can just IDL> return, object
-
-
+help, wav, spec

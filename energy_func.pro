@@ -1,4 +1,4 @@
-function energy_func, Fluxarray, wave, sji
+function energy_func, Fluxarray, wave, sji, pixnum
 ;+
 ; NAME:
 ;       energy_func()   
@@ -59,7 +59,7 @@ if (sji eq 1) then begin
 	if (wave eq 2796) then n = 2 else n = 3 
 	A = iresp.AREA_SJI[n]
 	;energy in erg.cm^2
-	E = Fluxarray*(A*pixxy*pixlambda*texp*wslit)
+	E = Fluxarray*(A*pixnum*pixxy*pixlambda*texp*wslit)
 
 	
 endif
@@ -67,7 +67,7 @@ endif
 if (sji eq 0) then begin
 	if (wave eq 1400) then n = 1 else n = 2 
 	A = iresp.AREA_SG[n]
-	E = Fluxarray*(A*pixxy*pixlambda*texp*wslit)
+	E = Fluxarray*(A*pixnum*pixxy*pixlambda*texp*wslit)
 endif
 return, E
 end
