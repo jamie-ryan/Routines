@@ -10,10 +10,10 @@ function energy_func, Fluxarray, wave, sji, pixnum
 ;
 ; INPUT PARAMETERS: 
 ;       fluxarray   the fluxarray returned by the function flux_func
-;       wave    the wavelength of the data contained in the array in angstroms
-;		eg, 1400 or 2796 or 2832	
-;	sji	sji stands for slit-jaw image...set to 1 for yes and 0 for no	
-;
+;       wave        the wavelength of the data contained in the array in angstroms
+;		    eg, 1400 or 2796 or 2832	
+;	sji	    sji stands for slit-jaw image...set to 1 for yes and 0 for no	
+;	pixnum      number of pixels that are summed to make fluxarray  
 ; OUTPUT PARAMETERS:
 ;       E	an energyarray containing intensity data in units of erg
 ;               

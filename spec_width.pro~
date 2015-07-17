@@ -69,16 +69,37 @@ rwave = array[0,rightmin]
 avmin = (min1 + min2)/2
 hm = ((peak - avmin)/2) + avmin 
 
+;;;find width at hm
+;look left of centroid for data points closest to half way location ;lclosest = (labove - lbelow)/2 + lbelow
+lbelow = where(array[1,leftmin:centroid] lt hm)
+labove = where(array[1,leftmin:centroid] gt hm)
+
+int1 = array[0,lbelow]
+int2 = array[0,labove]
+
+
+;totaldifference = int2 - int1
+a = hm - int1
+b = int2 - hm
+if (a gt b) then begin 
+;calculate relative difference then apply same relative difference to wavelength
+
+
+lwav1 = where(array[0,lbelow])
+lwav2 = where(array[0,labove])
+
+;look right of centroid for data points closest to half way location ;rclosest = (rabove - rbelow)/2 + rbelow
+rabove = where(array[1,centroid:rightmin] gt hm)
+rbelow = where(array[1,centroid:rightmin] lt hm)
 
 
 
-;;;full width at hm
-sparray = array[1,*]
-sparray[WHERE(sparray lT 0, /NULL)] = 0
-sparray[where(sparray[leftmin:rightmin] lt hm)] = 0
-sparray[where(sparray[leftmin:rightmin] gt hm)] = 0
 
+;take average halfway location and find indices for wavelength axis
+hmloc = (lclosest + rclosest)/2
 
+;measure width
+fwhm = 
  
 
 return,

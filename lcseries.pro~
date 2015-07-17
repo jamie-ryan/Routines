@@ -5,7 +5,7 @@ pro lcseries
 restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
-restore, 'SJ2832.sav'
+;restore, 'SJ2832.sav'
 dir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/'
 datdir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/Dat/'
 ;f = string(hmiframe)
@@ -107,7 +107,7 @@ boxarrmg[i] = total(submg[17 + i].data[hmg[0,*],hmg[1,*]])
 endfor
 ;;;flux and energy of flare area
 F_area_mgii = flux_func(boxarrmg, 2796, 1)
-E_area_mgii = energy_func(F_area_mgii, 2796, 1)
+E_area_mgii = energy_func(F_area_mgii, 2796, 1, nlinesmg)
 tmg = submg[17:*].time
 
 
@@ -120,7 +120,7 @@ boxarrmgw[i] = total(diff2832[i].data[hmgw[0,*],hmgw[1,*]])
 endfor
 ;;;flux and energy of flare area
 F_area_mgiiw = flux_func(boxarrmgw, 2832, 1)
-E_area_mgiiw = energy_func(F_area_mgiiw, 2832, 1)
+E_area_mgiiw = energy_func(F_area_mgiiw, 2832, 1, nlinesmgw)
 tmgw = diff2832.time
 
 ;;siiv;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;501?
@@ -132,7 +132,7 @@ boxarrsi[i] = total(map1400[387 + i].data[hsi[0,*],hsi[1,*]])
 endfor
 ;;;flux and energy of flare area
 F_area_siiv = flux_func(boxarrsi, 1400, 1)
-E_area_siiv = energy_func(F_area_siiv, 1400, 1)
+E_area_siiv = energy_func(F_area_siiv, 1400, 1, nlinessi)
 tsi = map1400[387:*].time
 
 
@@ -149,7 +149,7 @@ exet = execute(comi)
 endfor
 ;calculate flux and energy
 Fspqk = flux_func(spboxarr, 1400, 0)
-Espqk = energy_func(Fspqk, 1400, 0)
+Espqk = energy_func(Fspqk, 1400, 0, 1)
 tsp = timearr
 
 ;sp ribbon
@@ -169,7 +169,7 @@ exet = execute(comi)
 endfor
 ;calculate flux and energy
 Fsprb = flux_func(rbboxarr, 1400, 0)
-Esprb = energy_func(Fsprb, 1400, 0)
+Esprb = energy_func(Fsprb, 1400, 0, 1)
  
 
 
@@ -198,24 +198,6 @@ iminmgwrb = 250
 spimin[*] = 200 ;total(spboxarr[20:60])/(40)
 sprbimin[*] = 75 ;total(rbboxarr[157:177])/(20)
 
-
-;iminpac = imin[*]*nlines
-;imax = boxarr[f]
-;pixareacontrast = ((imax-iminpac[0])/iminpac[0])
-;pixareacontraststr = string(pixareacontrast, format = '(f0.2)')
-;paconstr = strcompress(pixareacontraststr, /remove_all)
-;
-;iminmgpac = iminmg[*]*nlinesmg
-;imaxmg = boxarrmg[mgframe-17]
-;pixareacontrastmg = ((imaxmg-iminmgpac[0])/iminmgpac[0])
-;pixareacontrastmgstr = string(pixareacontrastmg, format = '(f0.2)')
-;paconmgstr = strcompress(pixareacontrastmgstr, /remove_all)
-
-;iminsipac = iminsi[*]*nlinessi
-;imaxsi = boxarrsi[siframe-387]
-;pixareacontrastsi = ((imaxsi-iminsipac[0])/iminsipac[0])
-;pixareacontrastsistr = string(pixareacontrastsi, format = '(f0.2)')
-;paconsistr = strcompress(pixareacontrastsistr, /remove_all)
 
 spimax = max(spboxarr)
 rbimax = max(rbboxarr)
@@ -258,21 +240,21 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;IRIS
-qkirxa = 519;506;517
-qkirya = 262;264;264 
+qkirxa = 519.;506;517
+qkirya = 262.;264;264 
 ;rbirxa = 510.90;511
 ;rbirya = 272.100;272
 ;;;pixels to arcsecs
-;qkxa = (submgindex[0].cdelt1)*(qkxp - submgindex[0].crpix1 + 1)
+;qkxa = (SJI_1400_hdr[0].cdelt1)*(qkxp - SJI_1400_hdr[0].crpix1 + 1)
 ;;;convert arcsecs to pixels
-qkmgxp = (qkirxa/submgindex[0].cdelt1) + submgindex[0].crpix1 - 1
-qkmgyp = (qkirya/submgindex[0].cdelt2) + submgindex[0].crpix2 - 1
-rbmgxp = 504 ;rbmgxp = (509.75028/submgindex[0].cdelt1) + submgindex[0].crpix1 - 1
-rbmgyp = 487 ;rbmgyp = (270.88814/submgindex[0].cdelt2) + submgindex[0].crpix2 - 1
+qkmgxp = 588 ;(qkirxa/SJI_2796_hdr[0].cdelt1) + SJI_2796_hdr[0].crpix1 - 1
+qkmgyp = 441 ;(qkirya/SJI_2796_hdr[0].cdelt2) + SJI_2796_hdr[0].crpix2 - 1
+rbmgxp = 504 ;rbmgxp = (509.75028/SJI_1400_hdr[0].cdelt1) + SJI_1400_hdr[0].crpix1 - 1
+rbmgyp = 487 ;rbmgyp = (270.88814/SJI_1400_hdr[0].cdelt2) + SJI_1400_hdr[0].crpix2 - 1
 ;print,qkmgxp,qkmgyp,rbmgxp,rbmgyp
 
-qksixp = (qkirxa/map1400index[0].cdelt1) + map1400index[0].crpix1 - 1
-qksiyp = (qkirya/map1400index[0].cdelt2) + map1400index[0].crpix2 - 1
+qksixp = 588 ;(qkirxa/SJI_1400_hdr[0].cdelt1) + SJI_1400_hdr[0].crpix1 - 1
+qksiyp = 441 ;(qkirya/SJI_1400_hdr[0].cdelt2) + SJI_1400_hdr[0].crpix2 - 1
 rbsixp = 511 ; (rbirxa/map1400index[0].cdelt1) + map1400index[0].crpix1 - 1
 rbsiyp = 485 ; (rbirya/map1400index[0].cdelt2) + map1400index[0].crpix2 - 1
 ;print,qksixp,qksiyp,rbsixp,rbsiyp
@@ -315,7 +297,7 @@ endfor
 ;;mgw loop
 for i = 0, nmgw-1, 1 do begin
 ;;calculate contrast value for quake pixel on all frames to save time
-qkmgwmax[i] = map2832[i].data[559,441 ]
+qkmgwmax[i] = map2832[i].data[588,441 ]  ;559, 441
 qkmgwcontrast[i] = (qkmgwmax[i] - iminmgw[0])/iminmgw[0]
 ;;calculate contrast value for ribbon pixel on all frames to save time
 rbmgwmax[i] = map2832[i].data[483, 475]
@@ -323,9 +305,9 @@ rbmgwcontrast[i] = (rbmgwmax[i] - iminmgwrb)/iminmgwrb
 endfor   
 ;calculate flux and energy
 Fmgwqk = flux_func(qkmgwmax, 2832, 1)
-Emgwqk = energy_func(Fmgwqk, 2832, 1)
+Emgwqk = energy_func(Fmgwqk, 2832, 1, 1)
 Fmgwrb = flux_func(rbmgwmax, 2832, 1)
-Emgwrb = energy_func(Fmgwrb, 2832, 1)
+Emgwrb = energy_func(Fmgwrb, 2832, 1, 1)
 
 
 
@@ -342,9 +324,9 @@ rbmgcontrast[i] = (rbmgmax[i] - iminmg[0])/iminmg[0]
 endfor
 ;calculate flux and energy
 Fmgqk = flux_func(qkmgmax, 2976, 1)
-Emgqk = energy_func(Fmgqk, 2976, 1)
+Emgqk = energy_func(Fmgqk, 2976, 1, 1)
 Fmgrb = flux_func(rbmgmax, 2976, 1)
-Emgrb = energy_func(Fmgrb, 2976, 1)
+Emgrb = energy_func(Fmgrb, 2976, 1, 1)
 
 
 
@@ -361,12 +343,12 @@ rbsicontrast[i] = (rbsimax[i] - iminsi[0])/iminsi[0]
 endfor
 ;calculate flux and energy
 Fsiqk = flux_func(qksimax, 1400, 1)
-Esiqk = energy_func(Fsiqk, 1400, 1)
+Esiqk = energy_func(Fsiqk, 1400, 1, 1)
 Fsirb = flux_func(rbsimax, 1400, 1)
-Esirb = energy_func(Fsirb, 1400, 1)
+Esirb = energy_func(Fsirb, 1400, 1, 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-save, F_area_siiv,E_area_siiv, F_area_mgii,E_area_mgii,F_area_mgiiw,E_area_mgiiw, Fsprb,Esprb,Fsiqk,Esiqk, Fsirb,Esirb, Fmgqk, Emgrb, Fmgwqk, Emgwrb,tmg, tmgw, tsi, tsp, filename = 'flux-energy-iris-sj.sav'
+save, F_area_siiv,E_area_siiv, F_area_mgii,E_area_mgii,F_area_mgiiw,E_area_mgiiw, Fsprb,Esprb,Fsiqk,Esiqk, Fsirb,Esirb, Fmgqk, Fmgrb, Emgqk, Emgrb, Fmgwqk, Emgwrb, Fmgwrb, Emgwrb, tmg, tmgw, tsi, tsp, filename = 'flux-energy-iris-sj.sav'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -566,7 +548,7 @@ set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;SINGLE PIXEL LOCATION, QUAKE AND RIBBON PLOTS
 flux = '[erg s!E-1!N cm!E-2!N '+angstrom+'!E-1!N sr!E-1!N]'
-energy = '[erg cm!E-2!N]'
+energy = '[erg]'
 
 
 mydevice=!d.name
