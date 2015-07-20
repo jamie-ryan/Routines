@@ -1,6 +1,6 @@
 pro spec_int, wavf, inf
 
-I = int_tabulate(wavf,intf)
+I = int_tabulated(wavf,intf)
 
 return, I
 
