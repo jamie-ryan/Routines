@@ -1,4 +1,6 @@
-pro spec_width, wavf, intf
+pro dopp, wavf, intf, wave0
+
+;;;find max intensity location in spectra array
 peak =  max(intf, ind)
 
 ;;;use max intensity location to find central wavelength
@@ -40,11 +42,14 @@ intftmp = abs(intf - hm)
 turnpoint1 = min(intftmp[leftmin:ind],tp1)
 turnpoint2 = min(intftmp[ind:rightmin],tp2)
 tp2 = tp2 + ind
-width = fltarr(2)
-width[0] = centroid
-width[1] = wavf[tp2]-wavf[tp1]
+width = wavf[tp2]-wavf[tp1]
 
-return, width
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Dopplershift
+;;;define some standard wavelengths for calculating dopplershift...
+
+;check range of functionfit
+
+return, shift
+
 end
-
-

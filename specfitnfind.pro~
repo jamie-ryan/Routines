@@ -180,6 +180,8 @@ jump1:
 ;                 (intensity that accounts for profile curvature and conserves total intensity)
 
 
+
+
 ;;;find max intensity location in spectra array
 peak =  max(intf, ind)
 
@@ -224,11 +226,26 @@ turnpoint2 = min(intftmp[ind:rightmin],tp2)
 tp2 = tp2 + ind
 width = wavf[tp2]-wavf[tp1]
 
- ix = find_close(array, value)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Dopplershift
+;;;define some standard wavelengths for calculating dopplershift...
+
+;check range of functionfit
+if (
+
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Intensity: Integrate under curve...might be better to use wva and int 
+I = int_tubulated(wavf,intf)
+
 
  
 
  
-   return
-   end
+return
+end
 

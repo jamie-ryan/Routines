@@ -1,4 +1,4 @@
-pro quake_area
+pro quake_area, plot = plot
 ;routine to plot spectra surrounding the quake location
 dir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/qkspectra/'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2796-Apr28-2015.sav'
@@ -66,7 +66,41 @@ com = 'qkspectra[1,nnn1 +nnn2 + nnn3:nnn1 + nnn2 + nnn3 + nnn4-1] = sp2832.'+tag
 exe = execute(com)
 qkspectra[WHERE(spectra lT 0, /NULL)] = 0
 
-;loops to make plots from area surrounding quake
+;;open file for spec properties
+
+filename = dir+'quake-spec.dat'
+openw, unit, filename, /get_lun
+
+;set up main loop to incrementally generate high res spec fit
+specstart = 30
+inc = 70
+for i = specstart, (n_elements(qkspectra[0,*]))-1, 70
+fit = spec_fit(qkspectra[0,i], qkspectra[1,i])
+
+;calculates the factor by which the original spec array, differs from the high res spec fit array
+spec_diff = (n_elements(fit[0,*]))/(n_elements(qkspectra[0,*]) )
+	
+	;set up second loop for generating spec props from high res spec fit
+	for j = specstart*spec_diff, (n_elements(fit[0,*])) - 1, inc*spec_diff
+	width = spec_width(fit[0,j], fit[1,j])
+;	dopp = spec_dopp(fit[0,j], fit[1,j])
+	Intensity = spec_int(fit[0,j], fit[1,j])
+	;put spec props into file in format 1 row, 4 columns, e,g centroid, width, dopp, intensity
+	printf, unit, width[0], width[1], dopp, Intensity, /append	
+	endfor 
+endfor
+free_lun, unit
+
+;put spec props into array from file
+openr, unit, filename, /get_lun
+nlines = file_lines(filename)
+qkspecprop = fltarr(4,nlines)
+readf, unit, qkspecprop
+free_lun, unit
+
+specprop = fltarr(4,nlines)
+
+;loops to grab spectra from area surrounding quake, generate spec props and make plots
 ;slit position (x) 3:4 = quake
 for i = 2, 5, 1 do begin
 ii = string(i, format ='(I0)' )
@@ -84,36 +118,69 @@ ii = string(i, format ='(I0)' )
 	exe = execute(com)
 	spectra[WHERE(spectra lT 0, /NULL)] = 0
 
-	;some how measure widths of major peaks
-	;;;;;;wv0 = 2791.6 wv1 = 2791.1 to wv2 = 2792.1
-	wv0 = qkspectra[0,?]
-	wv1 = qkspectra[0,?]
-	wv2 = qkspectra[0,?]
-	peak 
-	trough1 = qkspectra[0,wv1]
-	where(qkspectra[0,wv1:wv2] eq peak = max(qkspectra[1,*]))]
-	broad = 
 
-	;some how measure amplitude difference
-	intensity = 
+		;set up main loop to incrementally generate high res spec fit
+		specstart = 30
+		inc = 70
+		for k = specstart, (n_elements(spectra[0,*]))-1, 70
+		fit = spec_fit(spectra[0,k], spectra[1,k])
 
-	;some how measure Doppler shift difference
-	dopplershift = 
+		;calculates the factor by which the original spec array, differs from the high res spec fit array
+		spec_diff = (n_elements(fit[0,*]))/(n_elements(spectra[0,*]) )
+	
+			;set up second loop for calculating spec props from high res spec fit
+			for l = specstart*spec_diff, (n_elements(fit[0,*])) - 1, inc*spec_diff
 
-	;make plot of local spectrum compared to quake spectrum 
-	filey = dir+'IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj'.eps'
-	titl =  'IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj
-	ytitl = '[DN Pixel!E-1!N]'
-	xtitl = 'Wavelength '+angstrom
-	mydevice=!d.name
-	set_plot,'ps'
-	device, filename= filey, /portrait, /encapsulated, decomposed=0, color=1
-	plot, spectra[0,*],spectra[1,*], ytitle = ytitl, xtitle = xtitl, title = titl
-	loadct, 3
-	oplot, qkspectra[0,*],qkspectra[1,*],  color = 150
-	device, /close
-	set_plot, mydevice
+			if (l eq specstart*spec_diff) then count = 0 else count = (l-specstart*spec_diff)/inc
 
+			width = spec_width(fit[0,l], fit[1,l])
+			dopp = spec_dopp(fit[0,l], fit[1,l], qkspecprop[0,count])
+			Intensity = spec_int(fit[0,l], fit[1,l])
+			
+			;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;			
+			;compare surrounding spectrum to quake spectrum 
+
+			;wavelength...0.9999928485 is based on max centroid shift of 0.02 angstroms...ask sarah???
+			wavcheck = 0
+			fwhmcheck = 0
+;			doppcheck = 0 
+			intcheck = 0 
+
+			if (qkspecprop[0,0] gt width[0]) then begin 
+				if (width[0]/qkspecprop[0,0] gt 0.9999928485 ) then wavcheck = 1 else wavcheck = 0
+				if (width[1]/qkspecprop[1,0] gt 0.75 ) then fwhmcheck = 1 else fwhmcheck = 0 	
+;				if (dopp/qkspecprop[2,0] gt ) then doppcheck = 1 else doppcheck = 0 
+				if (Intensity/qkspecprop[3,0] gt 0.75) then intcheck = 1 else intcheck = 0 
+			endif
+
+
+			if (qkspecprop[0,0] lt width[0]) then begin 
+				if (qkspecprop[0,0]/width[0] gt 0.9999928485 ) then wavcheck = 1 else wavcheck = 0
+				if (qkspecprop[1,0]/width[1] gt 0.75 ) then fwhmcheck = 1 else fwhmcheck = 0 
+;				if (qkspecprop[2,0]/dopp gt ) then doppcheck = 1 else doppcheck = 0 
+				if (qkspecprop[3,0]/Intensity gt 0.75 ) then intcheck = 1 else intcheck = 0 
+			endif
+			
+			endfor		
+		endfor			  
+
+
+
+		if keyword_set(plot) then begin
+		;make plot of local spectrum compared to quake spectrum 
+		filey = dir+'IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj'.eps'
+		titl =  'IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj
+		ytitl = '[DN Pixel!E-1!N]'
+		xtitl = 'Wavelength '+angstrom
+		mydevice=!d.name
+		set_plot,'ps'
+		device, filename= filey, /portrait, /encapsulated, decomposed=0, color=1
+		plot, spectra[0,*],spectra[1,*], ytitle = ytitl, xtitle = xtitl, title = titl
+		loadct, 3
+		oplot, qkspectra[0,*],qkspectra[1,*],  color = 150
+		device, /close
+		set_plot, mydevice
+		endif
 	endfor
 endfor
 
