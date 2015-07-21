@@ -60,7 +60,7 @@ openw, unit, filename, /get_lun
 ;and calculate spec props for each high res spec fit then store in a file 
 specstart = 30
 inc = 70
-for i = specstart, (n_elements(qkspectra[0,*]))-1, 70
+for i = specstart, (n_elements(qkspectra[0,*]))-1, 70 do begin
 	fit = spec_fit(qkspectra[0,i:i+inc], qkspectra[1,i:i+inc])
 
 
@@ -110,7 +110,7 @@ ii = string(i, format ='(I0)' )
 		checksum = 0
 		specstart = 30
 		inc = 70
-		for k = specstart, (n_elements(spectra[0,*]))-1, inc
+		for k = specstart, (n_elements(spectra[0,*]))-1, inc do begin
 		fit = spec_fit(spectra[0,k:k+inc], spectra[1,k:k+inc])
 
 		width = spec_width(fit[0,*], fit[1,*])
@@ -140,13 +140,13 @@ ii = string(i, format ='(I0)' )
 			if (qkspecprop[3,0]/Intensity gt 0.75 ) then intcheck = 1 else intcheck = 0 
 		endif
 			
-		if (wavcheck + fwhmcheck + intcheck eq 3) then 
+		if (wavcheck + fwhmcheck + intcheck eq 3) then begin
 
 		str1 = string(spectra[0:k])
 		str2 = string(spectra[0:k+inc])
 		str3 = str1+'-'+str2
 		str4 = strcompress(str3, /remove_all)
-		print, 'Spectral match between '+str4+' located at slit-position '+ii+', pixel location '+jj'.' 
+		print, 'Spectral match between '+str4+' located at slit-position '+ii+', pixel location '+jj+'.' 
 			
 		checksum = checksum + 1			
 			
@@ -156,11 +156,11 @@ ii = string(i, format ='(I0)' )
 	
 	;checks to see if every part of spectrum matches quake spectrum			  
 	if (checksum eq fix(n_elements(spectra[0,*])/inc)) then begin
-	print, 'Spectral match located at tag '+tag+', slit-position '+ii+', pixel location '+jj'.' 
+	print, 'Spectral match located at tag '+tag+', slit-position '+ii+', pixel location '+jj+'.' 
 	printf, unit, tag, i, j
 
+		;make plot spectrum with quake spectrum overplot 
 		if keyword_set(plot) then begin
-		;make plot of local spectrum compared to quake spectrum 
 		filey = dir+'IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj'.eps'
 		titl =  'IRIS-SUNQUAKE-SPECTRA-MATCH-SLITPOS-'+ii+'-PIXEL-'+jj
 		ytitl = '[DN Pixel!E-1!N]'
