@@ -68,7 +68,7 @@ for i = specstart, (n_elements(qkspectra[0,*]))-1, 70 do begin
 ;	dopp = spec_dopp(fit[0,j], fit[1,j])
 	Intensity = spec_int(fit[0,*], fit[1,*])
 	;put spec props into file in format 1 row, 4 columns, e,g centroid, width, dopp, intensity
-	printf, unit, width[0], width[1], dopp, Intensity
+	printf, unit, width[0], width[1], Intensity
 
 endfor
 free_lun, unit
@@ -114,7 +114,7 @@ ii = string(i, format ='(I0)' )
 		fit = spec_fit(spectra[0,k:k+inc], spectra[1,k:k+inc])
 
 		width = spec_width(fit[0,*], fit[1,*])
-		dopp = spec_dopp(fit[0,*], fit[1,*], qkspecprop[0, count])
+;		dopp = spec_dopp(fit[0,*], fit[1,*], qkspecprop[0, count])
 		Intensity = spec_int(fit[0,*], fit[1,*])
 			
 				
