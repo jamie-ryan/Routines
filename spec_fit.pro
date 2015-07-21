@@ -1,7 +1,8 @@
-function icsi, wav, int, wavf, intf, int_cor,                            $
-          fact=fact, int_dev_max=int_dev_max,                       $
-          niterations=niterations, idmax=idmax, intf_all=intf_all,  $
-		  cor_all=cor_all, int_dev_all=int_dev_all
+function spec_fit, wav, int
+
+; wavf, intf, int_cor,fact=fact, int_dev_max=int_dev_max
+;niterations=niterations, idmax=idmax, intf_all=intf_all
+;cor_all=cor_all, int_dev_all=int_dev_all
 
 ; Intensity Conserving Spline Interpolation
 
@@ -37,9 +38,9 @@ function icsi, wav, int, wavf, intf, int_cor,                            $
 ;    2014-dec-08, fixed a small bug with int_cor, JAK
 
 
-   if not keyword_set(fact) then fact = 99
-   if not keyword_set(int_dev_max) then int_dev_max = 1.e-5
-   if not keyword_set(niterations) then niterations = 100
+   fact = 99
+   int_dev_max = 1.e-5
+   niterations = 100
 
    if (fact/2 eq fact/2.) then begin
       print, 'fact not odd'
