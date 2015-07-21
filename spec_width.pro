@@ -16,13 +16,11 @@ rightmin = mind2 + ind
 
 ;;;sanity check
 if (min1 ne intf[leftmin]) then  begin
-print, 'Dave...my mind is going...I can feel it...I can feel it...my mind is going'
-return
+message, 'Dave...my mind is going...I can feel it...I can feel it...my mind is going'
 end
 
 if (min2 ne intf[rightmin]) then  begin
-print, 'Dave...my mind is going...I can feel it...I can feel it...my mind is going'
-return
+message, 'Dave...my mind is going...I can feel it...I can feel it...my mind is going'
 end
 
 ;;;define trough wavelengths
