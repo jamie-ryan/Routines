@@ -61,7 +61,7 @@ openw, unit, filename, /get_lun, /append
 num = 10
 inc = fix((n_elements(qkspectra[0,*]))/num )
 
-for i = 0, (n_elements(qkspectra[0,*]))-1, inc do begin
+for i = 0, (n_elements(qkspectra[0,*]))-inc, inc do begin
 	fit = spec_fit(qkspectra[0,i:i+inc], qkspectra[1,i:i+inc])
 
 
@@ -111,7 +111,7 @@ ii = string(i, format ='(I0)' )
 		checksum = 0
 		inc = fix((n_elements(spectra[0,*]))/num )
 
-		for k = 0, (n_elements(spectra[0,*]))-1, inc do begin
+		for k = 0, (n_elements(spectra[0,*]))-inc, inc do begin
 		fit = spec_fit(spectra[0,k:k+inc], spectra[1,k:k+inc])
 
 		width = spec_width(fit[0,*], fit[1,*])
