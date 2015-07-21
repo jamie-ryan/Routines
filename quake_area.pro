@@ -57,10 +57,11 @@ filename = dir+'quake-spec.dat'
 openw, unit, filename, /get_lun, /append
 
 ;set up main loop to incrementally generate high res spec fit 
-;and calculate spec props for each high res spec fit then store in a file 
-specstart = 30
-inc = 70
-for i = specstart, (n_elements(qkspectra[0,*]))-1, 70 do begin
+;and calculate spec props for each high res spec fit then store in a file
+num = 10
+inc = fix((n_elements(qkspectra[0,*]))/num )
+
+for i = 0, (n_elements(qkspectra[0,*]))-1, inc do begin
 	fit = spec_fit(qkspectra[0,i:i+inc], qkspectra[1,i:i+inc])
 
 
@@ -108,9 +109,9 @@ ii = string(i, format ='(I0)' )
 		;loop to incrementally generate high res spec fit
 		;and calculate/compare spec props
 		checksum = 0
-		specstart = 30
-		inc = 70
-		for k = specstart, (n_elements(spectra[0,*]))-1, inc do begin
+		inc = fix((n_elements(spectra[0,*]))/num )
+
+		for k = 0, (n_elements(spectra[0,*]))-1, inc do begin
 		fit = spec_fit(spectra[0,k:k+inc], spectra[1,k:k+inc])
 
 		width = spec_width(fit[0,*], fit[1,*])
