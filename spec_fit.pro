@@ -1,7 +1,7 @@
 function spec_fit, wav, int
 
-; wavf, intf, int_cor,fact=fact, int_dev_max=int_dev_max
-;niterations=niterations, idmax=idmax, intf_all=intf_all
+;, wavf, intf, int_cor, fact=fact, int_dev_max=int_dev_max
+;niterations=niterations, idmax=idmax, intf_all=intf_all,  
 ;cor_all=cor_all, int_dev_all=int_dev_all
 
 ; Intensity Conserving Spline Interpolation

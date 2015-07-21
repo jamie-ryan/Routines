@@ -1,4 +1,4 @@
-function dopp, wavf, intf, wave0
+function spec_dopp, wavf, intf, wave0
 
 ;;;find max intensity location in spectra array
 peak =  max(intf, ind)

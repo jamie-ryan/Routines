@@ -1,4 +1,4 @@
-function spec_int, wavf, inf
+function spec_int, wavf, intf
 
 I = int_tabulated(wavf,intf)
 
