@@ -157,8 +157,10 @@ jump1:
    int_cor = int_new_all(i-1,*)   
 
    jump99:
-
    
-   return
+   specfit = fltarr(2,n_elements(intf))
+   specfit[0,*] = wavf
+   specfit[1,*] = intf
+   return, specfit
    end
 

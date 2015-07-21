@@ -1,4 +1,4 @@
-pro icsi, wav, int, wavf, intf, int_cor,                            $
+function icsi, wav, int, wavf, intf, int_cor,                            $
           fact=fact, int_dev_max=int_dev_max,                       $
           niterations=niterations, idmax=idmax, intf_all=intf_all,  $
 		  cor_all=cor_all, int_dev_all=int_dev_all
