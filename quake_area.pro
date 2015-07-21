@@ -77,7 +77,7 @@ free_lun, unit
 ;puts sunquake spec props into array from file
 openr, unit, filename, /get_lun
 nlines = file_lines(filename)
-qkspecprop = fltarr(4,nlines)
+qkspecprop = fltarr(3,nlines)
 readf, unit, qkspecprop
 free_lun, unit
 
