@@ -54,7 +54,7 @@ qkspectra[WHERE(spectra lT 0, /NULL)] = 0
 ;;open file for spec properties
 
 filename = dir+'quake-spec.dat'
-openw, unit, filename, /get_lun
+openw, unit, filename, /get_lun, /append
 
 ;set up main loop to incrementally generate high res spec fit 
 ;and calculate spec props for each high res spec fit then store in a file 
@@ -68,7 +68,7 @@ for i = specstart, (n_elements(qkspectra[0,*]))-1, 70 do begin
 ;	dopp = spec_dopp(fit[0,j], fit[1,j])
 	Intensity = spec_int(fit[0,*], fit[1,*])
 	;put spec props into file in format 1 row, 4 columns, e,g centroid, width, dopp, intensity
-	printf, unit, width[0], width[1], dopp, Intensity, /append	
+	printf, unit, width[0], width[1], dopp, Intensity
 
 endfor
 free_lun, unit
@@ -83,7 +83,7 @@ free_lun, unit
 
 ;opens a file to store locations of those spectra that match the sunquake spectra
 filnm = dir+'quake-area.dat'
-openw, unit, filnm, /get_lun
+openw, unit, filnm, /get_lun, /append
 
 
 ;loops to grab spectra from area surrounding quake, generate spec props and compare to sunquake spectrum
