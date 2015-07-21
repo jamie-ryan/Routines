@@ -1,5 +1,5 @@
 pro quake_area, plot = plot
-;routine to plot spectra surrounding the quake location
+;routine to compare spectra around the sunquake location 
 dir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/qkspectra/'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2796-Apr28-2015.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2814-Apr28-2015.sav'
@@ -29,10 +29,7 @@ nnn = nnn1 + nnn2 + nnn3 + nnn4
 
 spectra = dblarr(2,nnn)
 qkspectra = dblarr(2,nnn)
-;spectra[0,0:nnn1-1] = sp2796.tag00.wvl[*]
-;spectra[0,nnn1:nnn1 + nnn2-1] = sp2814.tag00.wvl[*]
-;spectra[0,nnn1 + nnn2:nnn1 + nnn2 + nnn3-1] = sp2826.tag00.wvl[*]
-;spectra[0,nnn1 +nnn2 + nnn3:nnn1 + nnn2 + nnn3 + nnn4-1] = sp2832.tag00.wvl[*]
+
 com = 'spectra[0,0:nnn1-1] = sp2796.'+tag+'.wvl[*]'
 exe = execute(com)
 com = 'spectra[0,nnn1:nnn1 + nnn2-1] = sp2814.'+tag+'.wvl[*]'
@@ -42,7 +39,7 @@ exe = execute(com)
 com = 'spectra[0,nnn1 +nnn2 + nnn3:nnn1 + nnn2 + nnn3 + nnn4-1] = sp2832.'+tag+'.wvl[*]'
 exe = execute(com)
 
-;make quake spectrum for comparative over plot
+;Sunquake spectrum: used as control spectrum
 qkspectra[0,*] = spectra[0,*]
 com = 'qkspectra[1,0:nnn1-1] = sp2796.'+tag+'.int[*,3,435]'
 exe = execute(com)
@@ -59,7 +56,8 @@ qkspectra[WHERE(spectra lT 0, /NULL)] = 0
 filename = dir+'quake-spec.dat'
 openw, unit, filename, /get_lun
 
-;set up main loop to incrementally generate high res spec fit
+;set up main loop to incrementally generate high res spec fit 
+;and calculate spec props for each high res spec fit then store in a file 
 specstart = 30
 inc = 70
 for i = specstart, (n_elements(qkspectra[0,*]))-1, 70
@@ -75,16 +73,20 @@ for i = specstart, (n_elements(qkspectra[0,*]))-1, 70
 endfor
 free_lun, unit
 
-;put spec props into array from file
+;puts sunquake spec props into array from file
 openr, unit, filename, /get_lun
 nlines = file_lines(filename)
 qkspecprop = fltarr(4,nlines)
 readf, unit, qkspecprop
 free_lun, unit
 
+
+;opens a file to store locations of those spectra that match the sunquake spectra
 filnm = dir+'quake-area.dat'
 openw, unit, filnm, /get_lun
-;loops to grab spectra from area surrounding quake, generate spec props and make plots
+
+
+;loops to grab spectra from area surrounding quake, generate spec props and compare to sunquake spectrum
 ;slit position (x) 3:4 = quake
 for i = 2, 5, 1 do begin
 ii = string(i, format ='(I0)' )
@@ -103,7 +105,8 @@ ii = string(i, format ='(I0)' )
 	spectra[WHERE(spectra lT 0, /NULL)] = 0
 
 
-		;set up main loop to incrementally generate high res spec fit
+		;loop to incrementally generate high res spec fit
+		;and calculate/compare spec props
 		checksum = 0
 		specstart = 30
 		inc = 70
@@ -114,13 +117,12 @@ ii = string(i, format ='(I0)' )
 		dopp = spec_dopp(fit[0,*], fit[1,*], qkspecprop[0, count])
 		Intensity = spec_int(fit[0,*], fit[1,*])
 			
-		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;			
+				
 		;compare surrounding spectrum to quake spectrum 
-
 		;wavelength...0.9999928485 is based on max centroid shift of 0.02 angstroms...ask sarah???
+;		doppcheck = 0  don't need this, as used central wavelength instead
 		wavcheck = 0
 		fwhmcheck = 0
-;		doppcheck = 0 
 		intcheck = 0 
 
 		if (qkspecprop[0,0] gt width[0]) then begin 

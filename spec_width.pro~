@@ -40,7 +40,9 @@ intftmp = abs(intf - hm)
 turnpoint1 = min(intftmp[leftmin:ind],tp1)
 turnpoint2 = min(intftmp[ind:rightmin],tp2)
 tp2 = tp2 + ind
-width = wavf[tp2]-wavf[tp1]
+width = fltarr(2)
+width[0] = centroid
+width[1] = wavf[tp2]-wavf[tp1]
 
 return, width
 end

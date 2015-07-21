@@ -1,4 +1,4 @@
-pro spec_width, wavf, intf
+function spec_width, wavf, intf
 peak =  max(intf, ind)
 
 ;;;use max intensity location to find central wavelength
