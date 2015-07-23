@@ -49,7 +49,7 @@ com = 'qkspectra[1,nnn1 + nnn2:nnn1+ nnn2 + nnn3-1] = sp2826.'+tag+'.int[*,3,435
 exe = execute(com)
 com = 'qkspectra[1,nnn1 +nnn2 + nnn3:nnn1 + nnn2 + nnn3 + nnn4-1] = sp2832.'+tag+'.int[*,3,435]'
 exe = execute(com)
-qkspectra[WHERE(spectra lT 0, /NULL)] = 0
+qkspectra[WHERE(qkspectra lT 0, /NULL)] = 0
 
 ;;open file for spec properties
 
@@ -61,7 +61,10 @@ openw, unit, filename, /get_lun, /append
 num = 10
 inc = fix((n_elements(qkspectra[0,*]))/num )
 
-for i = 0, (n_elements(qkspectra[0,*]))-inc, inc do begin
+;for i = 0, (n_elements(qkspectra[0,*]))-inc, inc do begin
+
+for i = 0, num - 1 do begin
+
 ;;;;if using fit
 ;	fit = spec_fit(qkspectra[0,i:i+inc], qkspectra[1,i:i+inc])
 ;	width = spec_width(fit[0,*], fit[1,*])
@@ -69,16 +72,11 @@ for i = 0, (n_elements(qkspectra[0,*]))-inc, inc do begin
 ;	Intensity = spec_int(fit[0,*], fit[1,*])
 
 ;;;;if using data
-	if (i eq 0) then begin
-		width = spec_width(qkspectra[0,i:inc], qkspectra[1,i:inc])
-		intensity = spec_int(qkspectra[0,i:inc], qkspectra[1,i:inc])
-	endif
+	width = spec_width(qkspectra[0,(inc)*i:inc*(i+1)-1], qkspectra[1,(inc)*i:inc*(i+1)-1])
+	intensity = spec_int(qkspectra[0,(inc)*i:inc*(i+1)-1], qkspectra[1,(inc)*i:inc*(i+1)-1])
 
-	if (i gt 0) then begin
-		width = spec_width(qkspectra[0,i+1:i+inc], qkspectra[1,i+1:i+inc])
-		intensity = spec_int(qkspectra[0,i+1:i+inc], qkspectra[1,i+1:i+inc])
-	endif	
-	;put spec props into file in format 1 row, 4 columns, e,g centroid, width, dopp, intensity
+
+	;put spec props into file in format 1 row, 3 columns, e,g centroid, width, intensity
 	printf, unit, width[0], width[1], Intensity
 
 endfor
@@ -96,14 +94,16 @@ free_lun, unit
 filnm = dir+'quake-area.dat'
 openw, unit, filnm, /get_lun, /append
 
- 
+
 ;loops to grab spectra from area surrounding quake, generate spec props and compare to sunquake spectrum
 ;slit position (x) 3:4 = quake
-for i = 2, 5, 1 do begin
+for i = 2, 5 do begin
+
 ii = string(i, format ='(I0)' )
 
 	;y position 435 = quake
-	for j = 430, 440, 1 do begin 
+	for j = 430, 440 do begin 
+
 	jj = string(j, format ='(I0)' )
 	com = 'spectra[1,0:nnn1-1] = sp2796.'+tag+'.int[*,'+ii+','+jj+']'
 	exe = execute(com)
@@ -123,73 +123,78 @@ ii = string(i, format ='(I0)' )
 		wavcheck = 0
 		fwhmcheck = 0
 		intcheck = 0
-		checksum = 0
 		inc = fix((n_elements(spectra[0,*]))/num )
 
-		for k = 0, (n_elements(spectra[0,*]))-inc, inc do begin
+		for k = 0, num - 1 do begin
+		
 		;;;;if using fit
 ;		fit = spec_fit(spectra[0,k:k+inc], spectra[1,k:k+inc])
 ;		width = spec_width(fit[0,*], fit[1,*])
 ;		dopp = spec_dopp(fit[0,*], fit[1,*], qkspecprop[0, count])
 ;		Intensity = spec_int(fit[0,*], fit[1,*])
-
-		;;;;if using data
-		if (k eq 0) then begin
-			width = spec_width(spectra[0,k:inc], spectra[1,k:inc])
-			intensity = spec_int(spectra[0,k:inc], spectra[1,k:inc])
-			str1 = string(spectra[0,k], format = '(I0)')
-			str2 = string(spectra[0,inc], format = '(I0)')
-			;print, 'k is zero'
-		endif
-	
-		if (k gt 0) then begin
-			width = spec_width(spectra[0,k+1:k+inc], spectra[1,k+1:k+inc])
-			intensity = spec_int(spectra[0,k+1:k+inc], spectra[1,k+1:k+inc])
-			str1 = string(spectra[0,k+1], format = '(I0)')
-			str2 = string(spectra[0,k+inc], format = '(I0)')
-			;print, 'k is NOT zero'
-		endif			
+		width = spec_width(spectra[0,(inc)*k:inc*(k+1)-1], spectra[1,(inc)*k:inc*(k+1)-1])
+		intensity = spec_int(spectra[0,(inc)*k:inc*(k+1)-1], spectra[1,(inc)*k:inc*(k+1)-1])
 		printf, lun, width[0], width[1], Intensity
+
+
+		str1 = string(spectra[0,inc*k], format = '(I0)')
+		str2 = string(spectra[0,(inc*(k+1)-1)], format = '(I0)')
 		str3 = strcompress(str1+'-'+str2, /remove_all)
+
 		;compare surrounding spectrum to quake spectrum 
 		;wavelength...0.9999928485 is based on max centroid shift of 0.02 angstroms...ask sarah???
 ;		doppcheck = 0  don't need this, as used central wavelength instead
-		if (qkspecprop[0,0] eq width[0]) then begin
-			if (width[0]/qkspecprop[0,0] gt 0.99 ) then wavcheck = wavcheck + 1 else wavcheck = 0
-			if (width[1]/qkspecprop[1,0] gt 0.95 ) then fwhmcheck = fwhmcheck + 1 else fwhmcheck = 0 	
-;			if (dopp/qkspecprop[2,0] gt ) then doppcheck = 1 else doppcheck = 0 
-			if (Intensity/qkspecprop[2,0] gt 0.95) then intcheck = intcheck + 1 else intcheck = 0 
-		endif
-
-		if (qkspecprop[0,0] gt width[0]) then begin 
-			if (width[0]/qkspecprop[0,0] gt 0.99 ) then wavcheck = wavcheck + 1 else wavcheck = 0
-			if (width[1]/qkspecprop[1,0] gt 0.95 ) then fwhmcheck = fwhmcheck + 1 else fwhmcheck = 0 	
-;			if (dopp/qkspecprop[2,0] gt ) then doppcheck = 1 else doppcheck = 0 
-			if (Intensity/qkspecprop[2,0] gt 0.95) then intcheck = intcheck + 1 else intcheck = 0 
-		endif
-
-
-		if (qkspecprop[0,0] lt width[0]) then begin 
-			if (qkspecprop[0,0]/width[0] gt 0.99) then wavcheck = wavcheck + 1 else wavcheck = 0
-			if (qkspecprop[1,0]/width[1] gt 0.95 ) then fwhmcheck = fwhmcheck + 1 else fwhmcheck = 0 
-;			if (qkspecprop[2,0]/dopp gt ) then doppcheck = 1 else doppcheck = 0 
-			if (qkspecprop[2,0]/Intensity gt 0.95 ) then intcheck = intcheck + 1 else intcheck = 0 
-		endif
-		print, wavcheck, fwhmcheck, intcheck 
-;		if (wavcheck + fwhmcheck + intcheck eq 3) then begin
-;		if (wavcheck gt 0) then begin
-
-;		print, 'Spectral match between '+str3+' located at slit-position '+ii+', pixel location '+jj+'.' 
 		
+		;;;if values are equal all ratios are 1 therefore no need to calculate
+		if (qkspecprop[0,0] eq width[0]) then wavcheck = wavcheck + 1 else wavcheck = wavcheck
+		if (qkspecprop[1,0] eq width[1]) then fwhmcheck = fwhmcheck + 1 else fwhmcheck = fwhmcheck
+		if (qkspecprop[2,0] eq Intensity) then intcheck = intcheck + 1 else intcheck = intcheck 
 
-;		checksum = checksum + 1
-;		print, checksum	
+		;;;if values aren't equal
+		if (qkspecprop[0,0] ne width[0]) or (qkspecprop[1,0] ne width[1]) or (qkspecprop[2,0] ne Intensity) then begin
+
+			;;;setup ratios based on having the largest value on the bottom of the fraction
+			if (qkspecprop[0,0] gt width[0]) then check1 = width[0]/qkspecprop[0,0] else check1 = qkspecprop[0,0]/width[0]
+			if (qkspecprop[1,0] gt width[1]) then check2 = width[1]/qkspecprop[1,0] else check2 = qkspecprop[1,0]/width[1]
+			if (qkspecprop[2,0] gt Intensity) then check3 = Intensity/qkspecprop[2,0] else check3 = qkspecprop[2,0]/Intensity
+
+		;;;calculate ratios, and if larger than threshold modify a counter
+		if (check1 gt 0.97 ) then wavcheck = wavcheck + 1 else wavcheck = wavcheck
+		if (check2 gt 0.75 ) then fwhmcheck = fwhmcheck + 1 else fwhmcheck = fwhmcheck 	
+;		if (dopp/qkspecprop[2,0] gt ) then doppcheck = 1 else doppcheck = 0 
+		if (check3 gt 0.75) then intcheck = intcheck + 1 else intcheck = intcheck 
+
+		endif
+
+
+;		if (qkspecprop[0,0] eq width[0]) then begin
+;			if (width[0]/qkspecprop[0,0] gt 0.97 ) then wavcheck = wavcheck + 1 else wavcheck = wavcheck
+;			if (width[1]/qkspecprop[1,0] gt 0.95 ) then fwhmcheck = fwhmcheck + 1 else fwhmcheck = fwhmcheck 	
+;;			if (dopp/qkspecprop[2,0] gt ) then doppcheck = 1 else doppcheck = 0 
+;			if (Intensity/qkspecprop[2,0] gt 0.95) then intcheck = intcheck + 1 else intcheck = intcheck 
 ;		endif
+
+;		if (qkspecprop[0,0] gt width[0]) then begin 
+;			if (width[0]/qkspecprop[0,0] gt 0.97 ) then wavcheck = wavcheck + 1 else wavcheck = wavcheck
+;			if (width[1]/qkspecprop[1,0] gt 0.95 ) then fwhmcheck = fwhmcheck + 1 else fwhmcheck = fwhmcheck 	
+;			if (dopp/qkspecprop[2,0] gt ) then doppcheck = 1 else doppcheck = 0 
+;			if (Intensity/qkspecprop[2,0] gt 0.95) then intcheck = intcheck + 1 else intcheck = intcheck 
+;		endif
+
+
+;		if (qkspecprop[0,0] lt width[0]) then begin 
+;			if (qkspecprop[0,0]/width[0] gt 0.97) then wavcheck = wavcheck + 1 else wavcheck = wavcheck
+;			if (qkspecprop[1,0]/width[1] gt 0.95 ) then fwhmcheck = fwhmcheck + 1 else fwhmcheck = fwhmcheck 
+;;			if (qkspecprop[2,0]/dopp gt ) then doppcheck = 1 else doppcheck = 0 
+;			if (qkspecprop[2,0]/Intensity gt 0.95 ) then intcheck = intcheck + 1 else intcheck = intcheck  
+;		endif
+		print, 'slit: ',ii,'  pixel: ', jj, ' wavelength: ', str3
+		print, wavcheck, fwhmcheck, intcheck 
+
 
 		endfor		
 	
 	;checks to see if every part of spectrum matches quake spectrum			  
-;	if (checksum gt 8) then begin
 	if (wavcheck + fwhmcheck + intcheck gt 24) then begin
 	print, 'Spectral match located at tag '+tag+', slit-position '+ii+', pixel location '+jj+'.' 
 	printf, unit, tag, i, j

@@ -15,13 +15,11 @@ leftmin = mind1
 rightmin = mind2 + ind
 
 ;;;sanity check
-if (min1 ne intf[leftmin]) then  begin
+if (min1 ne intf[leftmin]) or (min2 ne intf[rightmin]) then  begin
 message, 'Dave...my mind is going...I can feel it...I can feel it...my mind is going'
 end
 
-if (min2 ne intf[rightmin]) then  begin
-message, 'Dave...my mind is going...I can feel it...I can feel it...my mind is going'
-end
+
 
 ;;;define trough wavelengths
 lwave = wavf[leftmin]
@@ -38,7 +36,7 @@ intftmp = abs(intf - hm)
 turnpoint1 = min(intftmp[leftmin:ind],tp1)
 turnpoint2 = min(intftmp[ind:rightmin],tp2)
 tp2 = tp2 + ind
-width = fltarr(2)
+width = dblarr(2)
 width[0] = centroid
 width[1] = wavf[tp2]-wavf[tp1]
 
