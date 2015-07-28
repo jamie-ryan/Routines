@@ -207,9 +207,9 @@ free_lun, unit
 ;+/- 5 y-pixels from quake, +/- 1 slit position from quake.
 ;maybe automate the range selection using quake-area.dat 
 if keyword_set(more_plots) then begin
-	for i = 429, 445 do begin
+	for i = 2,4 do begin
 	ii = string(i, format ='(I0)' )
-		for j = 2,4 do begin
+		for j = 429, 445 do begin
 		jj = string(j, format ='(I0)' )
 		com = 'spectra[1,0:nnn1-1] = sp2796.'+tag+'.int[*,'+ii+','+jj+']'
 		exe = execute(com)

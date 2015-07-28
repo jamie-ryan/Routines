@@ -7,7 +7,7 @@ coords = fltarr(2, nlines)
 readf, unit, coords
 free_lun, unit
 
-
+ycoords = coords[1,*]
 
 
 
