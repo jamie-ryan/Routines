@@ -221,7 +221,7 @@ if keyword_set(more_plots) then begin
 		exe = execute(com)
 		spectra[WHERE(spectra lT 0, /NULL)] = 0
 		
-		filey = dir+'/pixels-around-quake/IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj+'.eps'
+		filey = dir+'pixels-around-quake/IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj+'.eps'
 		titl =  'IRIS-SPECTRUM-SLITPOS-'+ii+'-PIXEL-'+jj
 		ytitl = '[DN Pixel!E-1!N]'
 		xtitl = 'Wavelength '+angstrom
