@@ -220,8 +220,8 @@ if keyword_set(more_plots) then begin
 		com = 'spectra[1,nnn1 +nnn2 + nnn3:nnn1 + nnn2 + nnn3 + nnn4-1] = sp2832.'+tag+'.int[*,'+ii+','+jj+']'
 		exe = execute(com)
 		spectra[WHERE(spectra lT 0, /NULL)] = 0
-		dir = dir+'/pixels-around-quake/'
-		filey = dir+'IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj+'.eps'
+		
+		filey = dir+'/pixels-around-quake/IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj+'.eps'
 		titl =  'IRIS-SPECTRUM-SLITPOS-'+ii+'-PIXEL-'+jj
 		ytitl = '[DN Pixel!E-1!N]'
 		xtitl = 'Wavelength '+angstrom

@@ -1,5 +1,5 @@
 pro rbspectra
-datfile = 
+datfile = 'DATA-ANALYSIS/............'
 
 openr, unit, datfile, /get_lun
 nlines = file_lines(datfile)
