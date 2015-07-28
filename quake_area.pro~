@@ -113,9 +113,10 @@ ii = string(i, format ='(I0)' )
 	exe = execute(com)
 	spectra[WHERE(spectra lT 0, /NULL)] = 0
 	
-	;file to store spec properties for each slit position and pixel
-	filename = dir+'around-quake-spec-slit-'+ii+'-pixel-'+jj+'.dat'
-	openw, lun, filename, /get_lun, /append
+	
+	;;;;file to store spec properties for each slit position and pixel
+	;filename = dir+'around-quake-spec-slit-'+ii+'-pixel-'+jj+'.dat'
+	;openw, lun, filename, /get_lun, /append
 
 	;spectral match counters
 	wavcheck = 0
@@ -140,7 +141,7 @@ ii = string(i, format ='(I0)' )
 			intensity = spec_int(spectra[0,(inc)*k:inc*(k+1)-1], spectra[1,(inc)*k:inc*(k+1)-1])
 
 			;;;puts calculated values into file
-			printf, lun, width[0], width[1], Intensity
+	;		printf, lun, width[0], width[1], Intensity
 
 			;;;make strings for user notification
 			str1 = string(spectra[0,inc*k], format = '(I0)')
@@ -197,7 +198,7 @@ ii = string(i, format ='(I0)' )
 			set_plot, mydevice
 			endif
 		endif
-		free_lun, lun
+	;	free_lun, lun
 	endfor
 endfor
 free_lun, unit
