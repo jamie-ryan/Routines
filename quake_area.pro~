@@ -1,4 +1,4 @@
-pro quake_area, plot = plot
+pro quake_area, plot = plot, more_plots = more_plots
 ;routine to compare spectra around the sunquake location 
 dir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/qkspectra/'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2796-Apr28-2015.sav'
@@ -184,7 +184,7 @@ ii = string(i, format ='(I0)' )
 			;make plot spectrum with quake spectrum overplot 
 			if keyword_set(plot) then begin
 			filey = dir+'IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj+'.eps'
-			titl =  'IRIS-SUNQUAKE-SPECTRA-MATCH-SLITPOS-'+ii+'-PIXEL-'+jj
+			titl =  'IRIS-SUNQUAKE-SPECTRAl-MATCH-SLITPOS-'+ii+'-PIXEL-'+jj
 			ytitl = '[DN Pixel!E-1!N]'
 			xtitl = 'Wavelength '+angstrom
 			mydevice=!d.name
@@ -201,4 +201,39 @@ ii = string(i, format ='(I0)' )
 	endfor
 endfor
 free_lun, unit
+
+;;;make plots of spectra from pixels surrounding sunquake spectra.
+;+/- 5 y-pixels from quake, +/- 1 slit position from quake.
+;maybe automate the range selection using quake-area.dat 
+if keyword_set(more_plots) then begin
+	for i = 429, 445 do begin
+	ii = string(i, format ='(I0)' )
+		for j = 2,4 do begin
+		jj = string(j, format ='(I0)' )
+		com = 'spectra[1,0:nnn1-1] = sp2796.'+tag+'.int[*,'+ii+','+jj+']'
+		exe = execute(com)
+		com = 'spectra[1,nnn1:nnn1 + nnn2-1] = sp2814.'+tag+'.int[*,'+ii+','+jj+']'
+		exe = execute(com)
+		com = 'spectra[1,nnn1 + nnn2:nnn1+ nnn2 + nnn3-1] = sp2826.'+tag+'.int[*,'+ii+','+jj+']'
+		exe = execute(com)
+		com = 'spectra[1,nnn1 +nnn2 + nnn3:nnn1 + nnn2 + nnn3 + nnn4-1] = sp2832.'+tag+'.int[*,'+ii+','+jj+']'
+		exe = execute(com)
+		spectra[WHERE(spectra lT 0, /NULL)] = 0
+		dir = dir+'/pixels-around-quake/'
+		filey = dir+'IRIS-SPECTRA-SLITPOS-'+ii+'-PIXEL-'+jj+'.eps'
+		titl =  'IRIS-SPECTRUM-SLITPOS-'+ii+'-PIXEL-'+jj
+		ytitl = '[DN Pixel!E-1!N]'
+		xtitl = 'Wavelength '+angstrom
+		mydevice=!d.name
+		set_plot,'ps'
+		device, filename= filey, /portrait, /encapsulated, decomposed=0, color=1
+		plot, spectra[0,*],spectra[1,*], ytitle = ytitl, xtitle = xtitl, title = titl
+		loadct, 3
+		oplot, qkspectra[0,*],qkspectra[1,*],  color = 150
+		device, /close
+		set_plot, mydevice
+		endfor 
+	endfor
+endif
+
 end
