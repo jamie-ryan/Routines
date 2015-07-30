@@ -22,14 +22,13 @@ pixxy = 5.97e-12 ;steradian
 fwhm = 76.e-3 ;A
 aperture = 14. ;cm
 sun_sdo = 36.e8  ;cm
-h = 6.626e-34 ;planck's constant
-c = 2.998e8;speed of light
 radius = 7.0e10 ;cm
 erg = 10.e-7 ;joules
 m2cm = 10000. ;m^2 to cm^2
-mic2ang = 10.e-4;micrometers e-6 to angstroms e-10
+mic2ang = 10.e-4 ;micrometers e-6 to angstroms e-10
 sterad = 4*!pi ;solid angle of sphere in steradians
 instr = pixxy*fwhm*!pi*aperture^2
+rad = 4.84813681e-6 ;1 arcsecond = 4.84813681e-6 radians
 
 ;planck1
 bbflux = planck(lambda,temp) ;erg/s.cm^2.A
@@ -52,18 +51,17 @@ radiance3 = 3.15e6 ;erg/s/cm^2/sr/A
 energy2 = radiance3*instr ;erg/s 
 
 ;relationship between dn/s and radiance
-disc_centre = ;dn/s
-rel1 = radiance1/disc_centre
-rel2 = radiance2/disc_centre
-rel3 = radiance3/disc_centre
-limb_dark = 
+disc_centre_int = ;dn/s
+rel1 = radiance1/disc_centre_int 
+rel2 = radiance2/disc_centre_int
+rel3 = radiance3/disc_centre_int
+theta = disc_centre + obs_angle ;arcseconds
+theta = theta*rad ;radians
+limb_dark = cos(theta) ;brightest at zero, dimmest at 90
 
 ;flux conversion
 F1 = array*limb_dark*rel1
 F2 = array*limb_dark*rel2
 F3 = array*limb_dark*rel3
-
-
-
 
 end
