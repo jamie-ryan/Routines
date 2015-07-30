@@ -94,7 +94,7 @@ for sp = 0,7 do begin
 						
 	
 			;put properties into file
-			printf, lun, sp, coords[1,ind[i]]]), width, intensity
+			printf, lun, sp, coords[1,ind[i]]]), width[0], width[1], velocity, intensity
 
 			;plot each spectrum
 			if keyword_set(plot) then begin

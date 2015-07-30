@@ -1,4 +1,4 @@
-pro rbspectra
+pro rbspectra, plot = plot
 
 ;location of IRIS fits files
 irisdir = '/disk/solar3/jsr2/Data/IRIS/'
