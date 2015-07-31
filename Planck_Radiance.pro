@@ -147,7 +147,7 @@ FUNCTION Planck_Radiance, Input_X              , $  ; Input
   ; Set up
   ; ------
   ; Include constants
-  dir = '/disk/solar3/jsr2/Routines/'
+
   @fundamental_constants
   @planck_constants
 
