@@ -147,14 +147,15 @@ FUNCTION Planck_Radiance, Input_X              , $  ; Input
   ; Set up
   ; ------
   ; Include constants
-  @fundamental_constants
-  @planck_constants
+  dir = '/disk/solar3/jsr2/Routines/'
+  @dir+fundamental_constants
+  @dir+planck_constants
 
   ; Define tolerance value
   Tolerance = (MACHAR(/DOUBLE)).EPS
 
   ; Error handler
-  @error_codes
+  @dir+error_codes
   IF ( KEYWORD_SET(Debug) ) THEN BEGIN
     MESSAGE, '--> Entered.', /INFORMATIONAL
     MsgSwitch = 0
