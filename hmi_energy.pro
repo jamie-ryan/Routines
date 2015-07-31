@@ -1,4 +1,4 @@
-pro hmi_energy, array, lambda, temp
+pro hmi_energy, array, lambda, temp, obs_angle
 
 ;Such a conversion factor depends on the CCD gains, the CCD quantum efficiency, the filter transmission profile widths, the transmittance of the various optical filter elements etc... I can do a quick back of the envelope calculation: If the intensity on a hmi.lev1 pixel is, say 10000 DNs, then using the CCD average reverse gain of 15.885 and the exposure time of 0.12s means that the number of photo-electrons produced  at that pixel on the CCD during the exposure time is: 10000/0.12/15.882=5247 photo-electrons. I believe the quantum efficiency of HMI CCDs (which depends on the temperature) is roughly 0.75. Therefore, that means that the specific pixel we are looking at received roughly 5247/0.75=6996 photons during exposure. So, 6996 photons hit the CCD pixel to result in 10000 DN. Assuming a HMI throughput of 2% (i.e. only 2% of photons hitting the front window reach the CCD, that's only a guess based on the exposure time required and may be widely off mark), that means that 6995/0.02=349802 photons entered HMI on the path to that specific pixel. Since a HMI pixel represents 0.504", and the photons are at the 6173 A wavelength, you can deduce the energy corresponding to the 10000 DN measured on hmi.lev1. However, as you can see, it is really just a back of the envelope calculation.
 
@@ -62,6 +62,7 @@ disc_centre_int = 60245.5
 rel1 = radiance1/disc_centre_int 
 rel2 = radiance2/disc_centre_int
 rel3 = radiance3/disc_centre_int
+disc_centre = 0.
 theta = disc_centre + obs_angle ;arcseconds
 theta = theta*rad ;radians
 limb_dark = cos(theta) ;brightest at zero, dimmest at 90
