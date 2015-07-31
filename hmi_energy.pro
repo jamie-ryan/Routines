@@ -37,7 +37,7 @@ energy1 = radiance1*instr ;erg/s
 ;radiance1 = bbflux*radius^2/pixxy*sun_sdo^2 ;erg/s/cm^2/sr/A 
 
 ;planck2
-result = Planck_Radiance(( lambda, temp, radiance, /wavelength )); W/(m2.sr.um)
+result = Planck_Radiance(lambda, temp, radiance, /wavelength); W/(m2.sr.um)
 radiance2 = radiance*((erg)/(m2cm*mic2ang)) ;convert W/(m2.sr.um) to erg/s/cm^2/sr/A 
 energy2 = radiance2*instr ;erg/s
 
@@ -51,7 +51,14 @@ radiance3 = 3.15e6 ;erg/s/cm^2/sr/A
 energy2 = radiance3*instr ;erg/s 
 
 ;relationship between dn/s and radiance
-disc_centre_int = ;dn/s
+;dn/s at disc center based on:
+;IDL> nnn = n_elements(hmidata[0,0,*])
+;IDL> print, nnn
+;         160
+;IDL> a = total(hmidata[2048.5,2048.5,*])/nnn
+;IDL> print, a
+;      60245.5
+disc_centre_int = 60245.5 
 rel1 = radiance1/disc_centre_int 
 rel2 = radiance2/disc_centre_int
 rel3 = radiance3/disc_centre_int
