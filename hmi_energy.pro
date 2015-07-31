@@ -1,4 +1,4 @@
-function hmi_energy, array, lambda, temp, obs_angle, f1 = f1, f2 = f2
+function hmi_energy, array, lambda, temp, obs_angle, f1 = f1, f2 = f2, f3=f3
 
 ;f1 = planck 
 ;f2 = Planck_Radiance.pro
@@ -69,10 +69,16 @@ F1 = array*limb_dark*rel1
 F2 = array*limb_dark*rel2
 F3 = array*limb_dark*rel3
 
-if keyword_set(f1) then F = F1 else $
-if keyword_set(f2) then F = F2 else F = F3
+if keyword_set(f1) then begin
+return, F1
+endif
 
+if keyword_set(f2) then begin
+return, F2
+endif
 
+if keyword_set(f3) then begin
+return, F3
+endif
 
-return, F
 end
