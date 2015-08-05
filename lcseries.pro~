@@ -106,7 +106,7 @@ for i = 0, nmg-1, 1 do begin
 boxarrmg[i] = total(submg[17 + i].data[hmg[0,*],hmg[1,*]]) 
 endfor
 ;;;flux and energy of flare area
-F_area_mgii = flux_func(boxarrmg, 2796, 1)
+F_area_mgii = flux_func(boxarrmg, 2796, /sji)
 E_area_mgii = energy_func(F_area_mgii, 2796, 1, nlinesmg)
 tmg = submg[17:*].time
 
@@ -119,7 +119,7 @@ for i = 0, nmgw-1, 1 do begin
 boxarrmgw[i] = total(diff2832[i].data[hmgw[0,*],hmgw[1,*]])
 endfor
 ;;;flux and energy of flare area
-F_area_mgiiw = flux_func(boxarrmgw, 2832, 1)
+F_area_mgiiw = flux_func(boxarrmgw, 2832, /sji)
 E_area_mgiiw = energy_func(F_area_mgiiw, 2832, 1, nlinesmgw)
 tmgw = diff2832.time
 
@@ -131,7 +131,7 @@ for i = 0, nsi-1, 1 do begin
 boxarrsi[i] = total(map1400[387 + i].data[hsi[0,*],hsi[1,*]]) 
 endfor
 ;;;flux and energy of flare area
-F_area_siiv = flux_func(boxarrsi, 1400, 1)
+F_area_siiv = flux_func(boxarrsi, 1400, /sji)
 E_area_siiv = energy_func(F_area_siiv, 1400, 1, nlinessi)
 tsi = map1400[387:*].time
 
@@ -148,8 +148,10 @@ comi = 'spboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,3:4,435])/((44-39)*2)
 exet = execute(comi)
 endfor
 ;calculate flux and energy
-Fspqk = flux_func(spboxarr, 1400, 0)
-Espqk = energy_func(Fspqk, 1400, 0, 1)
+w1 = sp2826.tag00.wvl[39]
+w2 = sp2826.tag00.wvl[44]
+Fspqk = flux_func(spboxarr, wave = [w1, w2], /sg)
+Espqk = energy_func(Fspqk, 2832, 0, 1)
 tsp = timearr
 
 ;sp ribbon
@@ -168,7 +170,7 @@ comi = 'rbboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39)*2)
 exet = execute(comi)
 endfor
 ;calculate flux and energy
-Fsprb = flux_func(rbboxarr, 1400, 0)
+Fsprb = flux_func(rbboxarr, wave = [w1, w2], /sg)
 Esprb = energy_func(Fsprb, 1400, 0, 1)
  
 

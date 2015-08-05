@@ -1,4 +1,4 @@
-function flux_func, array, wave, sji 
+function flux_func, array, wave = wave, sji = sji, sg = sg
 ;+
 ; NAME:
 ;       flux_func()   
@@ -9,10 +9,13 @@ function flux_func, array, wave, sji
 ;       F = flux_func( array, wavelength, sji) 
 ;
 ; INPUT PARAMETERS: 
-;       array   the IRIS data array, slit-jaw or or spectrograph
-;       wave    the wavelength of the data contained in the array in angstroms
-;		eg, 1400 or 2796 or 2832	
-;	sji	sji stands for slit-jaw image...set to 1 for yes and 0 for no	
+;       array   	the IRIS data array, slit-jaw or or spectrograph
+;       wave		= [lambda1, lambda2] or = lambda the wavelength range of the data contained 
+;			in the array in angstroms
+;			
+;	/sji		for slit-jaw data
+;	/sg		for spectrograph data
+;	/wavrange	for a wavelength range in angstroms, e.g, wave + wavrange
 ;
 ; OUTPUT PARAMETERS:
 ;       F	a fluxarray containing intensity data in units of erg/s/cm^(-2)/angstrom/sr
@@ -29,10 +32,10 @@ function flux_func, array, wave, sji
 ;-
 nnn = n_elements(array)
 F= fltarr(nnn)
+lam =  wave*1.e-10 ;angstroms to m
+;if (wave lt 1400) then lam = 1.4e-7 else $
 
-if (wave eq 1400) then lambda = 1.4e-7 else $
-
-if (wave eq 2796) then lambda = 2.796e-7 else lambda = 2.832e-7 
+;if (wave eq 2796) then lam = 2.796e-7 else lam = 2.832e-7 
 
 
 iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
@@ -40,7 +43,7 @@ h = 6.626e-34 ;planck's constant
 c = 2.998e8;speed of light
 
 ;photon energies
-Ejou = (h*c)/lambda
+Ejou = (h*c)/lam
 Ephot = Ejou/1e-7 ;convert to erg...1 erg = 1e-7 J
 
 ;spatial pixel in radians
@@ -49,8 +52,14 @@ pixxy = 0.16635000*(!pi/(180.*3600.*6. ))
 ;spectral scale pixel in angstroms....nuv = 2796, 2832.....fuv = 1330, 1400
 pixfuv = 12.8e-3
 pixnuv = 25.6e-3
-if (wave eq 1400) then pixlambda = pixfuv else pixlambda = pixnuv
 
+if (max(wave) lt 1500) then begin 
+	pixlambda = pixfuv 
+endif
+
+if (min(wave) gt 1500) then begin
+	pixlambda = pixnuv
+endif
 
 ;slit width
 Wslit = !pi/(180.*3600.*3.)
@@ -58,18 +67,40 @@ Wslit = !pi/(180.*3600.*3.)
 ;exposure time
 texp = 8.0000496
 
-if (sji eq 1) then begin
-	if (wave eq 1400) then n = 1 else $
-	if (wave eq 2796) then n = 2 else n = 3 
-	A = iresp.AREA_SJI[n]
-	F = array*((Ephot*iresp.DN2PHOT_SJI[n])/(A*pixxy*pixlambda*texp*wslit))
-	
+;convert to form contained in iresp.lambda
+wav = wave/10. 
+nwav = n_elements(wav)
+
+;;;;single wavelength
+if (nwav eq 1) then begin
+find =  min(abs(iresp.lambda - wav),ind1)
+
+	if keyword_set(sji) then begin
+		wavint = wave/10
+		wavstr = string(wavint, format = "(I0)")
+		n = where(iresp.name_sji eq wavstr)
+		A = iresp.AREA_SJI[ind1,n]
+		F = array*((Ephot*iresp.DN2PHOT_SJI[n])/(A*pixxy*pixlambda*texp*wslit))
+	endif
+
+	if keyword_set(sg) then begin
+		if (pixlambda eq pixfuv) then n = 0 else n = 1		
+		A = iresp.AREA_SG[ind1,n]
+		F = array*((Ephot*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
+	endif
 endif
 
-if (sji eq 0) then begin
-	if (wave eq 1400) then n = 1 else n = 2 
-	A = iresp.AREA_SG[n]
-	F = array*((Ephot*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
+;;;wavelength range...only relevent for sg
+if (nwav gt 1) then begin
+find1 = min(abs(iresp.lambda - wav[0]),ind1)
+find2 = min(abs(iresp.lambda - wav[1]),ind2)
+
+
+	if keyword_set(sg) then begin
+		if (pixlambda eq pixfuv) then n = 0 else n = 1				
+		A = iresp.AREA_SG[ind1:ind2,n]
+		F = array*((Ephot*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
+	endif
 endif
 
 return, F

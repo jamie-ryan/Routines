@@ -1,4 +1,4 @@
-function energy_func, Fluxarray, wave, sji, pixnum
+function energy_func, Fluxarray, wave = wave, sji = sji, sg = sg,  pixnum
 ;+
 ; NAME:
 ;       energy_func()   
@@ -28,7 +28,6 @@ function energy_func, Fluxarray, wave, sji, pixnum
 ;       Written 03/06/15
 ;-
 nnn = n_elements(Fluxarray)
-
 iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
 if (wave eq 1400) then lambda = 1.4e-7 else $
 
@@ -44,7 +43,7 @@ pixxy = 0.16635000*(!pi/(180.*3600.*6. ))
 ;spectral scale pixel in angstroms....nuv = 2796, 2832.....fuv = 1330, 1400
 pixfuv = 12.8e-3
 pixnuv = 25.6e-3
-if (wave eq 1400) then pixlambda = pixfuv else pixlambda = pixnuv
+if (wave lt 1500) then pixlambda = pixfuv else pixlambda = pixnuv
 
 
 ;slit width
@@ -54,7 +53,7 @@ Wslit = !pi/(180.*3600.*3.)
 texp = 8.0000496
 
 
-if (sji eq 1) then begin
+if keyword_set(sji) then begin
 	if (wave eq 1400) then n = 1 else $
 	if (wave eq 2796) then n = 2 else n = 3 
 	A = iresp.AREA_SJI[n]
@@ -64,7 +63,7 @@ if (sji eq 1) then begin
 	
 endif
 
-if (sji eq 0) then begin
+if keyword_set(sg) then begin
 	if (wave eq 1400) then n = 1 else n = 2 
 	A = iresp.AREA_SG[n]
 	E = Fluxarray*(A*pixnum*pixxy*pixlambda*texp*wslit)
