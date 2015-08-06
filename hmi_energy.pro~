@@ -1,4 +1,4 @@
-function hmi_energy, array, lambda, temp, obs_angle, f1 = f1, f2 = f2, f3=f3
+pro hmi_energy, array, lambda, temp, obs_angle, E1, E2, E3
 
 ;f1 = planck 
 ;f2 = Planck_Radiance.pro
@@ -18,6 +18,7 @@ function hmi_energy, array, lambda, temp, obs_angle, f1 = f1, f2 = f2, f3=f3
 pixxy = 5.97e-12 ;steradian
 fwhm = 76.e-3 ;A
 aperture = 14. ;cm
+au = 1.49e13 ;cm
 sun_sdo = 36.e8  ;cm
 radius = 7.0e10 ;cm
 erg = 10.e-7 ;joules
@@ -30,14 +31,14 @@ rad = 4.84813681e-6 ;1 arcsecond = 4.84813681e-6 radians
 
 ;planck1
 bbflux = planck(lambda,temp) ;erg/s.cm^2.A
-radiance1 = bbflux/sterad ;erg/s.cm^2.A.sr 
+radiance1 = bbflux/2 ;erg/s.cm^2.A.sr 
 energy1 = radiance1*instr ;erg/s
 ;radiance1 = bbflux*radius^2/pixxy*sun_sdo^2 ;erg/s/cm^2/sr/A 
 
 ;planck2
-result = Planck_Radiance(lambda, temp, radiance, /wavelength); W/(m2.sr.um)
-radiance2 = radiance*((erg)/(m2cm*mic2ang)) ;convert W/(m2.sr.um) to erg/s/cm^2/sr/A 
-energy2 = radiance2*instr ;erg/s
+;result = Planck_Radiance(lambda, temp, radiance, /wavelength); W/(m2.sr.um)
+;radiance2 = radiance*((erg)/(m2cm*mic2ang)) ;convert W/(m2.sr.um) to erg/s/cm^2/sr/A 
+;energy2 = radiance2*instr ;erg/s
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Neckel & Labs atlas at disk center at 6173 A: 3.15e6 erg/s/cm^2/sr/A 
@@ -67,10 +68,10 @@ energy2 = radiance3*instr ;erg/s
 ;IDL> print, average
 ;      19285.8
 
-;central pixel of submap
+;central pixel of submap 
 xang = 526.80002 ;"
 yang = 256.80001 ;"
-;therefore obs_ang = hypotenuse = sqrt(xang^2 + yang^2)
+;therefore obs_ang = hypotenuse = sqrt(xang^2 + yang^2) approx 584 "
 
 
 ;brightest at zero, dimmest at 90 I(theta) = I(0)[1-u(1-cos(theta))] 
@@ -91,24 +92,12 @@ theta = theta*rad ;radians
 limb_dark = (1-u(1-cos(theta))) 
 
 rel1 = radiance1/disc_centre_int 
-rel2 = radiance2/disc_centre_int
+;rel2 = radiance2/disc_centre_int
 rel3 = radiance3/disc_centre_int
 
 ;flux conversion
 F1 = array*limb_dark*rel1
-F2 = array*limb_dark*rel2
+;F2 = array*limb_dark*rel2
 F3 = array*limb_dark*rel3
-
-if keyword_set(f1) then begin
-return, F1
-endif
-
-if keyword_set(f2) then begin
-return, F2
-endif
-
-if keyword_set(f3) then begin
-return, F3
-endif
 
 end

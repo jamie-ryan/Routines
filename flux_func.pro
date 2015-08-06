@@ -11,7 +11,8 @@ function flux_func, array, wave = wave, sji = sji, sg = sg
 ; INPUT PARAMETERS: 
 ;       array   	the IRIS data array, slit-jaw or or spectrograph
 ;       wave		= [lambda1, lambda2] or = lambda the wavelength range of the data contained 
-;			in the array in angstroms
+;			in the array in angstroms. If there is a wavelength range, function calculates
+;			average based on each iresp.wav increment  
 ;			
 ;	/sji		for slit-jaw data
 ;	/sg		for spectrograph data
@@ -81,12 +82,14 @@ find =  min(abs(iresp.lambda - wav),ind1)
 		n = where(iresp.name_sji eq wavstr)
 		A = iresp.AREA_SJI[ind1,n]
 		F = array*((Ephot*iresp.DN2PHOT_SJI[n])/(A*pixxy*pixlambda*texp*wslit))
+		;E = F*(A*pixxy*pixlambda*texp*wslit)
 	endif
 
 	if keyword_set(sg) then begin
 		if (pixlambda eq pixfuv) then n = 0 else n = 1		
 		A = iresp.AREA_SG[ind1,n]
 		F = array*((Ephot*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
+		;E = F*(A*pixxy*pixlambda*texp*wslit)
 	endif
 endif
 
@@ -98,8 +101,9 @@ find2 = min(abs(iresp.lambda - wav[1]),ind2)
 
 	if keyword_set(sg) then begin
 		if (pixlambda eq pixfuv) then n = 0 else n = 1				
-		A = iresp.AREA_SG[ind1:ind2,n]
-		F = array*((Ephot*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
+		A = total(iresp.AREA_SG[ind1:ind2,n])/(ind2-ind1+1)
+		F = array*(((total(Ephot)/n_elements(Ephot))*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
+		;E = F*(A*pixxy*pixlambda*texp*wslit)
 	endif
 endif
 

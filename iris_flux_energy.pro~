@@ -1,4 +1,4 @@
-function flux_func, array, wave = wave, sji = sji, sg = sg
+pro iris_flux_energy, array, wave = wave, Fout, Eout, sji = sji, sg = sg
 ;+
 ; NAME:
 ;       flux_func()   
@@ -19,8 +19,8 @@ function flux_func, array, wave = wave, sji = sji, sg = sg
 ;	/wavrange	for a wavelength range in angstroms, e.g, wave + wavrange
 ;
 ; OUTPUT PARAMETERS:
-;       F	a fluxarray containing intensity data in units of erg/s/cm^(-2)/angstrom/sr
-;               
+;       Fout		a fluxarray containing intensity data in units of erg/s/cm^(-2)/angstrom/sr
+;       Eout		a fluxarray containing intensity data in units of erg/s        
 ;
 ; EXAMPLES:
 ;       
@@ -81,15 +81,15 @@ find =  min(abs(iresp.lambda - wav),ind1)
 		wavstr = string(wavint, format = "(I0)")
 		n = where(iresp.name_sji eq wavstr)
 		A = iresp.AREA_SJI[ind1,n]
-		F = array*((Ephot*iresp.DN2PHOT_SJI[n])/(A*pixxy*pixlambda*texp*wslit))
-		E = F*(A*pixxy*pixlambda*texp*wslit)
+		Fout = array*((Ephot*iresp.DN2PHOT_SJI[n])/(A*pixxy*pixlambda*texp*wslit))
+		Eout = Fout*(A*pixxy*pixlambda*texp*wslit)
 	endif
 
 	if keyword_set(sg) then begin
 		if (pixlambda eq pixfuv) then n = 0 else n = 1		
 		A = iresp.AREA_SG[ind1,n]
-		F = array*((Ephot*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
-		E = F*(A*pixxy*pixlambda*texp*wslit)
+		Fout = array*((Ephot*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
+		Eout = Fout*(A*pixxy*pixlambda*texp*wslit)
 	endif
 endif
 
@@ -102,10 +102,10 @@ find2 = min(abs(iresp.lambda - wav[1]),ind2)
 	if keyword_set(sg) then begin
 		if (pixlambda eq pixfuv) then n = 0 else n = 1				
 		A = total(iresp.AREA_SG[ind1:ind2,n])/(ind2-ind1+1)
-		F = array*(((total(Ephot)/n_elements(Ephot))*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
-		E = F*(A*pixxy*pixlambda*texp*wslit)
+		Fout = array*(((total(Ephot)/n_elements(Ephot))*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
+		Eout = Fout*(A*pixxy*pixlambda*texp*wslit)
 	endif
 endif
 
-return, F
+
 end

@@ -106,8 +106,9 @@ for i = 0, nmg-1, 1 do begin
 boxarrmg[i] = total(submg[17 + i].data[hmg[0,*],hmg[1,*]]) 
 endfor
 ;;;flux and energy of flare area
-F_area_mgii = flux_func(boxarrmg, wave = [2796], /sji)
-E_area_mgii = energy_func(F_area_mgii, 2796, 1, nlinesmg)
+;F_area_mgii = flux_func(boxarrmg, wave = [2796], /sji)
+;E_area_mgii = energy_func(F_area_mgii, wave = [2796], /sji, pixnum = nlinesmg)
+iris_flux_energy,boxarrmg, wave = [2796],F_area_mgii, E_area_mgii ,/sji
 tmg = submg[17:*].time
 
 
@@ -119,8 +120,9 @@ for i = 0, nmgw-1, 1 do begin
 boxarrmgw[i] = total(diff2832[i].data[hmgw[0,*],hmgw[1,*]])
 endfor
 ;;;flux and energy of flare area
-F_area_mgiiw = flux_func(boxarrmgw, wave = [2832] , /sji)
-E_area_mgiiw = energy_func(F_area_mgiiw, 2832, 1, nlinesmgw)
+;F_area_mgiiw = flux_func(boxarrmgw, wave = [2832] , /sji)
+;E_area_mgiiw = energy_func(F_area_mgiiw, wave = [2832] , /sji, pixnum = nlinesmgw)
+iris_flux_energy,boxarrmg, wave = [2832],F_area_mgiiw, E_area_mgiiw ,/sji
 tmgw = diff2832.time
 
 ;;siiv;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;501?
@@ -131,8 +133,9 @@ for i = 0, nsi-1, 1 do begin
 boxarrsi[i] = total(map1400[387 + i].data[hsi[0,*],hsi[1,*]]) 
 endfor
 ;;;flux and energy of flare area
-F_area_siiv = flux_func(boxarrsi, wave = [1400] , /sji)
-E_area_siiv = energy_func(F_area_siiv, 1400, 1, nlinessi)
+;F_area_siiv = flux_func(boxarrsi, wave = [1400] , /sji)
+;E_area_siiv = energy_func(F_area_siiv, wave = [1400] , /sji, pixnum = nlinessi)
+iris_flux_energy,boxarrmg, wave = [1400],F_area_siiv, E_area_siiv ,/sji
 tsi = map1400[387:*].time
 
 
@@ -150,8 +153,9 @@ endfor
 ;calculate flux and energy
 w1 = sp2826.tag00.wvl[39]
 w2 = sp2826.tag00.wvl[44]
-Fspqk = flux_func(spboxarr, wave = [w1, w2], /sg)
-Espqk = energy_func(Fspqk, 2832, 0, 1)
+;Fspqk = flux_func(spboxarr, wave = [w1, w2], /sg)
+;Espqk = energy_func(Fspqk, wave = [w1, w2], /sg, pixnum = 1) ;
+iris_flux_energy, spboxarr, wave = [w1, w2],Fspqk, Espqk ,/sg
 tsp = timearr
 
 ;sp ribbon
@@ -170,9 +174,9 @@ comi = 'rbboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39)*2)
 exet = execute(comi)
 endfor
 ;calculate flux and energy
-Fsprb = flux_func(rbboxarr, wave = [w1, w2], /sg)
-Esprb = energy_func(Fsprb, 1400, 0, 1)
- 
+;Fsprb = flux_func(rbboxarr, wave = [w1, w2], /sg)
+;Esprb = energy_func(Fsprb,wave = [w1, w2], /sg, pixnum = 1)
+iris_flux_energy, rbboxarr, wave = [w1, w2],Fsprb, Esprb ,/sg
 
 
 
@@ -306,10 +310,10 @@ rbmgwmax[i] = map2832[i].data[483, 475]
 rbmgwcontrast[i] = (rbmgwmax[i] - iminmgwrb)/iminmgwrb
 endfor   
 ;calculate flux and energy
-Fmgwqk = flux_func(qkmgwmax, 2832, 1)
-Emgwqk = energy_func(Fmgwqk, 2832, 1, 1)
-Fmgwrb = flux_func(rbmgwmax, 2832, 1)
-Emgwrb = energy_func(Fmgwrb, 2832, 1, 1)
+Fmgwqk = flux_func(qkmgwmax, wave = [2832], /sji)
+Emgwqk = energy_func(Fmgwqk,wave = [2832], /sji, pixnum = 1)
+Fmgwrb = flux_func(rbmgwmax, wave = [2832], /sji)
+Emgwrb = energy_func(Fmgwrb, wave = [2832], /sji, pixnum = 1)
 
 
 
@@ -325,10 +329,10 @@ rbmgmax[i] = submg[17 + i].data[rbmgxp, rbmgyp]
 rbmgcontrast[i] = (rbmgmax[i] - iminmg[0])/iminmg[0]
 endfor
 ;calculate flux and energy
-Fmgqk = flux_func(qkmgmax, 2976, 1)
-Emgqk = energy_func(Fmgqk, 2976, 1, 1)
-Fmgrb = flux_func(rbmgmax, 2976, 1)
-Emgrb = energy_func(Fmgrb, 2976, 1, 1)
+Fmgqk = flux_func(qkmgmax, wave = [2976], \sji)
+Emgqk = energy_func(Fmgqk, wave = [2976], \sji, pixnum = 1)
+Fmgrb = flux_func(rbmgmax,  wave = [2976], \sji)
+Emgrb = energy_func(Fmgrb,  wave = [2976], \sji, pixnum = 1)
 
 
 
@@ -344,10 +348,10 @@ rbsimax[i] = map1400[387 + i].data[rbsixp, rbsiyp]
 rbsicontrast[i] = (rbsimax[i] - iminsi[0])/iminsi[0]
 endfor
 ;calculate flux and energy
-Fsiqk = flux_func(qksimax, 1400, 1)
-Esiqk = energy_func(Fsiqk, 1400, 1, 1)
-Fsirb = flux_func(rbsimax, 1400, 1)
-Esirb = energy_func(Fsirb, 1400, 1, 1)
+Fsiqk = flux_func(qksimax, wave = [1400], /sji)
+Esiqk = energy_func(Fsiqk, wave = [1400], /sji, pixnum = 1)
+Fsirb = flux_func(rbsimax, wave = [1400], /sji)
+Esirb = energy_func(Fsirb, wave = [1400], /sji, pixnum = 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 save, F_area_siiv,E_area_siiv, F_area_mgii,E_area_mgii,F_area_mgiiw,E_area_mgiiw, Fsprb,Esprb,Fsiqk,Esiqk, Fsirb,Esirb, Fmgqk, Fmgrb, Emgqk, Emgrb, Fmgwqk, Emgwrb, Fmgwrb, Emgwrb, tmg, tmgw, tsi, tsp, filename = 'flux-energy-iris-sj.sav'
