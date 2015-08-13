@@ -93,8 +93,8 @@ for i = 0, nnn-1, 1 do begin
 boxarr[i] = total(diff[i].data[h[0,*],h[1,*]]) 
 ;bgarr[i] = total(sbhmimap[i].data[h[0,*],h[1,*]]) 
 endfor
-;;;;;flux and energy of flare area
-
+;;;;;intensity of flare area in erg/s.cm^2.sr
+hmi_radiometric_calibration, boxarr, n_pixels = nlines, F_area_hmi, E_area_hmi
 
 
 
@@ -298,7 +298,8 @@ rbimax[i] = diff[i].data[rbxpcorr, rbypcorr]
 rbcontrast[i] = (rbimax[i] - imin[0])/imin[0]
 endfor
 ;calculate flux and energy???
-
+hmi_radiometric_calibration, qkimax, n_pixels = 1, Fhmiqk, Ehmiqk
+hmi_radiometric_calibration, rbimax, n_pixels = 1, Fhmirb, Ehmirb
 
 ;;mgw loop
 for i = 0, nmgw-1, 1 do begin
@@ -556,7 +557,49 @@ set_plot,mydevice
 flux = '[erg s!E-1!N cm!E-2!N '+angstrom+'!E-1!N sr!E-1!N]'
 energy = '[erg]'
 
+;;;;;HMI
+mydevice=!d.name
+set_plot,'ps'
+device,filename=dir+'HMI-CONTINUUM-6173-QK-FLUX.eps',/portrait,/encapsulated, decomposed=0,color=1
+titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'QUAKE-LOCATION-INTENSITY' ,/remove_all)
+ytitl = flux
+utplot,diff[36:78].time, Fhmiqk[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+device,/close
+set_plot,mydevice
 
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename=dir+'HMI-CONTINUUM-6173-QK-ENERGY.eps',/portrait,/encapsulated, decomposed=0,color=1
+titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'QUAKE-LOCATION-ENERGY' ,/remove_all)
+ytitl = energy
+utplot, diff[36:78].time,Ehmiqk[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+device,/close
+set_plot,mydevice
+
+
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename=dir+'HMI-CONTINUUM-6173-RB-FLUX.eps',/portrait,/encapsulated, decomposed=0,color=1
+titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'RIBBON-LOCATION-INTENSITY' ,/remove_all)
+ytitl = flux
+utplot,diff[36:78].time, Fhmirb[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+device,/close
+set_plot,mydevice
+
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename=dir+'HMI-CONTINUUM-6173-RB-ENERGY.eps',/portrait,/encapsulated, decomposed=0,color=1
+titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'RIBBON-LOCATION-ENERGY' ,/remove_all)
+ytitl = energy
+utplot, diff[36:78].time,Ehmirb[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+device,/close
+set_plot,mydevice
+
+
+;;;BALMER
 mydevice=!d.name
 set_plot,'ps'
 device,filename=dir+'IRIS-BALMER-QK-FLUX.eps',/portrait,/encapsulated, decomposed=0,color=1
@@ -612,6 +655,7 @@ device,/close
 set_plot,mydevice
 
 
+;;;2832
 mydevice=!d.name
 set_plot,'ps'
 device,filename=dir+'IRIS-2832-QK-FLUX.eps',/portrait,/encapsulated, decomposed=0,color=1
@@ -649,7 +693,7 @@ utplot,map2832[150:*].time, Emgwrb[150:*], linestyle = 0, title = titl, ytitle =
 device,/close
 set_plot,mydevice
 
-
+;;;2796
 mydevice=!d.name
 set_plot,'ps'
 device,filename=dir+'IRIS-2796-QK-FLUX.eps',/portrait,/encapsulated, decomposed=0,color=1
@@ -687,7 +731,7 @@ utplot,submg[100:*].time, Emgrb[83:*], linestyle = 0, title = titl, ytitle = yti
 device,/close
 set_plot,mydevice
 
-
+;;;1400
 mydevice=!d.name
 set_plot,'ps'
 device,filename=dir+'IRIS-1400-QK-FLUX.eps',/portrait,/encapsulated, decomposed=0,color=1
@@ -727,6 +771,27 @@ set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;FLARE AREA PLOTS: FLUX AND ENERGY: F_area_siiv, F_area_mgii, F_area_mgiiw
+
+;;;;;;;;;;;;;;;;;;HMI
+mydevice=!d.name
+set_plot,'ps'
+device,filename=dir+'HMI-CONTINUUM-6173-AREA-FLUX.eps',/portrait,/encapsulated, decomposed=0,color=1
+titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'FLARE-AREA-FLUX' ,/remove_all)
+ytitl = flux
+utplot,diff[36:78].time, F_area_hmi[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+device,/close
+set_plot,mydevice
+
+
+mydevice=!d.name
+set_plot,'ps'
+device,filename=dir+'HMI-CONTINUUM-6173-AREA-ENERGY.eps',/portrait,/encapsulated, decomposed=0,color=1
+titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'FLARE-AREA-ENERGY' ,/remove_all)
+ytitl = energy
+utplot, diff[36:78].time,E_area_hmi[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+device,/close
+set_plot,mydevice
+
 
 ;;;;;;;;;;;;;;;;;;Si IV
 mydevice=!d.name

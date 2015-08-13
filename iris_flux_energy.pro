@@ -29,7 +29,7 @@ pro iris_flux_energy, array, wave = wave, Fout, Eout, sji = sji, sg = sg
 ; NOTES:
 ;       
 ; MODIFICATION HISTORY:
-;       Written 03/06/15
+;       Written 03/06/15 by Jamie Ryan
 ;-
 nnn = n_elements(array)
 F= fltarr(nnn)
