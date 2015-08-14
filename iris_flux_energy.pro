@@ -1,12 +1,12 @@
 pro iris_flux_energy, array, wave = wave, Fout, Eout, sji = sji, sg = sg
 ;+
 ; NAME:
-;       flux_func()   
+;       iris_flux_energy   
 ; PURPOSE: 
 ;       To convert IRIS observations from DN/pixel to erg/s/cm^(-2)/angstrom/sr
 ;
 ; CALLING SEQUENCE: 
-;       F = flux_func( array, wavelength, sji) 
+;       iris_flux_energy, array, wave = [wave], fout, eout, /sji or /sg 
 ;
 ; INPUT PARAMETERS: 
 ;       array   	the IRIS data array, slit-jaw or or spectrograph
@@ -74,35 +74,36 @@ nwav = n_elements(wav)
 
 ;;;;single wavelength
 if (nwav eq 1) then begin
-find =  min(abs(iresp.lambda - wav),ind1)
+find =  min(abs(iresp.lambda[*] - wav[0]), ind1)
 
 	if keyword_set(sji) then begin
 		wavint = wave/10
 		wavstr = string(wavint, format = "(I0)")
 		n = where(iresp.name_sji eq wavstr)
 		A = iresp.AREA_SJI[ind1,n]
-		Fout = array*((Ephot*iresp.DN2PHOT_SJI[n])/(A*pixxy*pixlambda*texp*wslit))
+		;iresp.dn2phot[n] is converting array to float[1]??????
+		Fout = array[*]*((Ephot[0]*iresp.DN2PHOT_SJI[n])/(A[0]*pixxy*pixlambda*texp*wslit))
 		Eout = Fout*(A*pixxy*pixlambda*texp*wslit)
 	endif
 
 	if keyword_set(sg) then begin
 		if (pixlambda eq pixfuv) then n = 0 else n = 1		
 		A = iresp.AREA_SG[ind1,n]
-		Fout = array*((Ephot*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
+		Fout = array[*]*((Ephot[0]*iresp.DN2PHOT_SG[n])/(A[0]*pixxy*pixlambda*texp*wslit))
 		Eout = Fout*(A*pixxy*pixlambda*texp*wslit)
 	endif
 endif
 
 ;;;wavelength range...only relevent for sg
 if (nwav gt 1) then begin
-find1 = min(abs(iresp.lambda - wav[0]),ind1)
-find2 = min(abs(iresp.lambda - wav[1]),ind2)
+find1 = min(abs(iresp.lambda[*] - wav[0]),ind1)
+find2 = min(abs(iresp.lambda[*] - wav[1]),ind2)
 
 
 	if keyword_set(sg) then begin
 		if (pixlambda eq pixfuv) then n = 0 else n = 1				
 		A = total(iresp.AREA_SG[ind1:ind2,n])/(ind2-ind1+1)
-		Fout = array*(((total(Ephot)/n_elements(Ephot))*iresp.DN2PHOT_SG[n])/(A*pixxy*pixlambda*texp*wslit))
+		Fout = array[*]*(((total(Ephot)/n_elements(Ephot))*iresp.DN2PHOT_SG[n])/(A[0]*pixxy*pixlambda*texp*wslit))
 		Eout = Fout*(A*pixxy*pixlambda*texp*wslit)
 	endif
 endif

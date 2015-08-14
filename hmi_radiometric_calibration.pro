@@ -67,11 +67,11 @@ array = array/n_photon ; = erg/s.cm^2
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2] / [effective_solid_angle] = erg/s.cm^2.sr
 transmittance_low = 1.15 ; low estimate from couvidat instrument paper
-transmittance_med = 1.35 ; med estimate from couvidat instrument paper
+transmittance_med = 1.35 ; med estimate from couvidat instrument paper...this is the figure quoted in the conclusion
 transmittance_high = 2. ;high estimate from couvidat instrument paper
 transmittance_avg = (transmittance_low + transmittance_med + transmittance_high)/3 ;average transmittance
 area = !pi*14.^2 ;...14cm = r = telescope aperture radius
-effective_area = area*(transmittance_avg/100.) ;area multiplied by relative transmittance gives effective area???
+effective_area = area*(transmittance_med/100.) ;area multiplied by relative transmittance gives effective area???
 D = 1.49e13 ; 1AU in cm 
 effective_solid_angle = effective_area/D^2 ; steradians
 array = array/effective_solid_angle ; erg/s.cm^2.sr
@@ -79,9 +79,10 @@ array = array/effective_solid_angle ; erg/s.cm^2.sr
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
-band_pass = 76.e-3 ;76mÅ pg 11 hmi instrument paper
+band_pass = 76.e-3 ;equivalent width of 6173Å continuum
 fout = array/band_pass ; = erg/s.cm^2.sr.Å
-eout = F*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass
+eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass
+
 end
 
 
