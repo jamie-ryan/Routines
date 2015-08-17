@@ -89,9 +89,7 @@ rbimax = fltarr(nnn)
 for i = 0, nnn-1, 1 do begin
 ;;calculate contrast value for quake pixel on all frames to save time
 qkimax[i] = diff[i].data[qkxp, qkyp]
-qkcontrast[i] = (qkimax[i] - imin[0])/imin[0]
 rbimax[i] = diff[i].data[rbxpcorr, rbypcorr]
-rbcontrast[i] = (rbimax[i] - imin[0])/imin[0]
 endfor
 ;calculate flux and energy???
 hmi_radiometric_calibration, qkimax, n_pixels = 1, Fhmiqk, Ehmiqk
