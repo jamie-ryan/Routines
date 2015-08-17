@@ -53,7 +53,7 @@ for j = 0, n_elements(ff) - 1 do begin
 	ytitl = flux
 	com = 'F = F_area_hmi'+string(j,format = '(I0)')
 	exe = execute(com)
-	utplot,diff[36:78].time, F[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+	utplot,diff[36:78].time, F[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz, xmargin = [12,3]
 	device,/close
 	set_plot,mydevice
 
@@ -64,7 +64,7 @@ for j = 0, n_elements(ff) - 1 do begin
 	ytitl = energy
 	com = 'E = E_area_hmi'+string(j,format = '(I0)')
 	exe = execute(com)
-	utplot, diff[36:78].time,E[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+	utplot, diff[36:78].time,E[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz, xmargin = [12,3]
 	device,/close
 	set_plot,mydevice
 endfor
@@ -102,7 +102,7 @@ set_plot,'ps'
 device,filename=dir+'HMI-CONTINUUM-6173-QK-FLUX.eps',/portrait,/encapsulated, decomposed=0,color=1
 titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'QUAKE-LOCATION-INTENSITY' ,/remove_all)
 ytitl = flux
-utplot,diff[36:78].time, Fhmiqk[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+utplot,diff[36:78].time, Fhmiqk[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz, xmargin = [12,3]
 device,/close
 set_plot,mydevice
 
@@ -111,7 +111,7 @@ set_plot,'ps'
 device,filename=dir+'HMI-CONTINUUM-6173-QK-ENERGY.eps',/portrait,/encapsulated, decomposed=0,color=1
 titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'QUAKE-LOCATION-ENERGY' ,/remove_all)
 ytitl = energy
-utplot, diff[36:78].time,Ehmiqk[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+utplot, diff[36:78].time,Ehmiqk[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz, xmargin = [12,3]
 device,/close
 set_plot,mydevice
 
@@ -122,7 +122,7 @@ set_plot,'ps'
 device,filename=dir+'HMI-CONTINUUM-6173-RB-FLUX.eps',/portrait,/encapsulated, decomposed=0,color=1
 titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'RIBBON-LOCATION-INTENSITY' ,/remove_all)
 ytitl = flux
-utplot,diff[36:78].time, Fhmirb[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+utplot,diff[36:78].time, Fhmirb[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz, xmargin = [12,3]
 device,/close
 set_plot,mydevice
 
@@ -132,7 +132,7 @@ set_plot,'ps'
 device,filename=dir+'HMI-CONTINUUM-6173-RB-ENERGY.eps',/portrait,/encapsulated, decomposed=0,color=1
 titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'RIBBON-LOCATION-ENERGY' ,/remove_all)
 ytitl = energy
-utplot, diff[36:78].time,Ehmirb[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+utplot, diff[36:78].time,Ehmirb[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz, xmargin = [12,3]
 device,/close
 set_plot,mydevice
 
@@ -163,7 +163,7 @@ set_plot,'ps'
 device,filename=dir+'HMI-CONTINUUM-6173-QK-AREA-FLUX.eps',/portrait,/encapsulated, decomposed=0,color=1
 titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'QUAKE-AREA-INTENSITY' ,/remove_all)
 ytitl = flux
-utplot,diff[36:78].time, Fqk_9px_area[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+utplot,diff[36:78].time, Fqk_9px_area[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz, xmargin = [12,3]
 device,/close
 set_plot,mydevice
 
@@ -171,12 +171,14 @@ mydevice=!d.name
 set_plot,'ps'
 device,filename=dir+'HMI-CONTINUUM-6173-QK-AREA-ENERGY.eps',/portrait,/encapsulated, decomposed=0,color=1
 titl =  strcompress('HMI-CONTINUUM-6173'+angstrom+'QUAKE-AREA-ENERGY' ,/remove_all)
-ytitl = flux
-utplot,diff[36:78].time, Eqk_9px_area[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz
+ytitl = energy
+utplot,diff[36:78].time, Eqk_9px_area[36:78], linestyle = 0, title = titl, ytitle = ytitl,/ynoz, xmargin = [12,3]
 device,/close
 set_plot,mydevice
 
-save, $
+thmi = diff.time
+
+save, thmi, $
 F_area_hmi0, E_area_hmi0, $
 F_area_hmi1, E_area_hmi1, $
 F_area_hmi2, E_area_hmi2, $
