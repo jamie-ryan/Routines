@@ -27,7 +27,7 @@
 
 pro lcseries, plot = plot, sav = sav
 
-restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav
+restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
 
@@ -172,7 +172,7 @@ for j = 0, n_elements(ff) do begin
 	if keyword_set(plot) then begin
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-		;FLARE AREA PLOTS: FLUX AND ENERGY: F_area_siiv, F_area_mgii, F_area_mgiiw
+		;FLARE AREA PLOTS: FLUX AND ENERGY:
 
 		;;;;;;;;;;;;;;;;;;HMI
 		mydevice=!d.name

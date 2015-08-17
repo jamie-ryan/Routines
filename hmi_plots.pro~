@@ -14,7 +14,7 @@ energy = '[erg]'
 
 nnn = n_elements(diff)
 
-for j = 0, n_elements(ff) - 1 do begin
+for j = 0, n_elements(ff) do begin
 	;;;;;;;open files 
 	openr,lun,ff[j],/get_lun
 

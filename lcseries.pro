@@ -27,7 +27,7 @@
 
 pro lcseries, plot = plot, sav = sav
 
-restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav
+restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
 
@@ -53,7 +53,7 @@ nmgw = n_elements(diff2832[*])
 nsi = n_elements(map1400[387:*])
 nn = n_elements(fsp)
 
-for j = 0, n_elements(ff) do begin
+for j = 0, n_elements(ff) - 1 do begin
 	;;;;;;;open files 
 	openr,lun,ff[j],/get_lun
 
