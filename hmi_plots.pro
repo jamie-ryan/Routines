@@ -176,8 +176,16 @@ utplot,diff[36:78].time, Eqk_9px_area[36:78], linestyle = 0, title = titl, ytitl
 device,/close
 set_plot,mydevice
 
+
+;;time for .sav
 thmi = diff.time
 
+;;date string
+d1 = strcompress(strmid(systime(),4,7),/remove_all)
+d2 = strcompress(strmid(systime(),20),/remove_all)
+date = d1+'-'+d2
+
+;;;.sav
 save, thmi, $
 F_area_hmi0, E_area_hmi0, $
 F_area_hmi1, E_area_hmi1, $
@@ -186,5 +194,5 @@ F_area_hmi3, E_area_hmi3, $
 Fhmiqk, Ehmiqk, $
 Fhmirb, Ehmirb, $
 Fqk_9px_area, Eqk_9px_area, $
-filename = 'hmi-energies.sav'
+filename = 'hmi-energies-'+date+'.sav'
 end

@@ -29,13 +29,13 @@ pro hmi_radiometric_calibration, array, n_pixels = n_pixels, fout, eout
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN] / [texp] = DN/s
 texp = 0.12 ; exposure time in seconds
-array = array/texp ; = DN/s
+array = array/texp ; = DN/s   							;;;;2e4
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN.s^-1] / [area_on_sun] = DN/s.cm^2
 area_on_sun =  (0.505*7.25e7)^2 ;at 1AU, 1" = 7.25e5m...result is in cm^2
-array = array/area_on_sun ; = DN/s.cm^2
+array = array/area_on_sun ; = DN/s.cm^2   					;;;;;;1.5e-11
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -50,7 +50,7 @@ quantum_efficiency = 0.75;(e-/photon) property of the ccd material taken from cc
 
 gain = avg(hmi_gain_front_cam)
 
-array = array/(gain*quantum_efficiency) ; = photon/s.cm^2
+array = array/(gain*quantum_efficiency) ; = photon/s.cm^2     			
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -60,28 +60,29 @@ c = !const.c; speed of light m/s
 lambda = 6173.e-10 ;wavelength in metres
 erg = 1.e-7 ; erg in joules
 E_photon = (h*c)/lambda ; photon energy at 6173 angstroms
-n_photon = erg/E_photon ; = photon/erg
-array = array/n_photon ; = erg/s.cm^2
+n_photon = E_photon/erg ; = photon/erg
+array = array/n_photon ; = erg/s.cm^2    					
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2] / [effective_solid_angle] = erg/s.cm^2.sr
-transmittance_low = 1.15 ; low estimate from couvidat instrument paper
-transmittance_med = 1.35 ; med estimate from couvidat instrument paper...this is the figure quoted in the conclusion
-transmittance_high = 2. ;high estimate from couvidat instrument paper
+transmittance_low = 1.15 ;% low estimate from couvidat instrument paper
+transmittance_med = 1.35 ;% med estimate from couvidat instrument paper...this is the figure quoted in the conclusion
+transmittance_high = 2. ;% high estimate from couvidat instrument paper
 transmittance_avg = (transmittance_low + transmittance_med + transmittance_high)/3 ;average transmittance
-area = !pi*14.^2 ;...14cm = r = telescope aperture radius
+area = !pi*14.^2 ;cm^2...14cm = r = telescope aperture radius
 effective_area = area*(transmittance_med/100.) ;area multiplied by relative transmittance gives effective area???
 D = 1.49e13 ; 1AU in cm 
 effective_solid_angle = effective_area/D^2 ; steradians
-array = array/effective_solid_angle ; erg/s.cm^2.sr
+array = array/effective_solid_angle ; erg/s.cm^2.sr   				;;;;;;with ratio 2 1.1e25
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
 band_pass = 76.e-3 ;equivalent width of 6173Å continuum
-fout = array/band_pass ; = erg/s.cm^2.sr.Å
-eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass
+fout = array/band_pass ; = erg/s.cm^2.sr.Å					;;;;;1.5e28
+eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass		;;;;;6e13
 
 end
 

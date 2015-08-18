@@ -1,4 +1,4 @@
-pro iris_flux_energy, array, wave = wave, Fout, Eout, sji = sji, sg = sg
+pro iris_radiometric_calibration, array, wave = wave, Fout, Eout, sji = sji, sg = sg
 ;+
 ; NAME:
 ;       iris_flux_energy   
@@ -81,16 +81,21 @@ find =  min(abs(iresp.lambda[*] - wav[0]), ind1)
 		wavstr = string(wavint, format = "(I0)")
 		n = where(iresp.name_sji eq wavstr)
 		A = iresp.AREA_SJI[ind1,n]
-		;iresp.dn2phot[n] is converting array to float[1]??????
-		Fout = array[*]*((Ephot[0]*iresp.DN2PHOT_SJI[n])/(A[0]*pixxy*pixlambda*texp*wslit))
-		Eout = Fout*(A*pixxy*pixlambda*texp*wslit)
+		A_float = A[0]
+		dn2ph = iresp.DN2PHOT_SJI[n]
+		dn2photon = dn2ph[0]
+		Fout = array[*]*((Ephot*dn2photon)/(A_float*pixxy*pixlambda*texp*wslit))
+		Eout = Fout*(A_float*pixxy*pixlambda*texp*wslit)
 	endif
 
 	if keyword_set(sg) then begin
 		if (pixlambda eq pixfuv) then n = 0 else n = 1		
 		A = iresp.AREA_SG[ind1,n]
-		Fout = array[*]*((Ephot[0]*iresp.DN2PHOT_SG[n])/(A[0]*pixxy*pixlambda*texp*wslit))
-		Eout = Fout*(A*pixxy*pixlambda*texp*wslit)
+		A_float = A[0]
+		dn2ph = iresp.DN2PHOT_SG[n]
+		dn2photon = dn2ph[0]
+		Fout = array[*]*((Ephot*dn2photon)/(A_float*pixxy*pixlambda*texp*wslit))
+		Eout = Fout*(A_float*pixxy*pixlambda*texp*wslit)
 	endif
 endif
 
@@ -98,12 +103,15 @@ endif
 if (nwav gt 1) then begin
 find1 = min(abs(iresp.lambda[*] - wav[0]),ind1)
 find2 = min(abs(iresp.lambda[*] - wav[1]),ind2)
-
+ind1 = ind1*1.
+ind2 = ind2*1.
 
 	if keyword_set(sg) then begin
 		if (pixlambda eq pixfuv) then n = 0 else n = 1				
 		A = total(iresp.AREA_SG[ind1:ind2,n])/(ind2-ind1+1)
-		Fout = array[*]*(((total(Ephot)/n_elements(Ephot))*iresp.DN2PHOT_SG[n])/(A[0]*pixxy*pixlambda*texp*wslit))
+		dn2ph = iresp.DN2PHOT_SG[n]
+		dn2photon = dn2ph[0]
+		Fout = array[*]*(((total(Ephot)/n_elements(Ephot))*dn2photon)/(A*pixxy*pixlambda*texp*wslit))
 		Eout = Fout*(A*pixxy*pixlambda*texp*wslit)
 	endif
 endif
