@@ -1,5 +1,5 @@
 pro iris_plots
-
+!EXCEPT=2 ;will highlight parts of the code that cause floating point errors
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
 
@@ -86,7 +86,7 @@ for j = 0, n_elements(fmg) - 1 do begin
 	endfor
 	;;;flux and energy of flare area
 	com = 'iris_radiometric_calibration,boxarrmg'+string(j,format = '(I0)')+ $
-	', wave = 2796,F_area_mgii'+string(j,format = '(I0)')+ $
+	', wave = 2796, n_pixels = nlinesmg ,F_area_mgii'+string(j,format = '(I0)')+ $
 	', E_area_mgii'+string(j,format = '(I0)')+' ,/sji'
 	exe = execute(com)
 
@@ -102,7 +102,7 @@ for j = 0, n_elements(fmg) - 1 do begin
 	endfor
 	;;;flux and energy of flare area
 	com = 'iris_radiometric_calibration,boxarrmgw'+string(j,format = '(I0)')+ $
-	', wave = 2832,F_area_mgiiw'+string(j,format = '(I0)')+ $
+	', wave = 2832, n_pixels = nlinesmgw ,F_area_mgiiw'+string(j,format = '(I0)')+ $
 	', E_area_mgiiw'+string(j,format = '(I0)')+' ,/sji'
 	exe = execute(com)
 
@@ -117,9 +117,10 @@ for j = 0, n_elements(fmg) - 1 do begin
 		exe = execute(com)
 	endfor
 	;;;flux and energy of flare area
-	com = 'iris_radiometric_calibration,boxarrsi'+string(j,format = '(I0)')+ $
-	', wave = 1400,F_area_siiv'+string(j,format = '(I0)')+ $
+	com = 'iris_radiometric_calibration, boxarrsi'+string(j,format = '(I0)')+ $
+	', wave = 1400, n_pixels = nlinessi , F_area_siiv'+string(j,format = '(I0)')+ $
 	', E_area_siiv'+string(j,format = '(I0)')+' ,/sji'
+
 	exe = execute(com)
 
 	;;;;;;;;;;;;;;;;;;Si IV
@@ -242,8 +243,8 @@ qksimax[i] = map1400[387 + i].data[qksixp, qksiyp]
 rbsimax[i] = map1400[387 + i].data[rbsixp, rbsiyp]
 endfor
 ;calculate flux and energy
-iris_radiometric_calibration, qksimax, wave = 1400., Fsiqk, Esiqk, /sji
-iris_radiometric_calibration, rbsimax, wave = 1400., Fsirb, Esirb, /sji
+iris_radiometric_calibration, qksimax, wave = 1400., n_pixels = 1, Fsiqk, Esiqk, /sji
+iris_radiometric_calibration, rbsimax, wave = 1400., n_pixels = 1,Fsirb, Esirb, /sji
 
 
 ;;MG II 2796
@@ -254,8 +255,8 @@ qkmgmax[i] = submg[17 + i].data[qkmgxp, qkmgyp]
 rbmgmax[i] = submg[17 + i].data[rbmgxp, rbmgyp]
 endfor
 ;calculate flux and energy
-iris_radiometric_calibration, qkmgmax, wave = 2976., Fmgqk, Emgqk, /sji
-iris_radiometric_calibration, rbmgmax, wave = 2976., Fmgrb, Emgrb, /sji
+iris_radiometric_calibration, qkmgmax, wave = 2976., n_pixels = 1,Fmgqk, Emgqk, /sji
+iris_radiometric_calibration, rbmgmax, wave = 2976., n_pixels = 1,Fmgrb, Emgrb, /sji
 
 
 ;;BALMER
@@ -272,14 +273,14 @@ tsp = timearr
 
 ;sp ribbon
 for i = 0, nn-1, 1 do begin
-	comi = 'rbboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39)*2)'
+	comi = 'rbboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
 	exet = execute(comi)
 endfor
 ;calculate flux and energy
 w1 = sp2826.tag00.wvl[39]
 w2 = sp2826.tag00.wvl[44]
-iris_radiometric_calibration, spboxarr, wave = [w1, w2],Fspqk, Espqk ,/sg
-iris_radiometric_calibration, rbboxarr, wave = [w1, w2],Fsprb, Esprb ,/sg
+iris_radiometric_calibration, spboxarr, wave = [w1, w2], n_pixels = 10,Fspqk, Espqk ,/sg
+iris_radiometric_calibration, rbboxarr, wave = [w1, w2], n_pixels = 5,Fsprb, Esprb ,/sg
 
 
 ;;MGW 2832
@@ -290,8 +291,8 @@ qkmgwmax[i] = map2832[i].data[588,441 ]  ;559, 441
 rbmgwmax[i] = map2832[i].data[483, 475]
 endfor   
 ;calculate flux and energy
-iris_radiometric_calibration, qkmgwmax, wave = 2832., Fmgwqk, Emgwqk, /sji
-iris_radiometric_calibration, rbmgwmax, wave = 2832., Fmgwrb, Emgwrb, /sji
+iris_radiometric_calibration, qkmgwmax, wave = 2832., n_pixels = 1,Fmgwqk, Emgwqk, /sji
+iris_radiometric_calibration, rbmgwmax, wave = 2832., n_pixels = 1,Fmgwrb, Emgwrb, /sji
 
 
 
