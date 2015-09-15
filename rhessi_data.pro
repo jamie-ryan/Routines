@@ -5,7 +5,7 @@ search_network, /enable
 tr ='29-Mar-14 '+['17:35:28','18:14:36']
 obs = hsi_obs_summary(obs_time_interval = tr)
 corrected_data = obs -> getdata(/corrected)
-times = obs -> getdata(/time_array)
+times = obs -> getdata(/time_array) ;or times = obs -> getaxis(/ut)
 data = corrected_data.countrate
 ntt = n_elements(times)
 obs -> plot ;will plot all energy ranges
@@ -53,7 +53,37 @@ data = obj-> getdata() ; retrieve the last image made
 
 
 
+search_network, /enable
+tr ='29-Mar-14 '+['17:35:28','18:14:36']
+obs = hsi_obs_summary(obs_time_interval = tr)
+data = obs -> getdata(/corrected)
+times = obs -> getaxis(/ut)
+utplot,anytim(times,/yoh),data.countrate[0]
+;data.countrate[0] = 3 - 6 keV sxr
+;data.countrate[1] = 6 - 12 keV sxr to hxr
+;data.countrate[2] = 12 - 25 keV hxr
+;data.countrate[3] = 25 - 50 keV hxr
+;data.countrate[4] = 50 - 100 keV hxr
+;data.countrate[5] = 100 - 300 keV hxr
+;data.countrate[6] = 300 - 800 keV hxr
+;data.countrate[7] = 800 - 7000 keV hxr
+;data.countrate[8] = 7000 - 20000 keV hxr - gamma
 
+
+;spectra and srm via command line
+obj = hsi_spectrum()
+obj -> set, decimation_correct = 1
+obj -> set, obs_time_interval = tr
+obj -> set, pileup_correct = 0
+obj -> set, seg_index_mask = [1,0,1,1,0,1,0,1,1,0,0,0,0,0,0,0,0,0]
+obj -> set, sp_data_unit = 'Flux'
+obj -> set, sp_energy_binning = 22
+obj -> set, sp_semi_calibrated = 0
+obj -> set, sp_time_interval = 4
+obj -> set, sum_flag = 1
+obj -> set, use_flare_xyoffset = 1
+obj -> filewrite, /fits, /buildsrm, all_simplify = 0, /create
+;;;doesn't work???? try 
 
 
 
