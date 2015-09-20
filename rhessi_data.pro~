@@ -83,7 +83,7 @@ obj -> set, sp_time_interval = 4
 obj -> set, sum_flag = 1
 obj -> set, use_flare_xyoffset = 1
 obj -> filewrite, /fits, /buildsrm, all_simplify = 0, /create
-;;;doesn't work???? try gui!
+;;;doesn't work???? try 
 
 
 

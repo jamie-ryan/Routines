@@ -85,6 +85,154 @@ obj -> set, use_flare_xyoffset = 1
 obj -> filewrite, /fits, /buildsrm, all_simplify = 0, /create
 ;;;doesn't work???? try 
 
+;DEFAULT ENERGY BINNING SCHEMES
 
+;A number of energy binning schemes are defined for use in the spectrum 
+;object and hessi_build_srm.  They are stored in the files 
+;$SSWDB_HESSI/spec_resp/ct_edges.x where x is the scheme number.  You can 
+;select one of these schemes by setting the sp_energy_binning control 
+;parameter in the spectrum object to the scheme number.  If none of these 
+;schemes fits your needs, you can define your own energy bins by setting 
+;sp_energy_binning to an array of low/high energy edges ( fltarr(2,n) ).
+
+;Energy Binning Schemes:
+
+;0   3 bins    Three energy bands, 10 keV wide, starting from 20 keV.  
+;                 Used mostly for quick software checks, but it 
+;                 could be useful for some hard x-ray work.
+
+;1   97 bins   1-keV bands, covering 3 to 100 keV.  Possibly good for
+;                 high-resolution hard-x-ray work (fitting thermal and 
+;                 nonthermal emission, etc.)
+
+;2   5 bins    The three bands from "0" plus 50-100 and 100-200 keV bands; we 
+;                 will probably use this binning for a lot of non-solar work 
+;                 with the rear segments.
+
+;3   7 bins    A broad band from 20 to 200 keV followed by 6 narrow bands (4-keV
+;                 wide) to 224 keV.  Used in software debugging.
+
+;4   1000 bins 1-keV bands from 3 to 1003 keV.  Mostly useful for generating
+;                 finely-detailed response matrices for debugging and display 
+;                 purposes.
+
+;5   563 bins  1-keV each from 3 to 100 keV, then 5-keV bands to 1820 keV,
+;                 and 10-keV to 2500.  In addition, there are sections of fine 
+;                 binning around the 511 keV and 2.2 MeV lines.  This is a 
+;                 good choice for first-look spectroscopy of gamma-ray flares.
+
+;6   197 bins  1-keV bands covering 3 to 100 keV, then 5-keV bands to 600 keV.
+;                 A more complete binning than "1" for studying hard x-ray 
+;                 continuum spectra out to higher energies.
+
+;7   19 bins   10-keV bands from 10 to 100 keV, then 50-keV bands to 600
+;                 keV.  Good for survey work to select spectra for closer 
+;                 analysis with "6".
+
+;8   77 bins   3-keV bands from 4 to 118 keV, then 15-keV bands up to
+;                 703 keV.  Intermediate between "6" and "7" in memory use 
+;                 for hard x-ray work.
+
+;9   4 bins    12-keV bands from 200 to 248 keV.  Another debugging mode.
+
+;10  9 bins    Pseudo-logarithmic binning covering the entire HESSI
+;                 energy range.  The bin edges are at [3, 6, 12, 25, 50, 100, 
+;                 300, 1000, 2500, 20000] keV.  These spectra should contain 
+;                 all the events in the HESSI data stream (minus any rejected 
+;                 by event selection criteria like segment choices or coincidence 
+;                 rejection).  Potentially useful for quick screening to separate 
+;                 x-ray from gamma-ray flares, etc.
+
+;11  791 bins  Detailed binning for fine analysis of large gamma-ray line flares.
+;                 1-keV channels from 3 to 100 keV, then 5-keV channels to 1820 
+;                 kev, interrupted by 0.5-keV channels across the 511 keV line 
+;                 (500-520), then 10-keV channels to 2.5 MeV, interrupted by 
+;                 1-keV channels across the 2223 keV neutron capture line, then 
+;                 25 keV channels to 6.4 MeV, and then 50 keV channels to 10 MeV.
+
+;12  517 bins  Somewhat more "economical" binning for gamma flares. 1 keV binning 
+;                 from 3 to 60 keV, 2 keV to 120 keV, 5 keV to 250 keV, 10 keV to
+;                 2250 keV (interruptions at 511 for 0.5 keV binning and 2223 for 
+;                 1 keV binning as in "11"), 50 keV binning to 7.2 MeV, 200 keV 
+;                 binning to 17.0 MeV.
+
+;13  129 bins  Coarse, full-energy-range (3 keV to 16 MeV) binning for weak to 
+;                 moderate gamma flares in which the only individual lines visible 
+;                 are 511 keV and 2223 keV. Resolution is high at low energies 
+;                 (3 keV up to 60 keV), then rapidly gets coarser until the bins 
+;                 are 2 MeV broad above 10 MeV. There is a single narrowish bin 
+;                 to contain each of the two lines.
+
+;14   77 bins  For hard x-ray flares; empirically designed after looking at
+;                 some real events.  1-keV bins from 3 to 40 keV, 3-keV bins
+;                 up to 100 keV, 5-keV bins up to 150 keV, 10 keV bins to 250 keV.
+
+;15 4500 bins  For long-term background accumulations; from 3 keV to 9453 keV
+;                 in 4500 bins of 2.1 keV width.
+
+;16  797 bins  Similar to 11, for fine analysis of large gamma-ray line flares.
+;                 The only difference from 11 is finer (2 keV) bins around 
+;                 847 keV.
+
+;17  936 bins  A further elaboration beyond 11 and 16, for large gamma-ray line 
+;                 flares.  Starting from the binning of 11, it adds 2 keV binning
+;                 around lines at 339, 450, 847, 937, 1369, 1238, 1634, and 
+;                1778 keV, and broadens the region of fine binning around 511 keV.
+                                                             
+;18  908 bins  Improved binning for large flares spanning 250 to 10000 keV. 
+;              
+;19  916 bins  Gamma-ray line flare code like 17, but with 1 keV bins around 511.
+
+;20  888 bins  Gamma-ray line flare code like 18, but with 1 keV bins around 511.
+
+;21  497 bins  Gamma-ray line flare code like 12, but with 1 keV bins around 511.
+
+;22  101 bins  .3 keV binning from 3 to 15 keV, 1 keV to 50 keV, 5 keV to
+;                 100 keV, and 10 keV to 300 keV.  Good for fine energy
+;                 resolution analysis of the Iron line. 
+
+;23  630 bins  Gamma-ray line flare code.  Same as 21, but extended to 150 MeV with 133 
+;                additional 1 Mev wide bins. (Note: photon bins will extend to the 
+;                top of the range, but count bins will not exceed 20 MeV.)
+                                                             
+;24  958 bins  
+			  
+;25  1141 bins Gamma-ray line flare code for moderate resolution. (Note: photon bins will 
+;                extend to the top of the range, but count bins will not exceed 20 MeV.)
+;              5 keV up to 1.5 MeV, 
+;              10 keV from 1.5 to 3 MeV
+;              15 keV from 3 MeV to 8 MeV, 
+;              20 keV from 8 MeV to 12 MeV,
+;              200 keV bins to 17.0 MeV,
+;              1 MeV to 150 MeV.
+
+;26  990 bins   Gamma-ray line code.  (Note: photon bins will extend to the 
+;                  top of the range, but count bins will not exceed 20 MeV.)
+;               5 keV bins 5-500 keV
+;               1 keV bins 500-520 keV
+;               5 keV bins 520-1800 keV
+;               10 keV bins 1800-2210 keV
+;               1 keV bins 2210-2230 keV
+;               10 keV bins 2230-2500 keV                     
+;               15 keV bins 2500-8500 keV
+;               50 keV bins  8500-10000 keV
+;               200 keV bins 10000-16000 keV
+;               2000 keV bins 16000-150000 keV
+
+;27  2452 bins  1 keV bins 3-2300 keV
+;               500 keV bins 2300-10000 keV
+;               1000 keV bins 10000-150000 keV
+               		   
+;28  963 bins   5 keV bins 5-500 keV
+;               2 keV bins 500-520 keV
+;               5 keV bins 520-1800 keV
+;               10 keV bins 1800-2500 keV
+;               15 keV bins 2500-8500 keV
+;               50 keV bins 8500-10000 keV
+;               200 keV bins 10000-16000 keV
+;               2000 keV bins 16000-150000 keV
+
+;29  128 bins   .3 keV bins 3-10 keV,
+;               increasing logarithmically to ~10 keV at 300 keV		
 
 end
