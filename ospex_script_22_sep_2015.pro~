@@ -15,9 +15,8 @@
 ;  http://hesperia.gsfc.nasa.gov/ssw/packages/spex/doc/ospex_explanation.htm                
 ;  for a complete list of methods and their arguments.                                      
 ;                                                                                           
-;pro ospex_script_22_sep_2015, obj=obj                                                       
-;if not is_class(obj,'SPEX',/quiet) then obj = ospex() 
-obj = ospex()                                      
+pro ospex_script_22_sep_2015, obj=obj                                                       
+if not is_class(obj,'SPEX',/quiet) then obj = ospex()                                       
 obj-> set, spex_specfile= '/disk/solar3/jsr2/Data/SDO/hsi_spectrum_20140329_172528.fits'    
 obj-> set, spex_drmfile= '/disk/solar3/jsr2/Data/SDO/hsi_srm_20140329_172528.fits'          
 obj-> set, spex_source_angle= 36.7633                                                       
