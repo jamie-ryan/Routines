@@ -7,19 +7,19 @@ pro trumpet, helioregion
 ;SDO/AIA 131 flaring regions 1e7K
 files = findfile('/disk/solar3/jsr2/SDO/aia.lev1.131A*')
 aia_prep,files,-1,ind131,dat131,/uncomp_delete,/norm, /despike
-
+index2map, ind131, dat131, map131
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;SDO/AIA 094 flaring regions 6e6K
 files = findfile('/disk/solar3/jsr2/SDO/aia.lev1.94A*')
 aia_prep,files,-1,ind94,dat94,/uncomp_delete,/norm, /despike
-
+index2map, ind94, dat94, map94
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;SDO/AIA 335 ARs 2.5e6K
 files = findfile('/disk/solar3/jsr2/SDO/aia.lev1.335*')
 aia_prep,files,-1,ind335,dat335,/uncomp_delete,/norm, /despike
-
+index2map, ind335, dat335, map335
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;SDO/AIA 211 ARs 2e6K
@@ -95,8 +95,10 @@ endfor
 ;;;create array and index for differenced submap
 map2index,diff, diffindex, diffhmi 
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;SDO/HMI Acoustic egression Photosphere
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;SDO/HMI Magnetometer  
