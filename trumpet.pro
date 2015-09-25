@@ -1,6 +1,38 @@
-pro trumpet, helioregion
+pro trumpet, wave
 ;;;code to analyse the anglular resolution of intensity enhancement during solar flares.
 ;;;could this be a tracer of magnetic field morphology?
+xp0 = 2856
+xpf = 2995
+yp0 = 2406
+ypf = 2545
+
+nwav = n_elements(wave)
+for i = 0, nwav - 1 do begin
+;;;aiaprep
+aiadata,wave[i]
+
+;;;convert pixels to arcsecs...then into string
+xa0 = (xp0-ind[0].crpix1+1)*ind[0].cdelt1
+xaf = (xpf-ind[0].crpix1+1)*ind[0].cdelt1
+ya0 = (yp0-ind[0].crpix2+1)*ind[0].cdelt2
+yaf = (ypf-ind[0].crpix2+1)*ind[0].cdelt2
+
+xa0 = string(xa0,format = '(I0)')
+xaf = string(xaf,format = '(I0)')
+ya0 = string(ya0,format = '(I0)')
+yaf = string(yaf,format = '(I0)')
+
+
+wavstr = string(wave[i], format = '(I0)')
+com = 'index2map, ind, dat, map'+wavstr
+exe = execute(com)
+
+com = 'sub_map, map'+wavstr+', xr=['+xa0+','+xaf+'], yr=['+ya0+','+yaf+'], sbmap'+wavstr
+exe = execute(com)
+
+endfor
+
+
 
 ;From high altitude to low, looks at:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
