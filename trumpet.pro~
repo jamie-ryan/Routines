@@ -86,19 +86,5 @@ endfor
 
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;SDO/HMI Acoustic egression Photosphere
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;
-;SDO/HMI Magnetometer  
-
-
-;read in data sets and analyse one at a time as to not use too much memory
-;maybe only read in images that contain flare event...i.e, 17:44 to 17:47?
-
-
-
-
 
 end

@@ -82,7 +82,7 @@ exe = execute(com)
 	endswitch
 endfor
 
-
+;;;;;ADD IRIS and RHESSI
 
 
 
