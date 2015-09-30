@@ -1,0 +1,21 @@
+pro sdodata, wave, aia = aia, hmi = hmi, ind, dat
+
+
+if (keyword_set(aia)) then begin
+
+
+
+		wavestr = string(wave[i], format ='(I0)')
+		files = findfile('aia.lev1.'+wavestr+'A*')
+		aia_prep,files,-1,ind,dat,/uncomp_delete,/norm, /despike
+
+endif
+
+if (keyword_set(hmi)) then begin
+
+
+		files = findfile('hmi.'+wave[i]+'*')
+		aia_prep,files,-1,ind,dat,/uncomp_delete,/norm, /despike
+
+
+end

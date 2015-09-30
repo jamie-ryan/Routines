@@ -1,8 +1,12 @@
 pro aiadata, wave, ind, dat
 
-wave = string(wave, format ='(I0)')
-files = findfile('aia.lev1.'+wave+'A*')
-aia_prep,files,-1,ind,dat,/uncomp_delete,/norm, /despike
-
+nwav = n_elements(wave)
+for i = 0, nwav-1 do begin
+	if (wave[i] eq 'magnetogram') then wavestr = wave[i] else wavestr = string(wave[i], format ='(I0)')
+	if (wave[i] eq 'dopplergram') then wavestr = wave[i] else wavestr = string(wave[i], format ='(I0)')
+	if (wave[i] eq 'intensity') then wavestr = wave[i] else wavestr = string(wave[i], format ='(I0)')
+	files = findfile('aia.lev1.'+wavestr+'A*')
+	aia_prep,files,-1,ind,dat,/uncomp_delete,/norm, /despike
+endfor
 
 end
