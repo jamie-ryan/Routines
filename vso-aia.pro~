@@ -36,8 +36,6 @@ dat = vso_get(srch, /rice, site = 'NSO')
 srch = vso_search('2014/03/29 17:30', '2014/03/29 18:00', instr = 'hmi',physobs = 'intensity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
 
-
-
 ;HMI Magnetogram
 srch = vso_search('2014/03/29 17:30', '2014/03/29 18:00', instr = 'hmi',physobs = 'LOS_magnetic_field', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
