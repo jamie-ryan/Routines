@@ -1,4 +1,4 @@
-pro ladder, allpix = allpix, areapix = areapix, singlepix = singlepix, quakepix = quakepix
+pro ladder, allpix = allpix, areapix = areapix, singlepix = singlepix, quakepix = quakepix, multi_ribbon = multi_ribbon
 
 ;set number of plots manually for now....later include in call command
 ;n_plts = 6 ;with rhessi x 1, iris x 4, hmi x 1
@@ -1042,7 +1042,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			device,/close
 			set_plot,mydevice
 
-
+		if (keyword_set(multi_ribbon)) then begin
 			;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Ribbon Pixel 2
 			;;;;;;;;;;;;;;;;;;;;
 			;;;;;Ribbon Pixel 2 Flux vs Time
@@ -1968,7 +1968,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;
 			device,/close
 			set_plot,mydevice
-
+		endif ;multi_ribbon
 
 	endif ;singlepix
 
