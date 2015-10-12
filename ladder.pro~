@@ -71,8 +71,8 @@ qkxp = (qkxa/diffindex[0].cdelt1) + diffindex[0].crpix1 - 1
 qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 
 
-	if (keyword_set(allpix) then begin
-		if (keyword_set(areapix) then begin
+	if keyword_set(allpix) then begin
+		if keyword_set(areapix) then begin
 			for j = 0, n_elements(fmg) - 1 do begin
 				;;;;;;;open files 
 
@@ -426,7 +426,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 		endfor
 	endif ;areapix
 
-	if (keyword_set(singlepix)) then begin
+	if keyword_set(singlepix) then begin
 
 	;;;set up single pixel arrays
 	qkmgmax = fltarr(nmg)
@@ -1042,7 +1042,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			device,/close
 			set_plot,mydevice
 
-		if (keyword_set(multi_ribbon)) then begin
+		if keyword_set(multi_ribbon) then begin
 			;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Ribbon Pixel 2
 			;;;;;;;;;;;;;;;;;;;;
 			;;;;;Ribbon Pixel 2 Flux vs Time
@@ -1974,7 +1974,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 
 
 
-	if (keyword_set(quakepix)) then begin
+	if keyword_set(quakepix) then begin
 	;HMI quake area array
 	qkarea = fltarr(nnn)
 	;based on the four iris pixels (4*0.1667") flagged by quake_area.pro.....more detailed version needed
