@@ -1,4 +1,4 @@
-manyplots, n_plots, xpos, ypos
+pro plot_pos_calc, n_plots=n_plots, xpos, ypos
 
 ;x axis range = 0.15 to 0.9...constant
 ;y axis range = 0.15 to 0.9
