@@ -118,20 +118,6 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				;;close file and free up file unit number
 				free_lun, lun
 				;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-				openr,lun,ffsp[j],/get_lun
-
-				;;;count lines in file
-				nlinessp = file_lines(ffsp[j])
-
-				;;;make array to fill with values from the file
-				hsp=intarr(2,nlinessp)
-
-				;;;read file contents into array
-				readf,lun,hsp
-
-				;;close file and free up file unit number
-				free_lun, lun
-				;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 				openr,lun,ff[j],/get_lun
 
 				;;;count lines in file
