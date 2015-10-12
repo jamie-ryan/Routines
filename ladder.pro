@@ -244,13 +244,13 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				com = 'F = F_area_siiv'+string(j,format = '(I0)')
 				exe = execute(com)
 
-				utplot,map1400[450:*].time, F[63:*], $
+				utplot, map1400[450:*].time, F[63:*], $
 				linestyle = 0, $
 				ytitle = ytitl, $
 				/ynoz, $
 				/ylog, $
 				xmargin = [12,3], $
-				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -349,7 +349,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				/ynoz, $
 				/ylog, $
 				xmargin = [12,3], $
-				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -597,7 +597,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -712,7 +712,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -837,7 +837,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -951,7 +951,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -1068,7 +1068,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -1183,7 +1183,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -1300,7 +1300,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -1415,7 +1415,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -1532,7 +1532,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -1647,7 +1647,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -1763,7 +1763,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -1878,7 +1878,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			/ynoz, $
 			/ylog, $
 			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
