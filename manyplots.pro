@@ -1,19 +1,20 @@
-function manyplots, n_plots
+manyplots, n_plots, xpos, ypos
 
 ;x axis range = 0.15 to 0.9...constant
 ;y axis range = 0.15 to 0.9
 
 
 yplotlength = (0.90 - 0.15) / n_plots ;calculates yplot position increments based on number of plots 
+ypos = fltarr(2,n_plots) ;contains position coordinates in the form [y0,y1]
 
-;xplotpos = [0.15, 0.9] ;contains position coordiuntaes [x0,x1]
-yplotpos = fltarr(2,n_plots) ;contains position coordinates in the form [y0,y1]
-
+xpos = fltarr(2) ;contains position coordiuntaes [x0,x1]
+xpos[0] = 0.15 
+xpos[1] = 0.15 + (2*yplotlength)
 
 for i = 0, n_plots - 1 do begin ;loop to fill yplotpos
 
-	yplotpos[0,i] = 0.15 + i*yplotlength ; y0
-	yplotpos[1,i] = 0.15 + yplotlength + i*yplotlength ; y1
+	ypos[0,i] = 0.15 + i*yplotlength ; y0
+	ypos[1,i] = 0.15 + yplotlength + i*yplotlength ; y1
 
 endfor
 
@@ -25,6 +26,6 @@ endfor
 ;     0.525000
 ;     0.900000
 
-return, yplotpos
+
 
 end

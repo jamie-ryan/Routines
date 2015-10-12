@@ -1,14 +1,15 @@
-pro manyplots, n_plots
+manyplots, n_plots
 
 ;x axis range = 0.15 to 0.9...constant
 ;y axis range = 0.15 to 0.9
 
 
 yplotlength = (0.90 - 0.15) / n_plots ;calculates yplot position increments based on number of plots 
-
-xplotpos = [0.15, 0.9] ;contains position coordiuntaes [x0,x1]
 yplotpos = fltarr(2,n_plots) ;contains position coordinates in the form [y0,y1]
 
+xplotpos = fltarr(2) ;contains position coordiuntaes [x0,x1]
+xplotpos[0] = 0.15 
+xplotpos[1] = 0.15 + (2*yplotlength)
 
 for i = 0, n_plots - 1 do begin ;loop to fill yplotpos
 
@@ -24,6 +25,7 @@ endfor
 ;IDL> print, yplotpos[1,*]
 ;     0.525000
 ;     0.900000
+
 
 
 end
