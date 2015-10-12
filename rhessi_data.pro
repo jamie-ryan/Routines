@@ -233,6 +233,42 @@ obj -> filewrite, /fits, /buildsrm, all_simplify = 0, /create
 ;               2000 keV bins 16000-150000 keV
 
 ;29  128 bins   .3 keV bins 3-10 keV,
-;               increasing logarithmically to ~10 keV at 300 keV		
+;               increasing logarithmically to ~10 keV at 300 keV
 
+
+;;;;rhessi image
+search_network, /enable
+o_img = hsi_image()           ; create an instance of the image class
+                                ; of objects
+o_img -> print                ; list object parameters
+
+time_interval = '29-Mar-14 '+['17:35:28','18:14:36']
+position = [519, 262]          ; x and y center, in heliographic coordinates
+                               ; (arcsecs from sun center)
+strtstp = [540, 780]           ; start, stop seconds from start of time_interval (integration time)
+erng = [50.,100.]			   ;energy range to be integrated	
+
+im = o_img -> getdata(obs_time=time_interval,   ; overall interval 
+                    time_range= strtstp,        ; start, stop seconds from
+                                                ; start of overall interval
+                    xyoffset=position           ; center for reconstruction
+                    image_algorithm='clean')    ; reconstruction algorithm,
+                                                ; back-projection by default
+
+im = o_img -> getdata(obs_time = time_interval, $
+								 time_range = strtstp, $
+								 xyoffset=position, $
+								 im_energy_binning = erng, $
+								 image_alrogithm='clean')
+o_img -> plot                                   ; plot the image  
+
+
+;% HSI_CALIB_EVENTLIST_RAW::PROCESS: !!!!!!!!Warning. Attenuator state changed during the observing interval29-Mar-2014
+;                            17:40:27.990 - 29-Mar-2014 17:44:32.212 - 29-Mar-2014 17:44:32.590 - 29-Mar-2014 17:45:58.269 -
+;                            29-Mar-2014 17:45:58.524 - 29-Mar-2014 17:50:00.214 - 29-Mar-2014 17:50:00.517 - 29-Mar-2014
+;                            17:50:00.580 - 29-Mar-2014 17:50:00.642
+
+hmap = o_img -> makemap() ;;doesnt work???
+
+fits2map
 end

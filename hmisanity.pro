@@ -18,20 +18,19 @@ smthdat = smooth(sbdat,10)
 filtdat = logdat - smthdat
 
 
-;edge find filters...experiment with filtering!
-rob = roberts(sbdat[*,*,27])
-sob = sobel(sbdat[*,*,27])
-prew = prewitt(sbdat[*,*,27])
-shftdiff = shift_diff(sbdat[*,*,27])
-edgdog = edge_dog(sbdat[*,*,27])
-lap = laplacian(sbdat[*,*,27])
-emb = emboss(sbdat[*,*,27])
-
+;;;edge find filters...experiment with filtering!
+rob = roberts(sbdat)
+sob = sobel(sbdat)
+prew = prewitt(sbdat)
+shftdiff = shift_diff(sbdat)
+edgdog = edge_dog(sbdat)
+lap = laplacian(sbdat)
+emb = emboss(sbdat)
 
 index2map, sbind, filtdat, filtmap 
 
-
-sub = coreg_map(filtmap,filtmap(30))
+sub = coreg_map(filtmap,filtmap[30]) ;with filtering
+;sub = coreg_map(sbmap, sbmap[1]) ;no filtering
 diff=diff_map(sub(1),sub(0),/rotate)
 
 iii = n_elements(files)
@@ -41,5 +40,18 @@ diff1=diff_map(sub(i),sub(i-2),/rotate)
 diff=str_concat(diff,diff1)
 endfor
 map2index,diff, diffi, diffd
+
+arrayn = n_elements(diff)
+intarray = fltarr(arrayn)
+for i = 0, arrayn - 1 do begin                                  
+intarray[i] = total(diff[i].data[*,*])                  
+endfor                                
+
+n = n_elements(diff[0].data[*,0])*n_elements(diff[0].data[0,*])
+hmi_radiometric_calibration, intarray, n_pixels = n, f,e
+
+utplot, diff[20:25].time, intarray[20:25]
+utplot, diff[20:25].time, f[20:25]
+utplot, diff[20:25].time, e[20:25]
 
 end
