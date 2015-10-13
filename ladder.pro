@@ -217,7 +217,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				;;;;;;;;;;;;;;;;;;
 				mydevice=!d.name
 				set_plot,'ps'
-				fnm = dir+'29-Mar-14-Area-Flux-Ladder'+date+'.eps'
+				fnm = dir+'29-Mar-14-Area-Flux-Ladder'+date+'-datfile-'+string(j,format = '(I0)')+'.eps'
 				device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 				titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 				ytitl = flux
@@ -244,14 +244,22 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				com = 'F = F_area_siiv'+string(j,format = '(I0)')
 				exe = execute(com)
 
-				utplot, map1400[450:*].time, F[63:*], $
+				utplot, map1400[449:*].time, F[62:*], $
 				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
 				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
 				/ynoz, $
-				/ylog, $
+				;/ylog, $
 				xmargin = [12,3], $
-				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]]
 				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+
 
 
 				;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -262,13 +270,21 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				com = 'F = F_area_mgii'+string(j,format = '(I0)')
 				exe = execute(com)
 
-				utplot,submg[100:*].time, F[83:*], $
+				utplot,submg[599:*].time, F[582:*], $
 				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
 				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
 				/ynoz, $
-				/ylog, $
+				;/ylog, $
 				xmargin = [12,3], $
-				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
 				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 
@@ -282,11 +298,19 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 
 				utplot, map2832[150:*].time, F[150:*], $
 				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
 				ytitle = ytitl, $
+				/nolabel, $
+				yticks = 2, $
+				ytickname=[' '], $
+				XTICKFORMAT="(A1)", $
 				/ynoz, $
-				/ylog, $
-				xmargin = [12,3], $	
-				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
 				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 				;;;;;;;;;;;;;;;;;;HMI continuum
@@ -299,12 +323,18 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 
 				utplot, diff[36:78].time, F[36:78], $
 				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				yticks = 2, $
+				ytickname=[' '], $
 				ytitle = ytitl, $
-				/ynoz, $ 
+				/ynoz, $
+				;/ylog, $
 				xmargin = [12,3], $
-			 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-				xyouts, xyx, xyy, 'SDO HMI continuum', /norm
-
+				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+				/NoErase
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
 				;;;;;;;;;;;;;
 				device,/close
 				set_plot,mydevice
@@ -343,13 +373,20 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				com = 'E = E_area_siiv'+string(j,format = '(I0)')
 				exe = execute(com)
 
-				utplot,map1400[450:*].time, E[63:*], $
+				utplot,map1400[449:*].time, E[62:*], $
 				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
 				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
 				/ynoz, $
-				/ylog, $
+				;/ylog, $
 				xmargin = [12,3], $
-				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]]
 				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -361,13 +398,21 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				com = 'E = E_area_mgii'+string(j,format = '(I0)')
 				exe = execute(com)
 
-				utplot,submg[100:*].time, E[83:*], $
+				utplot,submg[559:*].time, E[582:*], $
 				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
 				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
 				/ynoz, $
-				/ylog, $
+				;/ylog, $
 				xmargin = [12,3], $
-				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
 				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 
@@ -381,12 +426,21 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 
 				utplot, map2832[150:*].time, E[150:*], $
 				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
 				ytitle = ytitl, $
+				/nolabel, $
+				yticks = 2, $
+				ytickname=[' '], $
+				XTICKFORMAT="(A1)", $
 				/ynoz, $
-				/ylog, $
-				xmargin = [12,3], $	
-				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
 				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+
 
 				;;;;;;;;;;;;;;;;;;HMI continuum
 				o = 0
@@ -398,11 +452,18 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 
 				utplot, diff[36:78].time, E[36:78], $
 				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				yticks = 2, $
+				ytickname=[' '], $
 				ytitle = ytitl, $
-				/ynoz, $ 
+				/ynoz, $
+				;/ylog, $
 				xmargin = [12,3], $
-			 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-				xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+				/NoErase
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
 
 				;;;;;;;;;;;;;
 				device,/close
