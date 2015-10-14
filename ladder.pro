@@ -32,7 +32,8 @@ datdir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/Dat/'
 fmg = findfile(datdir+'*mgii-high*')
 fmgw = findfile(datdir+'*mgiiw-high*')
 fsi = findfile(datdir+'*siiv-high*')
-fsp = iris_files('../IRIS/*raster*.fits')
+;fsp = iris_files('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
+fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
 ;ffsp = findfile(datdir+'*balmer-high*')
 ff = findfile(datdir+'hmi-high*')
 
@@ -40,9 +41,9 @@ sample = 1
 
 
 
-nmg = n_elements(submg[17:*])
+nmg = n_elements(submg) ;nmg = n_elements(submg[17:*])
 nmgw = n_elements(diff2832[*])
-nsi = n_elements(map1400[387:*])
+nsi = n_elements(map1400) ;nsi = n_elements(map1400[387:*])
 nn = n_elements(fsp)
 nnn = n_elements(diff)
 
@@ -142,7 +143,8 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				exe = execute(com)
 				;loop to fill arrays with summed pixel intensity values
 				for i = 0, nmg-1, 1 do begin
-					com = 'boxarrmg'+string(j,format = '(I0)')+'[i] = total(submg[17 + i].data[hmg[0,*],hmg[1,*]]) '
+					;com = 'boxarrmg'+string(j,format = '(I0)')+'[i] = total(submg[17 + i].data[hmg[0,*],hmg[1,*]]) '
+					com = 'boxarrmg'+string(j,format = '(I0)')+'[i] = total(submg[i].data[hmg[0,*],hmg[1,*]]) '
 					exe = execute(com)
 				endfor
 				;;;flux and energy of flare area
@@ -182,7 +184,8 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				exe = execute(com)
 				;loop to fill arrays with summed pixel intensity values
 				for i = 0, nsi-1, 1 do begin
-					com = 'boxarrsi'+string(j,format = '(I0)')+'[i] = total(map1400[387 + i].data[hsi[0,*],hsi[1,*]]) '
+					;com = 'boxarrsi'+string(j,format = '(I0)')+'[i] = total(map1400[387 + i].data[hsi[0,*],hsi[1,*]]) '
+					com = 'boxarrsi'+string(j,format = '(I0)')+'[i] = total(map1400[i].data[hsi[0,*],hsi[1,*]]) '
 					exe = execute(com)
 				endfor
 				;;;flux and energy of flare area
@@ -212,12 +215,17 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				;calculate plotting position coordinates for ladder plots
 				plot_pos_calc, n_plots = 4, xpos, ypos
 
+				;;;times for plots and vert_line
+				base = '29-Mar-14 17:26:00'
+				sec = 19.*60. ;location in seconds for vertical line...17:45 - 17:26 = 19 mins...19mins*60secs
+
+
 				;;;;;;;;;;;;;;;;;;
 				;;;Flux v Time
 				;;;;;;;;;;;;;;;;;;
 				mydevice=!d.name
 				set_plot,'ps'
-				fnm = dir+'29-Mar-14-Area-Flux-Ladder'+date+'-datfile-'+string(j,format = '(I0)')+'.eps'
+				fnm = dir+'29-Mar-14-Area-Flux-Ladder-'+date+'-datfile-'+string(j,format = '(I0)')+'.eps'
 				device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 				titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 				ytitl = flux
@@ -244,7 +252,9 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				com = 'F = F_area_siiv'+string(j,format = '(I0)')
 				exe = execute(com)
 
-				utplot, map1400[449:*].time, F[62:*], $
+				utplot, map1400[447:*].time, F[447:*], $ ;utplot, map1400[449:*].time, F[62:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 				linestyle = 0, $
 				ycharsize = 0.65, $
 				xcharsize = 0.65, $
@@ -257,7 +267,11 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				/ynoz, $
 				;/ylog, $
 				xmargin = [12,3], $
-				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]]
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
@@ -270,7 +284,9 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				com = 'F = F_area_mgii'+string(j,format = '(I0)')
 				exe = execute(com)
 
-				utplot,submg[599:*].time, F[582:*], $
+				utplot,submg[595:*].time, F[597:*], $ ;utplot,submg[599:*].time, F[582:*], $ 
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 				linestyle = 0, $
 				ycharsize = 0.65, $
 				xcharsize = 0.65, $
@@ -285,6 +301,9 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				xmargin = [12,3], $
 				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 
@@ -297,20 +316,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				exe = execute(com)
 
 				utplot, map2832[150:*].time, F[150:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 				linestyle = 0, $
 				ycharsize = 0.65, $
 				xcharsize = 0.65, $
 				xstyle = 8, $
 				ytitle = ytitl, $
 				/nolabel, $
-				yticks = 2, $
 				ytickname=[' '], $
+				yticks = 2, $
 				XTICKFORMAT="(A1)", $
 				/ynoz, $
 				;/ylog, $
 				xmargin = [12,3], $
 				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 				;;;;;;;;;;;;;;;;;;HMI continuum
@@ -322,18 +346,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				exe = execute(com)
 
 				utplot, diff[36:78].time, F[36:78], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 				linestyle = 0, $
 				ycharsize = 0.65, $
 				xcharsize = 0.65, $
 				xstyle = 8, $
-				yticks = 2, $
-				ytickname=[' '], $
 				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
 				/ynoz, $
 				;/ylog, $
 				xmargin = [12,3], $
-				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
 				;;;;;;;;;;;;;
 				device,/close
@@ -346,7 +377,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				;;;;;;;;;;;;;;;;;;;;
 				mydevice=!d.name
 				set_plot,'ps'
-				fnm = dir+'29-Mar-14-Area-Energy-Ladder'+date+'.eps'
+				fnm = dir+'29-Mar-14-Area-Energy-Ladder-'+date+'.eps'
 				device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 				titl =  strcompress('29-Mar-14-Flare-Energy' ,/remove_all)
 				ytitl = energy
@@ -373,32 +404,9 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				com = 'E = E_area_siiv'+string(j,format = '(I0)')
 				exe = execute(com)
 
-				utplot,map1400[449:*].time, E[62:*], $
-				linestyle = 0, $
-				ycharsize = 0.65, $
-				xcharsize = 0.65, $
-				xstyle = 8, $
-				ytitle = ytitl, $
-				/nolabel, $
-				ytickname=[' '], $
-				yticks = 2, $
-				XTICKFORMAT="(A1)", $
-				/ynoz, $
-				;/ylog, $
-				xmargin = [12,3], $
-				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]]
-				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
-
-
-				;;;;;;;;;;;;;;;;;;Mg II	h&k
-				o = 2
-				xyx = xpos[0] + ((xpos[1] - xpos[0])/2) ;middle of xrange
-				xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.9) ;y0 plus 90% of yrange
-
-				com = 'E = E_area_mgii'+string(j,format = '(I0)')
-				exe = execute(com)
-
-				utplot,submg[559:*].time, E[582:*], $
+				utplot, map1400[447:*].time, E[447:*], $ ;utplot,map1400[449:*].time, E[62:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 				linestyle = 0, $
 				ycharsize = 0.65, $
 				xcharsize = 0.65, $
@@ -413,6 +421,40 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				xmargin = [12,3], $
 				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+
+
+				;;;;;;;;;;;;;;;;;;Mg II	h&k
+				o = 2
+				xyx = xpos[0] + ((xpos[1] - xpos[0])/2) ;middle of xrange
+				xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.9) ;y0 plus 90% of yrange
+
+				com = 'E = E_area_mgii'+string(j,format = '(I0)')
+				exe = execute(com)
+
+				utplot,submg[595:*].time, E[597:*], $ ;utplot,submg[559:*].time, E[582:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 
@@ -425,20 +467,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				exe = execute(com)
 
 				utplot, map2832[150:*].time, E[150:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 				linestyle = 0, $
 				ycharsize = 0.65, $
 				xcharsize = 0.65, $
 				xstyle = 8, $
 				ytitle = ytitl, $
 				/nolabel, $
-				yticks = 2, $
 				ytickname=[' '], $
+				yticks = 2, $
 				XTICKFORMAT="(A1)", $
 				/ynoz, $
 				;/ylog, $
 				xmargin = [12,3], $
 				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 
@@ -451,18 +498,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 				exe = execute(com)
 
 				utplot, diff[36:78].time, E[36:78], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 				linestyle = 0, $
 				ycharsize = 0.65, $
 				xcharsize = 0.65, $
 				xstyle = 8, $
-				yticks = 2, $
-				ytickname=[' '], $
 				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
 				/ynoz, $
 				;/ylog, $
 				xmargin = [12,3], $
-				position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
 
 				;;;;;;;;;;;;;
@@ -504,9 +558,9 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 	;;SI IV 1400
 	for i = 0, nsi-1, 1 do begin
 	;;calculate contrast value for quake pixel on all frames to save time
-	qksimax[i] = map1400[387 + i].data[qksixp, qksiyp]
+	qksimax[i] = map1400[i].data[qksixp, qksiyp] ;qksimax[i] = map1400[387 + i].data[qksixp, qksiyp]
 	;;calculate contrast value for ribbon pixels on all frames to save time
-	rbsimax[i] = map1400[387 + i].data[rbsixp, rbsiyp]
+	rbsimax[i] = map1400[i].data[rbsixp, rbsiyp] ;rbsimax[i] = map1400[387 + i].data[rbsixp, rbsiyp]
 ;	rbsimax1[i] = map1400[387 + i].data[rbsixp, rbsiyp]
 ;	rbsimax2[i] = map1400[387 + i].data[rbsixp, rbsiyp]
 ;	rbsimax3[i] = map1400[387 + i].data[rbsixp, rbsiyp]
@@ -523,9 +577,9 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 	;;MG II 2796
 	for i = 0, nmg-1, 1 do begin
 	;;calculate contrast value for quake pixel on all frames to save time
-	qkmgmax[i] = submg[17 + i].data[qkmgxp, qkmgyp]
+	qkmgmax[i] = submg[i].data[qkmgxp, qkmgyp] ;qkmgmax[i] = submg[17 + i].data[qkmgxp, qkmgyp]
 	;;calculate contrast value for ribbon pixel on all frames to save time
-	rbmgmax[i] = submg[17 + i].data[rbmgxp, rbmgyp]
+	rbmgmax[i] = submg[i].data[rbmgxp, rbmgyp] ;rbmgmax[i] = submg[17 + i].data[rbmgxp, rbmgyp]
 ;	rbmgmax1[i] = submg[17 + i].data[rbmgxp, rbmgyp]
 ;	rbmgmax2[i] = submg[17 + i].data[rbmgxp, rbmgyp]
 ;	rbmgmax3[i] = submg[17 + i].data[rbmgxp, rbmgyp]
@@ -571,6 +625,11 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 
 	;sp ribbon
 	for i = 0, nn-1, 1 do begin
+
+
+
+
+
 	endfor
 	;calculate flux and energy
 	w1 = sp2826.tag00.wvl[39]
@@ -625,7 +684,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Quake-Pixel-Flux-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Quake-Pixel-Flux-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Quake-Pixel-Flux' ,/remove_all)
 			ytitl = flux
@@ -649,17 +708,30 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			xyx = xpos[0] + ((xpos[1] - xpos[0])/2) ;middle of xrange
 			xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.9) ;y0 plus 90% of yrange
 
-			com = 'E = Fsiqk'+string(j,format = '(I0)')
+			com = 'F = Fsiqk'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, F[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, F[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -667,33 +739,59 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			xyx = xpos[0] + ((xpos[1] - xpos[0])/2) ;middle of xrange
 			xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.9) ;y0 plus 90% of yrange
 
-			com = 'E = Fmgqk'+string(j,format = '(I0)')
+			com = 'F = Fmgqk'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, F[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, F[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
 			xyx = xpos[0] + ((xpos[1] - xpos[0])/2) ;middle of xrange
 			xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.9) ;y0 plus 90% of yrange
 
-			com = 'E = Fspqk'+string(j,format = '(I0)')
+			com = 'F = Fspqk'+string(j,format = '(I0)')
 			exe = execute(com)
 
 			utplot,timearr[157:*], F[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -706,13 +804,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, F[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -723,12 +834,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, F[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -740,7 +866,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Quake-Pixel-Energy-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Quake-Pixel-Energy-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Quake-Pixel-Energy' ,/remove_all)
 			ytitl = energy
@@ -767,14 +893,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Esiqk'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, E[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, E[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -785,14 +924,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Emgqk'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, E[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, E[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -803,12 +955,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], E[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -822,13 +987,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, E[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -839,12 +1017,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, E[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -865,7 +1058,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Ribbon-Pixel-1-Flux-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Ribbon-Pixel-1-Flux-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Ribbon-Pixel-1-Flux' ,/remove_all)
 			ytitl = flux
@@ -892,14 +1085,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'F = Fsirb'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, F[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, F[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -910,14 +1116,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Fmgrb'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, F[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, F[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -928,12 +1147,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], F[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -946,13 +1178,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, F[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -963,12 +1208,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, F[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -979,7 +1239,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Ribbon-Pixel-1-Energy-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Ribbon-Pixel-1-Energy-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Ribbon-Pixel-1-Energy' ,/remove_all)
 			ytitl = energy
@@ -1006,14 +1266,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Esirb'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, E[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, E[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -1024,14 +1297,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Emgrb'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, E[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, E[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -1042,12 +1328,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], E[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -1061,13 +1360,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, E[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -1078,12 +1390,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, E[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -1096,7 +1423,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Ribbon-Pixel-2-Flux-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Ribbon-Pixel-2-Flux-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Ribbon-Pixel-2-Flux' ,/remove_all)
 			ytitl = flux
@@ -1123,14 +1450,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'F = Fsirb1'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, F[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, F[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -1141,14 +1481,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Fmgrb1'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, F[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, F[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -1159,13 +1512,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], F[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	wing
@@ -1177,13 +1543,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, F[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -1194,12 +1573,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, F[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -1211,7 +1605,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Ribbon-Pixel-2-Energy-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Ribbon-Pixel-2-Energy-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Ribbon-Pixel-2-Energy' ,/remove_all)
 			ytitl = energy
@@ -1238,14 +1632,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Esirb1'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, E[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, E[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -1256,14 +1663,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Emgrb1'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, E[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, E[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -1274,12 +1694,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], E[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -1293,13 +1726,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, E[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -1310,12 +1756,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, E[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -1328,7 +1789,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Ribbon-Pixel-3-Flux-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Ribbon-Pixel-3-Flux-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Ribbon-Pixel-3-Flux' ,/remove_all)
 			ytitl = flux
@@ -1355,14 +1816,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'F = Fsirb2'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, F[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, F[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -1373,14 +1847,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Fmgrb2'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, F[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, F[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -1391,12 +1878,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], F[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -1409,13 +1909,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, F[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -1426,12 +1939,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, F[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -1443,7 +1971,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Ribbon-Pixel-3-Energy-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Ribbon-Pixel-3-Energy-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Ribbon-Pixel-3-Energy' ,/remove_all)
 			ytitl = energy
@@ -1470,14 +1998,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Esirb2'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, E[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, E[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -1488,14 +2029,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Emgrb2'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, E[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, E[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -1506,12 +2060,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], E[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -1525,13 +2092,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, E[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -1542,12 +2122,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, E[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -1560,7 +2155,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Ribbon-Pixel-4-Flux-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Ribbon-Pixel-4-Flux-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Ribbon-Pixel-4-Flux' ,/remove_all)
 			ytitl = flux
@@ -1587,14 +2182,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'F = Fsirb3'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, F[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, F[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -1605,14 +2213,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Fmgrb3'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, F[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, F[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -1623,12 +2244,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], F[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -1641,13 +2275,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, F[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -1658,12 +2305,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, F[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -1675,7 +2337,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Ribbon-Pixel-4-Energy-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Ribbon-Pixel-4-Energy-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Ribbon-Pixel-4-Energy' ,/remove_all)
 			ytitl = energy
@@ -1702,14 +2364,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Esirb3'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, E[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, E[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -1720,14 +2395,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Emgrb3'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, E[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, E[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -1738,12 +2426,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], E[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -1757,13 +2458,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, E[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -1774,12 +2488,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, E[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -1791,7 +2520,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Ribbon-Pixel-5-Flux-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Ribbon-Pixel-5-Flux-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Ribbon-Pixel-5-Flux' ,/remove_all)
 			ytitl = flux
@@ -1818,14 +2547,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'F = Fsirb4'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, F[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, F[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -1836,14 +2578,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Fmgrb4'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, F[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, F[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -1854,12 +2609,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], F[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -1872,13 +2640,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, F[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -1889,12 +2670,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, F[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
@@ -1906,7 +2702,7 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			;;;;;;;;;;;;;;;;;;;;
 			mydevice=!d.name
 			set_plot,'ps'
-			fnm = dir+'29-Mar-14-Ribbon-Pixel-5-Energy-Ladder'+date+'.eps'
+			fnm = dir+'29-Mar-14-Ribbon-Pixel-5-Energy-Ladder-'+date+'.eps'
 			device,filename=fnm,/portrait,/encapsulated, decomposed=0,color=1
 			titl =  strcompress('29-Mar-14-Ribbon-Pixel-5-Energy' ,/remove_all)
 			ytitl = energy
@@ -1933,14 +2729,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Esirb4'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,map1400[450:*].time, E[63:*], $ ;map1400[450:*].time, Fsiqk[63:*]
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
+			utplot,map1400[447:*].time, E[447:*], $ ;map1400[450:*].time, Fsiqk[63:*]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
 
 			;;;;;;;;;;;;;;;;;;Mg II	h&k
@@ -1951,14 +2760,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			com = 'E = Emgrb4'+string(j,format = '(I0)')
 			exe = execute(com)
 
-			utplot,submg[100:*].time, E[83:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
+			utplot,submg[595:*].time, E[597:*], $
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;;Balmer
 			o = 2
@@ -1969,12 +2791,25 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot,timearr[157:*], E[157:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
 			xyouts, xyx, xyy, 'Balmer 2825.7-2825.8'+angstrom, /norm
 
 
@@ -1988,13 +2823,26 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, map2832[150:*].time, E[150:*], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $
-			/ylog, $
-			xmargin = [12,3], $	
-			position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
 			;;;;;;;;;;;;;;;;;;HMI continuum
 			o = 0
@@ -2005,12 +2853,27 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 			exe = execute(com)
 
 			utplot, diff[36:78].time, E[36:78], $
-			linestyle = 0, $
-			ytitle = ytitl, $
-			/ynoz, $ 
-			xmargin = [12,3], $
-		 	position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-			xyouts, xyx, xyy, 'SDO HMI continuum', /norm
+				base, $
+				timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+				linestyle = 0, $
+				ycharsize = 0.65, $
+				xcharsize = 0.65, $
+				xstyle = 8, $
+				ytitle = ytitl, $
+				/nolabel, $
+				ytickname=[' '], $
+				yticks = 2, $
+				XTICKFORMAT="(A1)", $
+				/ynoz, $
+				;/ylog, $
+				xmargin = [12,3], $
+				position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+				/NoErase
+				loadct,3
+				vert_line,sec,1, color = 100
+				loadct,0
+				xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
+
 
 			;;;;;;;;;;;;;
 			device,/close
