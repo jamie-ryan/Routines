@@ -358,7 +358,7 @@ endfor
 hmi_radiometric_calibration, qkarea, n_pixels = 9, Fqk_9px_area, Eqk_9px_area
 
 ;;;make .sav file
-save,
+save, $
 ;iris flare area
 F_area_siiv0, E_area_siiv0, $
 F_area_siiv1, E_area_siiv1, $
