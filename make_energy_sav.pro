@@ -194,7 +194,7 @@ com = 'hmi_radiometric_calibration, boxarr'+string(j,format = '(I0)')+ $
 ', n_pixels = nlines, F_area_hmi'+string(j,format = '(I0)')+ $
 ', E_area_hmi'+string(j,format = '(I0)')+''
 exe = execute(com)
-
+endfor
 
 ;;;set up single pixel arrays
 qkmgmax = fltarr(nmg)
