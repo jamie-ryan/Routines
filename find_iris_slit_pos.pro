@@ -3,12 +3,13 @@ function find_iris_slit_pos, coord, structure, y=y, a2p = a2p, p2a = p2a
 fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
 nn = n_elements(fsp)
 result = fltarr(nn)
+struc = string(structure)
 if not keyword_set(y) then begin
 fovx = 8.03
 tmp = fltarr(8)
     for i = 0, nn-1 do begin
     ii = string(i, format = '(I0)')
-    com = 'xc = '+structure+'.tag0'+ii+'.xcen'
+    com = 'xc = '+struc+'.tag0'+ii+'.xcen'
     exe = execute(com)
 
         if ((coord gt xc - fovx) && (coord lt xc + fovx)) then begin 
@@ -33,7 +34,7 @@ tmp = fltarr(npix)
     if keyword_set(a2p) then begin
         for i = 0, nn-1 do begin
         ii = string(i, format = '(I0)')
-        com = 'tmp = abs(coord - '+structure+'.tag0'+ii+'.solar_y)'
+        com = 'tmp = abs(coord - '+struc+'.tag0'+ii+'.solar_y)'
         exe = execute(com)
         mn = min(tmp, loc)
         ind = array_indices(tmp, loc)
@@ -46,7 +47,7 @@ tmp = fltarr(npix)
         for i = 0, nn-1 do begin
         ii = string(i, format = '(I0)')
         coordstr = string(coord, format = '(I0)')
-        com = 'result['+ii+'] = '+structure+'.tag0'+ii+'.solar_y['+coordstr+']'
+        com = 'result['+ii+'] = '+struc+'.tag0'+ii+'.solar_y['+coordstr+']'
         exe = execute(com)
         endfor
     endif

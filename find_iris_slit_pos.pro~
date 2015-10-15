@@ -1,4 +1,4 @@
-function find_iris_slit_pos, coord, structure, y=y
+function find_iris_slit_pos, coord, structure, y=y, a2p = a2p, p2a = p2a
 
 fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
 nn = n_elements(fsp)
