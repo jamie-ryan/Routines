@@ -3,8 +3,8 @@ pro make_energy_sav
 ;;restore data sav files
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
-restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav'
-
+;restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav'
+restore, '/disk/solar3/jsr2/Data/SDO/HMI-diff-15-Oct-15.sav'
 
 ;;date string
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
@@ -49,16 +49,126 @@ qksiyp = 441
 rbsixp = 511 
 rbsiyp = 485 
 
-;SDO HMI 
+;SDO HMI;;;;;;;;;;;;; 
+;;;;;;;;;;;;;;;;;;;;;
+;quake position
 qkxa = 517.2
 qkya = 261.4
-rbxa = 511
-rbya = 272
-rbxpcorr = 39
-rbypcorr = 90
-;;;convert arcsecs to pixels
-qkxp = (qkxa/diffindex[0].cdelt1) + diffindex[0].crpix1 - 1
-qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
+qkxp = convert_coord_hmi(qkxa, /x, /a2p)
+qkyp = convert_coord_hmi(qkya, /y, /a2p)
+
+;south ribbon, from left to right, at 17:45:31 or diff[62]
+hmirbxa = 517.8
+hmirbya = 260.5
+hmirbxp = convert_coord_hmi(hmirbxa, /x, /a2p)
+hmirbyp = convert_coord_hmi(hmirbya, /y, /a2p)
+
+hmirbxa1 = 518.8
+hmirbya1 = 261.0
+hmirbxp1 = convert_coord_hmi(hmirbxa1, /x, /a2p)
+hmirbyp1 = convert_coord_hmi(hmirbya1, /y, /a2p)
+
+hmirbxa2 = 519.7
+hmirbya2 = 261.7
+hmirbxp2 = convert_coord_hmi(hmirbxa2, /x, /a2p)
+hmirbyp2 = convert_coord_hmi(hmirbya2, /y, /a2p)
+
+
+hmirbxa3 = 520.6
+hmirbya3 = 262.3
+hmirbxp3 = convert_coord_hmi(hmirbxa3, /x, /a2p)
+hmirbyp3 = convert_coord_hmi(hmirbya3, /y, /a2p)
+
+hmirbxa4 = 521.7
+hmirbya4 = 262.6
+hmirbxp4 = convert_coord_hmi(hmirbxa4, /x, /a2p)
+hmirbyp4 = convert_coord_hmi(hmirbya4, /y, /a2p)
+
+;;;;;;;;;;;;;;;;
+
+;North ribbon from left to right, at 17:45:31 or diff[62]
+hmirbxa5 = 500.7
+hmirbya5 = 262.7
+hmirbxp5 = convert_coord_hmi(hmirbxa5, /x, /a2p)
+hmirbyp5 = convert_coord_hmi(hmirbya5, /y, /a2p)
+
+hmirbxa6 = 503.8
+hmirbya6 = 265.0
+hmirbxp6 = convert_coord_hmi(hmirbxa6, /x, /a2p)
+hmirbyp6 = convert_coord_hmi(hmirbya6, /y, /a2p)
+
+hmirbxa7 = 506.9
+hmirbya7 = 268.1
+hmirbxp7 = convert_coord_hmi(hmirbxa7, /x, /a2p)
+hmirbyp7 = convert_coord_hmi(hmirbya7, /y, /a2p)
+
+hmirbxa8 = 509.27680
+hmirbya8 = 268.79198
+hmirbxp8 = convert_coord_hmi(hmirbxa8, /x, /a2p)
+hmirbyp8 = convert_coord_hmi(hmirbya8, /y, /a2p)
+
+
+hmirbxa9 = 514.4
+hmirbya9 = 270.1
+hmirbxp9 = convert_coord_hmi(hmirbxa9, /x, /a2p)
+hmirbyp9 = convert_coord_hmi(hmirbya9, /y, /a2p)
+
+
+
+;south ribbon, from left to right, at 17:46:16 or diff[63]
+hmirbxa10 = 518.6
+hmirbya10 = 259.1
+hmirbxp10 = convert_coord_hmi(hmirbxa10, /x, /a2p)
+hmirbyp10 = convert_coord_hmi(hmirbya10, /y, /a2p)
+
+hmirbxa11 = 519.6
+hmirbya11 = 259.3
+hmirbxp11 = convert_coord_hmi(hmirbxa11, /x, /a2p)
+hmirbyp11 = convert_coord_hmi(hmirbya11, /y, /a2p)
+
+hmirbxa12 = 520.6
+hmirbya12 = 259.5
+hmirbxp12 = convert_coord_hmi(hmirbxa12, /x, /a2p)
+hmirbyp12 = convert_coord_hmi(hmirbya12, /y, /a2p)
+
+hmirbxa13 = 521.6
+hmirbya13 = 259.9
+hmirbxp13 = convert_coord_hmi(hmirbxa13, /x, /a2p)
+hmirbyp13 = convert_coord_hmi(hmirbya13, /y, /a2p)
+
+hmirbxa14 = 524.1
+hmirbya14 = 259.7
+hmirbxp14 = convert_coord_hmi(hmirbxa14, /x, /a2p)
+hmirbyp14 = convert_coord_hmi(hmirbya14, /y, /a2p)
+
+;North ribbon, from left to right, at 17:46:16 or diff[63]
+hmirbxa15 = 499.1
+hmirbya15 = 264.7
+hmirbxp15 = convert_coord_hmi(hmirbxa15, /x, /a2p)
+hmirbyp15 = convert_coord_hmi(hmirbya15, /y, /a2p)
+
+hmirbxa16 = 502.1
+hmirbya16 = 263.8
+hmirbxp16 = convert_coord_hmi(hmirbxa16, /x, /a2p)
+hmirbyp16 = convert_coord_hmi(hmirbya16, /y, /a2p)
+
+hmirbxa17 = 504.6
+hmirbya17 = 267.0
+hmirbxp17 = convert_coord_hmi(hmirbxa17, /x, /a2p)
+hmirbyp17 = convert_coord_hmi(hmirbya17, /y, /a2p)
+
+hmirbxa18 = 508.4
+hmirbya18 = 269.8
+hmirbxp18 = convert_coord_hmi(hmirbxa18, /x, /a2p)
+hmirbyp18 = convert_coord_hmi(hmirbya18, /y, /a2p)
+
+hmirbxa14 = 511. ;rbxa,rbxpcorr = 39
+hmirbya14 = 272. ;rbya,rbypcorr = 90
+hmirbxp14 = convert_coord_hmi(hmirbxa14, /x, /a2p)
+hmirbyp14 = convert_coord_hmi(hmirbya14, /y, /a2p)
+
+
+
 
 for j = 0, n_elements(fmg) - 1 do begin
 ;;;;;;;open files 
@@ -194,7 +304,7 @@ com = 'hmi_radiometric_calibration, boxarr'+string(j,format = '(I0)')+ $
 ', n_pixels = nlines, F_area_hmi'+string(j,format = '(I0)')+ $
 ', E_area_hmi'+string(j,format = '(I0)')+''
 exe = execute(com)
-
+endfor
 
 ;;;set up single pixel arrays
 qkmgmax = fltarr(nmg)
@@ -264,11 +374,14 @@ iris_radiometric_calibration, rbmgmax, wave = 2976., n_pixels = 1,Fmgrb, Emgrb, 
 ;;BALMER
 ;sp quake
 for i = 0, nn-1, 1 do begin
-comt = 'timearr[i] = sp2826.'+tagarr[i]+'.time_ccsds[3]'
+comt = 'tslit3[i] = sp2826.'+tagarr[i]+'.time_ccsds[3]'
 exet1 = execute(comt)
 
 comi = 'spboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,3:4,435])/((44-39)*2)'
 exet = execute(comi)
+
+comt = 'tslit0[0] = sp2826.'+tagarr[i]+'.time_ccsds[0]'
+exet1 = execute(comt)
 
 comi = 'rbboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
 exet = execute(comi)
@@ -357,29 +470,44 @@ diff[i].data[qkxp + 1, qkyp + 1]
 endfor
 hmi_radiometric_calibration, qkarea, n_pixels = 9, Fqk_9px_area, Eqk_9px_area
 
+
+;;;make time arrays
+tsi = map1400.time
+tmgii = submg.time
+tmgw = map2832.time
+thmi = diff.time
+
 ;;;make .sav file
 save, $
-;iris flare area
+;iris flare area siiv
 F_area_siiv0, E_area_siiv0, $
 F_area_siiv1, E_area_siiv1, $
 F_area_siiv2, E_area_siiv2, $
 F_area_siiv3, E_area_siiv3, $
+tsi, $
+
+;iris flare area mgii
 F_area_mgii0, E_area_mgii0, $
 F_area_mgii1, E_area_mgii1, $
 F_area_mgii2, E_area_mgii2, $
 F_area_mgii3, E_area_mgii3, $
+tmgii, $
+
+;iris flare area mgw
 F_area_mgiiw0, E_area_mgiiw0, $
 F_area_mgiiw1, E_area_mgiiw1, $
 F_area_mgiiw2, E_area_mgiiw2, $
 F_area_mgiiw3, E_area_mgiiw3, $
+tmgw, $
 
 ;hmi flare area
 F_area_hmi0, E_area_hmi0, $
 F_area_hmi1, E_area_hmi1, $
 F_area_hmi2, E_area_hmi2, $
 F_area_hmi3, E_area_hmi3, $
+thmi, $
 
-;siiv
+;siiv; for time use tsi
 Fsiqk, Esiqk, $
 Fsirb, Esirb, $
 ;Fsirb1, Esirb1, $
@@ -387,7 +515,7 @@ Fsirb, Esirb, $
 ;Fsirb3, Esirb3, $
 ;Fsirb4, Esirb4, $
 
-;mgii
+;mgii; for time use tmgii
 Fmgqk, Emgqk, $
 Fmgrb, Emgrb, $
 ;Fmgrb1, Emgrb1, $
@@ -395,15 +523,17 @@ Fmgrb, Emgrb, $
 ;Fmgrb3, Emgrb3, $
 ;Fmgrb4, Emgrb4, $
 
-;balmer
+;balmer; for time use timearr
 Fspqk, Espqk, $
 Fsprb, Esprb, $
 ;Fsprb1, Esprb1, $
 ;Fsprb2, Esprb2, $
 ;Fsprb3, Esprb3, $
 ;Fsprb4, Esprb4, $
+tslit0, $
+tslit3, $
 
-;mgw
+;mgw; for time use tmgw
 Fmgwqk, Emgwqk, $
 Fmgwrb, Emgwrb, $
 ;Fmgwrb1, Emgwrb1, $
@@ -411,7 +541,7 @@ Fmgwrb, Emgwrb, $
 ;Fmgwrb3, Emgwrb3, $
 ;Fmgwrb4, Emgwrb4, $
 
-;hmi
+;hmi; for time use thmi
 Fhmiqk, Ehmiqk, $
 Fhmirb, Ehmirb, $
 ;Fhmirb1, Ehmirb1, $
@@ -419,7 +549,7 @@ Fhmirb, Ehmirb, $
 ;Fhmirb3, Ehmirb3, $
 ;Fhmirb4, Ehmirb4, $
 Fqk_9px_area, Eqk_9px_area, $
-filename = '29-Mar-2014-energies-for python'+date+'.sav'
+filename = '29-Mar-2014-energies-for-python-'+date+'.sav'
 
 
 end

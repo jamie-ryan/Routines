@@ -625,6 +625,11 @@ qkyp = (qkya/diffindex[0].cdelt2) + diffindex[0].crpix2 - 1
 
 	;sp ribbon
 	for i = 0, nn-1, 1 do begin
+
+
+
+
+
 	endfor
 	;calculate flux and energy
 	w1 = sp2826.tag00.wvl[39]
