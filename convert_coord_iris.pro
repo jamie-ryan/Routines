@@ -21,7 +21,7 @@ if keyword_set(a2p) then begin
     dxa = max_xa - coord
 
     ;calculate number of pixels away from max_xa
-    npix = dax/ind.cdelt1
+    npix = dxa/ind.cdelt1
 
     ;subtract npix from max_xp
     result = max_xp - npix
