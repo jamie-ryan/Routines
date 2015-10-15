@@ -569,23 +569,33 @@ iris_radiometric_calibration, rbmgmax19, wave = 2832., n_pixels = 1,Fmgrb19, Emg
 ;;BALMER
 ;sp quake
 for j = 0, 19, do begin
-com = 
+jj = string(j, format = '(I0)')
+com = 'slitp = find_iris_slit_pos(hmirbxp'+jj+',sp2826)'
+exe = execute(com)
+com = 'spyp = find_iris_slit_pos(hmirbxp'+jj+',sp2826, /y, /a2p)'
 exe = execute(com)
     for i = 0, nn-1, 1 do begin
+    
+    slitpos[i] = string(slitp, format = '(I0)')
+    spyp[i] = string(spyp, format = '(I0)')
 
+    com = 'rbboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,'+slitpos+','+spyp+'])/((44-39))'
+    exe = execute(com)
 
+    com = 'tsprb[i] = sp2826.'+tagarr[i]+'.time_ccsds['+slitpos+']'
+    exe = execute(com)
 
-    comt = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds[3]'
-    exet1 = execute(comt)
+;    comt = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds[3]'
+;    exet1 = execute(comt)
 
-    comi = 'spboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,3:4,435])/((44-39)*2)'
-    exet = execute(comi)
+;    comi = 'spboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,3:4,435])/((44-39)*2)'
+;    exet = execute(comi)
 
-    comt = 'tsprb[0] = sp2826.'+tagarr[i]+'.time_ccsds[0]'
-    exet1 = execute(comt)
+;    comt = 'tsprb[0] = sp2826.'+tagarr[i]+'.time_ccsds[0]'
+;    exet1 = execute(comt)
 
-    comi = 'rbboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
-    exet = execute(comi)
+;    comi = 'rbboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
+;    exet = execute(comi)
 
     ;		comi = 'rbboxarr1[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
     ;		exet = execute(comi)
@@ -598,16 +608,22 @@ exe = execute(com)
 
     ;		comi = 'rbboxarr4[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
     ;		exet = execute(comi)
-
+    ;;calculate flux and energy
     endfor
+wav1 = sp2826.tag00.wvl[39]
+wav2 = sp2826.tag00.wvl[44]
+w1 = string(wav1, format = '(I0)')
+w2 = string(wav2, format = '(I0)')
+com = 'iris_radiometric_calibration, rbboxarr, wave = ['+w1+', '+w2+'], n_pixels = 10, Fsprb'+jj+', Esprb'+jj+' ,/sg
+exe = execute(com)
 endfor
 tsp = timearr
 
-;calculate flux and energy
-w1 = sp2826.tag00.wvl[39]
-w2 = sp2826.tag00.wvl[44]
-iris_radiometric_calibration, spboxarr, wave = [w1, w2], n_pixels = 10,Fspqk, Espqk ,/sg
-iris_radiometric_calibration, rbboxarr, wave = [w1, w2], n_pixels = 5,Fsprb, Esprb ,/sg
+;;;calculate flux and energy
+;w1 = sp2826.tag00.wvl[39]
+;w2 = sp2826.tag00.wvl[44]
+;iris_radiometric_calibration, spboxarr, wave = [w1, w2], n_pixels = 10,Fspqk, Espqk ,/sg
+;iris_radiometric_calibration, rbboxarr, wave = [w1, w2], n_pixels = 5,Fsprb, Esprb ,/sg
 
 
 

@@ -1,22 +1,56 @@
-function find_iris_slit_pos, coord, structure
+function find_iris_slit_pos, coord, structure, y=y
+
+fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
+nn = n_elements(fsp)
+result = fltarr(nn)
+if not keyword_set(y) then begin
 fovx = 8.03
 tmp = fltarr(8)
-result = fltarr(nn)
-for i = 0, nn-1 do begin
-ii = string(i, format = '(I0)')
-com = 'xc = sp2826.tag0'+ii+'.xcen'
-exe = execute(com)
+    for i = 0, nn-1 do begin
+    ii = string(i, format = '(I0)')
+    com = 'xc = '+structure+'.tag0'+ii+'.xcen'
+    exe = execute(com)
 
-    if ((coord gt xc - fovx) && (coord lt xc + fovx)) then begin 
-        
-        for j = 0, 7 do begin
-        jj = string(j, format = '(I0)')
-        com = 'tmp['+jj+'] = abs(coord - sp2826.tag0'+ii+'.solar_x['+jj+'])'
+        if ((coord gt xc - fovx) && (coord lt xc + fovx)) then begin 
+            
+            for j = 0, 7 do begin
+            jj = string(j, format = '(I0)')
+            com = 'tmp['+jj+'] = abs(coord - sp2826.tag0'+ii+'.solar_x['+jj+'])'
+            exe = execute(com)
+            endfor
+        mn = min(tmp, loc)
+        ind = array_indices(tmp, loc)
+        result[i] = ind  
+        endif
+    endfor
+endif
+
+;y pixel or arcsec
+if keyword_set(y) then begin
+npix = 1093.
+tmp = fltarr(npix)
+    ;arc2pix
+    if keyword_set(a2p) then begin
+        for i = 0, nn-1 do begin
+        ii = string(i, format = '(I0)')
+        com = 'tmp = abs(coord - '+structure+'.tag0'+ii+'.solar_y)'
+        exe = execute(com)
+        mn = min(tmp, loc)
+        ind = array_indices(tmp, loc)
+        result[i] = ind  
+        endfor
+    endif
+
+    ;pix2arc
+    if keyword_set(p2a) then begin
+        for i = 0, nn-1 do begin
+        ii = string(i, format = '(I0)')
+        coordstr = string(coord, format = '(I0)')
+        com = 'result['+ii+'] = '+structure+'.tag0'+ii+'.solar_y['+coordstr+']'
         exe = execute(com)
         endfor
-    mn = min(tmp, loc)
-    ind = array_indices(tmp, loc)
-    result[i] = ind  
     endif
-endfor
+
+endif
+return, result
 end

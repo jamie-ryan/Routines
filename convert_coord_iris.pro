@@ -1,5 +1,6 @@
 function convert_coord_iris, coord, ind, x = x, y = y, p2a = p2a, a2p = a2p
 
+
 ;calculate edge locations in arcseconds
 max_xa = ind.crval1+((ind.naxis1/2.)*ind.cdelt1)
 min_xa = ind.crval1-((ind.naxis1/2.)*ind.cdelt1)
@@ -66,7 +67,6 @@ if keyword_set(p2a) then begin
     result = max_ya - narc   
     endif
 endif
-
 
 return, result
 end
