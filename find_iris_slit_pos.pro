@@ -1,9 +1,8 @@
-function find_iris_slit_pos, coord, structure, y=y, a2p = a2p, p2a = p2a
-
+function find_iris_slit_pos, coord, y=y, a2p = a2p, p2a = p2a
+struc = 'sp2826'
 fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
 nn = n_elements(fsp)
 result = fltarr(nn)
-struc = string(structure)
 if not keyword_set(y) then begin
 fovx = 8.03
 tmp = fltarr(8)
