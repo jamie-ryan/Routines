@@ -54,118 +54,118 @@ rbsiyp = 485
 ;quake position
 qkxa = 517.2
 qkya = 261.4
-qkxp = convert_coord_hmi(qkxa, diffindex,  /x, /a2p)
-qkyp = convert_coord_hmi(qkya, diffindex,  /y, /a2p)
+qkxp = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p)
+qkyp = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
 
 ;south ribbon, from left to right, at 17:45:31 or diff[62]
 hmirbxa = 517.8
 hmirbya = 260.5
-hmirbxp = convert_coord_hmi(hmirbxa, diffindex,  /x, /a2p)
-hmirbyp = convert_coord_hmi(hmirbya, diffindex,  /y, /a2p)
+hmirbxp = convert_coord_hmi(hmirbxa, diffindex[62],  /x, /a2p)
+hmirbyp = convert_coord_hmi(hmirbya, diffindex[62],  /y, /a2p)
 
 hmirbxa1 = 518.8
 hmirbya1 = 261.0
-hmirbxp1 = convert_coord_hmi(hmirbxa1, diffindex,  /x, /a2p)
-hmirbyp1 = convert_coord_hmi(hmirbya1, diffindex,  /y, /a2p)
+hmirbxp1 = convert_coord_hmi(hmirbxa1, diffindex[62],  /x, /a2p)
+hmirbyp1 = convert_coord_hmi(hmirbya1, diffindex[62],  /y, /a2p)
 
 hmirbxa2 = 519.7
 hmirbya2 = 261.7
-hmirbxp2 = convert_coord_hmi(hmirbxa2, diffindex,  /x, /a2p)
-hmirbyp2 = convert_coord_hmi(hmirbya2, diffindex,  /y, /a2p)
+hmirbxp2 = convert_coord_hmi(hmirbxa2, diffindex[62],  /x, /a2p)
+hmirbyp2 = convert_coord_hmi(hmirbya2, diffindex[62],  /y, /a2p)
 
 
 hmirbxa3 = 520.6
 hmirbya3 = 262.3
-hmirbxp3 = convert_coord_hmi(hmirbxa3, diffindex,  /x, /a2p)
-hmirbyp3 = convert_coord_hmi(hmirbya3, diffindex,  /y, /a2p)
+hmirbxp3 = convert_coord_hmi(hmirbxa3, diffindex[62],  /x, /a2p)
+hmirbyp3 = convert_coord_hmi(hmirbya3, diffindex[62],  /y, /a2p)
 
 hmirbxa4 = 521.7
 hmirbya4 = 262.6
-hmirbxp4 = convert_coord_hmi(hmirbxa4, diffindex,  /x, /a2p)
-hmirbyp4 = convert_coord_hmi(hmirbya4, diffindex,  /y, /a2p)
+hmirbxp4 = convert_coord_hmi(hmirbxa4, diffindex[62],  /x, /a2p)
+hmirbyp4 = convert_coord_hmi(hmirbya4, diffindex[62],  /y, /a2p)
 
 ;;;;;;;;;;;;;;;;
 
 ;North ribbon from left to right, at 17:45:31 or diff[62]
 hmirbxa5 = 500.7
 hmirbya5 = 262.7
-hmirbxp5 = convert_coord_hmi(hmirbxa5, diffindex,  /x, /a2p)
-hmirbyp5 = convert_coord_hmi(hmirbya5, diffindex,  /y, /a2p)
+hmirbxp5 = convert_coord_hmi(hmirbxa5, diffindex[62],  /x, /a2p)
+hmirbyp5 = convert_coord_hmi(hmirbya5, diffindex[62],  /y, /a2p)
 
 hmirbxa6 = 503.8
 hmirbya6 = 265.0
-hmirbxp6 = convert_coord_hmi(hmirbxa6, diffindex,  /x, /a2p)
-hmirbyp6 = convert_coord_hmi(hmirbya6, diffindex,  /y, /a2p)
+hmirbxp6 = convert_coord_hmi(hmirbxa6, diffindex[62],  /x, /a2p)
+hmirbyp6 = convert_coord_hmi(hmirbya6, diffindex[62],  /y, /a2p)
 
 hmirbxa7 = 506.9
 hmirbya7 = 268.1
-hmirbxp7 = convert_coord_hmi(hmirbxa7, diffindex,  /x, /a2p)
-hmirbyp7 = convert_coord_hmi(hmirbya7, diffindex,  /y, /a2p)
+hmirbxp7 = convert_coord_hmi(hmirbxa7, diffindex[62],  /x, /a2p)
+hmirbyp7 = convert_coord_hmi(hmirbya7, diffindex[62],  /y, /a2p)
 
 hmirbxa8 = 509.27680
 hmirbya8 = 268.79198
-hmirbxp8 = convert_coord_hmi(hmirbxa8, diffindex,  /x, /a2p)
-hmirbyp8 = convert_coord_hmi(hmirbya8, diffindex,  /y, /a2p)
+hmirbxp8 = convert_coord_hmi(hmirbxa8, diffindex[62],  /x, /a2p)
+hmirbyp8 = convert_coord_hmi(hmirbya8, diffindex[62],  /y, /a2p)
 
 
 hmirbxa9 = 514.4
 hmirbya9 = 270.1
-hmirbxp9 = convert_coord_hmi(hmirbxa9, diffindex,  /x, /a2p)
-hmirbyp9 = convert_coord_hmi(hmirbya9, diffindex,  /y, /a2p)
+hmirbxp9 = convert_coord_hmi(hmirbxa9, diffindex[62],  /x, /a2p)
+hmirbyp9 = convert_coord_hmi(hmirbya9, diffindex[62],  /y, /a2p)
 
 
 
 ;south ribbon, from left to right, at 17:46:16 or diff[63]
 hmirbxa10 = 518.6
 hmirbya10 = 259.1
-hmirbxp10 = convert_coord_hmi(hmirbxa10, diffindex,  /x, /a2p)
-hmirbyp10 = convert_coord_hmi(hmirbya10, diffindex,  /y, /a2p)
+hmirbxp10 = convert_coord_hmi(hmirbxa10, diffindex[63],  /x, /a2p)
+hmirbyp10 = convert_coord_hmi(hmirbya10, diffindex[63],  /y, /a2p)
 
 hmirbxa11 = 519.6
 hmirbya11 = 259.3
-hmirbxp11 = convert_coord_hmi(hmirbxa11, diffindex,  /x, /a2p)
-hmirbyp11 = convert_coord_hmi(hmirbya11, diffindex,  /y, /a2p)
+hmirbxp11 = convert_coord_hmi(hmirbxa11, diffindex[63],  /x, /a2p)
+hmirbyp11 = convert_coord_hmi(hmirbya11, diffindex[63],  /y, /a2p)
 
 hmirbxa12 = 520.6
 hmirbya12 = 259.5
-hmirbxp12 = convert_coord_hmi(hmirbxa12, diffindex,  /x, /a2p)
-hmirbyp12 = convert_coord_hmi(hmirbya12, diffindex,  /y, /a2p)
+hmirbxp12 = convert_coord_hmi(hmirbxa12, diffindex[63],  /x, /a2p)
+hmirbyp12 = convert_coord_hmi(hmirbya12, diffindex[63],  /y, /a2p)
 
 hmirbxa13 = 521.6
 hmirbya13 = 259.9
-hmirbxp13 = convert_coord_hmi(hmirbxa13, diffindex,  /x, /a2p)
-hmirbyp13 = convert_coord_hmi(hmirbya13, diffindex,  /y, /a2p)
+hmirbxp13 = convert_coord_hmi(hmirbxa13, diffindex[63],  /x, /a2p)
+hmirbyp13 = convert_coord_hmi(hmirbya13, diffindex[63],  /y, /a2p)
 
 hmirbxa14 = 524.1
 hmirbya14 = 259.7
-hmirbxp14 = convert_coord_hmi(hmirbxa14, diffindex,  /x, /a2p)
-hmirbyp14 = convert_coord_hmi(hmirbya14, diffindex,  /y, /a2p)
+hmirbxp14 = convert_coord_hmi(hmirbxa14, diffindex[63],  /x, /a2p)
+hmirbyp14 = convert_coord_hmi(hmirbya14, diffindex[63],  /y, /a2p)
 
 ;North ribbon, from left to right, at 17:46:16 or diff[63]
 hmirbxa15 = 499.1
 hmirbya15 = 264.7
-hmirbxp15 = convert_coord_hmi(hmirbxa15, diffindex,  /x, /a2p)
-hmirbyp15 = convert_coord_hmi(hmirbya15, diffindex,  /y, /a2p)
+hmirbxp15 = convert_coord_hmi(hmirbxa15, diffindex[63],  /x, /a2p)
+hmirbyp15 = convert_coord_hmi(hmirbya15, diffindex[63],  /y, /a2p)
 
 hmirbxa16 = 502.1
 hmirbya16 = 263.8
-hmirbxp16 = convert_coord_hmi(hmirbxa16, diffindex,  /x, /a2p)
-hmirbyp16 = convert_coord_hmi(hmirbya16, diffindex,  /y, /a2p)
+hmirbxp16 = convert_coord_hmi(hmirbxa16, diffindex[63],  /x, /a2p)
+hmirbyp16 = convert_coord_hmi(hmirbya16, diffindex[63],  /y, /a2p)
 
 hmirbxa17 = 504.6
 hmirbya17 = 267.0
-hmirbxp17 = convert_coord_hmi(hmirbxa17, diffindex,  /x, /a2p)
-hmirbyp17 = convert_coord_hmi(hmirbya17, diffindex,  /y, /a2p)
+hmirbxp17 = convert_coord_hmi(hmirbxa17, diffindex[63],  /x, /a2p)
+hmirbyp17 = convert_coord_hmi(hmirbya17, diffindex[63],  /y, /a2p)
 
 hmirbxa18 = 508.4
 hmirbya18 = 269.8
-hmirbxp18 = convert_coord_hmi(hmirbxa18, diffindex,  /x, /a2p)
-hmirbyp18 = convert_coord_hmi(hmirbya18, diffindex,  /y, /a2p)
+hmirbxp18 = convert_coord_hmi(hmirbxa18, diffindex[63],  /x, /a2p)
+hmirbyp18 = convert_coord_hmi(hmirbya18, diffindex[63],  /y, /a2p)
 
 hmirbxa14 = 511. ;rbxa,rbxpcorr = 39
 hmirbya14 = 272. ;rbya,rbypcorr = 90
-hmirbxp14 = convert_coord_hmi(hmirbxa14, diffindex,  /x, /a2p)
-hmirbyp14 = convert_coord_hmi(hmirbya14, diffindex,  /y, /a2p)
+hmirbxp14 = convert_coord_hmi(hmirbxa14, diffindex[63],  /x, /a2p)
+hmirbyp14 = convert_coord_hmi(hmirbya14, diffindex[63],  /y, /a2p)
 
 
 

@@ -452,23 +452,24 @@ rbimax12[i] = diff[i].data[hmirbxp12, hmirbyp12]
 rbimax13[i] = diff[i].data[hmirbxp13, hmirbyp13]
 rbimax14[i] = diff[i].data[hmirbxp14, hmirbyp14]
 endfor
-;calculate flux and energy???
+
+;calculate flux and energy
 hmi_radiometric_calibration, qkimax, n_pixels = 1, Fhmiqk, Ehmiqk
 hmi_radiometric_calibration, rbimax, n_pixels = 1, Fhmirb, Ehmirb
-;	hmi_radiometric_calibration, rbimax1, n_pixels = 1, Fhmirb1, Ehmirb1
-;	hmi_radiometric_calibration, rbimax2, n_pixels = 1, Fhmirb2, Ehmirb2
-;	hmi_radiometric_calibration, rbimax3, n_pixels = 1, Fhmirb3, Ehmirb3
-;	hmi_radiometric_calibration, rbimax4, n_pixels = 1, Fhmirb4, Ehmirb4
-;	hmi_radiometric_calibration, rbimax5, n_pixels = 1, Fhmirb5, Ehmirb5
-;	hmi_radiometric_calibration, rbimax6, n_pixels = 1, Fhmirb6, Ehmirb6
-;	hmi_radiometric_calibration, rbimax7, n_pixels = 1, Fhmirb7, Ehmirb7
-;	hmi_radiometric_calibration, rbimax8, n_pixels = 1, Fhmirb8, Ehmirb8
-;	hmi_radiometric_calibration, rbimax9, n_pixels = 1, Fhmirb9, Ehmirb9
-;	hmi_radiometric_calibration, rbimax10, n_pixels = 1, Fhmirb10, Ehmirb10
-;	hmi_radiometric_calibration, rbimax11, n_pixels = 1, Fhmirb11, Ehmirb11
-;	hmi_radiometric_calibration, rbimax12, n_pixels = 1, Fhmirb12, Ehmirb12
-;	hmi_radiometric_calibration, rbimax13, n_pixels = 1, Fhmirb13, Ehmirb13
-;	hmi_radiometric_calibration, rbimax14, n_pixels = 1, Fhmirb14, Ehmirb14
+hmi_radiometric_calibration, rbimax1, n_pixels = 1, Fhmirb1, Ehmirb1
+hmi_radiometric_calibration, rbimax2, n_pixels = 1, Fhmirb2, Ehmirb2
+hmi_radiometric_calibration, rbimax3, n_pixels = 1, Fhmirb3, Ehmirb3
+hmi_radiometric_calibration, rbimax4, n_pixels = 1, Fhmirb4, Ehmirb4
+hmi_radiometric_calibration, rbimax5, n_pixels = 1, Fhmirb5, Ehmirb5
+hmi_radiometric_calibration, rbimax6, n_pixels = 1, Fhmirb6, Ehmirb6
+hmi_radiometric_calibration, rbimax7, n_pixels = 1, Fhmirb7, Ehmirb7
+hmi_radiometric_calibration, rbimax8, n_pixels = 1, Fhmirb8, Ehmirb8
+hmi_radiometric_calibration, rbimax9, n_pixels = 1, Fhmirb9, Ehmirb9
+hmi_radiometric_calibration, rbimax10, n_pixels = 1, Fhmirb10, Ehmirb10
+hmi_radiometric_calibration, rbimax11, n_pixels = 1, Fhmirb11, Ehmirb11
+hmi_radiometric_calibration, rbimax12, n_pixels = 1, Fhmirb12, Ehmirb12
+hmi_radiometric_calibration, rbimax13, n_pixels = 1, Fhmirb13, Ehmirb13
+hmi_radiometric_calibration, rbimax14, n_pixels = 1, Fhmirb14, Ehmirb14
 
 
 
