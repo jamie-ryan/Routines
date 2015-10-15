@@ -54,118 +54,118 @@ rbsiyp = 485
 ;quake position
 qkxa = 517.2
 qkya = 261.4
-qkxp = convert_coord_hmi(qkxa, /x, /a2p)
-qkyp = convert_coord_hmi(qkya, /y, /a2p)
+qkxp = convert_coord_hmi(qkxa, diffindex,  /x, /a2p)
+qkyp = convert_coord_hmi(qkya, diffindex,  /y, /a2p)
 
 ;south ribbon, from left to right, at 17:45:31 or diff[62]
 hmirbxa = 517.8
 hmirbya = 260.5
-hmirbxp = convert_coord_hmi(hmirbxa, /x, /a2p)
-hmirbyp = convert_coord_hmi(hmirbya, /y, /a2p)
+hmirbxp = convert_coord_hmi(hmirbxa, diffindex,  /x, /a2p)
+hmirbyp = convert_coord_hmi(hmirbya, diffindex,  /y, /a2p)
 
 hmirbxa1 = 518.8
 hmirbya1 = 261.0
-hmirbxp1 = convert_coord_hmi(hmirbxa1, /x, /a2p)
-hmirbyp1 = convert_coord_hmi(hmirbya1, /y, /a2p)
+hmirbxp1 = convert_coord_hmi(hmirbxa1, diffindex,  /x, /a2p)
+hmirbyp1 = convert_coord_hmi(hmirbya1, diffindex,  /y, /a2p)
 
 hmirbxa2 = 519.7
 hmirbya2 = 261.7
-hmirbxp2 = convert_coord_hmi(hmirbxa2, /x, /a2p)
-hmirbyp2 = convert_coord_hmi(hmirbya2, /y, /a2p)
+hmirbxp2 = convert_coord_hmi(hmirbxa2, diffindex,  /x, /a2p)
+hmirbyp2 = convert_coord_hmi(hmirbya2, diffindex,  /y, /a2p)
 
 
 hmirbxa3 = 520.6
 hmirbya3 = 262.3
-hmirbxp3 = convert_coord_hmi(hmirbxa3, /x, /a2p)
-hmirbyp3 = convert_coord_hmi(hmirbya3, /y, /a2p)
+hmirbxp3 = convert_coord_hmi(hmirbxa3, diffindex,  /x, /a2p)
+hmirbyp3 = convert_coord_hmi(hmirbya3, diffindex,  /y, /a2p)
 
 hmirbxa4 = 521.7
 hmirbya4 = 262.6
-hmirbxp4 = convert_coord_hmi(hmirbxa4, /x, /a2p)
-hmirbyp4 = convert_coord_hmi(hmirbya4, /y, /a2p)
+hmirbxp4 = convert_coord_hmi(hmirbxa4, diffindex,  /x, /a2p)
+hmirbyp4 = convert_coord_hmi(hmirbya4, diffindex,  /y, /a2p)
 
 ;;;;;;;;;;;;;;;;
 
 ;North ribbon from left to right, at 17:45:31 or diff[62]
 hmirbxa5 = 500.7
 hmirbya5 = 262.7
-hmirbxp5 = convert_coord_hmi(hmirbxa5, /x, /a2p)
-hmirbyp5 = convert_coord_hmi(hmirbya5, /y, /a2p)
+hmirbxp5 = convert_coord_hmi(hmirbxa5, diffindex,  /x, /a2p)
+hmirbyp5 = convert_coord_hmi(hmirbya5, diffindex,  /y, /a2p)
 
 hmirbxa6 = 503.8
 hmirbya6 = 265.0
-hmirbxp6 = convert_coord_hmi(hmirbxa6, /x, /a2p)
-hmirbyp6 = convert_coord_hmi(hmirbya6, /y, /a2p)
+hmirbxp6 = convert_coord_hmi(hmirbxa6, diffindex,  /x, /a2p)
+hmirbyp6 = convert_coord_hmi(hmirbya6, diffindex,  /y, /a2p)
 
 hmirbxa7 = 506.9
 hmirbya7 = 268.1
-hmirbxp7 = convert_coord_hmi(hmirbxa7, /x, /a2p)
-hmirbyp7 = convert_coord_hmi(hmirbya7, /y, /a2p)
+hmirbxp7 = convert_coord_hmi(hmirbxa7, diffindex,  /x, /a2p)
+hmirbyp7 = convert_coord_hmi(hmirbya7, diffindex,  /y, /a2p)
 
 hmirbxa8 = 509.27680
 hmirbya8 = 268.79198
-hmirbxp8 = convert_coord_hmi(hmirbxa8, /x, /a2p)
-hmirbyp8 = convert_coord_hmi(hmirbya8, /y, /a2p)
+hmirbxp8 = convert_coord_hmi(hmirbxa8, diffindex,  /x, /a2p)
+hmirbyp8 = convert_coord_hmi(hmirbya8, diffindex,  /y, /a2p)
 
 
 hmirbxa9 = 514.4
 hmirbya9 = 270.1
-hmirbxp9 = convert_coord_hmi(hmirbxa9, /x, /a2p)
-hmirbyp9 = convert_coord_hmi(hmirbya9, /y, /a2p)
+hmirbxp9 = convert_coord_hmi(hmirbxa9, diffindex,  /x, /a2p)
+hmirbyp9 = convert_coord_hmi(hmirbya9, diffindex,  /y, /a2p)
 
 
 
 ;south ribbon, from left to right, at 17:46:16 or diff[63]
 hmirbxa10 = 518.6
 hmirbya10 = 259.1
-hmirbxp10 = convert_coord_hmi(hmirbxa10, /x, /a2p)
-hmirbyp10 = convert_coord_hmi(hmirbya10, /y, /a2p)
+hmirbxp10 = convert_coord_hmi(hmirbxa10, diffindex,  /x, /a2p)
+hmirbyp10 = convert_coord_hmi(hmirbya10, diffindex,  /y, /a2p)
 
 hmirbxa11 = 519.6
 hmirbya11 = 259.3
-hmirbxp11 = convert_coord_hmi(hmirbxa11, /x, /a2p)
-hmirbyp11 = convert_coord_hmi(hmirbya11, /y, /a2p)
+hmirbxp11 = convert_coord_hmi(hmirbxa11, diffindex,  /x, /a2p)
+hmirbyp11 = convert_coord_hmi(hmirbya11, diffindex,  /y, /a2p)
 
 hmirbxa12 = 520.6
 hmirbya12 = 259.5
-hmirbxp12 = convert_coord_hmi(hmirbxa12, /x, /a2p)
-hmirbyp12 = convert_coord_hmi(hmirbya12, /y, /a2p)
+hmirbxp12 = convert_coord_hmi(hmirbxa12, diffindex,  /x, /a2p)
+hmirbyp12 = convert_coord_hmi(hmirbya12, diffindex,  /y, /a2p)
 
 hmirbxa13 = 521.6
 hmirbya13 = 259.9
-hmirbxp13 = convert_coord_hmi(hmirbxa13, /x, /a2p)
-hmirbyp13 = convert_coord_hmi(hmirbya13, /y, /a2p)
+hmirbxp13 = convert_coord_hmi(hmirbxa13, diffindex,  /x, /a2p)
+hmirbyp13 = convert_coord_hmi(hmirbya13, diffindex,  /y, /a2p)
 
 hmirbxa14 = 524.1
 hmirbya14 = 259.7
-hmirbxp14 = convert_coord_hmi(hmirbxa14, /x, /a2p)
-hmirbyp14 = convert_coord_hmi(hmirbya14, /y, /a2p)
+hmirbxp14 = convert_coord_hmi(hmirbxa14, diffindex,  /x, /a2p)
+hmirbyp14 = convert_coord_hmi(hmirbya14, diffindex,  /y, /a2p)
 
 ;North ribbon, from left to right, at 17:46:16 or diff[63]
 hmirbxa15 = 499.1
 hmirbya15 = 264.7
-hmirbxp15 = convert_coord_hmi(hmirbxa15, /x, /a2p)
-hmirbyp15 = convert_coord_hmi(hmirbya15, /y, /a2p)
+hmirbxp15 = convert_coord_hmi(hmirbxa15, diffindex,  /x, /a2p)
+hmirbyp15 = convert_coord_hmi(hmirbya15, diffindex,  /y, /a2p)
 
 hmirbxa16 = 502.1
 hmirbya16 = 263.8
-hmirbxp16 = convert_coord_hmi(hmirbxa16, /x, /a2p)
-hmirbyp16 = convert_coord_hmi(hmirbya16, /y, /a2p)
+hmirbxp16 = convert_coord_hmi(hmirbxa16, diffindex,  /x, /a2p)
+hmirbyp16 = convert_coord_hmi(hmirbya16, diffindex,  /y, /a2p)
 
 hmirbxa17 = 504.6
 hmirbya17 = 267.0
-hmirbxp17 = convert_coord_hmi(hmirbxa17, /x, /a2p)
-hmirbyp17 = convert_coord_hmi(hmirbya17, /y, /a2p)
+hmirbxp17 = convert_coord_hmi(hmirbxa17, diffindex,  /x, /a2p)
+hmirbyp17 = convert_coord_hmi(hmirbya17, diffindex,  /y, /a2p)
 
 hmirbxa18 = 508.4
 hmirbya18 = 269.8
-hmirbxp18 = convert_coord_hmi(hmirbxa18, /x, /a2p)
-hmirbyp18 = convert_coord_hmi(hmirbya18, /y, /a2p)
+hmirbxp18 = convert_coord_hmi(hmirbxa18, diffindex,  /x, /a2p)
+hmirbyp18 = convert_coord_hmi(hmirbya18, diffindex,  /y, /a2p)
 
 hmirbxa14 = 511. ;rbxa,rbxpcorr = 39
 hmirbya14 = 272. ;rbya,rbypcorr = 90
-hmirbxp14 = convert_coord_hmi(hmirbxa14, /x, /a2p)
-hmirbyp14 = convert_coord_hmi(hmirbya14, /y, /a2p)
+hmirbxp14 = convert_coord_hmi(hmirbxa14, diffindex,  /x, /a2p)
+hmirbyp14 = convert_coord_hmi(hmirbya14, diffindex,  /y, /a2p)
 
 
 
@@ -436,11 +436,21 @@ iris_radiometric_calibration, rbmgwmax, wave = 2832., n_pixels = 1,Fmgwrb, Emgwr
 for i = 0, nnn-1, 1 do begin
 ;;calculate contrast value for quake pixel on all frames to save time
 qkimax[i] = diff[i].data[qkxp, qkyp]
-rbimax[i] = diff[i].data[rbxpcorr, rbypcorr]
-;	rbimax1[i] = diff[i].data[rbxpcorr, rbypcorr]
-;	rbimax2[i] = diff[i].data[rbxpcorr, rbypcorr]
-;	rbimax3[i] = diff[i].data[rbxpcorr, rbypcorr]
-;	rbimax4[i] = diff[i].data[rbxpcorr, rbypcorr]
+rbimax[i] = diff[i].data[hmirbxp, hmirbyp]
+rbimax1[i] = diff[i].data[hmirbxp1, hmirbyp1]
+rbimax2[i] = diff[i].data[hmirbxp2, hmirbyp2]
+rbimax3[i] = diff[i].data[hmirbxp3, hmirbyp3]
+rbimax4[i] = diff[i].data[hmirbxp4, hmirbyp4]
+rbimax5[i] = diff[i].data[hmirbxp5, hmirbyp5]
+rbimax6[i] = diff[i].data[hmirbxp6, hmirbyp6]
+rbimax7[i] = diff[i].data[hmirbxp7, hmirbyp7]
+rbimax8[i] = diff[i].data[hmirbxp8, hmirbyp8]
+rbimax9[i] = diff[i].data[hmirbxp9, hmirbyp9]
+rbimax10[i] = diff[i].data[hmirbxp10, hmirbyp10]
+rbimax11[i] = diff[i].data[hmirbxp11, hmirbyp11]
+rbimax12[i] = diff[i].data[hmirbxp12, hmirbyp12]
+rbimax13[i] = diff[i].data[hmirbxp13, hmirbyp13]
+rbimax14[i] = diff[i].data[hmirbxp14, hmirbyp14]
 endfor
 ;calculate flux and energy???
 hmi_radiometric_calibration, qkimax, n_pixels = 1, Fhmiqk, Ehmiqk
@@ -449,6 +459,18 @@ hmi_radiometric_calibration, rbimax, n_pixels = 1, Fhmirb, Ehmirb
 ;	hmi_radiometric_calibration, rbimax2, n_pixels = 1, Fhmirb2, Ehmirb2
 ;	hmi_radiometric_calibration, rbimax3, n_pixels = 1, Fhmirb3, Ehmirb3
 ;	hmi_radiometric_calibration, rbimax4, n_pixels = 1, Fhmirb4, Ehmirb4
+;	hmi_radiometric_calibration, rbimax5, n_pixels = 1, Fhmirb5, Ehmirb5
+;	hmi_radiometric_calibration, rbimax6, n_pixels = 1, Fhmirb6, Ehmirb6
+;	hmi_radiometric_calibration, rbimax7, n_pixels = 1, Fhmirb7, Ehmirb7
+;	hmi_radiometric_calibration, rbimax8, n_pixels = 1, Fhmirb8, Ehmirb8
+;	hmi_radiometric_calibration, rbimax9, n_pixels = 1, Fhmirb9, Ehmirb9
+;	hmi_radiometric_calibration, rbimax10, n_pixels = 1, Fhmirb10, Ehmirb10
+;	hmi_radiometric_calibration, rbimax11, n_pixels = 1, Fhmirb11, Ehmirb11
+;	hmi_radiometric_calibration, rbimax12, n_pixels = 1, Fhmirb12, Ehmirb12
+;	hmi_radiometric_calibration, rbimax13, n_pixels = 1, Fhmirb13, Ehmirb13
+;	hmi_radiometric_calibration, rbimax14, n_pixels = 1, Fhmirb14, Ehmirb14
+
+
 
 ;HMI quake area array...eventually calculate iris quake energy based on solid angle relationship found by trumpet.pro
 qkarea = fltarr(nnn)

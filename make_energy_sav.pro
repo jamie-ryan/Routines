@@ -436,19 +436,42 @@ iris_radiometric_calibration, rbmgwmax, wave = 2832., n_pixels = 1,Fmgwrb, Emgwr
 for i = 0, nnn-1, 1 do begin
 ;;calculate contrast value for quake pixel on all frames to save time
 qkimax[i] = diff[i].data[qkxp, qkyp]
-rbimax[i] = diff[i].data[rbxpcorr, rbypcorr]
-;	rbimax1[i] = diff[i].data[rbxpcorr, rbypcorr]
-;	rbimax2[i] = diff[i].data[rbxpcorr, rbypcorr]
-;	rbimax3[i] = diff[i].data[rbxpcorr, rbypcorr]
-;	rbimax4[i] = diff[i].data[rbxpcorr, rbypcorr]
+rbimax[i] = diff[i].data[hmirbxp, hmirbyp]
+rbimax1[i] = diff[i].data[hmirbxp1, hmirbyp1]
+rbimax2[i] = diff[i].data[hmirbxp2, hmirbyp2]
+rbimax3[i] = diff[i].data[hmirbxp3, hmirbyp3]
+rbimax4[i] = diff[i].data[hmirbxp4, hmirbyp4]
+rbimax5[i] = diff[i].data[hmirbxp5, hmirbyp5]
+rbimax6[i] = diff[i].data[hmirbxp6, hmirbyp6]
+rbimax7[i] = diff[i].data[hmirbxp7, hmirbyp7]
+rbimax8[i] = diff[i].data[hmirbxp8, hmirbyp8]
+rbimax9[i] = diff[i].data[hmirbxp9, hmirbyp9]
+rbimax10[i] = diff[i].data[hmirbxp10, hmirbyp10]
+rbimax11[i] = diff[i].data[hmirbxp11, hmirbyp11]
+rbimax12[i] = diff[i].data[hmirbxp12, hmirbyp12]
+rbimax13[i] = diff[i].data[hmirbxp13, hmirbyp13]
+rbimax14[i] = diff[i].data[hmirbxp14, hmirbyp14]
 endfor
-;calculate flux and energy???
+
+;calculate flux and energy
 hmi_radiometric_calibration, qkimax, n_pixels = 1, Fhmiqk, Ehmiqk
 hmi_radiometric_calibration, rbimax, n_pixels = 1, Fhmirb, Ehmirb
-;	hmi_radiometric_calibration, rbimax1, n_pixels = 1, Fhmirb1, Ehmirb1
-;	hmi_radiometric_calibration, rbimax2, n_pixels = 1, Fhmirb2, Ehmirb2
-;	hmi_radiometric_calibration, rbimax3, n_pixels = 1, Fhmirb3, Ehmirb3
-;	hmi_radiometric_calibration, rbimax4, n_pixels = 1, Fhmirb4, Ehmirb4
+hmi_radiometric_calibration, rbimax1, n_pixels = 1, Fhmirb1, Ehmirb1
+hmi_radiometric_calibration, rbimax2, n_pixels = 1, Fhmirb2, Ehmirb2
+hmi_radiometric_calibration, rbimax3, n_pixels = 1, Fhmirb3, Ehmirb3
+hmi_radiometric_calibration, rbimax4, n_pixels = 1, Fhmirb4, Ehmirb4
+hmi_radiometric_calibration, rbimax5, n_pixels = 1, Fhmirb5, Ehmirb5
+hmi_radiometric_calibration, rbimax6, n_pixels = 1, Fhmirb6, Ehmirb6
+hmi_radiometric_calibration, rbimax7, n_pixels = 1, Fhmirb7, Ehmirb7
+hmi_radiometric_calibration, rbimax8, n_pixels = 1, Fhmirb8, Ehmirb8
+hmi_radiometric_calibration, rbimax9, n_pixels = 1, Fhmirb9, Ehmirb9
+hmi_radiometric_calibration, rbimax10, n_pixels = 1, Fhmirb10, Ehmirb10
+hmi_radiometric_calibration, rbimax11, n_pixels = 1, Fhmirb11, Ehmirb11
+hmi_radiometric_calibration, rbimax12, n_pixels = 1, Fhmirb12, Ehmirb12
+hmi_radiometric_calibration, rbimax13, n_pixels = 1, Fhmirb13, Ehmirb13
+hmi_radiometric_calibration, rbimax14, n_pixels = 1, Fhmirb14, Ehmirb14
+
+
 
 ;HMI quake area array...eventually calculate iris quake energy based on solid angle relationship found by trumpet.pro
 qkarea = fltarr(nnn)
