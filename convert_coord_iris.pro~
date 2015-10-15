@@ -17,7 +17,6 @@ min_yp = 0
 if keyword_set(a2p) then begin
     ;x
     if keyword_set(x) then begin
-    
     ;find difference between max_xa and x in arcsecs
     dxa = max_xa - coord
 
@@ -30,7 +29,6 @@ if keyword_set(a2p) then begin
 
     ;y
     if keyword_set(y) then begin
-    
     ;find difference between max_xa and x in arcsecs
     dya = max_ya - coord
 
@@ -44,8 +42,8 @@ endif
 
 ;pixel to arcsec..coord has to be in pixels
 if keyword_set(p2a) then begin
+    ;x
     if keyword_set(x) then begin
-
     ;find difference between max_xp and x in pixels
     dxp = max_xp - coord
 
@@ -54,11 +52,18 @@ if keyword_set(p2a) then begin
 
     ;subtract narc from max_xa
     result = max_xa - narc   
-
     endif
-
+    
+    ;y
     if keyword_set(y) then begin
-   
+    ;find difference between max_yp and y in pixels
+    dyp = max_yp - coord
+
+    ;calculate number of arcseconds away from max_yp
+    narc = dyp*ind.cdelt2
+
+    ;subtract narc from max_xa
+    result = max_ya - narc   
     endif
 endif
 

@@ -1,4 +1,4 @@
-function convert_coord_iris, coord, index, x = x, y = y, p2a = p2a, a2p = a2p
+function convert_coord_iris, coord, ind, x = x, y = y, p2a = p2a, a2p = a2p
 
 ;calculate edge locations in arcseconds
 max_xa = ind.crval1+((ind.naxis1/2.)*ind.cdelt1)
