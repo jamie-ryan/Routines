@@ -179,7 +179,7 @@ xyx = xpos[0] + 1.3*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = flux
-utplot, map1400[447:*].time, F_area_siiv0[447:*], $ 
+utplot, map1400[447:*].time, E_area_siiv2[447:*], $ 
 base, $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
@@ -205,7 +205,7 @@ xyx = xpos[0] + 1.3*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = flux
-utplot, submg[595:*].time, F_area_mgii0[597:*], $ ;583
+utplot, submg[595:*].time, E_area_mgii2[597:*], $ ;583
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
 ycharsize = 0.65, $
@@ -231,7 +231,7 @@ xyx = xpos[0] + 1.3*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = flux
-utplot, map2832[150:*].time, F_area_mgiiw0[150:*], $
+utplot, map2832[150:*].time, E_area_mgiiw2[150:*], $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
 ycharsize = 0.65, $
@@ -257,7 +257,7 @@ xyx = xpos[0] + 1.3*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = flux
-utplot, diff[36:78].time, F_area_hmi0[36:78], $
+utplot, diff[36:78].time, E_area_hmi2[36:78], $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
 ycharsize = 0.65, $

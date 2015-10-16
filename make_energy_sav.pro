@@ -64,16 +64,16 @@ qkmgwxp = convert_coord_iris(qkxa, sji_2832_hdr[167], /x, /a2p)
 qkmgwyp = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
 
 ;south ribbon, from left to right, at 17:45:31 or diff[62]
-hmirbxa = 517.8
-hmirbya = 260.5
-hmirbxp = convert_coord_hmi(hmirbxa, diffindex[62],  /x, /a2p)
-hmirbyp = convert_coord_hmi(hmirbya, diffindex[62],  /y, /a2p)
-sirbxp = convert_coord_iris(hmirbxa, sji_1400_hdr[495], /x, /a2p)
-sirbyp = convert_coord_iris(hmirbya, sji_1400_hdr[495], /y, /a2p)
-mgrbxp = convert_coord_iris(hmirbxa, sji_2796_hdr[661], /x, /a2p)
-mgrbyp = convert_coord_iris(hmirbya, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp = convert_coord_iris(hmirbxa, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp = convert_coord_iris(hmirbya, sji_2832_hdr[166], /y, /a2p)
+hmirbxa0 = 517.8
+hmirbya0 = 260.5
+hmirbxp0 = convert_coord_hmi(hmirbxa0, diffindex[62],  /x, /a2p)
+hmirbyp0 = convert_coord_hmi(hmirbya0, diffindex[62],  /y, /a2p)
+sirbxp0 = convert_coord_iris(hmirbxa0, sji_1400_hdr[495], /x, /a2p)
+sirbyp0 = convert_coord_iris(hmirbya0, sji_1400_hdr[495], /y, /a2p)
+mgrbxp0 = convert_coord_iris(hmirbxa0, sji_2796_hdr[661], /x, /a2p)
+mgrbyp0 = convert_coord_iris(hmirbya0, sji_2796_hdr[661], /y, /a2p)
+mgwrbxp0 = convert_coord_iris(hmirbxa0, sji_2832_hdr[166], /x, /a2p)
+mgwrbyp0 = convert_coord_iris(hmirbya0, sji_2832_hdr[166], /y, /a2p)
 
 hmirbxa1 = 518.8
 hmirbya1 = 261.0
@@ -132,7 +132,7 @@ mgrbyp5 = convert_coord_iris(hmirbya5, sji_2796_hdr[661], /y, /a2p)
 mgwrbxp5 = convert_coord_iris(hmirbxa5, sji_2832_hdr[166], /x, /a2p)
 mgwrbyp5 = convert_coord_iris(hmirbya5, sji_2832_hdr[166], /y, /a2p)
 
-hmirbxa6 = 503.8 tag
+hmirbxa6 = 503.8 
 hmirbya6 = 265.0
 hmirbxp6 = convert_coord_hmi(hmirbxa6, diffindex[62],  /x, /a2p)
 hmirbyp6 = convert_coord_hmi(hmirbya6, diffindex[62],  /y, /a2p)
@@ -429,306 +429,152 @@ exe = execute(com)
 endfor
 
 ;;;set up single pixel arrays
-qkmgmax = fltarr(nmg)
-rbmgmax = fltarr(nmg)
-qkmgcontrast = fltarr(nmg)
-rbmgcontrast = fltarr(nmg)
-
-qkmgwmax = fltarr(nmgw)
-rbmgwmax = fltarr(nmgw)
-qkmgwcontrast = fltarr(nmgw)
-rbmgwcontrast = fltarr(nmgw)
-
-qksimax = fltarr(nsi)
-rbsimax = fltarr(nsi)
-qksicontrast = fltarr(nsi)
-rbsicontrast = fltarr(nsi)
-
-spboxarr = fltarr(sample*nn)
-tsprb = strarr(sample*nn)
+qkmg = fltarr(nmg)
+qkmgw = fltarr(nmgw)
+qksi = fltarr(nsi)
+qkbalmer = fltarr(sample*nn)
 tspqk = strarr(sample*nn)
-rbboxarr = fltarr(sample*nn)
+qkhmi = fltarr(nnn)
 
-qkimax = fltarr(nnn)
-rbimax = fltarr(nnn)
+
+slitpos = strarr(nn)
+spypos = strarr(nn)
+qkslitpos = strarr(nn)
+qkspypos = strarr(nn)
+
+for j = 0, 19 do begin
+jj = string(j, format = '(I0)')
+
+com = 'rbsi'+jj+' = fltarr(nsi)'
+exe = execute(com)
+com = 'rbmg'+jj+' = fltarr(nmg)'
+exe = execute(com)
+com = 'rbbalmer'+jj+' = fltarr(sample*nn)'
+exe = execute(com)
+com = 'rbmgw'+jj+' = fltarr(nmgw)'
+exe = execute(com)
+com = 'tsprb'+jj+' = strarr(sample*nn)'
+exe = execute(com)
+com = 'rbhmi'+jj+' = fltarr(nnn)'
+exe = execute(com)
 
 
 ;;;;;;;;;FILL ARRAYS
-sirbxp 
-sirbyp 
-mgrbxp 
-mgrbyp 
-mgwrbxp
-mgwrbyp
-;;SI IV 1400
-for i = 0, nsi-1, 1 do begin
-;;calculate contrast value for quake pixel on all frames to save time
-qksimax[i] = map1400[i].data[qksixp, qksiyp] ;qksimax[i] = map1400[387 + i].data[qksixp, qksiyp]
-;;calculate contrast value for ribbon pixels on all frames to save time
-rbsimax[i] = map1400[i].data[sirbxp, sirbyp]
-rbsimax1[i] = map1400[i].data[sirbxp1, sirbyp1]
-rbsimax2[i] = map1400[i].data[sirbxp2, sirbyp2]
-rbsimax3[i] = map1400[i].data[sirbxp3, sirbyp3]
-rbsimax4[i] = map1400[i].data[sirbxp4, sirbyp4]
-rbsimax5[i] = map1400[i].data[sirbxp5, sirbyp5]
-rbsimax6[i] = map1400[i].data[sirbxp6, sirbyp6]
-rbsimax7[i] = map1400[i].data[sirbxp7, sirbyp7]
-rbsimax8[i] = map1400[i].data[sirbxp8, sirbyp8]
-rbsimax9[i] = map1400[i].data[sirbxp9, sirbyp9]
-rbsimax10[i] = map1400[i].data[sirbxp10, sirbyp10]
-rbsimax11[i] = map1400[i].data[sirbxp11, sirbyp11]
-rbsimax12[i] = map1400[i].data[sirbxp12, sirbyp12]
-rbsimax13[i] = map1400[i].data[sirbxp13, sirbyp13]
-rbsimax14[i] = map1400[i].data[sirbxp14, sirbyp14]
-rbsimax15[i] = map1400[i].data[sirbxp15, sirbyp15]
-rbsimax16[i] = map1400[i].data[sirbxp16, sirbyp16]
-rbsimax17[i] = map1400[i].data[sirbxp17, sirbyp17]
-rbsimax18[i] = map1400[i].data[sirbxp18, sirbyp18]
-rbsimax19[i] = map1400[i].data[sirbxp19, sirbyp19] ; original ribbon coords
-endfor
 
-;calculate flux and energy
-iris_radiometric_calibration, qksimax, wave = 1400., n_pixels = 1, Fsiqk, Esiqk, /sji
-iris_radiometric_calibration, rbsimax, wave = 1400., n_pixels = 1,Fsirb, Esirb, /sji
-iris_radiometric_calibration, rbsimax1, wave = 2832., n_pixels = 1,Fsirb1, Esirb1, /sji
-iris_radiometric_calibration, rbsimax2, wave = 2832., n_pixels = 1,Fsirb2, Esirb2, /sji
-iris_radiometric_calibration, rbsimax3, wave = 2832., n_pixels = 1,Fsirb3, Esirb3, /sji
-iris_radiometric_calibration, rbsimax4, wave = 2832., n_pixels = 1,Fsirb4, Esirb4, /sji
-iris_radiometric_calibration, rbsimax5, wave = 2832., n_pixels = 1,Fsirb5, Esirb5, /sji
-iris_radiometric_calibration, rbsimax6, wave = 2832., n_pixels = 1,Fsirb6, Esirb6, /sji
-iris_radiometric_calibration, rbsimax7, wave = 2832., n_pixels = 1,Fsirb7, Esirb7, /sji
-iris_radiometric_calibration, rbsimax8, wave = 2832., n_pixels = 1,Fsirb8, Esirb8, /sji
-iris_radiometric_calibration, rbsimax9, wave = 2832., n_pixels = 1,Fsirb9, Esirb9, /sji
-iris_radiometric_calibration, rbsimax10, wave = 2832., n_pixels = 1,Fsirb10, Esirb10, /sji
-iris_radiometric_calibration, rbsimax11, wave = 2832., n_pixels = 1,Fsirb11, Esirb11, /sji
-iris_radiometric_calibration, rbsimax12, wave = 2832., n_pixels = 1,Fsirb12, Esirb12, /sji
-iris_radiometric_calibration, rbsimax13, wave = 2832., n_pixels = 1,Fsirb13, Esirb13, /sji
-iris_radiometric_calibration, rbsimax14, wave = 2832., n_pixels = 1,Fsirb14, Esirb14, /sji
-iris_radiometric_calibration, rbsimax15, wave = 2832., n_pixels = 1,Fsirb15, Esirb15, /sji
-iris_radiometric_calibration, rbsimax16, wave = 2832., n_pixels = 1,Fsirb16, Esirb16, /sji
-iris_radiometric_calibration, rbsimax17, wave = 2832., n_pixels = 1,Fsirb17, Esirb17, /sji
-iris_radiometric_calibration, rbsimax18, wave = 2832., n_pixels = 1,Fsirb18, Esirb18, /sji
-iris_radiometric_calibration, rbsimax19, wave = 2832., n_pixels = 1,Fsirb19, Esirb19, /sji
-
-;	iris_radiometric_calibration, rbsimax1, wave = 1400., n_pixels = 1,Fsirb1, Esirb1, /sji
-;	iris_radiometric_calibration, rbsimax2, wave = 1400., n_pixels = 1,Fsirb2, Esirb2, /sji
-;	iris_radiometric_calibration, rbsimax3, wave = 1400., n_pixels = 1,Fsirb3, Esirb3, /sji
-;	iris_radiometric_calibration, rbsimax4, wave = 1400., n_pixels = 1,Fsirb4, Esirb4, /sji
-
-;;MG II 2796
-for i = 0, nmg-1, 1 do begin
-;;calculate contrast value for quake pixel on all frames to save time
-qkmgmax[i] = submg[i].data[qkmgxp, qkmgyp] ;qkmgmax[i] = submg[17 + i].data[qkmgxp, qkmgyp]
-;;calculate contrast value for ribbon pixel on all frames to save time
-rbmgmax[i] = submg[i].data[mgrbxp, mgrbyp] 
-rbmgmax1[i] = submg[i].data[mgrbxp1, mgrbyp1]
-rbmgmax2[i] = submg[i].data[mgrbxp2, mgrbyp2]
-rbmgmax3[i] = submg[i].data[mgrbxp3, mgrbyp3]
-rbmgmax4[i] = submg[i].data[mgrbxp4, mgrbyp4]
-rbmgmax5[i] = submg[i].data[mgrbxp5, mgrbyp5]
-rbmgmax6[i] = submg[i].data[mgrbxp6, mgrbyp6]
-rbmgmax7[i] = submg[i].data[mgrbxp7, mgrbyp7]
-rbmgmax8[i] = submg[i].data[mgrbxp8, mgrbyp8]
-rbmgmax9[i] = submg[i].data[mgrbxp9, mgrbyp9]
-rbmgmax10[i] = submg[i].data[mgrbxp10, mgrbyp10]
-rbmgmax11[i] = submg[i].data[mgrbxp11, mgrbyp11]
-rbmgmax12[i] = submg[i].data[mgrbxp12, mgrbyp12]
-rbmgmax13[i] = submg[i].data[mgrbxp13, mgrbyp13]
-rbmgmax14[i] = submg[i].data[mgrbxp14, mgrbyp14]
-rbmgmax15[i] = submg[i].data[mgrbxp15, mgrbyp15]
-rbmgmax16[i] = submg[i].data[mgrbxp16, mgrbyp16]
-rbmgmax17[i] = submg[i].data[mgrbxp17, mgrbyp17]
-rbmgmax18[i] = submg[i].data[mgrbxp18, mgrbyp18]
-rbmgmax19[i] = submg[i].data[mgrbxp19, mgrbyp19]
-endfor
-
-;calculate flux and energy
-iris_radiometric_calibration, qkmgmax, wave = 2976., n_pixels = 1,Fmgqk, Emgqk, /sji
-iris_radiometric_calibration, rbmgmax, wave = 2976., n_pixels = 1,Fmgrb, Emgrb, /sji
-iris_radiometric_calibration, rbmgmax1, wave = 2832., n_pixels = 1,Fmgrb1, Emgrb1, /sji
-iris_radiometric_calibration, rbmgmax2, wave = 2832., n_pixels = 1,Fmgrb2, Emgrb2, /sji
-iris_radiometric_calibration, rbmgmax3, wave = 2832., n_pixels = 1,Fmgrb3, Emgrb3, /sji
-iris_radiometric_calibration, rbmgmax4, wave = 2832., n_pixels = 1,Fmgrb4, Emgrb4, /sji
-iris_radiometric_calibration, rbmgmax5, wave = 2832., n_pixels = 1,Fmgrb5, Emgrb5, /sji
-iris_radiometric_calibration, rbmgmax6, wave = 2832., n_pixels = 1,Fmgrb6, Emgrb6, /sji
-iris_radiometric_calibration, rbmgmax7, wave = 2832., n_pixels = 1,Fmgrb7, Emgrb7, /sji
-iris_radiometric_calibration, rbmgmax8, wave = 2832., n_pixels = 1,Fmgrb8, Emgrb8, /sji
-iris_radiometric_calibration, rbmgmax9, wave = 2832., n_pixels = 1,Fmgrb9, Emgrb9, /sji
-iris_radiometric_calibration, rbmgmax10, wave = 2832., n_pixels = 1,Fmgrb10, Emgrb10, /sji
-iris_radiometric_calibration, rbmgmax11, wave = 2832., n_pixels = 1,Fmgrb11, Emgrb11, /sji
-iris_radiometric_calibration, rbmgmax12, wave = 2832., n_pixels = 1,Fmgrb12, Emgrb12, /sji
-iris_radiometric_calibration, rbmgmax13, wave = 2832., n_pixels = 1,Fmgrb13, Emgrb13, /sji
-iris_radiometric_calibration, rbmgmax14, wave = 2832., n_pixels = 1,Fmgrb14, Emgrb14, /sji
-iris_radiometric_calibration, rbmgmax15, wave = 2832., n_pixels = 1,Fmgrb15, Emgrb15, /sji
-iris_radiometric_calibration, rbmgmax16, wave = 2832., n_pixels = 1,Fmgrb16, Emgrb16, /sji
-iris_radiometric_calibration, rbmgmax17, wave = 2832., n_pixels = 1,Fmgrb17, Emgrb17, /sji
-iris_radiometric_calibration, rbmgmax18, wave = 2832., n_pixels = 1,Fmgrb18, Emgrb18, /sji
-iris_radiometric_calibration, rbmgmax19, wave = 2832., n_pixels = 1,Fmgrb19, Emgrb19, /sji
-
-
-;;BALMER
-;sp quake
-for j = 0, 19, do begin
-jj = string(j, format = '(I0)')
-com = 'slitp = find_iris_slit_pos(hmirbxp'+jj+',sp2826)'
-exe = execute(com)
-com = 'spyp = find_iris_slit_pos(hmirbxp'+jj+',sp2826, /y, /a2p)'
-exe = execute(com)
-    for i = 0, nn-1, 1 do begin
-    
-    slitpos[i] = string(slitp, format = '(I0)')
-    spyp[i] = string(spyp, format = '(I0)')
-
-    com = 'rbboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,'+slitpos+','+spyp+'])/((44-39))'
+    ;;SI IV 1400
+    for i = 0, nsi-1, 1 do begin
+        if (j eq 19) then begin
+        qksi[i] = map1400[i].data[qksixp, qksiyp]
+        endif
+    com = 'rbsi'+jj+'[i] = map1400[i].data[sirbxp'+jj+', sirbyp'+jj+']'
     exe = execute(com)
-
-    com = 'tsprb[i] = sp2826.'+tagarr[i]+'.time_ccsds['+slitpos+']'
-    exe = execute(com)
-
-;    comt = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds[3]'
-;    exet1 = execute(comt)
-
-;    comi = 'spboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,3:4,435])/((44-39)*2)'
-;    exet = execute(comi)
-
-;    comt = 'tsprb[0] = sp2826.'+tagarr[i]+'.time_ccsds[0]'
-;    exet1 = execute(comt)
-
-;    comi = 'rbboxarr[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
-;    exet = execute(comi)
-
-    ;		comi = 'rbboxarr1[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
-    ;		exet = execute(comi)
-
-    ;		comi = 'rbboxarr2[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
-    ;		exet = execute(comi)
-
-    ;		comi = 'rbboxarr3[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
-    ;		exet = execute(comi)
-
-    ;		comi = 'rbboxarr4[i] = total(sp2826.'+tagarr[i]+'.int[39:44,0,485.5])/((44-39))'
-    ;		exet = execute(comi)
-
     endfor
-;;calculate flux and energy
-wav1 = sp2826.tag00.wvl[39]
-wav2 = sp2826.tag00.wvl[44]
-w1 = string(wav1, format = '(I0)')
-w2 = string(wav2, format = '(I0)')
-com = 'iris_radiometric_calibration, rbboxarr, wave = ['+w1+', '+w2+'], n_pixels = 10, Fsprb'+jj+', Esprb'+jj+' ,/sg
-exe = execute(com)
+    ;calculate flux and energy
+        if (j eq 19) then begin
+        iris_radiometric_calibration, qksi, wave = 1400., n_pixels = 1, Fsiqk, Esiqk, /sji
+        endif    
+    com = 'iris_radiometric_calibration, rbsi'+jj+', wave = 1400., n_pixels = 1,Fsirb'+jj+', Esirb'+jj+', /sji'
+    exe = execute(com)
+    
+
+    ;;MG II 2796
+    for i = 0, nmg-1, 1 do begin
+        if (j eq 19) then begin
+        qkmg[i] = submg[i].data[qkmgxp, qkmgyp] ;qkmg[i] = submg[17 + i].data[qkmgxp, qkmgyp]
+        endif
+    com = 'rbmg'+jj+'[i] = submg[i].data[mgrbxp'+jj+', mgrbyp'+jj+']' 
+    exe = execute(com)
+    endfor
+        if (j eq 19) then begin
+        ;calculate flux and energy
+        iris_radiometric_calibration, qkmg, wave = 2976., n_pixels = 1,Fmgqk, Emgqk, /sji
+        endif
+    com = 'iris_radiometric_calibration, rbmg'+jj+', wave = 2976., n_pixels = 1,Fmgrb'+jj+', Emgrb'+jj+', /sji'
+    exe = execute(com)
+    
+
+    ;;BALMER
+    com = 'slitp = find_iris_slit_pos(hmirbxp'+jj+',sp2826)'
+    exe = execute(com)
+    com = 'spyp = find_iris_slit_pos(hmirbyp'+jj+',sp2826, /y, /a2p)'
+    exe = execute(com)
+    if (j eq 19) then begin
+    com = 'qkslitp = find_iris_slit_pos(qkxa,sp2826)'
+    exe = execute(com)
+    com = 'qkspyp = find_iris_slit_pos(qkya,sp2826, /y, /a2p)'
+    exe = execute(com)
+    endif
+        for i = 0, nn-1, 1 do begin  
+        slitpos = string(slitp[i], format = '(I0)')
+        spypos = string(spyp[i], format = '(I0)')
+
+        com = 'rbbalmer'+jj+'[i] = total(sp2826.'+tagarr[i]+'.int[39:44,'+slitpos+','+spypos+'])/((44-39))'
+        exe = execute(com)
+
+        com = 'tsprb'+jj+'[i] = sp2826.'+tagarr[i]+'.time_ccsds['+slitpos+']'
+        exe = execute(com)
+        
+        if (j eq 19) then begin
+        qkslitpos = string(qkslitp[i], format = '(I0)')
+        qkspypos = string(qkspyp[i], format = '(I0)')
+
+        com = 'qkbalmer[i] = total(sp2826.'+tagarr[i]+'.int[39:44,'+qkslitpos+','+qkspypos+'])/((44-39))'
+        exe = execute(com)
+
+        com = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds['+qkslitpos+']'
+        exe = execute(com)
+        
+        endif
+        endfor
+    ;;calculate flux and energy
+    wav1 = sp2826.tag00.wvl[39]
+    wav2 = sp2826.tag00.wvl[44]
+    w1 = string(wav1, format = '(I0)')
+    w2 = string(wav2, format = '(I0)')
+        if (j eq 19) then begin
+        iris_radiometric_calibration, qkbalmer, wave = [wav1, wav2], n_pixels = 10, Fqkbalmer, Eqkbalmer, /sg
+        endif
+    com = 'iris_radiometric_calibration, rbbalmer'+jj+', wave = ['+w1+', '+w2+'], n_pixels = 10, Frbbalmer'+jj+', Erbbalmer'+jj+' ,/sg'
+    exe = execute(com)
+
+
+
+
+    ;;MGW 2832
+    for i = 0, nmgw-1, 1 do begin
+        if (j eq 19) then begin
+        qkmgw[i] = map2832[i].data[qkmgwxp,qkmgwyp ]  ;559, 441
+        endif
+
+    com = 'rbmgw'+jj+'[i] = map2832[i].data[mgwrbxp'+jj+', mgwrbyp'+jj+']'
+    exe = execute(com)
+    endfor   
+
+    ;calculate flux and energy
+        if (j eq 19) then begin
+        iris_radiometric_calibration, qkmgw, wave = 2832., n_pixels = 1,Fmgwqk, Emgwqk, /sji
+        endif
+
+    com = 'iris_radiometric_calibration, rbmgw'+jj+', wave = 2832., n_pixels = 1,Fmgwrb'+jj+', Emgwrb'+jj+', /sji'
+    exe = execute(com)
+
+    ;HMI single pixel
+    for i = 0, nnn-1, 1 do begin
+        if (j eq 19) then begin
+        qkhmi[i] = diff[i].data[qkxp, qkyp]
+        endif
+    com = 'rbhmi'+jj+'[i] = diff[i].data[hmirbxp'+jj+', hmirbyp'+jj+']'
+    exe = execute(com)
+    endfor
+
+    ;calculate flux and energy
+        if (j eq 19) then begin
+        hmi_radiometric_calibration, qkhmi, n_pixels = 1, Fhmiqk, Ehmiqk
+        endif
+  
+    com = 'hmi_radiometric_calibration, rbhmi'+jj+', n_pixels = 1, Fhmirb'+jj+', Ehmirb'+jj+''
+    exe = execute(com)
 endfor
-tsp = timearr
-
-;;;calculate flux and energy
-;w1 = sp2826.tag00.wvl[39]
-;w2 = sp2826.tag00.wvl[44]
-;iris_radiometric_calibration, spboxarr, wave = [w1, w2], n_pixels = 10,Fspqk, Espqk ,/sg
-;iris_radiometric_calibration, rbboxarr, wave = [w1, w2], n_pixels = 5,Fsprb, Esprb ,/sg
-
-
-
-;;MGW 2832
-for i = 0, nmgw-1, 1 do begin
-;;calculate contrast value for quake pixel on all frames to save time
-qkmgwmax[i] = map2832[i].data[qkmgwxp,qkmgwyp ]  ;559, 441
-;;calculate contrast value for ribbon pixel on all frames to save time
-rbmgwmax[i] = map2832[i].data[mgwrbxp, mgwrbyp]
-rbmgwmax1[i] = map2832[i].data[mgwrbxp1, mgwrbyp1]
-rbmgwmax2[i] = map2832[i].data[mgwrbxp2, mgwrbyp2]
-rbmgwmax3[i] = map2832[i].data[mgwrbxp3, mgwrbyp3]
-rbmgwmax4[i] = map2832[i].data[mgwrbxp4, mgwrbyp4]
-rbmgwmax5[i] = map2832[i].data[mgwrbxp5, mgwrbyp5]
-rbmgwmax6[i] = map2832[i].data[mgwrbxp6, mgwrbyp6]
-rbmgwmax7[i] = map2832[i].data[mgwrbxp7, mgwrbyp7]
-rbmgwmax8[i] = map2832[i].data[mgwrbxp8, mgwrbyp8]
-rbmgwmax9[i] = map2832[i].data[mgwrbxp9, mgwrbyp9]
-rbmgwmax10[i] = map2832[i].data[mgwrbxp10, mgwrbyp10]
-rbmgwmax11[i] = map2832[i].data[mgwrbxp11, mgwrbyp11]
-rbmgwmax12[i] = map2832[i].data[mgwrbxp12, mgwrbyp12]
-rbmgwmax13[i] = map2832[i].data[mgwrbxp13, mgwrbyp13]
-rbmgwmax14[i] = map2832[i].data[mgwrbxp14, mgwrbyp14]
-rbmgwmax15[i] = map2832[i].data[mgwrbxp15, mgwrbyp15]
-rbmgwmax16[i] = map2832[i].data[mgwrbxp16, mgwrbyp16]
-rbmgwmax17[i] = map2832[i].data[mgwrbxp17, mgwrbyp17]
-rbmgwmax18[i] = map2832[i].data[mgwrbxp18, mgwrbyp18]
-rbmgwmax19[i] = map2832[i].data[mgwrbxp19, mgwrbyp19]
-endfor   
-
-;calculate flux and energy
-iris_radiometric_calibration, qkmgwmax, wave = 2832., n_pixels = 1,Fmgwqk, Emgwqk, /sji
-iris_radiometric_calibration, rbmgwmax, wave = 2832., n_pixels = 1,Fmgwrb, Emgwrb, /sji
-iris_radiometric_calibration, rbmgwmax1, wave = 2832., n_pixels = 1,Fmgwrb1, Emgwrb1, /sji
-iris_radiometric_calibration, rbmgwmax2, wave = 2832., n_pixels = 1,Fmgwrb2, Emgwrb2, /sji
-iris_radiometric_calibration, rbmgwmax3, wave = 2832., n_pixels = 1,Fmgwrb3, Emgwrb3, /sji
-iris_radiometric_calibration, rbmgwmax4, wave = 2832., n_pixels = 1,Fmgwrb4, Emgwrb4, /sji
-iris_radiometric_calibration, rbmgwmax5, wave = 2832., n_pixels = 1,Fmgwrb5, Emgwrb5, /sji
-iris_radiometric_calibration, rbmgwmax6, wave = 2832., n_pixels = 1,Fmgwrb6, Emgwrb6, /sji
-iris_radiometric_calibration, rbmgwmax7, wave = 2832., n_pixels = 1,Fmgwrb7, Emgwrb7, /sji
-iris_radiometric_calibration, rbmgwmax8, wave = 2832., n_pixels = 1,Fmgwrb8, Emgwrb8, /sji
-iris_radiometric_calibration, rbmgwmax9, wave = 2832., n_pixels = 1,Fmgwrb9, Emgwrb9, /sji
-iris_radiometric_calibration, rbmgwmax10, wave = 2832., n_pixels = 1,Fmgwrb10, Emgwrb10, /sji
-iris_radiometric_calibration, rbmgwmax11, wave = 2832., n_pixels = 1,Fmgwrb11, Emgwrb11, /sji
-iris_radiometric_calibration, rbmgwmax12, wave = 2832., n_pixels = 1,Fmgwrb12, Emgwrb12, /sji
-iris_radiometric_calibration, rbmgwmax13, wave = 2832., n_pixels = 1,Fmgwrb13, Emgwrb13, /sji
-iris_radiometric_calibration, rbmgwmax14, wave = 2832., n_pixels = 1,Fmgwrb14, Emgwrb14, /sji
-iris_radiometric_calibration, rbmgwmax15, wave = 2832., n_pixels = 1,Fmgwrb15, Emgwrb15, /sji
-iris_radiometric_calibration, rbmgwmax16, wave = 2832., n_pixels = 1,Fmgwrb16, Emgwrb16, /sji
-iris_radiometric_calibration, rbmgwmax17, wave = 2832., n_pixels = 1,Fmgwrb17, Emgwrb17, /sji
-iris_radiometric_calibration, rbmgwmax18, wave = 2832., n_pixels = 1,Fmgwrb18, Emgwrb18, /sji
-iris_radiometric_calibration, rbmgwmax19, wave = 2832., n_pixels = 1,Fmgwrb19, Emgwrb19, /sji
-
-
-;HMI single pixel
-for i = 0, nnn-1, 1 do begin
-;;calculate contrast value for quake pixel on all frames to save time
-qkimax[i] = diff[i].data[qkxp, qkyp]
-rbimax[i] = diff[i].data[hmirbxp, hmirbyp]
-rbimax1[i] = diff[i].data[hmirbxp1, hmirbyp1]
-rbimax2[i] = diff[i].data[hmirbxp2, hmirbyp2]
-rbimax3[i] = diff[i].data[hmirbxp3, hmirbyp3]
-rbimax4[i] = diff[i].data[hmirbxp4, hmirbyp4]
-rbimax5[i] = diff[i].data[hmirbxp5, hmirbyp5]
-rbimax6[i] = diff[i].data[hmirbxp6, hmirbyp6]
-rbimax7[i] = diff[i].data[hmirbxp7, hmirbyp7]
-rbimax8[i] = diff[i].data[hmirbxp8, hmirbyp8]
-rbimax9[i] = diff[i].data[hmirbxp9, hmirbyp9]
-rbimax10[i] = diff[i].data[hmirbxp10, hmirbyp10]
-rbimax11[i] = diff[i].data[hmirbxp11, hmirbyp11]
-rbimax12[i] = diff[i].data[hmirbxp12, hmirbyp12]
-rbimax13[i] = diff[i].data[hmirbxp13, hmirbyp13]
-rbimax14[i] = diff[i].data[hmirbxp14, hmirbyp14]
-rbimax15[i] = diff[i].data[hmirbxp15, hmirbyp15]
-rbimax16[i] = diff[i].data[hmirbxp16, hmirbyp16]
-rbimax17[i] = diff[i].data[hmirbxp17, hmirbyp17]
-rbimax18[i] = diff[i].data[hmirbxp18, hmirbyp18]
-rbimax19[i] = diff[i].data[hmirbxp19, hmirbyp19] ;original ribbon location
-
-endfor
-
-;calculate flux and energy
-hmi_radiometric_calibration, qkimax, n_pixels = 1, Fhmiqk, Ehmiqk
-hmi_radiometric_calibration, rbimax, n_pixels = 1, Fhmirb, Ehmirb
-hmi_radiometric_calibration, rbimax1, n_pixels = 1, Fhmirb1, Ehmirb1
-hmi_radiometric_calibration, rbimax2, n_pixels = 1, Fhmirb2, Ehmirb2
-hmi_radiometric_calibration, rbimax3, n_pixels = 1, Fhmirb3, Ehmirb3
-hmi_radiometric_calibration, rbimax4, n_pixels = 1, Fhmirb4, Ehmirb4
-hmi_radiometric_calibration, rbimax5, n_pixels = 1, Fhmirb5, Ehmirb5
-hmi_radiometric_calibration, rbimax6, n_pixels = 1, Fhmirb6, Ehmirb6
-hmi_radiometric_calibration, rbimax7, n_pixels = 1, Fhmirb7, Ehmirb7
-hmi_radiometric_calibration, rbimax8, n_pixels = 1, Fhmirb8, Ehmirb8
-hmi_radiometric_calibration, rbimax9, n_pixels = 1, Fhmirb9, Ehmirb9
-hmi_radiometric_calibration, rbimax10, n_pixels = 1, Fhmirb10, Ehmirb10
-hmi_radiometric_calibration, rbimax11, n_pixels = 1, Fhmirb11, Ehmirb11
-hmi_radiometric_calibration, rbimax12, n_pixels = 1, Fhmirb12, Ehmirb12
-hmi_radiometric_calibration, rbimax13, n_pixels = 1, Fhmirb13, Ehmirb13
-hmi_radiometric_calibration, rbimax14, n_pixels = 1, Fhmirb14, Ehmirb14
-hmi_radiometric_calibration,rbimax15,n_pixels = 1,Fhmirb15,Ehmirb15
-hmi_radiometric_calibration,rbimax16,n_pixels = 1,Fhmirb16,Ehmirb16
-hmi_radiometric_calibration,rbimax17,n_pixels = 1,Fhmirb17,Ehmirb17
-hmi_radiometric_calibration,rbimax18,n_pixels = 1,Fhmirb18,Ehmirb18
-hmi_radiometric_calibration,rbimax19,n_pixels = 1,Fhmirb19,Ehmirb19
-
 
 ;HMI quake area array...eventually calculate iris quake energy based on solid angle relationship found by trumpet.pro
 qkarea = fltarr(nnn)
@@ -789,7 +635,7 @@ thmi, $
 
 ;siiv; for time use tsi
 Fsiqk, Esiqk, $
-Fsirb, Esirb, $
+Fsirb0, Esirb0, $
 Fsirb1, Esirb1, $
 Fsirb2, Esirb2, $
 Fsirb3, Esirb3, $
@@ -812,7 +658,7 @@ Fsirb19, Esirb19, $
 
 ;mgii; for time use tmgii
 Fmgqk, Emgqk, $
-Fmgrb, Emgrb, $
+Fmgrb0, Emgrb0, $
 Fmgrb1, Emgrb1, $
 Fmgrb2, Emgrb2, $
 Fmgrb3, Emgrb3, $
@@ -834,14 +680,51 @@ Fmgrb18, Emgrb18, $
 Fmgrb19, Emgrb19, $
 
 ;balmer; for time use timearr
-Fspqk, Espqk, $
-Fsprb, Esprb, $
-tslit0, $
-tslit3, $
-
+Fqkbalmer, Eqkbalmer, $
+Frbbalmer0, Erbbalmer0, $
+Frbbalmer1, Erbbalmer1, $
+Frbbalmer2, Erbbalmer2, $
+Frbbalmer3, Erbbalmer3, $
+Frbbalmer4, Erbbalmer4, $
+Frbbalmer5, Erbbalmer5, $
+Frbbalmer6, Erbbalmer6, $
+Frbbalmer7, Erbbalmer7, $
+Frbbalmer8, Erbbalmer8, $
+Frbbalmer9, Erbbalmer9, $
+Frbbalmer10, Erbbalmer10, $
+Frbbalmer11, Erbbalmer11, $
+Frbbalmer12, Erbbalmer12, $
+Frbbalmer13, Erbbalmer13, $
+Frbbalmer14, Erbbalmer14, $
+Frbbalmer15, Erbbalmer15, $
+Frbbalmer16, Erbbalmer16, $
+Frbbalmer17, Erbbalmer17, $
+Frbbalmer18, Erbbalmer18, $
+Frbbalmer19, Erbbalmer19, $
+tspqk, $
+tsprb0, $
+tsprb1, $
+tsprb2, $
+tsprb3, $
+tsprb4, $
+tsprb5, $
+tsprb6, $
+tsprb7, $
+tsprb8, $
+tsprb9, $
+tsprb10, $
+tsprb11, $
+tsprb12, $
+tsprb13, $
+tsprb14, $
+tsprb15, $
+tsprb16, $
+tsprb17, $
+tsprb18, $
+tsprb19, $
 ;mgw; for time use tmgw
 Fmgwqk, Emgwqk, $
-Fmgwrb, Emgwrb, $
+Fmgwrb0, Emgwrb0, $
 Fmgwrb1, Emgwrb1, $
 Fmgwrb2, Emgwrb2, $
 Fmgwrb3, Emgwrb3, $
@@ -864,7 +747,7 @@ Fmgwrb19, Emgwrb19, $
 
 ;hmi; for time use thmi
 Fhmiqk, Ehmiqk, $
-Fhmirb, Ehmirb, $
+Fhmirb0, Ehmirb0, $
 Fhmirb1, Ehmirb1, $
 Fhmirb2, Ehmirb2, $
 Fhmirb3, Ehmirb3, $
