@@ -36,7 +36,7 @@ nmgw = n_elements(diff2832)
 nsi = n_elements(map1400) ;nsi = n_elements(map1400[387:*])
 nn = n_elements(fsp)
 nnn = n_elements(diff)
-
+nrb = 20 ; number of ribbon sample points
 ;qkirxa = 519.
 ;qkirya = 262.
 
@@ -443,7 +443,31 @@ spypos = strarr(nn)
 qkslitpos = strarr(nn)
 qkspypos = strarr(nn)
 
-for j = 0, 19 do begin
+;;multi-ribbon coord max flux and energy
+sifmx = fltarr(2,nrb) ;fmx[0,*] = time, fmx[1,*] = max
+siemx = fltarr(2,nrb)
+sicoords = fltarr(2, nrb)
+mgfmx = fltarr(2,nrb) ;fmx[0,*] = time, fmx[1,*] = max
+mgemx = fltarr(2,nrb)
+mgcoords = fltarr(2, nrb)
+balmerfmx = fltarr(2,nrb) ;fmx[0,*] = time, fmx[1,*] = max
+balmeremx = fltarr(2,nrb)
+balmercoords = fltarr(2, nrb)
+mgwfmx = fltarr(2,nrb) ;fmx[0,*] = time, fmx[1,*] = max
+mgwemx = fltarr(2,nrb)
+mgwcoords = fltarr(2, nrb)
+hmifmx = fltarr(2,nrb) ;fmx[0,*] = time, fmx[1,*] = max
+hmiemx = fltarr(2,nrb)
+hmicoords = fltarr(2, nrb)
+
+;;;make time arrays
+tsi = map1400.time
+tmgii = submg.time
+tmgw = map2832.time
+thmi = diff.time
+
+
+for j = 0, nrb-1 do begin
 jj = string(j, format = '(I0)')
 
 com = 'rbsi'+jj+' = fltarr(nsi)'
@@ -458,7 +482,6 @@ com = 'tsprb'+jj+' = strarr(sample*nn)'
 exe = execute(com)
 com = 'rbhmi'+jj+' = fltarr(nnn)'
 exe = execute(com)
-
 
 ;;;;;;;;;FILL ARRAYS
 
@@ -476,7 +499,28 @@ exe = execute(com)
         endif    
     com = 'iris_radiometric_calibration, rbsi'+jj+', wave = 1400., n_pixels = 1,Fsirb'+jj+', Esirb'+jj+', /sji'
     exe = execute(com)
+
+    ;find maximum flux and energy
+    com = 'mxf = max(Fsirb'+jj+', loc)'
+    exe = execute(com)
+    com = 'ind = array_indices(Fsirb'+jj+', loc)'
+    exe = execute(com)
+
+    sifmx[0,j] = tsi[ind]
+    sifmx[1,j] = mxf
     
+    com = 'mxe = max(Esirb'+jj+', loc)'
+    exe = execute(com)
+    com = 'ind = array_indices(Esirb'+jj+', loc)'
+    exe = execute(com)
+
+    siemx[0,j] = tsi[ind]
+    siemx[1,j] = mxe
+
+    com = 'sicoords[0,'+jj+'] = sirbxa'+jj'
+    exe = execute(com)
+    com = 'sicoords[1,'+jj='] = sirbya'+jj'
+    exe = execute(com)
 
     ;;MG II 2796
     for i = 0, nmg-1, 1 do begin
@@ -492,7 +536,32 @@ exe = execute(com)
         endif
     com = 'iris_radiometric_calibration, rbmg'+jj+', wave = 2976., n_pixels = 1,Fmgrb'+jj+', Emgrb'+jj+', /sji'
     exe = execute(com)
+
+    ;find maximum flux and energy
+    com = 'mxf = max(Fmgrb'+jj+', loc)'
+    exe = execute(com)
+    com = 'ind = array_indices(Fmgrb'+jj+', loc)'
+    exe = execute(com)
+
+    mgfmx[0,j] = tmg[ind]
+    mgfmx[1,j] = mxf
     
+    com = 'mxe = max(Emgrb'+jj+', loc)'
+    exe = execute(com)
+    com = 'ind = array_indices(Emgrb'+jj+', loc)'
+    exe = execute(com)
+
+    mgemx[0,j] = tmg[ind]
+    mgemx[1,j] = mxe
+
+    com = 'mgcoords[0,'+jj+'] = mgrbxa'+jj'
+    exe = execute(com)
+    com = 'mgcoords[1,'+jj='] = mgrbya'+jj'
+    exe = execute(com)
+
+
+
+
 
     ;;BALMER
     com = 'slitp = find_iris_slit_pos(hmirbxp'+jj+',sp2826)'
@@ -538,6 +607,28 @@ exe = execute(com)
     com = 'iris_radiometric_calibration, rbbalmer'+jj+', wave = ['+w1+', '+w2+'], n_pixels = 10, Frbbalmer'+jj+', Erbbalmer'+jj+' ,/sg'
     exe = execute(com)
 
+    ;find maximum flux and energy
+    com = 'mxf = max(Frbbalmer'+jj+', loc)'
+    exe = execute(com)
+    com = 'ind = array_indices(Frbbalmer'+jj+', loc)'
+    exe = execute(com)
+
+    balmerfmx[0,j] = tbalmer[ind]
+    balmerfmx[1,j] = mxf
+    
+    com = 'mxe = max(Erbbalmer'+jj+', loc)'
+    exe = execute(com)
+    com = 'ind = array_indices(Erbbalmer'+jj+', loc)'
+    exe = execute(com)
+
+    balmeremx[0,j] = tbalmer[ind]
+    balmeremx[1,j] = mxe
+
+    com = 'balmercoords[0,'+jj+'] = hmirbxa'+jj'
+    exe = execute(com)
+    com = 'balmercoords[1,'+jj='] = hmirbya'+jj'
+    exe = execute(com)
+
 
 
 
@@ -559,6 +650,32 @@ exe = execute(com)
     com = 'iris_radiometric_calibration, rbmgw'+jj+', wave = 2832., n_pixels = 1,Fmgwrb'+jj+', Emgwrb'+jj+', /sji'
     exe = execute(com)
 
+    ;find maximum flux and energy
+    com = 'mxf = max(Fmgwrb'+jj+', loc)'
+    exe = execute(com)
+    com = 'ind = array_indices(Fmgwrb'+jj+', loc)'
+    exe = execute(com)
+
+    mgwfmx[0,j] = tmgw[ind]
+    mgwfmx[1,j] = mxf
+    
+    com = 'mxe = max(Emgwrb'+jj+', loc)'
+    exe = execute(com)
+    com = 'ind = array_indices(Emgwrb'+jj+', loc)'
+    exe = execute(com)
+
+    mgwemx[0,j] = tmgw[ind]
+    mgwemx[1,j] = mxe
+
+    com = 'mgwcoords[0,'+jj+'] = mgwrbxa'+jj'
+    exe = execute(com)
+    com = 'mgwcoords[1,'+jj='] = mgwrbya'+jj'
+    exe = execute(com)
+
+
+
+
+
     ;HMI single pixel
     for i = 0, nnn-1, 1 do begin
         if (j eq 19) then begin
@@ -575,6 +692,30 @@ exe = execute(com)
   
     com = 'hmi_radiometric_calibration, rbhmi'+jj+', n_pixels = 1, Fhmirb'+jj+', Ehmirb'+jj+''
     exe = execute(com)
+
+    ;find maximum flux and energy
+    com = 'mxf = max(Fhmirb'+jj+', loc)'
+    exe = execute(com)
+    com = 'ind = array_indices(Fhmirb'+jj+', loc)'
+    exe = execute(com)
+
+    hmifmx[0,j] = thmi[ind]
+    hmifmx[1,j] = mxf
+    
+    com = 'mxe = max(Ehmirb'+jj+', loc)'
+    exe = execute(com)
+    com = 'ind = array_indices(Ehmirb'+jj+', loc)'
+    exe = execute(com)
+
+    hmiemx[0,j] = thmi[ind]
+    hmiemx[1,j] = mxe
+
+    com = 'hmicoords[0,'+jj+'] = hmirbxa'+jj'
+    exe = execute(com)
+    com = 'hmicoords[1,'+jj='] = hmirbya'+jj'
+    exe = execute(com)
+
+
 endfor
 
 ;HMI quake area array...eventually calculate iris quake energy based on solid angle relationship found by trumpet.pro
@@ -598,11 +739,6 @@ endfor
 hmi_radiometric_calibration, qkarea, n_pixels = 9, Fqk_9px_area, Eqk_9px_area
 
 
-;;;make time arrays
-tsi = map1400.time
-tmgii = submg.time
-tmgw = map2832.time
-thmi = diff.time
 
 ;;;make .sav file
 save, $
@@ -664,6 +800,10 @@ Fsirb16, Esirb16, $
 Fsirb17, Esirb17, $
 Fsirb18, Esirb18, $
 Fsirb19, Esirb19, $
+tsi, $
+sifmx, $
+siemx, $
+sicoords, $
 filename = '29-Mar-2014-energies-iris-siiv-single-pixel-'+date+'.sav'
 
 save, $
@@ -689,6 +829,10 @@ Fmgrb16, Emgrb16, $
 Fmgrb17, Emgrb17, $
 Fmgrb18, Emgrb18, $
 Fmgrb19, Emgrb19, $
+tmgii, $
+mgfmx, $
+mgemx, $
+mgcoords, $
 filename = '29-Mar-2014-energies-iris-mgii-single-pixel-'+date+'.sav'
 
 save, $
@@ -735,6 +879,9 @@ tsprb16, $
 tsprb17, $
 tsprb18, $
 tsprb19, $
+balmerfmx, $
+balmeremx, $
+balmercoords, $
 filename = '29-Mar-2014-energies-iris-balmer-single-pixel-'+date+'.sav'
 
 save, $
@@ -760,6 +907,10 @@ Fmgwrb16, Emgwrb16, $
 Fmgwrb17, Emgwrb17, $
 Fmgwrb18, Emgwrb18, $
 Fmgwrb19, Emgwrb19, $
+tmgw, $
+mgwfmx, $
+mgwemx, $
+mgwcoords, $
 filename = '29-Mar-2014-energies-iris-mgw-single-pixel-'+date+'.sav'
 
 save, $
@@ -785,12 +936,22 @@ Fhmirb16, Ehmirb16, $
 Fhmirb17, Ehmirb17, $
 Fhmirb18, Ehmirb18, $
 Fhmirb19, Ehmirb19, $
+thmi, $
+hmifmx, $
+hmiemx, $
+hmicoords, $
 filename = '29-Mar-2014-energies-hmi-single-pixel-'+date+'.sav'
 
 save, $
 ;quake area
 Fqk_9px_area, Eqk_9px_area, $
+thmi, $
 filename = '29-Mar-2014-energies-hmi-qkarea-'+date+'.sav'
+
+save, $
+;max flux and energy
+fmx, $
+emx, $
 
 toc
 end
