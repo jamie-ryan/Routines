@@ -517,9 +517,9 @@ exe = execute(com)
     siemx[0,j] = tsi[ind]
     siemx[1,j] = mxe
 
-    com = 'sicoords[0,'+jj+'] = sirbxa'+jj
+    com = 'sicoords[0,'+jj+'] = hmirbxa'+jj
     exe = execute(com)
-    com = 'sicoords[1,'+jj+'] = sirbya'+jj
+    com = 'sicoords[1,'+jj+'] = hmirbya'+jj
     exe = execute(com)
 
     ;;MG II 2796
@@ -554,9 +554,9 @@ exe = execute(com)
     mgemx[0,j] = tmgii[ind]
     mgemx[1,j] = mxe
 
-    com = 'mgcoords[0,'+jj+'] = mgrbxa'+jj
+    com = 'mgcoords[0,'+jj+'] = hmirbxa'+jj
     exe = execute(com)
-    com = 'mgcoords[1,'+jj+'] = mgrbya'+jj
+    com = 'mgcoords[1,'+jj+'] = hmirbya'+jj
     exe = execute(com)
 
 
@@ -667,9 +667,9 @@ exe = execute(com)
     mgwemx[0,j] = tmgw[ind]
     mgwemx[1,j] = mxe
 
-    com = 'mgwcoords[0,'+jj+'] = mgwrbxa'+jj
+    com = 'mgwcoords[0,'+jj+'] = hmirbxa'+jj
     exe = execute(com)
-    com = 'mgwcoords[1,'+jj+'] = mgwrbya'+jj
+    com = 'mgwcoords[1,'+jj+'] = hmirbya'+jj
     exe = execute(com)
 
 
