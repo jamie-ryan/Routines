@@ -948,10 +948,6 @@ Fqk_9px_area, Eqk_9px_area, $
 thmi, $
 filename = '29-Mar-2014-energies-hmi-qkarea-'+date+'.sav'
 
-save, $
-;max flux and energy
-fmx, $
-emx, $
 
 toc
 end
