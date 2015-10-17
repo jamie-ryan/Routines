@@ -543,7 +543,7 @@ exe = execute(com)
     com = 'ind = array_indices(Fmgrb'+jj+', loc)'
     exe = execute(com)
 
-    mgfmx[0,j] = tmg[ind]
+    mgfmx[0,j] = tmgii[ind]
     mgfmx[1,j] = mxf
     
     com = 'mxe = max(Emgrb'+jj+', loc)'

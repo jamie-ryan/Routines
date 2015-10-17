@@ -551,7 +551,7 @@ exe = execute(com)
     com = 'ind = array_indices(Emgrb'+jj+', loc)'
     exe = execute(com)
 
-    mgemx[0,j] = tmg[ind]
+    mgemx[0,j] = tmgii[ind]
     mgemx[1,j] = mxe
 
     com = 'mgcoords[0,'+jj+'] = mgrbxa'+jj
