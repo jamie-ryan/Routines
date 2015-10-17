@@ -613,7 +613,9 @@ exe = execute(com)
     com = 'ind = array_indices(Frbbalmer'+jj+', loc)'
     exe = execute(com)
 
-    balmerfmx[0,j] = tbalmer[ind]
+    indst = string(ind, format = '(I0)')
+    com = 'balmerfmx[0,'+jj+'] = tsprb'+jj+'['+indst+']'
+    exe = execute(com)
     balmerfmx[1,j] = mxf
     
     com = 'mxe = max(Erbbalmer'+jj+', loc)'
@@ -621,7 +623,8 @@ exe = execute(com)
     com = 'ind = array_indices(Erbbalmer'+jj+', loc)'
     exe = execute(com)
 
-    balmeremx[0,j] = tbalmer[ind]
+    com = 'balmeremx[0,'+jj+'] = tsprb'+jj+'['+indst+']'
+    exe = execute(com)
     balmeremx[1,j] = mxe
 
     com = 'balmercoords[0,'+jj+'] = hmirbxa'+jj
