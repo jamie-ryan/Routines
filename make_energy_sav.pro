@@ -611,28 +611,36 @@ F_area_siiv1, E_area_siiv1, $
 F_area_siiv2, E_area_siiv2, $
 F_area_siiv3, E_area_siiv3, $
 tsi, $
+filename = '29-Mar-2014-energies-iris-siiv-area'+date+'.sav'
 
+save, $
 ;iris flare area mgii
 F_area_mgii0, E_area_mgii0, $
 F_area_mgii1, E_area_mgii1, $
 F_area_mgii2, E_area_mgii2, $
 F_area_mgii3, E_area_mgii3, $
 tmgii, $
+filename = '29-Mar-2014-energies-iris-mgii-area'+date+'.sav'
 
+save, $
 ;iris flare area mgw
 F_area_mgiiw0, E_area_mgiiw0, $
 F_area_mgiiw1, E_area_mgiiw1, $
 F_area_mgiiw2, E_area_mgiiw2, $
 F_area_mgiiw3, E_area_mgiiw3, $
 tmgw, $
+filename = '29-Mar-2014-energies-iris-mgw-area'+date+'.sav'
 
+save, $
 ;hmi flare area
 F_area_hmi0, E_area_hmi0, $
 F_area_hmi1, E_area_hmi1, $
 F_area_hmi2, E_area_hmi2, $
 F_area_hmi3, E_area_hmi3, $
 thmi, $
+filename = '29-Mar-2014-energies-hmi-area'+date+'.sav'
 
+save, $
 ;siiv; for time use tsi
 Fsiqk, Esiqk, $
 Fsirb0, Esirb0, $
@@ -655,7 +663,9 @@ Fsirb16, Esirb16, $
 Fsirb17, Esirb17, $
 Fsirb18, Esirb18, $
 Fsirb19, Esirb19, $
+filename = '29-Mar-2014-energies-iris-siiv-single-pixel'+date+'.sav'
 
+save, $
 ;mgii; for time use tmgii
 Fmgqk, Emgqk, $
 Fmgrb0, Emgrb0, $
@@ -678,7 +688,9 @@ Fmgrb16, Emgrb16, $
 Fmgrb17, Emgrb17, $
 Fmgrb18, Emgrb18, $
 Fmgrb19, Emgrb19, $
+filename = '29-Mar-2014-energies-iris-mgii-single-pixel'+date+'.sav'
 
+save, $
 ;balmer; for time use timearr
 Fqkbalmer, Eqkbalmer, $
 Frbbalmer0, Erbbalmer0, $
@@ -722,6 +734,9 @@ tsprb16, $
 tsprb17, $
 tsprb18, $
 tsprb19, $
+filename = '29-Mar-2014-energies-iris-balmer-single-pixel'+date+'.sav'
+
+save, $
 ;mgw; for time use tmgw
 Fmgwqk, Emgwqk, $
 Fmgwrb0, Emgwrb0, $
@@ -744,7 +759,9 @@ Fmgwrb16, Emgwrb16, $
 Fmgwrb17, Emgwrb17, $
 Fmgwrb18, Emgwrb18, $
 Fmgwrb19, Emgwrb19, $
+filename = '29-Mar-2014-energies-iris-mgw-single-pixel'+date+'.sav'
 
+save, $
 ;hmi; for time use thmi
 Fhmiqk, Ehmiqk, $
 Fhmirb0, Ehmirb0, $
@@ -767,10 +784,12 @@ Fhmirb16, Ehmirb16, $
 Fhmirb17, Ehmirb17, $
 Fhmirb18, Ehmirb18, $
 Fhmirb19, Ehmirb19, $
+filename = '29-Mar-2014-energies-hmi-single-pixel'+date+'.sav'
 
+save, $
 ;quake area
 Fqk_9px_area, Eqk_9px_area, $
-filename = '29-Mar-2014-energies-for-python-'+date+'.sav'
+filename = '29-Mar-2014-energies-hmi-qkarea'+date+'.sav'
 
 
 end
