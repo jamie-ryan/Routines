@@ -1,5 +1,6 @@
 pro make_energy_sav
 
+tic
 ;;restore data sav files
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
@@ -791,5 +792,5 @@ save, $
 Fqk_9px_area, Eqk_9px_area, $
 filename = '29-Mar-2014-energies-hmi-qkarea-'+date+'.sav'
 
-
+toc
 end

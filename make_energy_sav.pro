@@ -664,6 +664,7 @@ Fsirb16, Esirb16, $
 Fsirb17, Esirb17, $
 Fsirb18, Esirb18, $
 Fsirb19, Esirb19, $
+tsi, $
 filename = '29-Mar-2014-energies-iris-siiv-single-pixel-'+date+'.sav'
 
 save, $
@@ -689,6 +690,7 @@ Fmgrb16, Emgrb16, $
 Fmgrb17, Emgrb17, $
 Fmgrb18, Emgrb18, $
 Fmgrb19, Emgrb19, $
+tmgii, $
 filename = '29-Mar-2014-energies-iris-mgii-single-pixel-'+date+'.sav'
 
 save, $
@@ -760,6 +762,7 @@ Fmgwrb16, Emgwrb16, $
 Fmgwrb17, Emgwrb17, $
 Fmgwrb18, Emgwrb18, $
 Fmgwrb19, Emgwrb19, $
+tmgw, $
 filename = '29-Mar-2014-energies-iris-mgw-single-pixel-'+date+'.sav'
 
 save, $
@@ -785,11 +788,13 @@ Fhmirb16, Ehmirb16, $
 Fhmirb17, Ehmirb17, $
 Fhmirb18, Ehmirb18, $
 Fhmirb19, Ehmirb19, $
+thmi, $
 filename = '29-Mar-2014-energies-hmi-single-pixel-'+date+'.sav'
 
 save, $
 ;quake area
 Fqk_9px_area, Eqk_9px_area, $
+thmi, $
 filename = '29-Mar-2014-energies-hmi-qkarea-'+date+'.sav'
 
 toc
