@@ -506,7 +506,7 @@ exe = execute(com)
     com = 'ind = array_indices(Fsirb'+jj+', loc)'
     exe = execute(com)
 
-    sifmx[0,j] = tsi[ind]
+    sifmx[0,j] = ind
     sifmx[1,j] = mxf
     
     com = 'mxe = max(Esirb'+jj+', loc)'
@@ -514,7 +514,7 @@ exe = execute(com)
     com = 'ind = array_indices(Esirb'+jj+', loc)'
     exe = execute(com)
 
-    siemx[0,j] = tsi[ind]
+    siemx[0,j] = ind
     siemx[1,j] = mxe
 
     com = 'sicoords[0,'+jj+'] = hmirbxa'+jj
@@ -543,7 +543,7 @@ exe = execute(com)
     com = 'ind = array_indices(Fmgrb'+jj+', loc)'
     exe = execute(com)
 
-    mgfmx[0,j] = tmgii[ind]
+    mgfmx[0,j] = ind
     mgfmx[1,j] = mxf
     
     com = 'mxe = max(Emgrb'+jj+', loc)'
@@ -551,7 +551,7 @@ exe = execute(com)
     com = 'ind = array_indices(Emgrb'+jj+', loc)'
     exe = execute(com)
 
-    mgemx[0,j] = tmgii[ind]
+    mgemx[0,j] = ind
     mgemx[1,j] = mxe
 
     com = 'mgcoords[0,'+jj+'] = hmirbxa'+jj
@@ -613,7 +613,8 @@ exe = execute(com)
     com = 'ind = array_indices(Frbbalmer'+jj+', loc)'
     exe = execute(com)
 
-    balmerfmx[0,j] = tbalmer[ind]
+    balmerfmx[0, j] = ind
+    exe = execute(com)
     balmerfmx[1,j] = mxf
     
     com = 'mxe = max(Erbbalmer'+jj+', loc)'
@@ -621,7 +622,8 @@ exe = execute(com)
     com = 'ind = array_indices(Erbbalmer'+jj+', loc)'
     exe = execute(com)
 
-    balmeremx[0,j] = tbalmer[ind]
+    balmeremx[0, j] = ind
+    exe = execute(com)
     balmeremx[1,j] = mxe
 
     com = 'balmercoords[0,'+jj+'] = hmirbxa'+jj

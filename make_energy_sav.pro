@@ -506,7 +506,7 @@ exe = execute(com)
     com = 'ind = array_indices(Fsirb'+jj+', loc)'
     exe = execute(com)
 
-    sifmx[0,j] = tsi[ind]
+    sifmx[0,j] = ind
     sifmx[1,j] = mxf
     
     com = 'mxe = max(Esirb'+jj+', loc)'
@@ -514,7 +514,7 @@ exe = execute(com)
     com = 'ind = array_indices(Esirb'+jj+', loc)'
     exe = execute(com)
 
-    siemx[0,j] = tsi[ind]
+    siemx[0,j] = ind
     siemx[1,j] = mxe
 
     com = 'sicoords[0,'+jj+'] = hmirbxa'+jj
@@ -543,7 +543,7 @@ exe = execute(com)
     com = 'ind = array_indices(Fmgrb'+jj+', loc)'
     exe = execute(com)
 
-    mgfmx[0,j] = tmgii[ind]
+    mgfmx[0,j] = ind
     mgfmx[1,j] = mxf
     
     com = 'mxe = max(Emgrb'+jj+', loc)'
@@ -551,7 +551,7 @@ exe = execute(com)
     com = 'ind = array_indices(Emgrb'+jj+', loc)'
     exe = execute(com)
 
-    mgemx[0,j] = tmgii[ind]
+    mgemx[0,j] = ind
     mgemx[1,j] = mxe
 
     com = 'mgcoords[0,'+jj+'] = hmirbxa'+jj
@@ -613,8 +613,7 @@ exe = execute(com)
     com = 'ind = array_indices(Frbbalmer'+jj+', loc)'
     exe = execute(com)
 
-    indst = string(ind, format = '(I0)')
-    com = 'balmerfmx[0,'+jj+'] = tsprb'+jj+'['+indst+']'
+    balmerfmx[0, j] = ind
     exe = execute(com)
     balmerfmx[1,j] = mxf
     
@@ -623,7 +622,7 @@ exe = execute(com)
     com = 'ind = array_indices(Erbbalmer'+jj+', loc)'
     exe = execute(com)
 
-    com = 'balmeremx[0,'+jj+'] = tsprb'+jj+'['+indst+']'
+    balmeremx[0, j] = ind
     exe = execute(com)
     balmeremx[1,j] = mxe
 
@@ -659,7 +658,7 @@ exe = execute(com)
     com = 'ind = array_indices(Fmgwrb'+jj+', loc)'
     exe = execute(com)
 
-    mgwfmx[0,j] = tmgw[ind]
+    mgwfmx[0,j] = ind
     mgwfmx[1,j] = mxf
     
     com = 'mxe = max(Emgwrb'+jj+', loc)'
@@ -667,7 +666,7 @@ exe = execute(com)
     com = 'ind = array_indices(Emgwrb'+jj+', loc)'
     exe = execute(com)
 
-    mgwemx[0,j] = tmgw[ind]
+    mgwemx[0,j] = ind
     mgwemx[1,j] = mxe
 
     com = 'mgwcoords[0,'+jj+'] = hmirbxa'+jj
@@ -702,7 +701,7 @@ exe = execute(com)
     com = 'ind = array_indices(Fhmirb'+jj+', loc)'
     exe = execute(com)
 
-    hmifmx[0,j] = thmi[ind]
+    hmifmx[0,j] = ind
     hmifmx[1,j] = mxf
     
     com = 'mxe = max(Ehmirb'+jj+', loc)'
@@ -710,7 +709,7 @@ exe = execute(com)
     com = 'ind = array_indices(Ehmirb'+jj+', loc)'
     exe = execute(com)
 
-    hmiemx[0,j] = thmi[ind]
+    hmiemx[0,j] = ind
     hmiemx[1,j] = mxe
 
     com = 'hmicoords[0,'+jj+'] = hmirbxa'+jj
