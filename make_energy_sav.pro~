@@ -736,6 +736,7 @@ tsprb18, $
 tsprb19, $
 filename = '29-Mar-2014-energies-iris-balmer-single-pixel'+date+'.sav'
 
+save, $
 ;mgw; for time use tmgw
 Fmgwqk, Emgwqk, $
 Fmgwrb0, Emgwrb0, $
@@ -758,7 +759,9 @@ Fmgwrb16, Emgwrb16, $
 Fmgwrb17, Emgwrb17, $
 Fmgwrb18, Emgwrb18, $
 Fmgwrb19, Emgwrb19, $
+filename = '29-Mar-2014-energies-iris-mgw-single-pixel'+date+'.sav'
 
+save, $
 ;hmi; for time use thmi
 Fhmiqk, Ehmiqk, $
 Fhmirb0, Ehmirb0, $
@@ -781,10 +784,12 @@ Fhmirb16, Ehmirb16, $
 Fhmirb17, Ehmirb17, $
 Fhmirb18, Ehmirb18, $
 Fhmirb19, Ehmirb19, $
+filename = '29-Mar-2014-energies-hmi-single-pixel'+date+'.sav'
 
+save, $
 ;quake area
 Fqk_9px_area, Eqk_9px_area, $
-filename = '29-Mar-2014-energies-for-python-'+date+'.sav'
+filename = '29-Mar-2014-energies-hmi-qkarea'+date+'.sav'
 
 
 end
