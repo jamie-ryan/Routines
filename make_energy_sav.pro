@@ -708,6 +708,7 @@ exe = execute(com)
     exe = execute(com)
     com = 'ind = array_indices(Ehmirb'+jj+', loc)'
     exe = execute(com)
+    
 
     hmiemx[0,j] = ind
     hmiemx[1,j] = mxe
@@ -719,6 +720,126 @@ exe = execute(com)
 
 
 endfor
+
+dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+for k = 0, n_elements(dataset)
+nc = n_elements(nrb/4)
+ncst = string(nc, format = '(I0)')
+
+
+com = 'f'+dataset[k]+'srb1 = fltarr(3, '+ncst+')'
+exe = execute(com)
+com = 'f'+dataset[k]+'srb2 = fltarr(3, '+ncst+')'
+exe = execute(com)
+com = 'f'+dataset[k]+'nrb1 = fltarr(3, '+ncst+')'
+exe = execute(com)
+com = 'f'+dataset[k]+'nrb2 = fltarr(3, '+ncst+')'
+exe = execute(com)
+
+com = 'f'+dataset[k]+'srb1[0,*] = '+dataset[k]+'FMX[0, 0:nc-1]'
+exe = execute(com)
+com = 'f'+dataset[k]+'srb1[1,*] = '+dataset[k]+'coords[0, 0:nc-1]'
+exe = execute(com)
+com = 'f'+dataset[k]+'srb1[2,*] = '+dataset[k]+'FMX[1, 0:nc-1]'
+exe = execute(com)
+
+com = 'f'+dataset[k]+'nrb1[0,*] = '+dataset[k]+'FMX[0, nc:2*nc-1]'
+exe = execute(com)
+com = 'f'+dataset[k]+'nrb1[1,*] = '+dataset[k]+'coords[0, nc:2*nc-1]'
+exe = execute(com)
+com = 'f'+dataset[k]+'nrb1[2,*] = '+dataset[k]+'FMX[1, nc:2*nc-1]'
+exe = execute(com)
+
+com = 'f'+dataset[k]+'srb2[0,*] = '+dataset[k]+'FMX[0, 2*nc:3*nc-1]'
+exe = execute(com)
+com = 'f'+dataset[k]+'srb2[1,*] = '+dataset[k]+'coords[0, 2*nc:3*nc-1]'
+exe = execute(com)
+com = 'f'+dataset[k]+'srb2[2,*] = '+dataset[k]+'FMX[1, 2*nc:3*nc-1]'
+exe = execute(com)
+
+com = 'f'+dataset[k]+'nrb2[0,*] = '+dataset[k]+'FMX[0, 3*nc:4*nc-1]'
+exe = execute(com)
+com = 'f'+dataset[k]+'nrb2[1,*] = '+dataset[k]+'coords[0, 3*nc:4*nc-1]'
+exe = execute(com)
+com = 'f'+dataset[k]+'nrb2[2,*] = '+dataset[k]+'FMX[1, 3*nc:4*nc-1]'
+exe = execute(com)
+
+
+com = 'e'+dataset[k]+'srb1[0,*] = '+dataset[k]+'EMX[0, 0:nc-1]'
+exe = execute(com)
+com = 'e'+dataset[k]+'srb1[1,*] = '+dataset[k]+'coords[0, 0:nc-1]'
+exe = execute(com)
+com = 'e'+dataset[k]+'srb1[2,*] = '+dataset[k]+'EMX[1, 0:nc-1]'
+exe = execute(com)
+
+com = 'e'+dataset[k]+'nrb1[0,*] = '+dataset[k]+'EMX[0, nc:2*nc-1]'
+exe = execute(com)
+com = 'e'+dataset[k]+'nrb1[1,*] = '+dataset[k]+'coords[0, nc:2*nc-1]'
+exe = execute(com)
+com = 'e'+dataset[k]+'nrb1[2,*] = '+dataset[k]+'EMX[1, nc:2*nc-1]'
+exe = execute(com)
+
+com = 'e'+dataset[k]+'srb2[0,*] = '+dataset[k]+'EMX[0, 2*nc:3*nc-1]'
+exe = execute(com)
+com = 'e'+dataset[k]+'srb2[1,*] = '+dataset[k]+'coords[0, 2*nc:3*nc-1]'
+exe = execute(com)
+com = 'e'+dataset[k]+'srb2[2,*] = '+dataset[k]+'EMX[1, 2*nc:3*nc-1]'
+exe = execute(com)
+
+com = 'e'+dataset[k]+'nrb2[0,*] = '+dataset[k]+'EMX[0, 3*nc:4*nc-1]'
+exe = execute(com)
+com = 'e'+dataset[k]+'nrb2[1,*] = '+dataset[k]+'coords[0, 3*nc:4*nc-1]'
+exe = execute(com)
+com = 'e'+dataset[k]+'nrb2[2,*] = '+dataset[k]+'EMX[1, 3*nc:4*nc-1]'
+exe = execute(com)
+
+file = dataset[k]+'ribbon_coords_x__flux__energy.dat'
+openw, lun, file, /get_lun
+printf,lun, '*************************************'
+printf,lun, '*************************************'
+printf,lun, '**************FLUX*******************'
+printf,lun, '*************************************'
+printf,lun, '*************************************'
+printf,lun, '*************************************'
+printf,lun,  '**************srb1******************'
+com = 'printf, lun f'+dataset[k]+'srb1'
+exe = execute(com)
+printf,lun,  '************************************'
+printf,lun,  '**************nrb1******************'
+com = 'printf, lun, f'+dataset[k]+'nrb1
+exe = execute(com)
+printf,lun,  '************************************'
+printf,lun,  '**************srb2******************'
+com = 'printf, lun, f'+dataset[k]+'srb2
+exe = execute(com)
+printf,lun,  '************************************'
+printf,lun,  '**************nrb2******************'
+com = 'printf, lun, f'+dataset[k]+'nrb2
+exe = execute(com)
+printf,lun, '*************************************'
+printf,lun, '*************************************'
+printf,lun, '**************ENERGY*****************'
+printf,lun, '*************************************'
+printf,lun, '*************************************'
+printf,lun, '************************************'
+printf,lun,  '**************srb1******************'
+com = 'printf, lun, e'dataset[k]+'srb1
+exe = execute(com)
+printf,lun,  '************************************'
+printf,lun,  '**************nrb1******************'
+com = 'printf, lun, e'dataset[k]+'nrb1
+exe = execute(com)
+printf,lun,  '************************************'
+printf,lun,  '**************srb2******************'
+com = 'printf, lun, e'dataset[k]+'srb2
+exe = execute(com)
+printf,lun,  '************************************'
+printf,lun,  '**************nrb2******************'
+com = 'printf, lun, e'dataset[k]+'nrb2
+exe = execute(com)
+free_lun, lun
+endfor
+
 
 ;HMI quake area array...eventually calculate iris quake energy based on solid angle relationship found by trumpet.pro
 qkarea = fltarr(nnn)
@@ -805,7 +926,16 @@ Fsirb19, Esirb19, $
 tsi, $
 sifmx, $
 siemx, $
-sicoords, $
+sicoords
+
+fsisrb1, $
+esisrb1, $
+fsisrb2, $
+esisrb2, $
+fsinrb1, $
+esinrb1, $
+fsinrb2, $
+esinrb2, $
 filename = '29-Mar-2014-energies-iris-siiv-single-pixel-'+date+'.sav'
 
 save, $
@@ -832,9 +962,17 @@ Fmgrb17, Emgrb17, $
 Fmgrb18, Emgrb18, $
 Fmgrb19, Emgrb19, $
 tmgii, $
-mgfmx, $
-mgemx, $
-mgcoords, $
+;mgfmx, $
+;mgemx, $
+;mgcoords, $
+fmgsrb1, $
+emgsrb1, $
+fmgsrb2, $
+emgsrb2, $
+fmgnrb1, $
+emgnrb1, $
+fmgnrb2, $
+emgnrb2, $
 filename = '29-Mar-2014-energies-iris-mgii-single-pixel-'+date+'.sav'
 
 save, $
@@ -881,9 +1019,17 @@ tsprb16, $
 tsprb17, $
 tsprb18, $
 tsprb19, $
-balmerfmx, $
-balmeremx, $
-balmercoords, $
+;balmerfmx, $
+;balmeremx, $
+;balmercoords, $
+fbalmersrb1, $
+ebalmersrb1, $
+fbalmersrb2, $
+ebalmersrb2, $
+fbalmernrb1, $
+ebalmernrb1, $
+fbalmernrb2, $
+ebalmernrb2, $
 filename = '29-Mar-2014-energies-iris-balmer-single-pixel-'+date+'.sav'
 
 save, $
@@ -910,9 +1056,17 @@ Fmgwrb17, Emgwrb17, $
 Fmgwrb18, Emgwrb18, $
 Fmgwrb19, Emgwrb19, $
 tmgw, $
-mgwfmx, $
-mgwemx, $
-mgwcoords, $
+;mgwfmx, $
+;mgwemx, $
+;mgwcoords, $
+fmgwsrb1, $
+emgwsrb1, $
+fmgwsrb2, $
+emgwsrb2, $
+fmgwnrb1, $
+emgwnrb1, $
+fmgwnrb2, $
+emgwnrb2, $
 filename = '29-Mar-2014-energies-iris-mgw-single-pixel-'+date+'.sav'
 
 save, $
@@ -939,9 +1093,17 @@ Fhmirb17, Ehmirb17, $
 Fhmirb18, Ehmirb18, $
 Fhmirb19, Ehmirb19, $
 thmi, $
-hmifmx, $
-hmiemx, $
-hmicoords, $
+;hmifmx, $
+;hmiemx, $
+;hmicoords, $
+fhmisrb1, $
+ehmisrb1, $
+fhmisrb2, $
+ehmisrb2, $
+fhminrb1, $
+ehminrb1, $
+fhminrb2, $
+ehminrb2, $
 filename = '29-Mar-2014-energies-hmi-single-pixel-'+date+'.sav'
 
 save, $
