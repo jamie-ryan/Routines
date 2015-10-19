@@ -462,7 +462,7 @@ hmicoords = fltarr(2, nrb)
 
 ;;;make time arrays
 tsi = map1400.time
-tmgii = submg.time
+tmg = submg.time
 tmgw = map2832.time
 thmi = diff.time
 
@@ -879,7 +879,7 @@ F_area_mgii0, E_area_mgii0, $
 F_area_mgii1, E_area_mgii1, $
 F_area_mgii2, E_area_mgii2, $
 F_area_mgii3, E_area_mgii3, $
-tmgii, $
+tmg, $
 filename = '29-Mar-2014-energies-iris-mgii-area-'+date+'.sav'
 
 save, $
@@ -939,7 +939,7 @@ esinrb2, $
 filename = '29-Mar-2014-energies-iris-siiv-single-pixel-'+date+'.sav'
 
 save, $
-;mgii; for time use tmgii
+;mgii; for time use tmg
 Fmgqk, Emgqk, $
 Fmgrb0, Emgrb0, $
 Fmgrb1, Emgrb1, $
@@ -961,7 +961,7 @@ Fmgrb16, Emgrb16, $
 Fmgrb17, Emgrb17, $
 Fmgrb18, Emgrb18, $
 Fmgrb19, Emgrb19, $
-tmgii, $
+tmg, $
 ;mgfmx, $
 ;mgemx, $
 ;mgcoords, $
