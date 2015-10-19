@@ -628,7 +628,7 @@ exe = execute(com)
         if (j eq 19) then begin
         iris_radiometric_calibration, qkbalmer, wave = [wav1, wav2], n_pixels = 10, Fqkbalmer, Eqkbalmer, /sg
         qkmxf = max(Fqkbalmer, loc)
-        qkind = array_indices(Fbqkalmer, loc)
+        qkind = array_indices(Fbqbalmer, loc)
         fbalmerqkmx = fltarr(3, 1)
         fbalmerqkmx[0,0] = ind
         fbalmerqkmx[1,0] = qkxa
@@ -855,7 +855,7 @@ exe = execute(com)
 com = 'e'+dataset[k]+'nrb2[2,*] = '+dataset[k]+'EMX[1, 3*nc:4*nc-1]'
 exe = execute(com)
 
-file = dataset[k]+'ribbon_coords_x__flux__energy.dat'
+file = dataset[k]+'ribbon_coords_x__flux__energy.txt'
 openw, lun, file, /get_lun
 printf,lun, 'srb = south ribbon, nrb = north ribbon.'
 printf,lun, 'These arrays contain; the frame number '

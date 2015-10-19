@@ -628,7 +628,7 @@ exe = execute(com)
         if (j eq 19) then begin
         iris_radiometric_calibration, qkbalmer, wave = [wav1, wav2], n_pixels = 10, Fqkbalmer, Eqkbalmer, /sg
         qkmxf = max(Fqkbalmer, loc)
-        qkind = array_indices(Fbqkalmer, loc)
+        qkind = array_indices(Fqkbalmer, loc)
         fbalmerqkmx = fltarr(3, 1)
         fbalmerqkmx[0,0] = ind
         fbalmerqkmx[1,0] = qkxa
