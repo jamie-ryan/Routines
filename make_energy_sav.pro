@@ -926,7 +926,7 @@ Fsirb19, Esirb19, $
 tsi, $
 ;sifmx, $
 ;siemx, $
-;sicoords, $
+sicoords, $
 fsisrb1, $
 esisrb1, $
 fsisrb2, $
@@ -963,7 +963,7 @@ Fmgrb19, Emgrb19, $
 tmg, $
 ;mgfmx, $
 ;mgemx, $
-;mgcoords, $
+mgcoords, $
 fmgsrb1, $
 emgsrb1, $
 fmgsrb2, $
@@ -1020,7 +1020,7 @@ tsprb18, $
 tsprb19, $
 ;balmerfmx, $
 ;balmeremx, $
-;balmercoords, $
+balmercoords, $
 fbalmersrb1, $
 ebalmersrb1, $
 fbalmersrb2, $
@@ -1057,7 +1057,7 @@ Fmgwrb19, Emgwrb19, $
 tmgw, $
 ;mgwfmx, $
 ;mgwemx, $
-;mgwcoords, $
+mgwcoords, $
 fmgwsrb1, $
 emgwsrb1, $
 fmgwsrb2, $
@@ -1094,7 +1094,7 @@ Fhmirb19, Ehmirb19, $
 thmi, $
 ;hmifmx, $
 ;hmiemx, $
-;hmicoords, $
+hmicoords, $
 fhmisrb1, $
 ehmisrb1, $
 fhmisrb2, $
