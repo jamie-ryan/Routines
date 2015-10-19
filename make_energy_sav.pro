@@ -351,15 +351,23 @@ exe = execute(com)
     exe = execute(com)
 
     ;;BALMER
-    com = 'slitp = find_iris_slit_pos(hmirbxa'+jj+',sp2826)'
-    exe = execute(com)
-    com = 'spyp = find_iris_slit_pos(hmirbya'+jj+',sp2826, /y, /a2p)'
-    exe = execute(com)
+    if (j lt 10) then begin
+        com = 'slitp = find_iris_slit_pos(balmercoords1[0,'+jj+'],sp2826)'
+        exe = execute(com)
+        com = 'spyp = find_iris_slit_pos(balmercoords1[1,'+jj+'],sp2826, /y, /a2p)'
+        exe = execute(com)
+    endif
+    if (j gt 9) then begin
+        com = 'slitp = find_iris_slit_pos(balmercoords2[0,'+jj+'],sp2826)'
+        exe = execute(com)
+        com = 'spyp = find_iris_slit_pos(balmercoords2[1,'+jj+'],sp2826, /y, /a2p)'
+        exe = execute(com)
+    endif
     if (j eq 19) then begin
-    com = 'qkslitp = find_iris_slit_pos(qkxa,sp2826)'
-    exe = execute(com)
-    com = 'qkspyp = find_iris_slit_pos(qkya,sp2826, /y, /a2p)'
-    exe = execute(com)
+        com = 'qkslitp = find_iris_slit_pos(qkxa,sp2826)'
+        exe = execute(com)
+        com = 'qkspyp = find_iris_slit_pos(qkya,sp2826, /y, /a2p)'
+        exe = execute(com)
     endif
         for i = 0, nn-1, 1 do begin  
             slitpos = string(slitp[i], format = '(I0)')
