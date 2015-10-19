@@ -29,8 +29,8 @@ endif
 for j = start,  stp do begin
 
     for i = (j*nc)-nc, j*nc-(nc/2)-1 do begin
-        central_coord_x = hmicoords[0,i] 
-        central_coord_y = hmicoords[1,i]
+        central_coord_x = coords[0,i] 
+        central_coord_y = coords[1,i]
         x0 = central_coord_x - box_size 
         xf = central_coord_x + box_size
         y0 = central_coord_y - box_size
