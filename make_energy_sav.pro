@@ -806,15 +806,15 @@ com = 'printf, lun f'+dataset[k]+'srb1'
 exe = execute(com)
 printf,lun,  '************************************'
 printf,lun,  '**************nrb1******************'
-com = 'printf, lun, f'+dataset[k]+'nrb1
+com = 'printf, lun, f'+dataset[k]+'nrb1'
 exe = execute(com)
 printf,lun,  '************************************'
 printf,lun,  '**************srb2******************'
-com = 'printf, lun, f'+dataset[k]+'srb2
+com = 'printf, lun, f'+dataset[k]+'srb2'
 exe = execute(com)
 printf,lun,  '************************************'
 printf,lun,  '**************nrb2******************'
-com = 'printf, lun, f'+dataset[k]+'nrb2
+com = 'printf, lun, f'+dataset[k]+'nrb2'
 exe = execute(com)
 printf,lun, '*************************************'
 printf,lun, '*************************************'
@@ -823,19 +823,19 @@ printf,lun, '*************************************'
 printf,lun, '*************************************'
 printf,lun, '************************************'
 printf,lun,  '**************srb1******************'
-com = 'printf, lun, e'+dataset[k]+'srb1
+com = 'printf, lun, e'+dataset[k]+'srb1'
 exe = execute(com)
 printf,lun,  '************************************'
 printf,lun,  '**************nrb1******************'
-com = 'printf, lun, e'+dataset[k]+'nrb1
+com = 'printf, lun, e'+dataset[k]+'nrb1'
 exe = execute(com)
 printf,lun,  '************************************'
 printf,lun,  '**************srb2******************'
-com = 'printf, lun, e'+dataset[k]+'srb2
+com = 'printf, lun, e'+dataset[k]+'srb2'
 exe = execute(com)
 printf,lun,  '************************************'
 printf,lun,  '**************nrb2******************'
-com = 'printf, lun, e'+dataset[k]+'nrb2
+com = 'printf, lun, e'+dataset[k]+'nrb2'
 exe = execute(com)
 free_lun, lun
 endfor
@@ -924,10 +924,9 @@ Fsirb17, Esirb17, $
 Fsirb18, Esirb18, $
 Fsirb19, Esirb19, $
 tsi, $
-sifmx, $
-siemx, $
-sicoords
-
+;sifmx, $
+;siemx, $
+;sicoords, $
 fsisrb1, $
 esisrb1, $
 fsisrb2, $
