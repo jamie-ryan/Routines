@@ -64,7 +64,7 @@ qkmgxp = convert_coord_iris(qkxa, sji_2796_hdr[664], /x, /a2p)
 qkmgyp = convert_coord_iris(qkya, sji_2796_hdr[664], /y, /a2p)
 qkmgwxp = convert_coord_iris(qkxa, sji_2832_hdr[167], /x, /a2p)
 qkmgwyp = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
-
+print, 'flag11111111111111111111111111111111111111111111111111'
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 ncst = string(nc, format = '(I0)')
 for i = 1,2 do begin
@@ -81,6 +81,7 @@ for i = 1,2 do begin
         free_lun, lun
     endfor
 endfor
+print, 'flag222222222222222222222222222222222222222222222222'
     ;;;first frame at 17:45:31 or diff[62]
 ;;;coords1[*,0:4] = south ribbon 
 ;;;coords1[*,5:9] = north ribbon
@@ -96,6 +97,7 @@ for k = 0, n_elements(dataset)-1 do begin
             exe = execute(com)
             com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)            
+            print, 'flag3333333333333333333333333333333333333333333333333333333'
         endif 
         if (i gt 9) then begin
             if (k eq 0) then map = 'sji_1400_hdr[498]' else $
@@ -107,12 +109,13 @@ for k = 0, n_elements(dataset)-1 do begin
             exe = execute(com)
             com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)
+            print, 'flag444444444444444444444444444444444444444444444444444444444'
         endif
     endfor
 endfor
 balmercoords1 = fltarr(2, nc)
 balmercoords2 = fltarr(2, nc)
-
+print, 'flag555555555555555555555555555555555555555555555555555555555555'
 
 for j = 0, n_elements(fmg) - 1 do begin
 ;;;;;;;open files 
@@ -298,7 +301,7 @@ tsi = map1400.time
 tmg = submg.time
 tmgw = map2832.time
 thmi = diff.time
-
+print, 'flag6666666666666666666666666666666666666666666666666666666666'
 
 for j = 0, nrb-1 do begin
 jj = string(j, format = '(I0)')
@@ -317,7 +320,7 @@ com = 'rbhmi'+jj+' = fltarr(nnn)'
 exe = execute(com)
 
 ;;;;;;;;;FILL ARRAYS
-
+print, 'flag7777777777777777777777777777777777777777777777777777777777777'
     ;;SI IV 1400
     for i = 0, nsi-1, 1 do begin
         if (j eq 19) then begin
@@ -332,7 +335,7 @@ exe = execute(com)
         endif    
     com = 'iris_radiometric_calibration, rbsi'+jj+', wave = 1400., n_pixels = 1,Fsirb'+jj+', Esirb'+jj+', /sji'
     exe = execute(com)
-
+print, 'flag888888888888888888888888888888888888888888888888888888888888888'
 
 
     ;;MG II 2796
@@ -349,7 +352,7 @@ exe = execute(com)
         endif
     com = 'iris_radiometric_calibration, rbmg'+jj+', wave = 2976., n_pixels = 1,Fmgrb'+jj+', Emgrb'+jj+', /sji'
     exe = execute(com)
-
+print, 'flag999999999999999999999999999999999999999999999999999999999999999999
     ;;BALMER
     if (j lt 10) then begin
         com = 'slitp = find_iris_slit_pos(hmicoords1[0,'+jj+'],sp2826)'
@@ -364,8 +367,8 @@ exe = execute(com)
         exe = execute(com)
         com = 'spyp = find_iris_slit_pos(hmicoords2[1,'+jj+'],sp2826, /y, /a2p)'
         exe = execute(com)
-        balmercoords2[0, j] = slitp
-        balmercoords2[1, j] = spyp
+        balmercoords2[0, j-10] = slitp
+        balmercoords2[1, j-10] = spyp
     endif
     if (j eq 19) then begin
         com = 'qkslitp = find_iris_slit_pos(qkxa,sp2826)'
@@ -406,7 +409,7 @@ exe = execute(com)
     com = 'iris_radiometric_calibration,rbbalmer'+jj+',wave=['+w1+','+w2+'],n_pixels=10,Fbalmerrb'+jj+',Ebalmerrb'+jj+',/sg'
     exe = execute(com)
 
-
+print, 'flag0000000000000000000000000000000000000000000000000000000'
 
 
 
