@@ -797,12 +797,12 @@ com = 'f'+dataset[k]+'nrb1 = fltarr(3, '+ncst+')'
 exe = execute(com)
 com = 'f'+dataset[k]+'nrb2 = fltarr(3, '+ncst+')'
 exe = execute(com)
-
-com = 'f'+dataset[k]+'srb1[0,*] = '+dataset[k]+'FMX[0, 0:nc-1]' ;ind
+;ind;x_coord;energy
+com = 'f'+dataset[k]+'srb1[0,*] = '+dataset[k]+'FMX[0, 0:nc-1]' 
 exe = execute(com)
-com = 'f'+dataset[k]+'srb1[1,*] = '+dataset[k]+'coords[0, 0:nc-1]' ;x_coord
+com = 'f'+dataset[k]+'srb1[1,*] = '+dataset[k]+'coords[0, 0:nc-1]' 
 exe = execute(com)
-com = 'f'+dataset[k]+'srb1[2,*] = '+dataset[k]+'FMX[1, 0:nc-1]' ;energy 
+com = 'f'+dataset[k]+'srb1[2,*] = '+dataset[k]+'FMX[1, 0:nc-1]'  
 exe = execute(com)
 
 com = 'f'+dataset[k]+'nrb1[0,*] = '+dataset[k]+'FMX[0, nc:2*nc-1]'
