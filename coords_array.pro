@@ -17,8 +17,8 @@ nc = (nrb/2)
 ;j = 1, nc = 10    
 ;    : j*nc = 10
 ;    : -nc/2 = 5
-central_coord_x = fltarr(nc)
-central_coord_y = fltarr(nc)
+central_coord_x = fltarr(nrb)
+central_coord_y = fltarr(nrb)
 
 start = 1
 stp = 2
@@ -40,7 +40,7 @@ for j = start,  stp do begin
     endfor
 endfor
 
-result = fltarr(2,nc)
+result = fltarr(2,nrb)
 result[0,*] = central_coord_x
 result[1,*] = central_coord_y
 

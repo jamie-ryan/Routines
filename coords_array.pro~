@@ -21,7 +21,7 @@ central_coord_x = fltarr(nc)
 central_coord_y = fltarr(nc)
 
 start = 1
-stop = 2
+stp = 2
 for j = start,  stp do begin
 
     for i = (j*nc)-nc, j*nc-(nc/2)-1 do begin
@@ -31,7 +31,7 @@ for j = start,  stp do begin
 endfor
 
 start = 1.5
-stop = 2.5
+stp = 2.5
 for j = start,  stp do begin
 
     for i = (j*nc)-nc, j*nc-(nc/2)-1 do begin
