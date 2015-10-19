@@ -36,7 +36,7 @@ for j = start,  stp do begin
 
     for i = (j*nc)-nc, j*nc-(nc/2)-1 do begin
         central_coord_x[i] = coords[0,i] 
-        central_coord_y[] = coords[1,i]
+        central_coord_y[i] = coords[1,i]
     endfor
 endfor
 
