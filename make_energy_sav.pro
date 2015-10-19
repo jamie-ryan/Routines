@@ -93,9 +93,9 @@ for k = 0, n_elements(dataset)-1 do begin
             if (k eq 2) then map = '172' else $
             if (k eq 3) then map = '166' else $
             if (k eq 4) then map = '62'
-            com = dataset[k]+'rbxp'+ii+' =  = convert_coord_hmi('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /y, /a2p)'
+            com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)
-            com = dataset[k]+'rbyp'+ii+' =  = convert_coord_hmi('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
+            com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)            
         endif 
         if (i gt 9) then begin
@@ -104,9 +104,9 @@ for k = 0, n_elements(dataset)-1 do begin
             if (k eq 2) then map = '173' else $
             if (k eq 3) then map = '167' else $
             if (k eq 4) then map = '63'
-            com = dataset[k]+'rbxp'+ii+' =  = convert_coord_hmi('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /y, /a2p)'
+            com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)
-            com = dataset[k]+'rbyp'+ii+' =  = convert_coord_hmi('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
+            com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)
         endif
     endfor
