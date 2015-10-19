@@ -720,10 +720,10 @@ exe = execute(com)
 
 
 endfor
-
+nrb = 20
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
-for k = 0, n_elements(dataset)
-nc = n_elements(nrb/4)
+for k = 0, n_elements(dataset)-1 do begin
+nc = nrb/4
 ncst = string(nc, format = '(I0)')
 
 
@@ -823,19 +823,19 @@ printf,lun, '*************************************'
 printf,lun, '*************************************'
 printf,lun, '************************************'
 printf,lun,  '**************srb1******************'
-com = 'printf, lun, e'dataset[k]+'srb1
+com = 'printf, lun, e'+dataset[k]+'srb1
 exe = execute(com)
 printf,lun,  '************************************'
 printf,lun,  '**************nrb1******************'
-com = 'printf, lun, e'dataset[k]+'nrb1
+com = 'printf, lun, e'+dataset[k]+'nrb1
 exe = execute(com)
 printf,lun,  '************************************'
 printf,lun,  '**************srb2******************'
-com = 'printf, lun, e'dataset[k]+'srb2
+com = 'printf, lun, e'+dataset[k]+'srb2
 exe = execute(com)
 printf,lun,  '************************************'
 printf,lun,  '**************nrb2******************'
-com = 'printf, lun, e'dataset[k]+'nrb2
+com = 'printf, lun, e'+dataset[k]+'nrb2
 exe = execute(com)
 free_lun, lun
 endfor

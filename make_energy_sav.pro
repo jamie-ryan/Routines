@@ -722,8 +722,8 @@ exe = execute(com)
 endfor
 
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
-for k = 0, n_elements(dataset) do begin
-nc = n_elements(nrb/4)
+for k = 0, n_elements(dataset)-1 do begin
+nc = nrb/4
 ncst = string(nc, format = '(I0)')
 
 
