@@ -84,10 +84,6 @@ endfor
     ;;;first frame at 17:45:31 or diff[62]
 ;;;coords1[*,0:4] = south ribbon 
 ;;;coords1[*,5:9] = north ribbon
-SJI_1400_HDR    STRUCT    = -> <Anonymous> Array[518]
-SJI_2796_HDR    STRUCT    = -> <Anonymous> Array[690]
-SJI_2832_HDR 
-
 for k = 0, n_elements(dataset)-1 do begin
     for i = 0, nrb-1 do begin
         if (i lt 10) then begin

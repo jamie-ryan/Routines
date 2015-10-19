@@ -407,7 +407,7 @@ exe = execute(com)
         if (j eq 19) then begin
         iris_radiometric_calibration, qkbalmer, wave = [wav1, wav2], n_pixels = 10, Fbalmerqk, Ebalmerqk, /sg
         endif
-    com = 'iris_radiometric_calibration, rbbalmer'+jj+', wave = ['+w1+', '+w2+'], n_pixels = 10, Fbalmerrb'+jj+', Ebalmerrb'+jj+' ,/sg'
+    com = 'iris_radiometric_calibration,rbbalmer'+jj+',wave=['+w1+','+w2+'],n_pixels=10,Fbalmerrb'+jj+',Ebalmerrb'+jj+',/sg'
     exe = execute(com)
 
 
