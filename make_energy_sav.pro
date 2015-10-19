@@ -87,7 +87,7 @@ endfor
 
 for k = 0, n_elements(dataset)-1 do begin
     for i = 0, nrb-1 do begin
-        if (j lt 10) then begin
+        if (i lt 10) then begin
             if (k eq 0) then map = '495' else $
             if (k eq 1) then map = '661' else $
             if (k eq 2) then map = '172' else $
@@ -98,7 +98,7 @@ for k = 0, n_elements(dataset)-1 do begin
             com = dataset[k]+'rbyp'+ii+' =  = convert_coord_hmi('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)            
         endif 
-        if (j gt 9) then begin
+        if (i gt 9) then begin
             if (k eq 0) then map = '498' else $
             if (k eq 1) then map = '666' else $
             if (k eq 2) then map = '173' else $
