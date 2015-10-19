@@ -965,7 +965,14 @@ tmgii, $
 ;mgfmx, $
 ;mgemx, $
 ;mgcoords, $
-
+fmgsrb1, $
+emgsrb1, $
+fmgsrb2, $
+emgsrb2, $
+fmgnrb1, $
+emgnrb1, $
+fmgnrb2, $
+emgnrb2, $
 filename = '29-Mar-2014-energies-iris-mgii-single-pixel-'+date+'.sav'
 
 save, $
