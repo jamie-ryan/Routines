@@ -106,7 +106,7 @@ for k = 0, n_elements(dataset)-1 do begin
             if (k eq 4) then map = '63'
             com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)
-            com = dataset[k]+'rbyp'+ii+' =convert_coord_hmi('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
+            com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)
         endif
     endfor
@@ -351,9 +351,9 @@ exe = execute(com)
     exe = execute(com)
 
     ;;BALMER
-    com = 'slitp = find_iris_slit_pos(hmirbxp'+jj+',sp2826)'
+    com = 'slitp = find_iris_slit_pos(hmirbxa'+jj+',sp2826)'
     exe = execute(com)
-    com = 'spyp = find_iris_slit_pos(hmirbyp'+jj+',sp2826, /y, /a2p)'
+    com = 'spyp = find_iris_slit_pos(hmirbya'+jj+',sp2826, /y, /a2p)'
     exe = execute(com)
     if (j eq 19) then begin
     com = 'qkslitp = find_iris_slit_pos(qkxa,sp2826)'

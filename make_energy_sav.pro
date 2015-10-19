@@ -351,9 +351,9 @@ exe = execute(com)
     exe = execute(com)
 
     ;;BALMER
-    com = 'slitp = find_iris_slit_pos(hmirbxp'+jj+',sp2826)'
+    com = 'slitp = find_iris_slit_pos(hmirbxa'+jj+',sp2826)'
     exe = execute(com)
-    com = 'spyp = find_iris_slit_pos(hmirbyp'+jj+',sp2826, /y, /a2p)'
+    com = 'spyp = find_iris_slit_pos(hmirbya'+jj+',sp2826, /y, /a2p)'
     exe = execute(com)
     if (j eq 19) then begin
     com = 'qkslitp = find_iris_slit_pos(qkxa,sp2826)'
