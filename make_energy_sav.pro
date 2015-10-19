@@ -28,7 +28,7 @@ fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
 ff = findfile(datdir+'hmi-high*')
 
 sample = 1
-dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+
 
 
 nmg = n_elements(submg) ;nmg = n_elements(submg[17:*])
@@ -37,6 +37,7 @@ nsi = n_elements(map1400) ;nsi = n_elements(map1400[387:*])
 nn = n_elements(fsp)
 nnn = n_elements(diff)
 nrb = 20 ; number of ribbon sample points
+nc = nrb/2
 ;qkirxa = 519.
 ;qkirya = 262.
 
@@ -64,238 +65,52 @@ qkmgyp = convert_coord_iris(qkya, sji_2796_hdr[664], /y, /a2p)
 qkmgwxp = convert_coord_iris(qkxa, sji_2832_hdr[167], /x, /a2p)
 qkmgwyp = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
 
+dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+ncst = string(nc, format = '(I0)')
+for i = 1,2 do begin
+    ii = string(i, format = '(I0)')
+    for k = 0, n_elements(dataset)-1 do begin
+        com = dataset[k]+'coords1 = fltarr(2, '+ncst+')'
+        exe = execute(com)
+        com = dataset[k]+'coords2 = fltarr(2, '+ncst+')'
+        exe = execute(com)
+        flnm = dataset[k]+'coords'+ii+'.txt'
+        openr, lun, flnm, /get_lun
+        com = 'readf, lun,'+dataset[k]+'coords'+ii 
+        exe = execute(com)
+        free_lun, lun
+    endfor
+endfor
+    ;;;first frame at 17:45:31 or diff[62]
+;;;coords1[*,0:4] = south ribbon 
+;;;coords1[*,5:9] = north ribbon
 
 for k = 0, n_elements(dataset)-1 do begin
-com = 'f'+dataset[k]+'srb1 = fltarr(3, '+ncst+')'
-
-
-
-;south ribbon, from left to right, at 17:45:31 or diff[62]
-hmirbxa0 = 517.8
-hmirbya0 = 260.5
-hmirbxp0 = convert_coord_hmi(hmirbxa0, diffindex[62],  /x, /a2p)
-hmirbyp0 = convert_coord_hmi(hmirbya0, diffindex[62],  /y, /a2p)
-sirbxp0 = convert_coord_iris(hmirbxa0, sji_1400_hdr[495], /x, /a2p)
-sirbyp0 = convert_coord_iris(hmirbya0, sji_1400_hdr[495], /y, /a2p)
-mgrbxp0 = convert_coord_iris(hmirbxa0, sji_2796_hdr[661], /x, /a2p)
-mgrbyp0 = convert_coord_iris(hmirbya0, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp0 = convert_coord_iris(hmirbxa0, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp0 = convert_coord_iris(hmirbya0, sji_2832_hdr[166], /y, /a2p)
-
-hmirbxa1 = 518.8
-hmirbya1 = 261.0
-hmirbxp1 = convert_coord_hmi(hmirbxa1, diffindex[62],  /x, /a2p)
-hmirbyp1 = convert_coord_hmi(hmirbya1, diffindex[62],  /y, /a2p)
-sirbxp1 = convert_coord_iris(hmirbxa1, sji_1400_hdr[495], /x, /a2p)
-sirbyp1= convert_coord_iris(hmirbya1, sji_1400_hdr[495], /y, /a2p)
-mgrbxp1 = convert_coord_iris(hmirbxa1, sji_2796_hdr[661], /x, /a2p)
-mgrbyp1 = convert_coord_iris(hmirbya1, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp1 = convert_coord_iris(hmirbxa1, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp1 = convert_coord_iris(hmirbya1, sji_2832_hdr[166], /y, /a2p)
-
-hmirbxa2 = 519.7
-hmirbya2 = 261.7
-hmirbxp2 = convert_coord_hmi(hmirbxa2, diffindex[62],  /x, /a2p)
-hmirbyp2 = convert_coord_hmi(hmirbya2, diffindex[62],  /y, /a2p)
-sirbxp2 = convert_coord_iris(hmirbxa2, sji_1400_hdr[495], /x, /a2p)
-sirbyp2 = convert_coord_iris(hmirbya2, sji_1400_hdr[495], /y, /a2p)
-mgrbxp2 = convert_coord_iris(hmirbxa2, sji_2796_hdr[661], /x, /a2p)
-mgrbyp2 = convert_coord_iris(hmirbya2, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp2 = convert_coord_iris(hmirbxa2, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp2= convert_coord_iris(hmirbya2, sji_2832_hdr[166], /y, /a2p)
-
-hmirbxa3 = 520.6
-hmirbya3 = 262.3
-hmirbxp3 = convert_coord_hmi(hmirbxa3, diffindex[62],  /x, /a2p)
-hmirbyp3 = convert_coord_hmi(hmirbya3, diffindex[62],  /y, /a2p)
-sirbxp3 = convert_coord_iris(hmirbxa3, sji_1400_hdr[495], /x, /a2p)
-sirbyp3 = convert_coord_iris(hmirbya3, sji_1400_hdr[495], /y, /a2p)
-mgrbxp3 = convert_coord_iris(hmirbxa3, sji_2796_hdr[661], /x, /a2p)
-mgrbyp3 = convert_coord_iris(hmirbya3, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp3 = convert_coord_iris(hmirbxa3, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp3 = convert_coord_iris(hmirbya3, sji_2832_hdr[166], /y, /a2p)
-
-hmirbxa4 = 521.7
-hmirbya4 = 262.6
-hmirbxp4 = convert_coord_hmi(hmirbxa4, diffindex[62],  /x, /a2p)
-hmirbyp4 = convert_coord_hmi(hmirbya4, diffindex[62],  /y, /a2p)
-sirbxp4 = convert_coord_iris(hmirbxa4, sji_1400_hdr[495], /x, /a2p)
-sirbyp4 = convert_coord_iris(hmirbya4, sji_1400_hdr[495], /y, /a2p)
-mgrbxp4 = convert_coord_iris(hmirbxa4, sji_2796_hdr[661], /x, /a2p)
-mgrbyp4 = convert_coord_iris(hmirbya4, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp4 = convert_coord_iris(hmirbxa4, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp4 = convert_coord_iris(hmirbya4, sji_2832_hdr[166], /y, /a2p)
-;;;;;;;;;;;;;;;;
-
-;North ribbon from left to right, at 17:45:31 or diff[62]
-hmirbxa5 = 500.7 
-hmirbya5 = 262.7
-hmirbxp5 = convert_coord_hmi(hmirbxa5, diffindex[62],  /x, /a2p)
-hmirbyp5 = convert_coord_hmi(hmirbya5, diffindex[62],  /y, /a2p)
-sirbxp5 = convert_coord_iris(hmirbxa5, sji_1400_hdr[495], /x, /a2p)
-sirbyp5 = convert_coord_iris(hmirbya5, sji_1400_hdr[495], /y, /a2p)
-mgrbxp5 = convert_coord_iris(hmirbxa5, sji_2796_hdr[661], /x, /a2p)
-mgrbyp5 = convert_coord_iris(hmirbya5, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp5 = convert_coord_iris(hmirbxa5, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp5 = convert_coord_iris(hmirbya5, sji_2832_hdr[166], /y, /a2p)
-
-hmirbxa6 = 503.8 
-hmirbya6 = 265.0
-hmirbxp6 = convert_coord_hmi(hmirbxa6, diffindex[62],  /x, /a2p)
-hmirbyp6 = convert_coord_hmi(hmirbya6, diffindex[62],  /y, /a2p)
-sirbxp6 = convert_coord_iris(hmirbxa6, sji_1400_hdr[495], /x, /a2p)
-sirbyp6 = convert_coord_iris(hmirbya6, sji_1400_hdr[495], /y, /a2p)
-mgrbxp6 = convert_coord_iris(hmirbxa6, sji_2796_hdr[661], /x, /a2p)
-mgrbyp6 = convert_coord_iris(hmirbya6, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp6 = convert_coord_iris(hmirbxa6, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp6 = convert_coord_iris(hmirbya6, sji_2832_hdr[166], /y, /a2p)
-
-hmirbxa7 = 506.9
-hmirbya7 = 268.1
-hmirbxp7 = convert_coord_hmi(hmirbxa7, diffindex[62],  /x, /a2p)
-hmirbyp7 = convert_coord_hmi(hmirbya7, diffindex[62],  /y, /a2p)
-sirbxp7 = convert_coord_iris(hmirbxa7, sji_1400_hdr[495], /x, /a2p)
-sirbyp7 = convert_coord_iris(hmirbya7, sji_1400_hdr[495], /y, /a2p)
-mgrbxp7 = convert_coord_iris(hmirbxa7, sji_2796_hdr[661], /x, /a2p)
-mgrbyp7 = convert_coord_iris(hmirbya7, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp7 = convert_coord_iris(hmirbxa7, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp7 = convert_coord_iris(hmirbya7, sji_2832_hdr[166], /y, /a2p)
-
-hmirbxa8 = 509.27680
-hmirbya8 = 268.79198
-hmirbxp8 = convert_coord_hmi(hmirbxa8, diffindex[62],  /x, /a2p)
-hmirbyp8 = convert_coord_hmi(hmirbya8, diffindex[62],  /y, /a2p)
-sirbxp8 = convert_coord_iris(hmirbxa8, sji_1400_hdr[495], /x, /a2p)
-sirbyp8 = convert_coord_iris(hmirbya8, sji_1400_hdr[495], /y, /a2p)
-mgrbxp8 = convert_coord_iris(hmirbxa8, sji_2796_hdr[661], /x, /a2p)
-mgrbyp8 = convert_coord_iris(hmirbya8, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp8 = convert_coord_iris(hmirbxa8, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp8 = convert_coord_iris(hmirbya8, sji_2832_hdr[166], /y, /a2p)
-
-hmirbxa9 = 514.4
-hmirbya9 = 270.1
-hmirbxp9 = convert_coord_hmi(hmirbxa9, diffindex[62],  /x, /a2p)
-hmirbyp9 = convert_coord_hmi(hmirbya9, diffindex[62],  /y, /a2p)
-sirbxp9 = convert_coord_iris(hmirbxa9, sji_1400_hdr[495], /x, /a2p)
-sirbyp9 = convert_coord_iris(hmirbya9, sji_1400_hdr[495], /y, /a2p)
-mgrbxp9 = convert_coord_iris(hmirbxa9, sji_2796_hdr[661], /x, /a2p)
-mgrbyp9 = convert_coord_iris(hmirbya9, sji_2796_hdr[661], /y, /a2p)
-mgwrbxp9 = convert_coord_iris(hmirbxa9, sji_2832_hdr[166], /x, /a2p)
-mgwrbyp9 = convert_coord_iris(hmirbya9, sji_2832_hdr[166], /y, /a2p)
-;;;;;;;;;;;;;;;;;;
-
-;south ribbon, from left to right, at 17:46:16 or diff[63]
-hmirbxa10 = 518.6
-hmirbya10 = 259.1
-hmirbxp10 = convert_coord_hmi(hmirbxa10, diffindex[63],  /x, /a2p)
-hmirbyp10 = convert_coord_hmi(hmirbya10, diffindex[63],  /y, /a2p)
-sirbxp10 = convert_coord_iris(hmirbxa10, sji_1400_hdr[498], /x, /a2p)
-sirbyp10 = convert_coord_iris(hmirbya10, sji_1400_hdr[498], /y, /a2p)
-mgrbxp10 = convert_coord_iris(hmirbxa10, sji_2796_hdr[664], /x, /a2p)
-mgrbyp10 = convert_coord_iris(hmirbya10, sji_2796_hdr[664], /y, /a2p)
-mgwrbxp10 = convert_coord_iris(hmirbxa10, sji_2832_hdr[167], /x, /a2p)
-mgwrbyp10 = convert_coord_iris(hmirbya10, sji_2832_hdr[167], /y, /a2p)
-
-hmirbxa11 = 519.6
-hmirbya11 = 259.3
-hmirbxp11 = convert_coord_hmi(hmirbxa11, diffindex[63],  /x, /a2p)
-hmirbyp11 = convert_coord_hmi(hmirbya11, diffindex[63],  /y, /a2p)
-sirbxp11 = convert_coord_iris(hmirbxa11, sji_1400_hdr[498], /x, /a2p)
-sirbyp11 = convert_coord_iris(hmirbya11, sji_1400_hdr[498], /y, /a2p)
-mgrbxp11 = convert_coord_iris(hmirbxa11, sji_2796_hdr[664], /x, /a2p)
-mgrbyp11 = convert_coord_iris(hmirbya11, sji_2796_hdr[664], /y, /a2p)
-mgwrbxp11 = convert_coord_iris(hmirbxa11, sji_2832_hdr[167], /x, /a2p)
-mgwrbyp11 = convert_coord_iris(hmirbya11, sji_2832_hdr[167], /y, /a2p)
-
-hmirbxa12 = 520.6
-hmirbya12 = 259.5
-hmirbxp12 = convert_coord_hmi(hmirbxa12, diffindex[63],  /x, /a2p)
-hmirbyp12 = convert_coord_hmi(hmirbya12, diffindex[63],  /y, /a2p)
-sirbxp12 = convert_coord_iris(hmirbxa12, sji_1400_hdr[498], /x, /a2p)
-sirbyp12 = convert_coord_iris(hmirbya12, sji_1400_hdr[498], /y, /a2p)
-mgrbxp12 = convert_coord_iris(hmirbxa12, sji_2796_hdr[664], /x, /a2p)
-mgrbyp12 = convert_coord_iris(hmirbya12, sji_2796_hdr[664], /y, /a2p)
-mgwrbxp12 = convert_coord_iris(hmirbxa12, sji_2832_hdr[167], /x, /a2p)
-mgwrbyp12 = convert_coord_iris(hmirbya12, sji_2832_hdr[167], /y, /a2p)
-
-hmirbxa13 = 521.6
-hmirbya13 = 259.9
-hmirbxp13 = convert_coord_hmi(hmirbxa13, diffindex[63],  /x, /a2p)
-hmirbyp13 = convert_coord_hmi(hmirbya13, diffindex[63],  /y, /a2p)
-sirbxp13 = convert_coord_iris(hmirbxa13, sji_1400_hdr[498], /x, /a2p)
-sirbyp13 = convert_coord_iris(hmirbya13, sji_1400_hdr[498], /y, /a2p)
-mgrbxp13 = convert_coord_iris(hmirbxa13, sji_2796_hdr[664], /x, /a2p)
-mgrbyp13 = convert_coord_iris(hmirbya13, sji_2796_hdr[664], /y, /a2p)
-mgwrbxp13 = convert_coord_iris(hmirbxa13, sji_2832_hdr[167], /x, /a2p)
-mgwrbyp13 = convert_coord_iris(hmirbya13, sji_2832_hdr[167], /y, /a2p)
-
-hmirbxa14 = 524.1
-hmirbya14 = 259.7
-hmirbxp14 = convert_coord_hmi(hmirbxa14, diffindex[63],  /x, /a2p)
-hmirbyp14 = convert_coord_hmi(hmirbya14, diffindex[63],  /y, /a2p)
-sirbxp14 = convert_coord_iris(hmirbxa14, sji_1400_hdr[498], /x, /a2p)
-sirbyp14 = convert_coord_iris(hmirbya14, sji_1400_hdr[498], /y, /a2p)
-mgrbxp14 = convert_coord_iris(hmirbxa14, sji_2796_hdr[664], /x, /a2p)
-mgrbyp14 = convert_coord_iris(hmirbya14, sji_2796_hdr[664], /y, /a2p)
-mgwrbxp14 = convert_coord_iris(hmirbxa14, sji_2832_hdr[167], /x, /a2p)
-mgwrbyp14 = convert_coord_iris(hmirbya14, sji_2832_hdr[167], /y, /a2p)
-
-;North ribbon, from left to right, at 17:46:16 or diff[63]
-hmirbxa15 = 499.1
-hmirbya15 = 264.7
-hmirbxp15 = convert_coord_hmi(hmirbxa15, diffindex[63],  /x, /a2p)
-hmirbyp15 = convert_coord_hmi(hmirbya15, diffindex[63],  /y, /a2p)
-sirbxp15 = convert_coord_iris(hmirbxa15, sji_1400_hdr[498], /x, /a2p)
-sirbyp15 = convert_coord_iris(hmirbya15, sji_1400_hdr[498], /y, /a2p)
-mgrbxp15 = convert_coord_iris(hmirbxa15, sji_2796_hdr[664], /x, /a2p)
-mgrbyp15 = convert_coord_iris(hmirbya15, sji_2796_hdr[664], /y, /a2p)
-mgwrbxp15 = convert_coord_iris(hmirbxa15, sji_2832_hdr[167], /x, /a2p)
-mgwrbyp15 = convert_coord_iris(hmirbya15, sji_2832_hdr[167], /y, /a2p)
-
-hmirbxa16 = 502.1
-hmirbya16 = 263.8
-hmirbxp16 = convert_coord_hmi(hmirbxa16, diffindex[63],  /x, /a2p)
-hmirbyp16 = convert_coord_hmi(hmirbya16, diffindex[63],  /y, /a2p)
-sirbxp16 = convert_coord_iris(hmirbxa16, sji_1400_hdr[498], /x, /a2p)
-sirbyp16 = convert_coord_iris(hmirbya16, sji_1400_hdr[498], /y, /a2p)
-mgrbxp16 = convert_coord_iris(hmirbxa16, sji_2796_hdr[664], /x, /a2p)
-mgrbyp16 = convert_coord_iris(hmirbya16, sji_2796_hdr[664], /y, /a2p)
-mgwrbxp16 = convert_coord_iris(hmirbxa16, sji_2832_hdr[167], /x, /a2p)
-mgwrbyp16 = convert_coord_iris(hmirbya16, sji_2832_hdr[167], /y, /a2p)
-
-hmirbxa17 = 504.6
-hmirbya17 = 267.0
-hmirbxp17 = convert_coord_hmi(hmirbxa17, diffindex[63],  /x, /a2p)
-hmirbyp17 = convert_coord_hmi(hmirbya17, diffindex[63],  /y, /a2p)
-sirbxp17 = convert_coord_iris(hmirbxa17, sji_1400_hdr[498], /x, /a2p)
-sirbyp17 = convert_coord_iris(hmirbya17, sji_1400_hdr[498], /y, /a2p)
-mgrbxp17 = convert_coord_iris(hmirbxa17, sji_2796_hdr[664], /x, /a2p)
-mgrbyp17 = convert_coord_iris(hmirbya17, sji_2796_hdr[664], /y, /a2p)
-mgwrbxp17 = convert_coord_iris(hmirbxa17, sji_2832_hdr[167], /x, /a2p)
-mgwrbyp17 = convert_coord_iris(hmirbya17, sji_2832_hdr[167], /y, /a2p)
-
-hmirbxa18 = 508.4
-hmirbya18 = 269.8
-hmirbxp18 = convert_coord_hmi(hmirbxa18, diffindex[63],  /x, /a2p)
-hmirbyp18 = convert_coord_hmi(hmirbya18, diffindex[63],  /y, /a2p)
-sirbxp18 = convert_coord_iris(hmirbxa18, sji_1400_hdr[498], /x, /a2p)
-sirbyp18 = convert_coord_iris(hmirbya18, sji_1400_hdr[498], /y, /a2p)
-mgrbxp18 = convert_coord_iris(hmirbxa18, sji_2796_hdr[664], /x, /a2p)
-mgrbyp18 = convert_coord_iris(hmirbya18, sji_2796_hdr[664], /y, /a2p)
-mgwrbxp18 = convert_coord_iris(hmirbxa18, sji_2832_hdr[167], /x, /a2p)
-mgwrbyp18 = convert_coord_iris(hmirbya18, sji_2832_hdr[167], /y, /a2p)
-
-hmirbxa19 = 511. ;rbxa,rbxpcorr = 39
-hmirbya19 = 272. ;rbya,rbypcorr = 90
-hmirbxp19 = convert_coord_hmi(hmirbxa19, diffindex[63],  /x, /a2p)
-hmirbyp19 = convert_coord_hmi(hmirbya19, diffindex[63],  /y, /a2p)
-sirbxp19 = convert_coord_iris(hmirbxa19, sji_1400_hdr[498], /x, /a2p)
-sirbyp19 = convert_coord_iris(hmirbya19, sji_1400_hdr[498], /y, /a2p)
-mgrbxp19 = convert_coord_iris(hmirbxa19, sji_2796_hdr[664], /x, /a2p)
-mgrbyp19 = convert_coord_iris(hmirbya19, sji_2796_hdr[664], /y, /a2p)
-mgwrbxp19 = convert_coord_iris(hmirbxa19, sji_2832_hdr[167], /x, /a2p)
-mgwrbyp19 = convert_coord_iris(hmirbya19, sji_2832_hdr[167], /y, /a2p)
-
+    for i = 0, nrb-1 do begin
+        if (j lt 10) then begin
+            if (k eq 0) then map = '495' else $
+            if (k eq 1) then map = '661' else $
+            if (k eq 2) then map = '172' else $
+            if (k eq 3) then map = '166' else $
+            if (k eq 4) then map = '62'
+            com = dataset[k]+'rbxp'+ii+' =  = convert_coord_hmi('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /y, /a2p)'
+            exe = execute(com)
+            com = dataset[k]+'rbyp'+ii+' =  = convert_coord_hmi('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
+            exe = execute(com)            
+        endif 
+        if (j gt 9) then begin
+            if (k eq 0) then map = '498' else $
+            if (k eq 1) then map = '666' else $
+            if (k eq 2) then map = '173' else $
+            if (k eq 3) then map = '167' else $
+            if (k eq 4) then map = '63'
+            com = dataset[k]+'rbxp'+ii+' =  = convert_coord_hmi('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /y, /a2p)'
+            exe = execute(com)
+            com = dataset[k]+'rbyp'+ii+' =  = convert_coord_hmi('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
+            exe = execute(com)
+        endif
+    endfor
+endfor
 
 
 
@@ -449,22 +264,34 @@ spypos = strarr(nn)
 qkslitpos = strarr(nn)
 qkspypos = strarr(nn)
 
-;;multi-ribbon coord max flux and energy
-sifmx = fltarr(2,nrb) ;fmx[0,*] = time, fmx[1,*] = max
-siemx = fltarr(2,nrb)
-sicoords = fltarr(2, nrb)
-mgfmx = fltarr(2,nrb) ;fmx[0,*] = time, fmx[1,*] = max
-mgemx = fltarr(2,nrb)
-mgcoords = fltarr(2, nrb)
-balmerfmx = fltarr(2,nrb) ;fmx[0,*] = time, fmx[1,*] = max
-balmeremx = fltarr(2,nrb)
+;;qk and multi-ribbon coord max flux and energy
+
+sifmxqk = fltarr(2,3)
+siemxqk = fltarr(2,3)
+sifmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
+siemx = fltarr(3,nrb)
+
+mgfmxqk = fltarr(2,3)
+mgemxqk = fltarr(2,3)
+mgfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
+mgemx = fltarr(3,nrb)
+
+balmerfmxqk = fltarr(2,3)
+balmeremxqk = fltarr(2,3)
+balmerfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
+balmeremx = fltarr(3,nrb)
 balmercoords = fltarr(2, nrb)
-mgwfmx = fltarr(2,nrb) ;fmx[0,*] = time, fmx[1,*] = max
-mgwemx = fltarr(2,nrb)
-mgwcoords = fltarr(2, nrb)
-hmifmx = fltarr(2,nrb) ;fmx[0,*] = time, fmx[1,*] = max
-hmiemx = fltarr(2,nrb)
-hmicoords = fltarr(2, nrb)
+
+mgwfmxqk = fltarr(2,3)
+mgwemxqk = fltarr(2,3)
+mgwfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
+mgwemx = fltarr(3,nrb)
+
+hmifmxqk = fltarr(2,3)
+hmimxqk = fltarr(2,3)
+hmifmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
+hmiemx = fltarr(3,nrb)
+
 
 ;;;make time arrays
 tsi = map1400.time
@@ -501,44 +328,12 @@ exe = execute(com)
     endfor
     ;calculate flux and energy
         if (j eq 19) then begin
-        iris_radiometric_calibration, qksi, wave = 1400., n_pixels = 1, Fsiqk, Esiqk, /sji
-        qkmxf = max(Fsiqk, loc)
-        qkind = array_indices(Fsiqk, loc)
-        fsiqkmx = fltarr(3, 1)
-        fsiqkmx[0,0] = ind
-        fsiqkmx[1,0] = qkxa
-        fsiqkmx[2,0] = qkmxf                        
-        qkmxf = max(Esiqk, loc)
-        qkind = array_indices(Esiqk, loc)
-        esiqkmx = fltarr(3, 1)
-        esiqkmx[0,0] = ind
-        esiqkmx[1,0] = qkxa
-        esiqkmx[2,0] = qkmxf                        
+        iris_radiometric_calibration, qksi, wave = 1400., n_pixels = 1, Fsiqk, Esiqk, /sji                     
         endif    
     com = 'iris_radiometric_calibration, rbsi'+jj+', wave = 1400., n_pixels = 1,Fsirb'+jj+', Esirb'+jj+', /sji'
     exe = execute(com)
 
-    ;find maximum flux and energy
-    com = 'mxf = max(Fsirb'+jj+', loc)'
-    exe = execute(com)
-    com = 'ind = array_indices(Fsirb'+jj+', loc)'
-    exe = execute(com)
 
-    sifmx[0,j] = ind
-    sifmx[1,j] = mxf
-    
-    com = 'mxe = max(Esirb'+jj+', loc)'
-    exe = execute(com)
-    com = 'ind = array_indices(Esirb'+jj+', loc)'
-    exe = execute(com)
-
-    siemx[0,j] = ind
-    siemx[1,j] = mxe
-
-    com = 'sicoords[0,'+jj+'] = hmirbxa'+jj
-    exe = execute(com)
-    com = 'sicoords[1,'+jj+'] = hmirbya'+jj
-    exe = execute(com)
 
     ;;MG II 2796
     for i = 0, nmg-1, 1 do begin
@@ -550,48 +345,10 @@ exe = execute(com)
     endfor
         if (j eq 19) then begin
         ;calculate flux and energy
-        iris_radiometric_calibration, qkmg, wave = 2976., n_pixels = 1,Fmgqk, Emgqk, /sji
-        qkmxf = max(Fmgqk, loc)
-        qkind = array_indices(Fmgqk, loc)
-        fmgqkmx = fltarr(3, 1)
-        fmgqkmx[0,0] = ind
-        fmgqkmx[1,0] = qkxa
-        fmgqkmx[2,0] = qkmxf                        
-        qkmxf = max(Emgqk, loc)
-        qkind = array_indices(Emgqk, loc)
-        emgqkmx = fltarr(3, 1)
-        emgqkmx[0,0] = ind
-        emgqkmx[1,0] = qkxa
-        emgqkmx[2,0] = qkmxf                        
+        iris_radiometric_calibration, qkmg, wave = 2976., n_pixels = 1,Fmgqk, Emgqk, /sji                    
         endif
     com = 'iris_radiometric_calibration, rbmg'+jj+', wave = 2976., n_pixels = 1,Fmgrb'+jj+', Emgrb'+jj+', /sji'
     exe = execute(com)
-
-    ;find maximum flux and energy
-    com = 'mxf = max(Fmgrb'+jj+', loc)'
-    exe = execute(com)
-    com = 'ind = array_indices(Fmgrb'+jj+', loc)'
-    exe = execute(com)
-
-    mgfmx[0,j] = ind
-    mgfmx[1,j] = mxf
-    
-    com = 'mxe = max(Emgrb'+jj+', loc)'
-    exe = execute(com)
-    com = 'ind = array_indices(Emgrb'+jj+', loc)'
-    exe = execute(com)
-
-    mgemx[0,j] = ind
-    mgemx[1,j] = mxe
-
-    com = 'mgcoords[0,'+jj+'] = hmirbxa'+jj
-    exe = execute(com)
-    com = 'mgcoords[1,'+jj+'] = hmirbya'+jj
-    exe = execute(com)
-
-
-
-
 
     ;;BALMER
     com = 'slitp = find_iris_slit_pos(hmirbxp'+jj+',sp2826)'
@@ -605,26 +362,26 @@ exe = execute(com)
     exe = execute(com)
     endif
         for i = 0, nn-1, 1 do begin  
-        slitpos = string(slitp[i], format = '(I0)')
-        spypos = string(spyp[i], format = '(I0)')
+            slitpos = string(slitp[i], format = '(I0)')
+            spypos = string(spyp[i], format = '(I0)')
 
-        com = 'rbbalmer'+jj+'[i] = total(sp2826.'+tagarr[i]+'.int[39:44,'+slitpos+','+spypos+'])/((44-39))'
-        exe = execute(com)
+            com = 'rbbalmer'+jj+'[i] = total(sp2826.'+tagarr[i]+'.int[39:44,'+slitpos+','+spypos+'])/((44-39))'
+            exe = execute(com)
 
-        com = 'tsprb'+jj+'[i] = sp2826.'+tagarr[i]+'.time_ccsds['+slitpos+']'
-        exe = execute(com)
-        
-        if (j eq 19) then begin
-        qkslitpos = string(qkslitp[i], format = '(I0)')
-        qkspypos = string(qkspyp[i], format = '(I0)')
+            com = 'tsprb'+jj+'[i] = sp2826.'+tagarr[i]+'.time_ccsds['+slitpos+']'
+            exe = execute(com)
+            
+            if (j eq 19) then begin
+                qkslitpos = string(qkslitp[i], format = '(I0)')
+                qkspypos = string(qkspyp[i], format = '(I0)')
 
-        com = 'qkbalmer[i] = total(sp2826.'+tagarr[i]+'.int[39:44,'+qkslitpos+','+qkspypos+'])/((44-39))'
-        exe = execute(com)
+                com = 'qkbalmer[i] = total(sp2826.'+tagarr[i]+'.int[39:44,'+qkslitpos+','+qkspypos+'])/((44-39))'
+                exe = execute(com)
 
-        com = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds['+qkslitpos+']'
-        exe = execute(com)
-        
-        endif
+                com = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds['+qkslitpos+']'
+                exe = execute(com)
+            
+            endif
         endfor
     ;;calculate flux and energy
     wav1 = sp2826.tag00.wvl[39]
@@ -632,47 +389,11 @@ exe = execute(com)
     w1 = string(wav1, format = '(I0)')
     w2 = string(wav2, format = '(I0)')
         if (j eq 19) then begin
-        iris_radiometric_calibration, qkbalmer, wave = [wav1, wav2], n_pixels = 10, Fqkbalmer, Eqkbalmer, /sg
-        qkmxf = max(Fqkbalmer, loc)
-        qkind = array_indices(Fqkbalmer, loc)
-        fbalmerqkmx = fltarr(3, 1)
-        fbalmerqkmx[0,0] = ind
-        fbalmerqkmx[1,0] = qkxa
-        fbalmerqkmx[2,0] = qkmxf                        
-        qkmxf = max(Eqkbalmer, loc)
-        qkind = array_indices(Eqkbalmer, loc)
-        ebalmerqkmx = fltarr(3, 1)
-        ebalmerqkmx[0,0] = ind
-        ebalmerqkmx[1,0] = qkxa
-        ebalmerqkmx[2,0] = qkmxf                        
-
+        iris_radiometric_calibration, qkbalmer, wave = [wav1, wav2], n_pixels = 10, Fbalmerqk, Ebalmerqk, /sg
         endif
-    com = 'iris_radiometric_calibration, rbbalmer'+jj+', wave = ['+w1+', '+w2+'], n_pixels = 10, Frbbalmer'+jj+', Erbbalmer'+jj+' ,/sg'
+    com = 'iris_radiometric_calibration, rbbalmer'+jj+', wave = ['+w1+', '+w2+'], n_pixels = 10, Fbalmerrb'+jj+', Ebalmerrb'+jj+' ,/sg'
     exe = execute(com)
 
-    ;find maximum flux and energy
-    com = 'mxf = max(Frbbalmer'+jj+', loc)'
-    exe = execute(com)
-    com = 'ind = array_indices(Frbbalmer'+jj+', loc)'
-    exe = execute(com)
-
-    balmerfmx[0, j] = ind
-    exe = execute(com)
-    balmerfmx[1,j] = mxf
-    
-    com = 'mxe = max(Erbbalmer'+jj+', loc)'
-    exe = execute(com)
-    com = 'ind = array_indices(Erbbalmer'+jj+', loc)'
-    exe = execute(com)
-
-    balmeremx[0, j] = ind
-    exe = execute(com)
-    balmeremx[1,j] = mxe
-
-    com = 'balmercoords[0,'+jj+'] = hmirbxa'+jj
-    exe = execute(com)
-    com = 'balmercoords[1,'+jj+'] = hmirbya'+jj
-    exe = execute(com)
 
 
 
@@ -689,47 +410,11 @@ exe = execute(com)
 
     ;calculate flux and energy
         if (j eq 19) then begin
-        iris_radiometric_calibration, qkmgw, wave = 2832., n_pixels = 1,Fmgwqk, Emgwqk, /sji
-        qkmxf = max(Fmgwqk, loc)
-        qkind = array_indices(Fmgwqk, loc)
-        fmgwqkmx = fltarr(3, 1)
-        fmgwqkmx[0,0] = ind
-        fmgwqkmx[1,0] = qkxa
-        fmgwqkmx[2,0] = qkmxf                        
-        qkmxf = max(Emgwqk, loc)
-        qkind = array_indices(Emgwqk, loc)
-        emgwqkmx = fltarr(3, 1)
-        emgwqkmx[0,0] = ind
-        emgwqkmx[1,0] = qkxa
-        emgwqkmx[2,0] = qkmxf                        
+        iris_radiometric_calibration, qkmgw, wave = 2832., n_pixels = 1,Fmgwqk, Emgwqk, /sji                   
         endif
 
     com = 'iris_radiometric_calibration, rbmgw'+jj+', wave = 2832., n_pixels = 1,Fmgwrb'+jj+', Emgwrb'+jj+', /sji'
     exe = execute(com)
-
-    ;find maximum flux and energy
-    com = 'mxf = max(Fmgwrb'+jj+', loc)'
-    exe = execute(com)
-    com = 'ind = array_indices(Fmgwrb'+jj+', loc)'
-    exe = execute(com)
-
-    mgwfmx[0,j] = ind
-    mgwfmx[1,j] = mxf
-    
-    com = 'mxe = max(Emgwrb'+jj+', loc)'
-    exe = execute(com)
-    com = 'ind = array_indices(Emgwrb'+jj+', loc)'
-    exe = execute(com)
-
-    mgwemx[0,j] = ind
-    mgwemx[1,j] = mxe
-
-    com = 'mgwcoords[0,'+jj+'] = hmirbxa'+jj
-    exe = execute(com)
-    com = 'mgwcoords[1,'+jj+'] = hmirbya'+jj
-    exe = execute(com)
-
-
 
 
 
@@ -745,182 +430,97 @@ exe = execute(com)
     ;calculate flux and energy
         if (j eq 19) then begin
         hmi_radiometric_calibration, qkhmi, n_pixels = 1, Fhmiqk, Ehmiqk
-        qkmxf = max(Fhmiqk, loc)
-        qkind = array_indices(Fhmiqk, loc)
-        fhmiqkmx = fltarr(3, 1)
-        fhmiqkmx[0,0] = ind
-        fhmiqkmx[1,0] = qkxa
-        fhmiqkmx[2,0] = qkmxf                        
-        qkmxf = max(Ehmiqk, loc)
-        qkind = array_indices(Ehmiqk, loc)
-        ehmiqkmx = fltarr(3, 1)
-        ehmiqkmx[0,0] = ind
-        ehmiqkmx[1,0] = qkxa
-        ehmiqkmx[2,0] = qkmxf                        
-
-        endif
-  
+        endif  
     com = 'hmi_radiometric_calibration, rbhmi'+jj+', n_pixels = 1, Fhmirb'+jj+', Ehmirb'+jj+''
     exe = execute(com)
-
-    ;find maximum flux and energy
-    com = 'mxf = max(Fhmirb'+jj+', loc)'
-    exe = execute(com)
-    com = 'ind = array_indices(Fhmirb'+jj+', loc)'
-    exe = execute(com)
-
-    hmifmx[0,j] = ind
-    hmifmx[1,j] = mxf
-    
-    com = 'mxe = max(Ehmirb'+jj+', loc)'
-    exe = execute(com)
-    com = 'ind = array_indices(Ehmirb'+jj+', loc)'
-    exe = execute(com)
-    
-
-    hmiemx[0,j] = ind
-    hmiemx[1,j] = mxe
-
-    com = 'hmicoords[0,'+jj+'] = hmirbxa'+jj
-    exe = execute(com)
-    com = 'hmicoords[1,'+jj+'] = hmirbya'+jj
-    exe = execute(com)
-
-
 endfor
 
 
 for k = 0, n_elements(dataset)-1 do begin
 nc = nrb/4
 ncst = string(nc, format = '(I0)')
+    for j = 0, nrb-1 do begin
+        if (j lt 10) then begin
+            if (k eq 0) then map = '495' else $
+            if (k eq 1) then map = '661' else $
+            if (k eq 2) then map = '172' else $
+            if (k eq 3) then map = '166' else $
+            if (k eq 4) then map = '62'
+            com = 'cd = '+dataset[k]+'coords1[0,'+jj+']'
+            exe = execute(com)
+            
+        endif 
+        if (j gt 9) then begin
+            if (k eq 0) then map = '498' else $
+            if (k eq 1) then map = '666' else $
+            if (k eq 2) then map = '173' else $
+            if (k eq 3) then map = '167' else $
+            if (k eq 4) then map = '63'
+            com = 'cd = '+dataset[k]+'coords2[0,'+jj+']'
+            exe = execute(com)
+        endif 
+        if (j eq 8) then begin
+        ;find maximum flux and energy
+        com = 'qkmxf = F'+datset[k]+'qk['+map+']'
+        exe = execute(com)
+        com = 'qkmxe = E'+datset[k]+'qk['+map+']'
+        exe = execute(com)
 
+        com = datset[k]+'fmxqk[0,0] = mp'
+        exe = execute(com)
+        com = datset[k]+'fmxqk[0,1] = qkxa'
+        exe = execute(com)
+        com = datset[k]+'fmxqk[0,2] = qkmxf'
 
-com = 'f'+dataset[k]+'srb1 = fltarr(3, '+ncst+')'
-exe = execute(com)
-com = 'f'+dataset[k]+'srb2 = fltarr(3, '+ncst+')'
-exe = execute(com)
-com = 'f'+dataset[k]+'nrb1 = fltarr(3, '+ncst+')'
-exe = execute(com)
-com = 'f'+dataset[k]+'nrb2 = fltarr(3, '+ncst+')'
-exe = execute(com)
-;ind;x_coord;energy
-com = 'f'+dataset[k]+'srb1[0,*] = '+dataset[k]+'FMX[0, 0:nc-1]' 
-exe = execute(com)
-com = 'f'+dataset[k]+'srb1[1,*] = '+dataset[k]+'coords[0, 0:nc-1]' 
-exe = execute(com)
-com = 'f'+dataset[k]+'srb1[2,*] = '+dataset[k]+'FMX[1, 0:nc-1]'  
-exe = execute(com)
+        com = datset[k]+'emxqk[0,0] = mp'
+        exe = execute(com)
+        com = datset[k]+'emxqk[0,1] = qkxa'
+        exe = execute(com)
+        com = datset[k]+'emxqk[0,2] = qkmxe'
 
-com = 'f'+dataset[k]+'nrb1[0,*] = '+dataset[k]+'FMX[0, nc:2*nc-1]'
-exe = execute(com)
-com = 'f'+dataset[k]+'nrb1[1,*] = '+dataset[k]+'coords[0, nc:2*nc-1]'
-exe = execute(com)
-com = 'f'+dataset[k]+'nrb1[2,*] = '+dataset[k]+'FMX[1, nc:2*nc-1]'
-exe = execute(com)
+        endif
 
-com = 'f'+dataset[k]+'srb2[0,*] = '+dataset[k]+'FMX[0, 2*nc:3*nc-1]'
-exe = execute(com)
-com = 'f'+dataset[k]+'srb2[1,*] = '+dataset[k]+'coords[0, 2*nc:3*nc-1]'
-exe = execute(com)
-com = 'f'+dataset[k]+'srb2[2,*] = '+dataset[k]+'FMX[1, 2*nc:3*nc-1]'
-exe = execute(com)
+        if (j eq 18) then begin
+        ;find maximum flux and energy
+        com = 'qkmxf = F'+datset[k]+'qk['+map+']'
+        exe = execute(com)
+        com = 'qkmxe = E'+datset[k]+'qk['+map+']'
+        exe = execute(com)
 
-com = 'f'+dataset[k]+'nrb2[0,*] = '+dataset[k]+'FMX[0, 3*nc:4*nc-1]'
-exe = execute(com)
-com = 'f'+dataset[k]+'nrb2[1,*] = '+dataset[k]+'coords[0, 3*nc:4*nc-1]'
-exe = execute(com)
-com = 'f'+dataset[k]+'nrb2[2,*] = '+dataset[k]+'FMX[1, 3*nc:4*nc-1]'
-exe = execute(com)
+        com = datset[k]+'fmxqk[1,0] = mp'
+        exe = execute(com)
+        com = datset[k]+'fmxqk[1,1] = qkxa'
+        exe = execute(com)
+        com = datset[k]+'fmxqk[1,2] = qkmxf'
 
+        com = datset[k]+'emxqk[1,0] = mp'
+        exe = execute(com)
+        com = datset[k]+'emxqk[1,1] = qkxa'
+        exe = execute(com)
+        com = datset[k]+'emxqk[1,2] = qkmxe'
+        endif
 
-com = 'e'+dataset[k]+'srb1[0,*] = '+dataset[k]+'EMX[0, 0:nc-1]'
-exe = execute(com)
-com = 'e'+dataset[k]+'srb1[1,*] = '+dataset[k]+'coords[0, 0:nc-1]'
-exe = execute(com)
-com = 'e'+dataset[k]+'srb1[2,*] = '+dataset[k]+'EMX[1, 0:nc-1]'
-exe = execute(com)
+        com = 'mxf = F'+datset[k]+'rb'+jj+'['+map+']'
+        exe = execute(com)
+        com = 'mxe = E'+datset[k]+'rb'+jj+'['+map+']'
+        exe = execute(com)
+      
+        mp = fix(map)
+        com = datset[k]+'fmx[0,'+jj+'] = mp'
+        exe = execute(com)
+        com = datset[k]+'fmx[1,'+jj+'] = cd'
+        exe = execute(com)
+        com = datset[k]+'fmx[2,'+jj+'] = mxf'
+        exe = execute(com)
 
-com = 'e'+dataset[k]+'nrb1[0,*] = '+dataset[k]+'EMX[0, nc:2*nc-1]'
-exe = execute(com)
-com = 'e'+dataset[k]+'nrb1[1,*] = '+dataset[k]+'coords[0, nc:2*nc-1]'
-exe = execute(com)
-com = 'e'+dataset[k]+'nrb1[2,*] = '+dataset[k]+'EMX[1, nc:2*nc-1]'
-exe = execute(com)
-
-com = 'e'+dataset[k]+'srb2[0,*] = '+dataset[k]+'EMX[0, 2*nc:3*nc-1]'
-exe = execute(com)
-com = 'e'+dataset[k]+'srb2[1,*] = '+dataset[k]+'coords[0, 2*nc:3*nc-1]'
-exe = execute(com)
-com = 'e'+dataset[k]+'srb2[2,*] = '+dataset[k]+'EMX[1, 2*nc:3*nc-1]'
-exe = execute(com)
-
-com = 'e'+dataset[k]+'nrb2[0,*] = '+dataset[k]+'EMX[0, 3*nc:4*nc-1]'
-exe = execute(com)
-com = 'e'+dataset[k]+'nrb2[1,*] = '+dataset[k]+'coords[0, 3*nc:4*nc-1]'
-exe = execute(com)
-com = 'e'+dataset[k]+'nrb2[2,*] = '+dataset[k]+'EMX[1, 3*nc:4*nc-1]'
-exe = execute(com)
-
-file = dataset[k]+'ribbon_coords_x__flux__energy.txt'
-openw, lun, file, /get_lun
-printf,lun, 'srb = south ribbon, nrb = north ribbon.'
-printf,lun, 'These arrays contain; the frame number '
-printf,lun, 'containing the maximum energy value; '
-printf,lun, 'the ribbon location x_coord; and the  '
-printf,lun, 'the associated energy.'
-printf,lun, '*************************************'
-printf,lun, '*************************************'
-printf,lun, '**************FLUX*******************'
-printf,lun, '*************************************'
-printf,lun, '**************quake******************'
-printf,lun, '*****frame********x_coord****energy**'
-com = 'printf, lun, f'+dataset[k]+'qkmx'   
-exe = execute(com)
-printf,lun, '*************************************'
-printf,lun, '***************srb1******************'
-printf,lun, '*****frame********x_coord****energy**'
-com = 'printf, lun, f'+dataset[k]+'srb1'
-exe = execute(com)
-printf,lun, '*************************************'
-printf,lun, '***************nrb1******************'
-com = 'printf, lun, f'+dataset[k]+'nrb1'
-exe = execute(com)
-printf,lun, '*************************************'
-printf,lun, '***************srb2******************'
-com = 'printf, lun, f'+dataset[k]+'srb2'
-exe = execute(com)
-printf,lun, '*************************************'
-printf,lun, '***************nrb2******************'
-com = 'printf, lun, f'+dataset[k]+'nrb2'
-exe = execute(com)
-printf,lun, '*************************************'
-printf,lun, '*************************************'
-printf,lun, '**************ENERGY*****************'
-printf,lun, '*************************************'
-printf,lun, '*************************************'
-printf,lun, '**************quake******************'
-printf,lun, '*****frame********x_coord****energy**'
-com = 'printf, lun, e'+dataset[k]+'qkmx'   
-exe = execute(com)
-printf,lun, '************************************'
-printf,lun,  '**************srb1******************'
-com = 'printf, lun, e'+dataset[k]+'srb1'
-exe = execute(com)
-printf,lun,  '************************************'
-printf,lun,  '**************nrb1******************'
-com = 'printf, lun, e'+dataset[k]+'nrb1'
-exe = execute(com)
-printf,lun,  '************************************'
-printf,lun,  '**************srb2******************'
-com = 'printf, lun, e'+dataset[k]+'srb2'
-exe = execute(com)
-printf,lun,  '************************************'
-printf,lun,  '**************nrb2******************'
-com = 'printf, lun, e'+dataset[k]+'nrb2'
-exe = execute(com)
-free_lun, lun
+        com = datset[k]+'emx[0,'+jj+'] = mp'
+        exe = execute(com)
+        com = datset[k]+'emx[1,'+jj+'] = cd'
+        exe = execute(com)
+        com = datset[k]+'emx[2,'+jj+'] = mxe'
+        exe = execute(com)
+    endfor
 endfor
-
 
 ;HMI quake area array...eventually calculate iris quake energy based on solid angle relationship found by trumpet.pro
 qkarea = fltarr(nnn)
@@ -1005,19 +605,12 @@ Fsirb17, Esirb17, $
 Fsirb18, Esirb18, $
 Fsirb19, Esirb19, $
 tsi, $
-;sifmx, $
-;siemx, $
-sicoords, $
-fsiqkmx, $
-esiqkmx, $
-fsisrb1, $
-esisrb1, $
-fsisrb2, $
-esisrb2, $
-fsinrb1, $
-esinrb1, $
-fsinrb2, $
-esinrb2, $
+sicoords1, $
+sicoords2, $
+sifmxqk, $
+sifmx, $
+siemxqk, $
+siemx, $
 filename = '29-Mar-2014-energies-iris-siiv-single-pixel-'+date+'.sav'
 
 save, $
@@ -1044,19 +637,12 @@ Fmgrb17, Emgrb17, $
 Fmgrb18, Emgrb18, $
 Fmgrb19, Emgrb19, $
 tmg, $
-;mgfmx, $
-;mgemx, $
-mgcoords, $
-fmgqkmx, $
-emgqkmx, $
-fmgsrb1, $
-emgsrb1, $
-fmgsrb2, $
-emgsrb2, $
-fmgnrb1, $
-emgnrb1, $
-fmgnrb2, $
-emgnrb2, $
+mgcoords1, $
+mgcoords2, $
+mgfmxqk, $
+mgfmx, $
+mgemxqk, $
+mgemx, $
 filename = '29-Mar-2014-energies-iris-mgii-single-pixel-'+date+'.sav'
 
 save, $
@@ -1103,19 +689,12 @@ tsprb16, $
 tsprb17, $
 tsprb18, $
 tsprb19, $
-;balmerfmx, $
-;balmeremx, $
-balmercoords, $
-fbalmerqkmx, $
-ebalmerqkmx, $
-fbalmersrb1, $
-ebalmersrb1, $
-fbalmersrb2, $
-ebalmersrb2, $
-fbalmernrb1, $
-ebalmernrb1, $
-fbalmernrb2, $
-ebalmernrb2, $
+balmercoords1, $
+balmercoords2, $
+balmerfmxqk, $
+balmerfmx, $
+balmeremxqk, $
+balmeremx, $
 filename = '29-Mar-2014-energies-iris-balmer-single-pixel-'+date+'.sav'
 
 save, $
@@ -1142,19 +721,12 @@ Fmgwrb17, Emgwrb17, $
 Fmgwrb18, Emgwrb18, $
 Fmgwrb19, Emgwrb19, $
 tmgw, $
-;mgwfmx, $
-;mgwemx, $
-mgwcoords, $
-fmgwqkmx, $
-emgwqkmx, $
-fmgwsrb1, $
-emgwsrb1, $
-fmgwsrb2, $
-emgwsrb2, $
-fmgwnrb1, $
-emgwnrb1, $
-fmgwnrb2, $
-emgwnrb2, $
+mgwcoords1, $
+mgwcoords1, $
+mgwfmxqk, $
+mgwfmx, $
+mgwemxqk, $
+mgwemx, $
 filename = '29-Mar-2014-energies-iris-mgw-single-pixel-'+date+'.sav'
 
 save, $
@@ -1181,19 +753,12 @@ Fhmirb17, Ehmirb17, $
 Fhmirb18, Ehmirb18, $
 Fhmirb19, Ehmirb19, $
 thmi, $
-;hmifmx, $
-;hmiemx, $
-hmicoords, $
-fhmiqkmx, $
-ehmiqkmx, $
-fhmisrb1, $
-ehmisrb1, $
-fhmisrb2, $
-ehmisrb2, $
-fhminrb1, $
-ehminrb1, $
-fhminrb2, $
-ehminrb2, $
+hmicoords1, $
+hmicoords2, $
+hmifmxqk, $
+hmifmx, $
+hmiemxqk, $
+hmiemx, $
 filename = '29-Mar-2014-energies-hmi-single-pixel-'+date+'.sav'
 
 save, $
