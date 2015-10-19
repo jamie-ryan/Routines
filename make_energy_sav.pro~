@@ -496,6 +496,18 @@ exe = execute(com)
     ;calculate flux and energy
         if (j eq 19) then begin
         iris_radiometric_calibration, qksi, wave = 1400., n_pixels = 1, Fsiqk, Esiqk, /sji
+        qkmxf = max(Fsiqk, loc)
+        qkind = array_indices(Fsiqk, loc)
+        fsiqkmx = fltarr(3, 1)
+        fsiqkmx[0,0] = ind
+        fsiqkmx[1,0] = qkxa
+        fsiqkmx[2,0] = qkmxf                        
+        qkmxf = max(Esiqk, loc)
+        qkind = array_indices(Esiqk, loc)
+        esiqkmx = fltarr(3, 1)
+        esiqkmx[0,0] = ind
+        esiqkmx[1,0] = qkxa
+        esiqkmx[2,0] = qkmxf                        
         endif    
     com = 'iris_radiometric_calibration, rbsi'+jj+', wave = 1400., n_pixels = 1,Fsirb'+jj+', Esirb'+jj+', /sji'
     exe = execute(com)
@@ -533,6 +545,18 @@ exe = execute(com)
         if (j eq 19) then begin
         ;calculate flux and energy
         iris_radiometric_calibration, qkmg, wave = 2976., n_pixels = 1,Fmgqk, Emgqk, /sji
+        qkmxf = max(Fmgqk, loc)
+        qkind = array_indices(Fmgqk, loc)
+        fmgqkmx = fltarr(3, 1)
+        fmgqkmx[0,0] = ind
+        fmgqkmx[1,0] = qkxa
+        fmgqkmx[2,0] = qkmxf                        
+        qkmxf = max(Emgqk, loc)
+        qkind = array_indices(Emgqk, loc)
+        emgqkmx = fltarr(3, 1)
+        emgqkmx[0,0] = ind
+        emgqkmx[1,0] = qkxa
+        emgqkmx[2,0] = qkmxf                        
         endif
     com = 'iris_radiometric_calibration, rbmg'+jj+', wave = 2976., n_pixels = 1,Fmgrb'+jj+', Emgrb'+jj+', /sji'
     exe = execute(com)
@@ -603,6 +627,19 @@ exe = execute(com)
     w2 = string(wav2, format = '(I0)')
         if (j eq 19) then begin
         iris_radiometric_calibration, qkbalmer, wave = [wav1, wav2], n_pixels = 10, Fqkbalmer, Eqkbalmer, /sg
+        qkmxf = max(Fqkbalmer, loc)
+        qkind = array_indices(Fbqkalmer, loc)
+        fbalmerqkmx = fltarr(3, 1)
+        fbalmerqkmx[0,0] = ind
+        fbalmerqkmx[1,0] = qkxa
+        fbalmerqkmx[2,0] = qkmxf                        
+        qkmxf = max(Eqkbalmer, loc)
+        qkind = array_indices(Eqkbalmer, loc)
+        ebalmerqkmx = fltarr(3, 1)
+        ebalmerqkmx[0,0] = ind
+        ebalmerqkmx[1,0] = qkxa
+        ebalmerqkmx[2,0] = qkmxf                        
+
         endif
     com = 'iris_radiometric_calibration, rbbalmer'+jj+', wave = ['+w1+', '+w2+'], n_pixels = 10, Frbbalmer'+jj+', Erbbalmer'+jj+' ,/sg'
     exe = execute(com)
@@ -647,6 +684,18 @@ exe = execute(com)
     ;calculate flux and energy
         if (j eq 19) then begin
         iris_radiometric_calibration, qkmgw, wave = 2832., n_pixels = 1,Fmgwqk, Emgwqk, /sji
+        qkmxf = max(Fmgwqk, loc)
+        qkind = array_indices(Fmgwqk, loc)
+        fmgwqkmx = fltarr(3, 1)
+        fmgwqkmx[0,0] = ind
+        fmgwqkmx[1,0] = qkxa
+        fmgwqkmx[2,0] = qkmxf                        
+        qkmxf = max(Emgwqk, loc)
+        qkind = array_indices(Emgwqk, loc)
+        emgwqkmx = fltarr(3, 1)
+        emgwqkmx[0,0] = ind
+        emgwqkmx[1,0] = qkxa
+        emgwqkmx[2,0] = qkmxf                        
         endif
 
     com = 'iris_radiometric_calibration, rbmgw'+jj+', wave = 2832., n_pixels = 1,Fmgwrb'+jj+', Emgwrb'+jj+', /sji'
@@ -690,6 +739,19 @@ exe = execute(com)
     ;calculate flux and energy
         if (j eq 19) then begin
         hmi_radiometric_calibration, qkhmi, n_pixels = 1, Fhmiqk, Ehmiqk
+        qkmxf = max(Fhmiqk, loc)
+        qkind = array_indices(Fhmiqk, loc)
+        fhmiqkmx = fltarr(3, 1)
+        fhmiqkmx[0,0] = ind
+        fhmiqkmx[1,0] = qkxa
+        fhmiqkmx[2,0] = qkmxf                        
+        qkmxf = max(Ehmiqk, loc)
+        qkind = array_indices(Ehmiqk, loc)
+        ehmiqkmx = fltarr(3, 1)
+        ehmiqkmx[0,0] = ind
+        ehmiqkmx[1,0] = qkxa
+        ehmiqkmx[2,0] = qkmxf                        
+
         endif
   
     com = 'hmi_radiometric_calibration, rbhmi'+jj+', n_pixels = 1, Fhmirb'+jj+', Ehmirb'+jj+''
@@ -736,11 +798,11 @@ exe = execute(com)
 com = 'f'+dataset[k]+'nrb2 = fltarr(3, '+ncst+')'
 exe = execute(com)
 
-com = 'f'+dataset[k]+'srb1[0,*] = '+dataset[k]+'FMX[0, 0:nc-1]'
+com = 'f'+dataset[k]+'srb1[0,*] = '+dataset[k]+'FMX[0, 0:nc-1]' ;ind
 exe = execute(com)
-com = 'f'+dataset[k]+'srb1[1,*] = '+dataset[k]+'coords[0, 0:nc-1]'
+com = 'f'+dataset[k]+'srb1[1,*] = '+dataset[k]+'coords[0, 0:nc-1]' ;x_coord
 exe = execute(com)
-com = 'f'+dataset[k]+'srb1[2,*] = '+dataset[k]+'FMX[1, 0:nc-1]'
+com = 'f'+dataset[k]+'srb1[2,*] = '+dataset[k]+'FMX[1, 0:nc-1]' ;energy 
 exe = execute(com)
 
 com = 'f'+dataset[k]+'nrb1[0,*] = '+dataset[k]+'FMX[0, nc:2*nc-1]'
@@ -795,25 +857,34 @@ exe = execute(com)
 
 file = dataset[k]+'ribbon_coords_x__flux__energy.dat'
 openw, lun, file, /get_lun
+printf,lun, 'srb = south ribbon, nrb = north ribbon.'
+printf,lun, 'These arrays contain; the frame number '
+printf,lun, 'containing the maximum energy value; '
+printf,lun, 'the ribbon location x_coord; and the  '
+printf,lun, 'the associated energy.'
 printf,lun, '*************************************'
 printf,lun, '*************************************'
 printf,lun, '**************FLUX*******************'
 printf,lun, '*************************************'
-printf,lun, '*************************************'
-printf,lun, '*************************************'
-printf,lun,  '**************srb1******************'
-com = 'printf, lun f'+dataset[k]+'srb1'
+printf,lun, '**************quake******************'
+printf,lun, '*****frame********x_coord****energy**'
+com = 'printf, lun, f'+dataset[k]+'qkmx'   
 exe = execute(com)
-printf,lun,  '************************************'
-printf,lun,  '**************nrb1******************'
+printf,lun, '*************************************'
+printf,lun, '***************srb1******************'
+printf,lun, '*****frame********x_coord****energy**'
+com = 'printf, lun, f'+dataset[k]+'srb1'
+exe = execute(com)
+printf,lun, '*************************************'
+printf,lun, '***************nrb1******************'
 com = 'printf, lun, f'+dataset[k]+'nrb1'
 exe = execute(com)
-printf,lun,  '************************************'
-printf,lun,  '**************srb2******************'
+printf,lun, '*************************************'
+printf,lun, '***************srb2******************'
 com = 'printf, lun, f'+dataset[k]+'srb2'
 exe = execute(com)
-printf,lun,  '************************************'
-printf,lun,  '**************nrb2******************'
+printf,lun, '*************************************'
+printf,lun, '***************nrb2******************'
 com = 'printf, lun, f'+dataset[k]+'nrb2'
 exe = execute(com)
 printf,lun, '*************************************'
@@ -821,6 +892,10 @@ printf,lun, '*************************************'
 printf,lun, '**************ENERGY*****************'
 printf,lun, '*************************************'
 printf,lun, '*************************************'
+printf,lun, '**************quake******************'
+printf,lun, '*****frame********x_coord****energy**'
+com = 'printf, lun, e'+dataset[k]+'qkmx'   
+exe = execute(com)
 printf,lun, '************************************'
 printf,lun,  '**************srb1******************'
 com = 'printf, lun, e'+dataset[k]+'srb1'
@@ -926,7 +1001,9 @@ Fsirb19, Esirb19, $
 tsi, $
 ;sifmx, $
 ;siemx, $
-;sicoords, $
+sicoords, $
+fsiqkmx, $
+esiqkmx, $
 fsisrb1, $
 esisrb1, $
 fsisrb2, $
@@ -963,7 +1040,9 @@ Fmgrb19, Emgrb19, $
 tmg, $
 ;mgfmx, $
 ;mgemx, $
-;mgcoords, $
+mgcoords, $
+fmgqkmx, $
+emgqkmx, $
 fmgsrb1, $
 emgsrb1, $
 fmgsrb2, $
@@ -1020,7 +1099,9 @@ tsprb18, $
 tsprb19, $
 ;balmerfmx, $
 ;balmeremx, $
-;balmercoords, $
+balmercoords, $
+fbalmerqkmx, $
+ebalmerqkmx, $
 fbalmersrb1, $
 ebalmersrb1, $
 fbalmersrb2, $
@@ -1057,7 +1138,9 @@ Fmgwrb19, Emgwrb19, $
 tmgw, $
 ;mgwfmx, $
 ;mgwemx, $
-;mgwcoords, $
+mgwcoords, $
+fmgwqkmx, $
+emgwqkmx, $
 fmgwsrb1, $
 emgwsrb1, $
 fmgwsrb2, $
@@ -1094,7 +1177,9 @@ Fhmirb19, Ehmirb19, $
 thmi, $
 ;hmifmx, $
 ;hmiemx, $
-;hmicoords, $
+hmicoords, $
+fhmiqkmx, $
+ehmiqkmx, $
 fhmisrb1, $
 ehmisrb1, $
 fhmisrb2, $
