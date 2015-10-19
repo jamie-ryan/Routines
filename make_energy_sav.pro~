@@ -84,26 +84,29 @@ endfor
     ;;;first frame at 17:45:31 or diff[62]
 ;;;coords1[*,0:4] = south ribbon 
 ;;;coords1[*,5:9] = north ribbon
+SJI_1400_HDR    STRUCT    = -> <Anonymous> Array[518]
+SJI_2796_HDR    STRUCT    = -> <Anonymous> Array[690]
+SJI_2832_HDR 
 
 for k = 0, n_elements(dataset)-1 do begin
     for i = 0, nrb-1 do begin
         if (i lt 10) then begin
-            if (k eq 0) then map = '495' else $
-            if (k eq 1) then map = '661' else $
-            if (k eq 2) then map = '172' else $
-            if (k eq 3) then map = '166' else $
-            if (k eq 4) then map = '62'
+            if (k eq 0) then map = 'sji_1400_hdr[495]' else $
+            if (k eq 1) then map = 'sji_2796_hdr[661]' else $
+;            if (k eq 2) then map = '172' else $
+            if (k eq 2) then map = 'sji_2832_hdr[166]' else $
+            if (k eq 3) then map = 'diffindex[62]'
             com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)
             com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)            
         endif 
         if (i gt 9) then begin
-            if (k eq 0) then map = '498' else $
-            if (k eq 1) then map = '666' else $
-            if (k eq 2) then map = '173' else $
-            if (k eq 3) then map = '167' else $
-            if (k eq 4) then map = '63'
+            if (k eq 0) then map = 'sji_1400_hdr[498]' else $
+            if (k eq 1) then map = 'sji_2796_hdr[666]' else $
+;            if (k eq 2) then map = '173' else $
+            if (k eq 2) then map = 'sji_2832_hdr[167]' else $
+            if (k eq 3) then map = 'diffindex[63]'
             com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)
             com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
@@ -111,7 +114,8 @@ for k = 0, n_elements(dataset)-1 do begin
         endif
     endfor
 endfor
-
+balmercoords1 = fltarr(2, nc)
+balmercoords2 = fltarr(2, nc)
 
 
 for j = 0, n_elements(fmg) - 1 do begin
@@ -280,7 +284,7 @@ balmerfmxqk = fltarr(2,3)
 balmeremxqk = fltarr(2,3)
 balmerfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 balmeremx = fltarr(3,nrb)
-balmercoords = fltarr(2, nrb)
+
 
 mgwfmxqk = fltarr(2,3)
 mgwemxqk = fltarr(2,3)
@@ -351,15 +355,27 @@ exe = execute(com)
     exe = execute(com)
 
     ;;BALMER
-    com = 'slitp = find_iris_slit_pos(hmirbxa'+jj+',sp2826)'
-    exe = execute(com)
-    com = 'spyp = find_iris_slit_pos(hmirbya'+jj+',sp2826, /y, /a2p)'
-    exe = execute(com)
+    if (j lt 10) then begin
+        com = 'slitp = find_iris_slit_pos(hmicoords1[0,'+jj+'],sp2826)'
+        exe = execute(com)
+        com = 'spyp = find_iris_slit_pos(hmicoords1[1,'+jj+'],sp2826, /y, /a2p)'
+        exe = execute(com)
+        balmercoords1[0, j] = slitp
+        balmercoords1[1, j] = spyp
+    endif
+    if (j gt 9) then begin
+        com = 'slitp = find_iris_slit_pos(hmicoords2[0,'+jj+'],sp2826)'
+        exe = execute(com)
+        com = 'spyp = find_iris_slit_pos(hmicoords2[1,'+jj+'],sp2826, /y, /a2p)'
+        exe = execute(com)
+        balmercoords2[0, j] = slitp
+        balmercoords2[1, j] = spyp
+    endif
     if (j eq 19) then begin
-    com = 'qkslitp = find_iris_slit_pos(qkxa,sp2826)'
-    exe = execute(com)
-    com = 'qkspyp = find_iris_slit_pos(qkya,sp2826, /y, /a2p)'
-    exe = execute(com)
+        com = 'qkslitp = find_iris_slit_pos(qkxa,sp2826)'
+        exe = execute(com)
+        com = 'qkspyp = find_iris_slit_pos(qkya,sp2826, /y, /a2p)'
+        exe = execute(com)
     endif
         for i = 0, nn-1, 1 do begin  
             slitpos = string(slitp[i], format = '(I0)')
@@ -461,63 +477,63 @@ ncst = string(nc, format = '(I0)')
         endif 
         if (j eq 8) then begin
         ;find maximum flux and energy
-        com = 'qkmxf = F'+datset[k]+'qk['+map+']'
+        com = 'qkmxf = F'+dataset[k]+'qk['+map+']'
         exe = execute(com)
-        com = 'qkmxe = E'+datset[k]+'qk['+map+']'
+        com = 'qkmxe = E'+dataset[k]+'qk['+map+']'
         exe = execute(com)
 
-        com = datset[k]+'fmxqk[0,0] = mp'
+        com = dataset[k]+'fmxqk[0,0] = mp'
         exe = execute(com)
-        com = datset[k]+'fmxqk[0,1] = qkxa'
+        com = dataset[k]+'fmxqk[0,1] = qkxa'
         exe = execute(com)
-        com = datset[k]+'fmxqk[0,2] = qkmxf'
+        com = dataset[k]+'fmxqk[0,2] = qkmxf'
 
-        com = datset[k]+'emxqk[0,0] = mp'
+        com = dataset[k]+'emxqk[0,0] = mp'
         exe = execute(com)
-        com = datset[k]+'emxqk[0,1] = qkxa'
+        com = dataset[k]+'emxqk[0,1] = qkxa'
         exe = execute(com)
-        com = datset[k]+'emxqk[0,2] = qkmxe'
+        com = dataset[k]+'emxqk[0,2] = qkmxe'
 
         endif
 
         if (j eq 18) then begin
         ;find maximum flux and energy
-        com = 'qkmxf = F'+datset[k]+'qk['+map+']'
+        com = 'qkmxf = F'+dataset[k]+'qk['+map+']'
         exe = execute(com)
-        com = 'qkmxe = E'+datset[k]+'qk['+map+']'
+        com = 'qkmxe = E'+dataset[k]+'qk['+map+']'
         exe = execute(com)
 
-        com = datset[k]+'fmxqk[1,0] = mp'
+        com = dataset[k]+'fmxqk[1,0] = mp'
         exe = execute(com)
-        com = datset[k]+'fmxqk[1,1] = qkxa'
+        com = dataset[k]+'fmxqk[1,1] = qkxa'
         exe = execute(com)
-        com = datset[k]+'fmxqk[1,2] = qkmxf'
+        com = dataset[k]+'fmxqk[1,2] = qkmxf'
 
-        com = datset[k]+'emxqk[1,0] = mp'
+        com = dataset[k]+'emxqk[1,0] = mp'
         exe = execute(com)
-        com = datset[k]+'emxqk[1,1] = qkxa'
+        com = dataset[k]+'emxqk[1,1] = qkxa'
         exe = execute(com)
-        com = datset[k]+'emxqk[1,2] = qkmxe'
+        com = dataset[k]+'emxqk[1,2] = qkmxe'
         endif
 
-        com = 'mxf = F'+datset[k]+'rb'+jj+'['+map+']'
+        com = 'mxf = F'+dataset[k]+'rb'+jj+'['+map+']'
         exe = execute(com)
-        com = 'mxe = E'+datset[k]+'rb'+jj+'['+map+']'
+        com = 'mxe = E'+dataset[k]+'rb'+jj+'['+map+']'
         exe = execute(com)
       
         mp = fix(map)
-        com = datset[k]+'fmx[0,'+jj+'] = mp'
+        com = dataset[k]+'fmx[0,'+jj+'] = mp'
         exe = execute(com)
-        com = datset[k]+'fmx[1,'+jj+'] = cd'
+        com = dataset[k]+'fmx[1,'+jj+'] = cd'
         exe = execute(com)
-        com = datset[k]+'fmx[2,'+jj+'] = mxf'
+        com = dataset[k]+'fmx[2,'+jj+'] = mxf'
         exe = execute(com)
 
-        com = datset[k]+'emx[0,'+jj+'] = mp'
+        com = dataset[k]+'emx[0,'+jj+'] = mp'
         exe = execute(com)
-        com = datset[k]+'emx[1,'+jj+'] = cd'
+        com = dataset[k]+'emx[1,'+jj+'] = cd'
         exe = execute(com)
-        com = datset[k]+'emx[2,'+jj+'] = mxe'
+        com = dataset[k]+'emx[2,'+jj+'] = mxe'
         exe = execute(com)
     endfor
 endfor
