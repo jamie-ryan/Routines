@@ -28,7 +28,7 @@ fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
 ff = findfile(datdir+'hmi-high*')
 
 sample = 1
-
+dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 
 
 nmg = n_elements(submg) ;nmg = n_elements(submg[17:*])
@@ -63,6 +63,12 @@ qkmgxp = convert_coord_iris(qkxa, sji_2796_hdr[664], /x, /a2p)
 qkmgyp = convert_coord_iris(qkya, sji_2796_hdr[664], /y, /a2p)
 qkmgwxp = convert_coord_iris(qkxa, sji_2832_hdr[167], /x, /a2p)
 qkmgwyp = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
+
+
+for k = 0, n_elements(dataset)-1 do begin
+com = 'f'+dataset[k]+'srb1 = fltarr(3, '+ncst+')'
+
+
 
 ;south ribbon, from left to right, at 17:45:31 or diff[62]
 hmirbxa0 = 517.8
@@ -783,7 +789,7 @@ exe = execute(com)
 
 endfor
 
-dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+
 for k = 0, n_elements(dataset)-1 do begin
 nc = nrb/4
 ncst = string(nc, format = '(I0)')
