@@ -437,8 +437,9 @@ ncst = string(nc, format = '(I0)')
             if (k eq 2) then map = '172' else $
             if (k eq 3) then map = '166' else $
             if (k eq 4) then map = '62'
-            com = 'cd = '+dataset[k]+'coords1[0,'+jj+']'
+            com = 'tmp = ['+dataset[k]+'coords1, '+dataset[k]+'coords2] 
             exe = execute(com)
+            cd = tmp[0,j]
             
         endif 
         if (j gt 9) then begin
@@ -447,16 +448,38 @@ ncst = string(nc, format = '(I0)')
             if (k eq 2) then map = '173' else $
             if (k eq 3) then map = '167' else $
             if (k eq 4) then map = '63'
-            com = 'cd = '+dataset[k]+'coords2[0,'+jj+']'
+            com = 'tmp = ['+dataset[k]+'coords1, '+dataset[k]+'coords2] 
             exe = execute(com)
-        endif 
+            cd = tmp[0,j]
+        endif
+        com = 'mxf = F'+dataset[k]+'rb'+jj+'['+map+']'
+        exe = execute(com)
+        com = 'mxe = E'+dataset[k]+'rb'+jj+'['+map+']'
+        exe = execute(com)
+      
+        mp = fix(map)
+        com = dataset[k]+'fmx[0,'+jj+'] = mp'
+        exe = execute(com)
+        com = dataset[k]+'fmx[1,'+jj+'] = cd'
+        exe = execute(com)
+        com = dataset[k]+'fmx[2,'+jj+'] = mxf'
+        exe = execute(com)
+
+        com = dataset[k]+'emx[0,'+jj+'] = mp'
+        exe = execute(com)
+        com = dataset[k]+'emx[1,'+jj+'] = cd'
+        exe = execute(com)
+        com = dataset[k]+'emx[2,'+jj+'] = mxe'
+        exe = execute(com)
+
+ 
         if (j eq 8) then begin
         ;find maximum flux and energy
         com = 'qkmxf = F'+dataset[k]+'qk['+map+']'
         exe = execute(com)
         com = 'qkmxe = E'+dataset[k]+'qk['+map+']'
         exe = execute(com)
-
+        mp = fix(map)
         com = dataset[k]+'fmxqk[0] = mp'
         exe = execute(com)
         com = dataset[k]+'fmxqk[1] = qkxa'
@@ -477,7 +500,7 @@ ncst = string(nc, format = '(I0)')
         exe = execute(com)
         com = 'qkmxe = E'+dataset[k]+'qk['+map+']'
         exe = execute(com)
-
+        mp = fix(map)
         com = dataset[k]+'fmxqk[0] = mp'
         exe = execute(com)
         com = dataset[k]+'fmxqk[1] = qkxa'
@@ -490,26 +513,6 @@ ncst = string(nc, format = '(I0)')
         exe = execute(com)
         com = dataset[k]+'emxqk[2] = qkmxe'
         endif
-
-        com = 'mxf = F'+dataset[k]+'rb'+jj+'['+map+']'
-        exe = execute(com)
-        com = 'mxe = E'+dataset[k]+'rb'+jj+'['+map+']'
-        exe = execute(com)
-      
-        mp = fix(map)
-        com = dataset[k]+'fmx[0,'+jj+'] = mp'
-        exe = execute(com)
-        com = dataset[k]+'fmx[1,'+jj+'] = cd'
-        exe = execute(com)
-        com = dataset[k]+'fmx[2,'+jj+'] = mxf'
-        exe = execute(com)
-
-        com = dataset[k]+'emx[0,'+jj+'] = mp'
-        exe = execute(com)
-        com = dataset[k]+'emx[1,'+jj+'] = cd'
-        exe = execute(com)
-        com = dataset[k]+'emx[2,'+jj+'] = mxe'
-        exe = execute(com)
     endfor
 endfor
 
