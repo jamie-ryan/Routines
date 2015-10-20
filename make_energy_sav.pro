@@ -346,29 +346,29 @@ qkspypos = strarr(nn)
 
 ;;qk and multi-ribbon coord max flux and energy
 
-sifmxqk = fltarr(2,3)
-siemxqk = fltarr(2,3)
+sifmxqk = fltarr(3)
+siemxqk = fltarr(3)
 sifmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 siemx = fltarr(3,nrb)
 
-mgfmxqk = fltarr(2,3)
-mgemxqk = fltarr(2,3)
+mgfmxqk = fltarr(3)
+mgemxqk = fltarr(3)
 mgfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 mgemx = fltarr(3,nrb)
 
-balmerfmxqk = fltarr(2,3)
-balmeremxqk = fltarr(2,3)
+balmerfmxqk = fltarr(3)
+balmeremxqk = fltarr(3)
 balmerfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 balmeremx = fltarr(3,nrb)
 
 
-mgwfmxqk = fltarr(2,3)
-mgwemxqk = fltarr(2,3)
+mgwfmxqk = fltarr(3)
+mgwemxqk = fltarr(3)
 mgwfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 mgwemx = fltarr(3,nrb)
 
-hmifmxqk = fltarr(2,3)
-hmimxqk = fltarr(2,3)
+hmifmxqk = fltarr(3)
+hmimxqk = fltarr(3)
 hmifmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 hmiemx = fltarr(3,nrb)
 
@@ -555,17 +555,17 @@ ncst = string(nc, format = '(I0)')
         com = 'qkmxe = E'+dataset[k]+'qk['+map+']'
         exe = execute(com)
 
-        com = dataset[k]+'fmxqk[0,0] = mp'
+        com = dataset[k]+'fmxqk[0] = mp'
         exe = execute(com)
-        com = dataset[k]+'fmxqk[0,1] = qkxa'
+        com = dataset[k]+'fmxqk[1] = qkxa'
         exe = execute(com)
-        com = dataset[k]+'fmxqk[0,2] = qkmxf'
+        com = dataset[k]+'fmxqk[2] = qkmxf'
 
-        com = dataset[k]+'emxqk[0,0] = mp'
+        com = dataset[k]+'emxqk[0] = mp'
         exe = execute(com)
-        com = dataset[k]+'emxqk[0,1] = qkxa'
+        com = dataset[k]+'emxqk[1] = qkxa'
         exe = execute(com)
-        com = dataset[k]+'emxqk[0,2] = qkmxe'
+        com = dataset[k]+'emxqk[2] = qkmxe'
 
         endif
 
@@ -576,17 +576,17 @@ ncst = string(nc, format = '(I0)')
         com = 'qkmxe = E'+dataset[k]+'qk['+map+']'
         exe = execute(com)
 
-        com = dataset[k]+'fmxqk[1,0] = mp'
+        com = dataset[k]+'fmxqk[0] = mp'
         exe = execute(com)
-        com = dataset[k]+'fmxqk[1,1] = qkxa'
+        com = dataset[k]+'fmxqk[1] = qkxa'
         exe = execute(com)
-        com = dataset[k]+'fmxqk[1,2] = qkmxf'
+        com = dataset[k]+'fmxqk[2] = qkmxf'
 
-        com = dataset[k]+'emxqk[1,0] = mp'
+        com = dataset[k]+'emxqk[0] = mp'
         exe = execute(com)
-        com = dataset[k]+'emxqk[1,1] = qkxa'
+        com = dataset[k]+'emxqk[1] = qkxa'
         exe = execute(com)
-        com = dataset[k]+'emxqk[1,2] = qkmxe'
+        com = dataset[k]+'emxqk[2] = qkmxe'
         endif
 
         com = 'mxf = F'+dataset[k]+'rb'+jj+'['+map+']'
@@ -737,26 +737,26 @@ filename = '29-Mar-2014-energies-iris-mgii-single-pixel-'+date+'.sav'
 save, $
 ;balmer; for time use timearr
 Fqkbalmer, Eqkbalmer, $
-Frbbalmer0, Erbbalmer0, $
-Frbbalmer1, Erbbalmer1, $
-Frbbalmer2, Erbbalmer2, $
-Frbbalmer3, Erbbalmer3, $
-Frbbalmer4, Erbbalmer4, $
-Frbbalmer5, Erbbalmer5, $
-Frbbalmer6, Erbbalmer6, $
-Frbbalmer7, Erbbalmer7, $
-Frbbalmer8, Erbbalmer8, $
-Frbbalmer9, Erbbalmer9, $
-Frbbalmer10, Erbbalmer10, $
-Frbbalmer11, Erbbalmer11, $
-Frbbalmer12, Erbbalmer12, $
-Frbbalmer13, Erbbalmer13, $
-Frbbalmer14, Erbbalmer14, $
-Frbbalmer15, Erbbalmer15, $
-Frbbalmer16, Erbbalmer16, $
-Frbbalmer17, Erbbalmer17, $
-Frbbalmer18, Erbbalmer18, $
-Frbbalmer19, Erbbalmer19, $
+Fbalmerrb0, Ebalmerrb0, $
+Fbalmerrb1, Ebalmerrb1, $
+Fbalmerrb2, Ebalmerrb2, $
+Fbalmerrb3, Ebalmerrb3, $
+Fbalmerrb4, Ebalmerrb4, $
+Fbalmerrb5, Ebalmerrb5, $
+Fbalmerrb6, Ebalmerrb6, $
+Fbalmerrb7, Ebalmerrb7, $
+Fbalmerrb8, Ebalmerrb8, $
+Fbalmerrb9, Ebalmerrb9, $
+Fbalmerrb10, Ebalmerrb10, $
+Fbalmerrb11, Ebalmerrb11, $
+Fbalmerrb12, Ebalmerrb12, $
+Fbalmerrb13, Ebalmerrb13, $
+Fbalmerrb14, Ebalmerrb14, $
+Fbalmerrb15, Ebalmerrb15, $
+Fbalmerrb16, Ebalmerrb16, $
+Fbalmerrb17, Ebalmerrb17, $
+Fbalmerrb18, Ebalmerrb18, $
+Fbalmerrb19, Ebalmerrb19, $
 tspqk, $
 tsprb0, $
 tsprb1, $
