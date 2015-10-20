@@ -287,7 +287,7 @@ mgwfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 mgwemx = fltarr(3,nrb)
 
 hmifmxqk = fltarr(3)
-hmimxqk = fltarr(3)
+hmiemxqk = fltarr(3)
 hmifmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 hmiemx = fltarr(3,nrb)
 
@@ -596,7 +596,7 @@ filename = '29-Mar-2014-energies-iris-mgii-single-pixel-'+date+'.sav'
 
 save, $
 ;balmer; for time use timearr
-Fqkbalmer, Eqkbalmer, $
+Fbalmerqk, Ebalmerqk, $
 Fbalmerrb0, Ebalmerrb0, $
 Fbalmerrb1, Ebalmerrb1, $
 Fbalmerrb2, Ebalmerrb2, $
