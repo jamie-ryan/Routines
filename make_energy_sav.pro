@@ -89,7 +89,7 @@ for k = 0, n_elements(dataset)-1 do begin
     for i = 0, nrb-1 do begin
         if (i lt 10) then begin
 
-            if (k eq 0) then 
+            if (k eq 0) then begin
                 map = 'sji_1400_hdr[495]' 
                 com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
@@ -97,7 +97,7 @@ for k = 0, n_elements(dataset)-1 do begin
                 exe = execute(com)
             endif
 
-            if (k eq 1) then 
+            if (k eq 1) then begin
                 map = 'sji_2796_hdr[661]'
                 com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
@@ -105,7 +105,7 @@ for k = 0, n_elements(dataset)-1 do begin
                 exe = execute(com)
             endif
 ;            if (k eq 2) then map = '172' else $
-            if (k eq 2) then 
+            if (k eq 2) then begin
                 map = 'sji_2832_hdr[166]'
                 com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
@@ -113,7 +113,7 @@ for k = 0, n_elements(dataset)-1 do begin
                 exe = execute(com)
             endif
 
-            if (k eq 3) then 
+            if (k eq 3) then begin
                 map = 'diffindex[62]'
                 com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
@@ -123,14 +123,14 @@ for k = 0, n_elements(dataset)-1 do begin
             endif
         endif 
         if (i gt 9) then begin
-            if (k eq 0) then 
+            if (k eq 0) then begin
                 map = 'sji_1400_hdr[498]'
                 com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
                 com = dataset[k]+'rbyp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
                 exe = execute(com)
             endif
-            if (k eq 1) then
+            if (k eq 1) then begin
                 map = 'sji_2796_hdr[666]'
                 com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
@@ -138,14 +138,14 @@ for k = 0, n_elements(dataset)-1 do begin
                 exe = execute(com)
             endif
 ;            if (k eq 2) then map = '173' else $
-            if (k eq 2) then 
+            if (k eq 2) then begin
                 map = 'sji_2832_hdr[167]'
                 com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
                 com = dataset[k]+'rbyp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
                 exe = execute(com)
             endif
-            if (k eq 3) then 
+            if (k eq 3) then begin
                 map = 'diffindex[63]'
                 com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
