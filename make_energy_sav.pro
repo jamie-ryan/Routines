@@ -453,11 +453,11 @@ for k = 0, n_elements(dataset)-1 do begin
         endif
         com = 'tmp[0,0:9] = '+dataset[k]+'coords1[0,*]'
         exe = execute(com)
-        com = 'tmp[0,10:*] ='+dataset[k]+'coords2[0,*]] 
+        com = 'tmp[0,10:*] ='+dataset[k]+'coords2[0,*]'
         exe = execute(com)
         com = 'tmp[1,0:9] = '+dataset[k]+'coords1[1,*]'
         exe = execute(com)
-        com = 'tmp[1,10:*] ='+dataset[k]+'coords2[1,*]] 
+        com = 'tmp[1,10:*] ='+dataset[k]+'coords2[1,*]' 
         exe = execute(com)
 
         cd = tmp[0,j]
