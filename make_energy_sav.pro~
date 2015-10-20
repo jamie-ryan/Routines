@@ -84,13 +84,15 @@ print, 'flag222222222222222222222222222222222222222222222222'
     ;;;first frame at 17:45:31 or diff[62]
 ;;;coords1[*,0:4] = south ribbon 
 ;;;coords1[*,5:9] = north ribbon
+dataset = ['si', 'mg', 'mgw', 'hmi']
 for k = 0, n_elements(dataset)-1 do begin
     for i = 0, nrb-1 do begin
+        ii = string(i, format = '(I0)')
         if (i lt 10) then begin
 
             if (k eq 0) then begin
                 map = 'sji_1400_hdr[495]' 
-               com = 'xp = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
+                com = 'xp = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
                 com = dataset[k]+'rbxp'+ii+' = xp'
                 exe = execute(com)
@@ -100,15 +102,6 @@ for k = 0, n_elements(dataset)-1 do begin
                 exe = execute(com)
 
             endif
-                
-                com = 'xp = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
-                exe = execute(com)
-                com = dataset[k]+'rbxp'+ii+' = xp'
-                exe = execute(com)
-                com = 'yp = convert_coord_iris('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
-                exe = execute(com)
-                com = dataset[k]+'rbyp'+ii+' = yp'
-                exe = execute(com)
 
             if (k eq 1) then begin
                 map = 'sji_2796_hdr[661]'
@@ -175,7 +168,7 @@ for k = 0, n_elements(dataset)-1 do begin
 ;            if (k eq 2) then map = '173' else $
             if (k eq 2) then begin
                 map = 'sji_2832_hdr[167]'
-               com = 'xp = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
+                com = 'xp = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
                 com = dataset[k]+'rbxp'+ii+' = xp'
                 exe = execute(com)

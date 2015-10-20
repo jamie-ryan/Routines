@@ -84,13 +84,15 @@ print, 'flag222222222222222222222222222222222222222222222222'
     ;;;first frame at 17:45:31 or diff[62]
 ;;;coords1[*,0:4] = south ribbon 
 ;;;coords1[*,5:9] = north ribbon
+dataset = ['si', 'mg', 'mgw', 'hmi']
 for k = 0, n_elements(dataset)-1 do begin
-    for i = 0, nrb-1 do begin
-        if (i lt 10) then begin
+    for i = 0, nc-1 do begin
+        ii = string(i, format = '(I0)')
+
 
             if (k eq 0) then begin
                 map = 'sji_1400_hdr[495]' 
-               com = 'xp = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
+                com = 'xp = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
                 com = dataset[k]+'rbxp'+ii+' = xp'
                 exe = execute(com)
@@ -139,8 +141,8 @@ for k = 0, n_elements(dataset)-1 do begin
                 exe = execute(com)            
                 print, 'flag3333333333333333333333333333333333333333333333333333333'
             endif
-        endif 
-        if (i gt 9) then begin
+
+
             if (k eq 0) then begin
                 map = 'sji_1400_hdr[498]'
                com = 'xp = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
@@ -166,7 +168,7 @@ for k = 0, n_elements(dataset)-1 do begin
 ;            if (k eq 2) then map = '173' else $
             if (k eq 2) then begin
                 map = 'sji_2832_hdr[167]'
-               com = 'xp = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
+                com = 'xp = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
                 exe = execute(com)
                 com = dataset[k]+'rbxp'+ii+' = xp'
                 exe = execute(com)
@@ -187,7 +189,7 @@ for k = 0, n_elements(dataset)-1 do begin
                 exe = execute(com)
             endif
                 print, 'flag444444444444444444444444444444444444444444444444444444444'
-        endif
+
     endfor
 endfor
 print, 'flag555555555555555555555555555555555555555555555555555555555555'
