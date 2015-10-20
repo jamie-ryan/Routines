@@ -300,8 +300,8 @@ thmi = diff.time
 print, 'flag6666666666666666666666666666666666666666666666666666666666'
 
 ;;;loop to cycle through pixel coords
-;for j = 0, nrb-1 do begin
-for j = 0, nc-1 do begin
+for j = 0, nrb-1 do begin
+;for j = 0, nc-1 do begin
     jj = string(j, format = '(I0)')
 
     com = 'rbsi'+jj+' = fltarr(nsi)'
