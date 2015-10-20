@@ -427,9 +427,10 @@ for j = 0, nrb-1 do begin
 endfor
 
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+tmp = fltarr(2,20)
 for k = 0, n_elements(dataset)-1 do begin
-nc = nrb/4
-ncst = string(nc, format = '(I0)')
+    nc = nrb/4
+    ncst = string(nc, format = '(I0)')
     for j = 0, nrb-1 do begin
         if (j lt 10) then begin
             if (k eq 0) then map = '495' else $
@@ -437,9 +438,9 @@ ncst = string(nc, format = '(I0)')
             if (k eq 2) then map = '172' else $
             if (k eq 3) then map = '166' else $
             if (k eq 4) then map = '62'
-            com = 'tmp = ['+dataset[k]+'coords1, '+dataset[k]+'coords2] 
-            exe = execute(com)
-            cd = tmp[0,j]
+;            com = 'tmp = ['+dataset[k]+'coords1, '+dataset[k]+'coords2] 
+;            exe = execute(com)
+;            cd = tmp[0,j]
             
         endif 
         if (j gt 9) then begin
@@ -448,10 +449,19 @@ ncst = string(nc, format = '(I0)')
             if (k eq 2) then map = '173' else $
             if (k eq 3) then map = '167' else $
             if (k eq 4) then map = '63'
-            com = 'tmp = ['+dataset[k]+'coords1, '+dataset[k]+'coords2] 
-            exe = execute(com)
-            cd = tmp[0,j]
+
         endif
+        com = 'tmp[0,0:9] = '+dataset[k]+'coords1[0,*]'
+        exe = execute(com)
+        com = 'tmp[0,10:*] ='+dataset[k]+'coords2[0,*]] 
+        exe = execute(com)
+        com = 'tmp[1,0:9] = '+dataset[k]+'coords1[1,*]'
+        exe = execute(com)
+        com = 'tmp[1,10:*] ='+dataset[k]+'coords2[1,*]] 
+        exe = execute(com)
+
+        cd = tmp[0,j]
+
         com = 'mxf = F'+dataset[k]+'rb'+jj+'['+map+']'
         exe = execute(com)
         com = 'mxe = E'+dataset[k]+'rb'+jj+'['+map+']'
