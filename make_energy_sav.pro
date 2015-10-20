@@ -396,9 +396,9 @@ print, 'flag888888888888888888888888888888888888888888888888888888888888888'
 print, 'flag999999999999999999999999999999999999999999999999999999999999999999
     ;;BALMER
     if (j lt 10) then begin
-        com = 'slitp = find_iris_slit_pos(hmirbxp'+jj+'],sp2826)'
+        com = 'slitp = find_iris_slit_pos(hmirbxp['+jj+'],sp2826)'
         exe = execute(com)
-        com = 'spyp = find_iris_slit_pos(hmirbyp'+jj+'],sp2826, /y, /a2p)'
+        com = 'spyp = find_iris_slit_pos(hmirbyp['+jj+'],sp2826, /y, /a2p)'
         exe = execute(com)
         balmercoords1[0, j] = slitp
         balmercoords1[1, j] = spyp
