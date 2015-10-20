@@ -88,33 +88,74 @@ print, 'flag222222222222222222222222222222222222222222222222'
 for k = 0, n_elements(dataset)-1 do begin
     for i = 0, nrb-1 do begin
         if (i lt 10) then begin
-            if (k eq 0) then map = 'sji_1400_hdr[495]' else $
-            if (k eq 1) then map = 'sji_2796_hdr[661]' else $
+
+            if (k eq 0) then 
+                map = 'sji_1400_hdr[495]' 
+                com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
+                exe = execute(com)
+                com = dataset[k]+'rbyp'+ii+' = convert_coord_iris('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
+                exe = execute(com)
+            endif
+
+            if (k eq 1) then 
+                map = 'sji_2796_hdr[661]'
+                com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
+                exe = execute(com)
+                com = dataset[k]+'rbyp'+ii+' = convert_coord_iris('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
+                exe = execute(com)
+            endif
 ;            if (k eq 2) then map = '172' else $
-            if (k eq 2) then map = 'sji_2832_hdr[166]' else $
-            if (k eq 3) then map = 'diffindex[62]'
-            com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /y, /a2p)'
-            exe = execute(com)
-            com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
-            exe = execute(com)            
-            print, 'flag3333333333333333333333333333333333333333333333333333333'
+            if (k eq 2) then 
+                map = 'sji_2832_hdr[166]'
+                com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
+                exe = execute(com)
+                com = dataset[k]+'rbyp'+ii+' = convert_coord_iris('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
+                exe = execute(com)
+            endif
+
+            if (k eq 3) then 
+                map = 'diffindex[62]'
+                com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
+                exe = execute(com)
+                com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
+                exe = execute(com)            
+                print, 'flag3333333333333333333333333333333333333333333333333333333'
+            endif
         endif 
         if (i gt 9) then begin
-            if (k eq 0) then map = 'sji_1400_hdr[498]' else $
-            if (k eq 1) then map = 'sji_2796_hdr[666]' else $
+            if (k eq 0) then 
+                map = 'sji_1400_hdr[498]'
+                com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
+                exe = execute(com)
+                com = dataset[k]+'rbyp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
+                exe = execute(com)
+            endif
+            if (k eq 1) then
+                map = 'sji_2796_hdr[666]'
+                com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
+                exe = execute(com)
+                com = dataset[k]+'rbyp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
+                exe = execute(com)
+            endif
 ;            if (k eq 2) then map = '173' else $
-            if (k eq 2) then map = 'sji_2832_hdr[167]' else $
-            if (k eq 3) then map = 'diffindex[63]'
-            com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /y, /a2p)'
-            exe = execute(com)
-            com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
-            exe = execute(com)
-            print, 'flag444444444444444444444444444444444444444444444444444444444'
+            if (k eq 2) then 
+                map = 'sji_2832_hdr[167]'
+                com = dataset[k]+'rbxp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
+                exe = execute(com)
+                com = dataset[k]+'rbyp'+ii+' = convert_coord_iris('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
+                exe = execute(com)
+            endif
+            if (k eq 3) then 
+                map = 'diffindex[63]'
+                com = dataset[k]+'rbxp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
+                exe = execute(com)
+                com = dataset[k]+'rbyp'+ii+' = convert_coord_hmi('+dataset[k]+'coords2[1,'+ii+'], '+map+',  /y, /a2p)'
+                exe = execute(com)
+            endif
+                print, 'flag444444444444444444444444444444444444444444444444444444444'
         endif
     endfor
 endfor
-balmercoords1 = fltarr(2, nc)
-balmercoords2 = fltarr(2, nc)
 print, 'flag555555555555555555555555555555555555555555555555555555555555'
 
 for j = 0, n_elements(fmg) - 1 do begin
@@ -355,9 +396,9 @@ print, 'flag888888888888888888888888888888888888888888888888888888888888888'
 print, 'flag999999999999999999999999999999999999999999999999999999999999999999
     ;;BALMER
     if (j lt 10) then begin
-        com = 'slitp = find_iris_slit_pos(hmicoords1[0,'+jj+'],sp2826)'
+        com = 'slitp = find_iris_slit_pos(hmirbxp'+jj+'],sp2826)'
         exe = execute(com)
-        com = 'spyp = find_iris_slit_pos(hmicoords1[1,'+jj+'],sp2826, /y, /a2p)'
+        com = 'spyp = find_iris_slit_pos(hmirbyp'+jj+'],sp2826, /y, /a2p)'
         exe = execute(com)
         balmercoords1[0, j] = slitp
         balmercoords1[1, j] = spyp
