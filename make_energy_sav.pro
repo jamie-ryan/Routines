@@ -67,19 +67,6 @@ qkmgwyp = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
 print, 'flag11111111111111111111111111111111111111111111111111'
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 ncst = string(nc, format = '(I0)')
-openr,lun,fmg[j],/get_lun
-
-;;;count lines in file
-nlinesmg = file_lines(fmg[j])
-
-;;;make array to fill with values from the file
-hmg=intarr(2,nlinesmg)
-
-;;;read file contents into array
-readf,lun,hmg
-
-;;close file and free up file unit number
-free_lun, lun
 for i = 1,2 do begin
     ii = string(i, format = '(I0)')
     for k = 0, n_elements(dataset)-1 do begin
