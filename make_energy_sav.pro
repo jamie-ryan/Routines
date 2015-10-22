@@ -419,7 +419,7 @@ for j = 0, nrb-1 do begin
 ;            exe = execute(com)
 ;            com = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds['+qkslitpos+']'
 ;            exe = execute(com)
-            com = 'qkbalmer[i] =  = total(sp2826.'+tagarr[i]+'.int[39:44, 3:4,438])/((44-39)*2)'
+            com = 'qkbalmer[i] = total(sp2826.'+tagarr[i]+'.int[39:44, 3:4,438])/((44-39)*2)'
             exe = execute(com)
             com = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds[3]'
             exe = execute(com)

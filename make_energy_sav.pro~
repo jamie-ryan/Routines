@@ -73,7 +73,7 @@ qkmgwyp = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
 ;;;put coords into array eg, hmicoords1 = fltarr(2,10) 
 ;;;coords1[*,0:4] = south ribbon 
 ;;;coords1[*,5:9] = north ribbon
-dataset = ['si', 'mg', 'mgw', 'hmi']
+dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 for i = 1,2 do begin
     ii = string(i, format = '(I0)')
     for k = 0, n_elements(dataset)-1 do begin
