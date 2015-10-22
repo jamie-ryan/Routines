@@ -88,9 +88,6 @@ for i = 1,2 do begin
         free_lun, lun
     endfor
 endfor
-print, 'flag222222222222222222222222222222222222222222222222'
-
-
 
 
 ;;;Calculate pixel locations for each ribbon sample (arcsecs)
@@ -297,7 +294,7 @@ tmg = submg.time
 tspqk = strarr(sample*nn)
 tmgw = map2832.time
 thmi = diff.time
-print, 'flag6666666666666666666666666666666666666666666666666666666666'
+
 
 ;;;loop to cycle through pixel coords
 for j = 0, nrb-1 do begin
@@ -596,7 +593,7 @@ filename = '29-Mar-2014-energies-iris-mgii-single-pixel-'+date+'.sav'
 
 save, $
 ;balmer; for time use timearr
-Fqkbalmer, Eqkbalmer, $
+Fbalmerqk, Ebalmerqk, $
 Fbalmerrb0, Ebalmerrb0, $
 Fbalmerrb1, Ebalmerrb1, $
 Fbalmerrb2, Ebalmerrb2, $

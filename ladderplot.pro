@@ -167,7 +167,7 @@ com = 'hmi_radiometric_calibration, boxarr'+string(j,format = '(I0)')+', n_pixel
 exe = execute(com)
 endfor
 
-
+;import all savs, make 4d array, loop the ladderplots
 ;FLARE-RIBBON AREA PLOTS
 ;calculate plotting position coordinates for ladder plots
 plot_pos_calc, n_plots = 4, xpos, ypos

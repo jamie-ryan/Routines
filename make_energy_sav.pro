@@ -73,7 +73,6 @@ qkspyp = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
 ;;;put coords into array eg, hmicoords1 = fltarr(2,10) 
 ;;;coords1[*,0:4] = south ribbon 
 ;;;coords1[*,5:9] = north ribbon
-print, 'flag11111111111111111111111111111111111111111111111111'
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 for i = 1,2 do begin
     ii = string(i, format = '(I0)')
@@ -88,9 +87,6 @@ for i = 1,2 do begin
         free_lun, lun
     endfor
 endfor
-print, 'flag222222222222222222222222222222222222222222222222'
-
-
 
 
 ;;;Calculate pixel locations for each ribbon sample (arcsecs)
@@ -297,7 +293,7 @@ tmg = submg.time
 tspqk = strarr(sample*nn)
 tmgw = map2832.time
 thmi = diff.time
-print, 'flag6666666666666666666666666666666666666666666666666666666666'
+
 
 ;;;loop to cycle through pixel coords
 for j = 0, nrb-1 do begin
