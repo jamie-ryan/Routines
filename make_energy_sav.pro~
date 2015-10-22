@@ -62,8 +62,8 @@ qkmgxp = convert_coord_iris(qkxa, sji_2796_hdr[664], /x, /a2p)
 qkmgyp = convert_coord_iris(qkya, sji_2796_hdr[664], /y, /a2p)
 qkmgwxp = convert_coord_iris(qkxa, sji_2832_hdr[167], /x, /a2p)
 qkmgwyp = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
-qkslitp = find_iris_slit_pos(qkxa,sp2826)
-qkspyp = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+;qkslitp = ;find_iris_slit_pos(qkxa,sp2826)
+;qkspyp = ;find_iris_slit_pos(qkya,sp2826, /y, /a2p)
 
 
 ;;;read in coord files for each data set 
@@ -73,8 +73,7 @@ qkspyp = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
 ;;;put coords into array eg, hmicoords1 = fltarr(2,10) 
 ;;;coords1[*,0:4] = south ribbon 
 ;;;coords1[*,5:9] = north ribbon
-print, 'flag11111111111111111111111111111111111111111111111111'
-dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+dataset = ['si', 'mg', 'mgw', 'hmi']
 for i = 1,2 do begin
     ii = string(i, format = '(I0)')
     for k = 0, n_elements(dataset)-1 do begin
@@ -109,8 +108,8 @@ endfor
 ;;;coords2[*,5:9] = north ribbon at #2frame
 
 ;exclude balmer from dataset as coord conversion is different
-dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi'] 
-
+;dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi'] 
+dataset = ['si', 'mg', 'mgw', 'hmi'] 
 ;;;cycle through dataset
 for k = 0, n_elements(dataset)-1 do begin
     ;;;cycle through coords
@@ -146,22 +145,22 @@ for k = 0, n_elements(dataset)-1 do begin
 
         endif
 ;            if (k eq 2) then map = '172' else $
-       if (k eq 2) then begin
-            com = dataset[k]+'rbxp'+ii+' = fltarr(nn)
-            exe = execute(com)
-            com = dataset[k]+'rbyp'+ii+' = fltarr(nn)
-            exe = execute(com)
-            com = 'slit = find_iris_slit_pos(balmercoords1[0,'+ii+'],sp2826)'
-            exe = execute(com)
-            com = 'yp = find_iris_slit_pos(balmercoords1[0,'+ii+'],sp2826, /y, /a2p)'
-            exe = execute(com)
-            com = dataset[k]+'rbxp'+ii+'[*]  = slit[*]'
-            exe = execute(com)
-            com = dataset[k]+'rbyp'+ii+'[*] = yp[*]'
-            exe = execute(com)
-        endif
+;       if (k eq 2) then begin
+;            com = dataset[k]+'rbxp'+ii+' = fltarr(nn)
+;            exe = execute(com)
+;            com = dataset[k]+'rbyp'+ii+' = fltarr(nn)
+;            exe = execute(com)
+;            com = 'slit = find_iris_slit_pos(balmercoords1[0,'+ii+'],sp2826)'
+;            exe = execute(com)
+;            com = 'yp = find_iris_slit_pos(balmercoords1[0,'+ii+'],sp2826, /y, /a2p)'
+;            exe = execute(com)
+;            com = dataset[k]+'rbxp'+ii+'[*]  = slit[*]'
+;            exe = execute(com)
+;            com = dataset[k]+'rbyp'+ii+'[*] = yp[*]'
+;            exe = execute(com)
+;        endif
 
-        if (k eq 3) then begin
+        if (k eq 2) then begin
             map = 'sji_2832_hdr[166]'
            com = 'xp = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
             exe = execute(com)
@@ -174,7 +173,7 @@ for k = 0, n_elements(dataset)-1 do begin
 
         endif
 
-        if (k eq 4) then begin
+        if (k eq 3) then begin
             map = 'diffindex[62]'
             com = 'xp = convert_coord_hmi('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
             exe = execute(com)
@@ -213,22 +212,22 @@ for k = 0, n_elements(dataset)-1 do begin
         endif
 ;            if (k eq 2) then map = '173' else $
 
-        if (k eq 2) then begin
-            com = dataset[k]+'rbxp'+iii+' = fltarr(nn)
-            exe = execute(com)
-            com = dataset[k]+'rbyp'+iii+' = fltarr(nn)
-            exe = execute(com)
-            com = 'slit = find_iris_slit_pos(balmercoords2[0,'+ii+'],sp2826)'
-            exe = execute(com)
-            com = 'yp = find_iris_slit_pos(balmercoords2[0,'+ii+'],sp2826, /y, /a2p)'
-            exe = execute(com)
-            com = dataset[k]+'rbxp'+iii+'[*] = slit[*]'
-            exe = execute(com)
-            com = dataset[k]+'rbyp'+iii+'[*] = yp[*]'
-            exe = execute(com)
-        endif
+;        if (k eq 2) then begin
+;            com = dataset[k]+'rbxp'+iii+' = fltarr(nn)
+;            exe = execute(com)
+;            com = dataset[k]+'rbyp'+iii+' = fltarr(nn)
+;            exe = execute(com)
+;            com = 'slit = find_iris_slit_pos(balmercoords2[0,'+ii+'],sp2826)'
+;            exe = execute(com)
+;            com = 'yp = find_iris_slit_pos(balmercoords2[0,'+ii+'],sp2826, /y, /a2p)'
+;            exe = execute(com)
+;            com = dataset[k]+'rbxp'+iii+'[*] = slit[*]'
+;            exe = execute(com)
+;            com = dataset[k]+'rbyp'+iii+'[*] = yp[*]'
+;            exe = execute(com)
+;        endif
 
-        if (k eq 3) then begin
+        if (k eq 2) then begin
             map = 'sji_2832_hdr[167]'
             com = 'xp = convert_coord_iris('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
             exe = execute(com)
@@ -239,7 +238,7 @@ for k = 0, n_elements(dataset)-1 do begin
             com = dataset[k]+'rbyp'+iii+' = yp'
             exe = execute(com)
         endif
-        if (k eq 4) then begin
+        if (k eq 3) then begin
             map = 'diffindex[63]'
             com = 'xp = convert_coord_hmi('+dataset[k]+'coords2[0,'+ii+'], '+map+',  /x, /a2p)'
             exe = execute(com)
@@ -252,6 +251,56 @@ for k = 0, n_elements(dataset)-1 do begin
         endif
     endfor
 endfor
+
+;17:45:36
+;sr
+balmerrbxp0 = 0.
+balmerrbyp0 = 440.
+balmerrbxp1 = 2.
+balmerrbyp1 = 430.
+balmerrbxp2 = 4.
+balmerrbyp2 = 440.
+balmerrbxp3 = 6.
+balmerrbyp3 = 440.
+balmerrbxp4 = 7.
+balmerrbyp4 = 440.
+
+;nr
+balmerrbxp5 = 0.
+balmerrbyp5 = 484.
+balmerrbxp6 = 2.
+balmerrbyp6 = 495.
+balmerrbxp7 = 4.
+balmerrbyp7 = 490.
+balmerrbxp8 = 6.
+balmerrbyp8 = 495.
+balmerrbxp9 = 7.
+balmerrbyp9 = 500.
+
+;17:46:46
+;sr
+balmerrbxp10 = 0.
+balmerrbyp10 = 415.
+balmerrbxp11 = 2.
+balmerrbyp11 = 423.
+balmerrbxp12 = 4.
+balmerrbyp12 = 418.
+balmerrbxp13 = 6.
+balmerrbyp13 = 410
+balmerrbxp14 = 7.
+balmerrbyp14 = 430.
+
+;nr
+balmerrbxp15 = 0.
+balmerrbyp15 = 498.
+balmerrbxp16 = 2.
+balmerrbyp16 = 525.
+balmerrbxp17 = 4.
+balmerrbyp17 = 530.
+balmerrbxp18 = 6.
+balmerrbyp18 = 500.
+balmerrbxp19 = 7.
+balmerrbyp19 = 510.
 
 
 ;;;set up single pixel arrays to contain lightcurve data 
@@ -354,21 +403,25 @@ for j = 0, nrb-1 do begin
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;BALMER
 
     for i = 0, nn-1, 1 do begin  
-        com = 'in = total(sp2826.'+tagarr[i]+'.int[39:44, balmerrbxp'+jj+'[i],balmerrbyp'+jj+'[i]])/((44-39))'
+        com = 'in = total(sp2826.'+tagarr[i]+'.int[39:44, balmerrbxp'+jj+',balmerrbyp'+jj+'])/((44-39))'
         exe = execute(com)
 
         com = 'rbbalmer'+jj+'[i] = in'
         exe = execute(com)
 
-        com = 'tsprb'+jj+'[i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerrbxp'+jj+'[i]]'
+        com = 'tsprb'+jj+'[i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerrbxp'+jj+']'
         exe = execute(com)
         
         if (j eq 19) then begin
-            qkslitpos = string(qkslitp[i], format = '(I0)')
-            qkspypos = string(qkspyp[i], format = '(I0)')
-            com = 'qkbalmer[i] = total(sp2826.'+tagarr[i]+'.int[39:44,'+qkslitpos+','+qkspypos+'])/((44-39))'
+;            qkslitpos = string(qkslitp[i], format = '(I0)')
+;            qkspypos = string(qkspyp[i], format = '(I0)')
+;            com = 'qkbalmer[i] = total(sp2826.'+tagarr[i]+'.int[39:44,'+qkslitpos+','+qkspypos+'])/((44-39))'
+;            exe = execute(com)
+;            com = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds['+qkslitpos+']'
+;            exe = execute(com)
+            com = 'oldqkbalm[i] =  = total(sp2826.'+tagarr[i]+'.int[39:44, 3:4,438])/((44-39)*2)'
             exe = execute(com)
-            com = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds['+qkslitpos+']'
+            com = 'oldtspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds[3]'
             exe = execute(com)
         endif
     endfor

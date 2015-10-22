@@ -87,7 +87,7 @@ for j = 0, frame-1 do begin
         loadct,3
         vert_line,sec,1, color = 100
         loadct,0
-        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
+        xyouts, xyx, xyy, 'IRIS SJ 1400 '+angstrom, /norm
 
         o = 3
         xyx = xpos[0] + 0.3*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -113,7 +113,7 @@ for j = 0, frame-1 do begin
         loadct,3
         vert_line,sec,1, color = 100
         loadct,0
-        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
+        xyouts, xyx, xyy, 'IRIS SJ 2796 '+angstrom, /norm
 
         o = 2
         xyx = xpos[0] + 0.3*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -139,7 +139,7 @@ for j = 0, frame-1 do begin
         loadct,3
         vert_line,sec,1, color = 100
         loadct,0
-        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
+        xyouts, xyx, xyy, 'IRIS SG Balmer '+angstrom, /norm
 
         o = 1
         xyx = xpos[0] + 0.3*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -165,7 +165,7 @@ for j = 0, frame-1 do begin
         loadct,3
         vert_line,sec,1, color = 100
         loadct,0
-        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
+        xyouts, xyx, xyy, 'IRIS SJ 2832 '+angstrom, /norm
 
         o = 0
         xyx = xpos[0] + 0.3*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -189,6 +189,6 @@ for j = 0, frame-1 do begin
         loadct,3
         vert_line,sec,1, color = 100
         loadct,0
-        xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum', /norm
+        xyouts, 0.92*xyx, xyy, 'SDO HMI Continuum', /norm
     endfor
 endfor
