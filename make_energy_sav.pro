@@ -73,7 +73,7 @@ qkmgwyp = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
 ;;;put coords into array eg, hmicoords1 = fltarr(2,10) 
 ;;;coords1[*,0:4] = south ribbon 
 ;;;coords1[*,5:9] = north ribbon
-dataset = ['si', 'mg', 'mgw', 'hmi']
+dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 for i = 1,2 do begin
     ii = string(i, format = '(I0)')
     for k = 0, n_elements(dataset)-1 do begin
@@ -485,7 +485,7 @@ for k = 0, n_elements(dataset)-1 do begin
         if (j lt 10) then begin
             if (k eq 0) then map = '495' else $
             if (k eq 1) then map = '661' else $
-            if (k eq 2) then map = '172' else $
+            if (k eq 2) then map = '173' else $
             if (k eq 3) then map = '166' else $
             if (k eq 4) then map = '62'
 ;            com = 'tmp = ['+dataset[k]+'coords1, '+dataset[k]+'coords2] 
@@ -496,7 +496,7 @@ for k = 0, n_elements(dataset)-1 do begin
         if (j gt 9) then begin
             if (k eq 0) then map = '498' else $
             if (k eq 1) then map = '666' else $
-            if (k eq 2) then map = '173' else $
+            if (k eq 2) then map = '174' else $
             if (k eq 3) then map = '167' else $
             if (k eq 4) then map = '63'
 
