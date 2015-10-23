@@ -57,10 +57,13 @@ qkya = 261.4 ;arcsec
 qkxp = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p)
 qkyp = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
 qksixp = convert_coord_iris(qkxa, sji_1400_hdr[498], /x, /a2p)
+qksixa = convert_coord_iris(qkxa, sji_1400_hdr[498], /x, /p2a)
 qksiyp = convert_coord_iris(qkya, sji_1400_hdr[498], /y, /a2p)
 qkmgxp = convert_coord_iris(qkxa, sji_2796_hdr[664], /x, /a2p)
+qkmgxa = convert_coord_iris(qkxa, sji_2796_hdr[664], /x, /p2a)
 qkmgyp = convert_coord_iris(qkya, sji_2796_hdr[664], /y, /a2p)
 qkmgwxp = convert_coord_iris(qkxa, sji_2832_hdr[167], /x, /a2p)
+qkmgwxa = convert_coord_iris(qkxa, sji_2832_hdr[167], /x, /p2a)
 qkmgwyp = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
 ;qkslitp = ;find_iris_slit_pos(qkxa,sp2826)
 ;qkspyp = ;find_iris_slit_pos(qkya,sp2826, /y, /a2p)
@@ -311,29 +314,28 @@ qkbalmer = fltarr(sample*nn)
 qkhmi = fltarr(nnn)
 
 
-;;arrays for qk and multi-ribbon coord max flux and energy
-sifmxqk = fltarr(3)
-siemxqk = fltarr(3)
+sifmxqk = fltarr(3,2)
+siemxqk = fltarr(3,2)
 sifmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 siemx = fltarr(3,nrb)
 
-mgfmxqk = fltarr(3)
-mgemxqk = fltarr(3)
+mgfmxqk = fltarr(3,2)
+mgemxqk = fltarr(3,2)
 mgfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 mgemx = fltarr(3,nrb)
 
-balmerfmxqk = fltarr(3)
-balmeremxqk = fltarr(3)
+balmerfmxqk = fltarr(3,2)
+balmeremxqk = fltarr(3,2)
 balmerfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 balmeremx = fltarr(3,nrb)
 
-mgwfmxqk = fltarr(3)
-mgwemxqk = fltarr(3)
+mgwfmxqk = fltarr(3,2)
+mgwemxqk = fltarr(3,2)
 mgwfmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 mgwemx = fltarr(3,nrb)
 
-hmifmxqk = fltarr(3)
-hmiemxqk = fltarr(3)
+hmifmxqk = fltarr(3,2)
+hmiemxqk = fltarr(3,2)
 hmifmx = fltarr(3,nrb) ;fmx[0,*] = time, fmx[1,*] = max
 hmiemx = fltarr(3,nrb)
 
@@ -476,106 +478,164 @@ for j = 0, nrb-1 do begin
     exe = execute(com)
 endfor
 
-dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
-tmp = fltarr(2,20)
-for k = 0, n_elements(dataset)-1 do begin
-    nc = nrb/4
-    ncst = string(nc, format = '(I0)')
-    for j = 0, nrb-1 do begin
-        if (j lt 10) then begin
-            if (k eq 0) then map = '495' else $
-            if (k eq 1) then map = '661' else $
-            if (k eq 2) then map = '173' else $
-            if (k eq 3) then map = '166' else $
-            if (k eq 4) then map = '62'
-;            com = 'tmp = ['+dataset[k]+'coords1, '+dataset[k]+'coords2] 
-;            exe = execute(com)
-;            cd = tmp[0,j]
-            
-        endif 
-        if (j gt 9) then begin
-            if (k eq 0) then map = '498' else $
-            if (k eq 1) then map = '666' else $
-            if (k eq 2) then map = '174' else $
-            if (k eq 3) then map = '167' else $
-            if (k eq 4) then map = '63'
 
-        endif
-        com = 'tmp[0,0:9] = '+dataset[k]+'coords1[0,*]'
-        exe = execute(com)
-        com = 'tmp[0,10:*] ='+dataset[k]+'coords2[0,*]'
-        exe = execute(com)
-        com = 'tmp[1,0:9] = '+dataset[k]+'coords1[1,*]'
-        exe = execute(com)
-        com = 'tmp[1,10:*] ='+dataset[k]+'coords2[1,*]' 
-        exe = execute(com)
+;ribbons energy
+;frame
+siemx[0,0:9] =  495
+mgemx[0,0:9] = 664
+balmeremx[0,0:9] = 173
+mgwemx[0,0:9] = 166
+hmiemx[0,0:9] = 62
+siemx[0,10:*] =  498
+mgemx[0,10:*] = 666
+balmeremx[0,10:*] = 174
+mgwemx[0,10:*] = 167
+hmiemx[0,10:*] = 63
 
-        cd = tmp[0,j]
+;coord
+siemx[1,0:9] = sicoords1[0,*]
+mgemx[1,0:9] = mgcoords1[0,*]
+balmeremx[1,0:9] = mgwcoords1[0,*]
+mgwemx[1,0:9] = mgwcoords1[0,*]
+hmiemx[1,0:9] = hmicoords1[0,*]
+siemx[1,10:*] = sicoords2[0,*]
+mgemx[1,10:*] = mgcoords2[0,*]
+balmeremx[1,10:*] = mgwcoords2[0,*]
+mgwemx[1,10:*] = mgwcoords2[0,*]
+hmiemx[1,10:*] = hmicoords2[0,*]
 
-        com = 'mxf = F'+dataset[k]+'rb'+jj+'['+map+']'
-        exe = execute(com)
-        com = 'mxe = E'+dataset[k]+'rb'+jj+'['+map+']'
-        exe = execute(com)
-      
-        mp = fix(map)
-        com = dataset[k]+'fmx[0,'+jj+'] = mp'
-        exe = execute(com)
-        com = dataset[k]+'fmx[1,'+jj+'] = cd'
-        exe = execute(com)
-        com = dataset[k]+'fmx[2,'+jj+'] = mxf'
-        exe = execute(com)
+;ribbons flux
+;frame
+sifmx[0,0:9] =  495
+mgfmx[0,0:9] = 664
+balmerfmx[0,0:9] = 173
+mgwfmx[0,0:9] = 166
+hmifmx[0,0:9] = 62
+sifmx[0,10:*] =  498
+mgfmx[0,10:*] = 666
+balmerfmx[0,10:*] = 174
+mgwfmx[0,10:*] = 167
+hmifmx[0,10:*] = 63
 
-        com = dataset[k]+'emx[0,'+jj+'] = mp'
-        exe = execute(com)
-        com = dataset[k]+'emx[1,'+jj+'] = cd'
-        exe = execute(com)
-        com = dataset[k]+'emx[2,'+jj+'] = mxe'
-        exe = execute(com)
+;coord
+sifmx[1,0:9] = sicoords1[0,*]
+mgfmx[1,0:9] = mgcoords1[0,*]
+balmerfmx[1,0:9] = mgwcoords1[0,*]
+mgwfmx[1,0:9] = mgwcoords1[0,*]
+hmifmx[1,0:9] = hmicoords1[0,*]
+sifmx[1,10:*] = sicoords2[0,*]
+mgfmx[1,10:*] = mgcoords2[0,*]
+balmerfmx[1,10:*] = mgwcoords2[0,*]
+mgwfmx[1,10:*] = mgwcoords2[0,*]
+hmifmx[1,10:*] = hmicoords2[0,*]
 
- 
-        if (j eq 8) then begin
-        ;find maximum flux and energy
-        com = 'qkmxf = F'+dataset[k]+'qk['+map+']'
-        exe = execute(com)
-        com = 'qkmxe = E'+dataset[k]+'qk['+map+']'
-        exe = execute(com)
-        mp = fix(map)
-        com = dataset[k]+'fmxqk[0] = mp'
-        exe = execute(com)
-        com = dataset[k]+'fmxqk[1] = qkxa'
-        exe = execute(com)
-        com = dataset[k]+'fmxqk[2] = qkmxf'
+for i = 0 , nrb-1 do begin
+    ii = string(i, format = '(I0)')
+    com = 'simxe = esirb'+ii+'[siemx[0,0]]
+    exe = execute(com)
+    com = 'simxf = fsirb'+ii+'[siemx[0,0]]
+    exe = execute(com)
 
-        com = dataset[k]+'emxqk[0] = mp'
-        exe = execute(com)
-        com = dataset[k]+'emxqk[1] = qkxa'
-        exe = execute(com)
-        com = dataset[k]+'emxqk[2] = qkmxe'
+    com = 'mgmxe = emgrb'+ii+'[mgemx[0,0]]
+    exe = execute(com)
+    com = 'mgmxf = fmgrb'+ii+'[mgemx[0,0]]
+    exe = execute(com)
 
-        endif
+    com = 'balmermxe = ebalmerrb'+ii+'[balmeremx[0,0]]
+    exe = execute(com)
+    com = 'balmermxf = fbalmerrb'+ii+'[balmeremx[0,0]]
+    exe = execute(com)
 
-        if (j eq 18) then begin
-        ;find maximum flux and energy
-        com = 'qkmxf = F'+dataset[k]+'qk['+map+']'
-        exe = execute(com)
-        com = 'qkmxe = E'+dataset[k]+'qk['+map+']'
-        exe = execute(com)
-        mp = fix(map)
-        com = dataset[k]+'fmxqk[0] = mp'
-        exe = execute(com)
-        com = dataset[k]+'fmxqk[1] = qkxa'
-        exe = execute(com)
-        com = dataset[k]+'fmxqk[2] = qkmxf'
+    com = 'mgwmxe = emgwrb'+ii+'[mgwemx[0,0]]
+    exe = execute(com)
+    com = 'mgwmxf = fmgwrb'+ii+'[mgwemx[0,0]]
+    exe = execute(com)
 
-        com = dataset[k]+'emxqk[0] = mp'
-        exe = execute(com)
-        com = dataset[k]+'emxqk[1] = qkxa'
-        exe = execute(com)
-        com = dataset[k]+'emxqk[2] = qkmxe'
-        endif
-    endfor
+    com = 'hmimxe = ehmirb'+ii+'[hmiemx[0,0]]
+    exe = execute(com)
+    com = 'hmimxf = fhmirb'+ii+'[hmiemx[0,0]]
+    exe = execute(com)
+
+    ;max energy
+    siemx[2,i] =  simxe
+    mgemx[2,i] = mgmxe
+    balmeremx[2,i] = balmermxe
+    mgwemx[2,i] = mgwmxe
+    hmiemx[2,i] = hmimxe
+
+    ;max energy
+    sifmx[2,i] =  simxe
+    mgfmx[2,i] = mgmxe
+    balmerfmx[2,i] = balmermxe
+    mgwfmx[2,i] = mgwmxe
+    hmifmx[2,i] = hmimxe
 endfor
 
+
+;quake energy
+;frame
+siemxqk[0,0] =  495
+mgemxqk[0,0] = 664
+balmeremxqk[0,0] = 173
+mgwemxqk[0,0] = 166
+hmiemxqk[0,0] = 62
+siemxqk[0,1] =  498
+mgemxqk[0,1] = 666
+balmeremxqk[0,1] = 174
+mgwemxqk[0,1] = 167
+hmiemxqk[0,1] = 63
+
+
+;coord
+siemxqk[1,*] =  qksixa
+mgemxqk[1,*] = qkmgxa
+balmeremxqk[1,*] = qkmgwxa
+mgwemxqk[1,*] = qkmgwxa
+hmiemxqk[1,*] = qkxa
+
+;max energy
+siemxqk[2,0] =  esiqk[siemx[0,0]]
+mgemxqk[2,0] = emgqk[mgemx[0,0]]
+balmeremxqk[2,0] = ebalmerqk[balmeremx[0,0]]
+mgwemxqk[2,0] = emgwqk[mgwemx[0,0]]
+hmiemxqk[2,0] = ehmiqk[hmiemx[0,0]]
+siemxqk[2,1] =  esiqk[siemx[0,10]]
+mgemxqk[2,1] = emgqk[mgemx[0,10]]
+balmeremxqk[2,1] = ebalmerqk[balmeremx[0,10]]
+mgwemxqk[2,1] = emgwqk[mgwemx[0,10]]
+hmiemxqk[2,1] = ehmiqk[hmiemx[0,10]]
+
+;quake flux
+;frame
+sifmxqk[0,0] =  495
+mgfmxqk[0,0] = 664
+balmerfmxqk[0,0] = 173
+mgwfmxqk[0,0] = 166
+hmifmxqk[0,0] = 62
+sifmxqk[0,1] =  498
+mgfmxqk[0,1] = 666
+balmerfmxqk[0,1] = 174
+mgwfmxqk[0,1] = 167
+hmifmxqk[0,1] = 63
+
+;coord
+sifmxqk[1,*] =  qksixa
+mgfmxqk[1,*] = qkmgxa
+balmerfmxqk[1,*] = qkmgwxa
+mgwfmxqk[1,*] = qkmgwxa
+hmifmxqk[1,*] = qkxa
+
+;max flux
+sifmxqk[2,0] =  esiqk[sifmx[0,0]]
+mgfmxqk[2,0] = fmgqk[mgfmx[0,0]]
+balmerfmxqk[2,0] = ebalmerqk[balmerfmx[0,0]]
+mgwfmxqk[2,0] = fmgwqk[mgwfmx[0,0]]
+hmifmxqk[2,0] = ehmiqk[hmifmx[0,0]]
+sifmxqk[2,1] =  esiqk[sifmx[0,10]]
+mgfmxqk[2,1] = fmgqk[mgfmx[0,10]]
+balmerfmxqk[2,1] = ebalmerqk[balmerfmx[0,10]]
+mgwfmxqk[2,1] = fmgwqk[mgwfmx[0,10]]
+hmifmxqk[2,1] = ehmiqk[hmifmx[0,10]]
 
 
 
