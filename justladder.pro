@@ -61,15 +61,15 @@ sec = 19.*60. ;location in seconds for vertical line...17:45 - 17:26 = 19 mins..
 for j = 0, frame-1 do begin
     for i = 0, npix-1 do begin
         ;make filename
-        jj = string(j, format = '(I0)')
-        ii = string(j, format = '(I0)')
+        jj = string(j+1, format = '(I0)')
+        ii = string(i+1, format = '(I0)')
         fff = '29-Mar-14-Ribbon-Position-'+ii+'-Frame-'+jj+'-Energy-Ladder.eps'
 
 
         mydevice=!d.name
         set_plot,'ps'
-        device,filename=fff,/portrait,/encapsulated, decomposed=0,color=1
-
+        ;device,filename=fff,/portrait,/encapsulated, decomposed=0,color=1, bits = 8
+        device,filename=fff,/portrait,/encapsulated, decomposed=0,/color, bits = 8
         o = 4
         xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
