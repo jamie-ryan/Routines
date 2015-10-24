@@ -359,7 +359,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -383,7 +383,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -408,7 +408,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -433,7 +433,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -488,7 +488,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -512,7 +512,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -537,7 +537,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -562,7 +562,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -617,7 +617,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -641,7 +641,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -666,7 +666,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -691,7 +691,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -746,7 +746,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -770,7 +770,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -795,7 +795,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
@@ -820,7 +820,7 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $

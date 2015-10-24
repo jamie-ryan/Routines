@@ -337,6 +337,7 @@ set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+offset = 1.08
 
 mydevice=!d.name
 set_plot,'ps'
@@ -359,11 +360,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]]
+position = [xpos[0],offset*ypos[0,o], xpos[1], ypos[1,o]]
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
 
@@ -383,11 +384,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
@@ -408,11 +409,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
@@ -433,11 +434,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
@@ -488,11 +489,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]]
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]]
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
 
@@ -512,11 +513,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
@@ -537,11 +538,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
@@ -562,11 +563,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
@@ -617,11 +618,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]]
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]]
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
 
@@ -641,11 +642,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
@@ -666,11 +667,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, 1.05*xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
@@ -691,11 +692,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
@@ -746,11 +747,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]]
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]]
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
 
@@ -770,11 +771,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 ytickname=[' '], $
 yticks = 2, $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
@@ -795,11 +796,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
@@ -820,11 +821,11 @@ xtitle = xtitl, $
 ;/nolabel, $
 yticks = 2, $
 ytickname=[' '], $
-XTICKFORMAT="(A1)", $
+;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],1.05*ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
