@@ -1,6 +1,6 @@
 pro justladder
 ;###TO DO
-;1)split ribbon energy distribution plots to see x-axis values
+;1)titles size and positioning...side of plot or on plot
 ;2)ribbon energy distribution plots, sort x-axis title positioning
 ;3)sort red dotted line...why is it b&w?
 
@@ -337,7 +337,7 @@ set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-offset = 1.08
+offset = 0.03
 
 mydevice=!d.name
 set_plot,'ps'
@@ -352,21 +352,22 @@ plot, siemx[1,0:4], siemx[2,0:4], $
 ;base, $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
 ;/nolabel, $
-ytickname=[' '], $
+;ytickname=[' '], $
 yticks = 2, $
 ;XTICKFORMAT="(A1)", $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o], xpos[1], ypos[1,o]]
-
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
+position = [xpos[0],offset+ypos[0,o], xpos[1], ypos[1,o]]
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 1400 '+angstrom, /norm
+;y2 = AXIS('Y', location ='right', TITLE =  'IRIS SJ 1400 ',major = 0, minor = 0)
+;AXIS,YAXIS=1, charsize = 0.4, YTITLE =  'IRIS SJ 1400 ',major = 0, minor = 0
 
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -376,8 +377,8 @@ ytitl = energy
 plot, mgemx[1,0:4], mgemx[2,0:4], $ 
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -388,10 +389,10 @@ yticks = 2, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 2796 '+angstrom, /norm
 
 o = 2
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -401,8 +402,8 @@ ytitl = energy
 plot, balmeremx[1,0:4], balmeremx[2,0:4], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -413,10 +414,10 @@ ytickname=[' '], $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -426,8 +427,8 @@ ytitl = energy
 plot, mgwemx[1,0:4], mgwemx[2,0:4], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -438,10 +439,10 @@ ytickname=[' '], $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 2832 '+angstrom, /norm
 
 o = 0
 xyx = xpos[0] + 0.2*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -451,8 +452,8 @@ ytitl = energy
 plot, hmiemx[1,0:4], hmiemx[2,0:4], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 yticks = 2, $
 ytickname=[' '], $
@@ -461,10 +462,10 @@ xtitle = xtitl, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum', /norm
+xyouts, 0.92*xyx, xyy, charsize = 0.4, 'SDO HMI Continuum', /norm
 device,/close
 set_plot,mydevice
 
@@ -481,8 +482,8 @@ plot, siemx[1,5:9], siemx[2,5:9], $
 ;base, $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -493,9 +494,9 @@ yticks = 2, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]]
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]]
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 1400 '+angstrom, /norm
 
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -505,8 +506,8 @@ ytitl = energy
 plot, mgemx[1,5:9], mgemx[2,5:9], $ 
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -517,10 +518,10 @@ yticks = 2, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 2796 '+angstrom, /norm
 
 o = 2
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -530,8 +531,8 @@ ytitl = energy
 plot, balmeremx[1,5:9], balmeremx[2,5:9], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -542,10 +543,10 @@ ytickname=[' '], $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -555,8 +556,8 @@ ytitl = energy
 plot, mgwemx[1,5:9], mgwemx[2,5:9], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -567,10 +568,10 @@ ytickname=[' '], $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 2832 '+angstrom, /norm
 
 o = 0
 xyx = xpos[0] + 0.2*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -580,8 +581,8 @@ ytitl = energy
 plot, hmiemx[1,5:9], hmiemx[2,5:9], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 yticks = 2, $
 ytickname=[' '], $
@@ -590,10 +591,10 @@ xtitle = xtitl, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum', /norm
+xyouts, 0.92*xyx, xyy, charsize = 0.4, 'SDO HMI Continuum', /norm
 device,/close
 set_plot,mydevice
 
@@ -610,8 +611,8 @@ plot, siemx[1,10:14], siemx[2,10:14], $
 ;base, $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -622,9 +623,9 @@ yticks = 2, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]]
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]]
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 1400 '+angstrom, /norm
 
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -634,8 +635,8 @@ ytitl = energy
 plot, mgemx[1,10:14], mgemx[2,10:14], $ 
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -646,10 +647,10 @@ yticks = 2, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 2796 '+angstrom, /norm
 
 o = 2
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -659,8 +660,8 @@ ytitl = energy
 plot, balmeremx[1,10:14], balmeremx[2,10:14], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -671,10 +672,10 @@ ytickname=[' '], $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, 1.05*xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
+xyouts, xyx, 1.05*xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -684,8 +685,8 @@ ytitl = energy
 plot, mgwemx[1,10:14], mgwemx[2,10:14], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -696,10 +697,10 @@ ytickname=[' '], $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 2832 '+angstrom, /norm
 
 o = 0
 xyx = xpos[0] + 0.2*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -709,8 +710,8 @@ ytitl = energy
 plot, hmiemx[1,10:14], hmiemx[2,10:14], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 yticks = 2, $
 ytickname=[' '], $
@@ -719,10 +720,10 @@ xtitle = xtitl, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum', /norm
+xyouts, 0.92*xyx, xyy, charsize = 0.4, 'SDO HMI Continuum', /norm
 device,/close
 set_plot,mydevice
 
@@ -739,8 +740,8 @@ plot, siemx[1,15:19], siemx[2,15:19], $
 ;base, $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -751,9 +752,9 @@ yticks = 2, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]]
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]]
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 1400 '+angstrom, /norm
 
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -763,8 +764,8 @@ ytitl = energy
 plot, mgemx[1,15:19], mgemx[2,15:19], $ 
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -775,10 +776,10 @@ yticks = 2, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 2796 '+angstrom, /norm
 
 o = 2
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -788,8 +789,8 @@ ytitl = energy
 plot, balmeremx[1,15:19], balmeremx[2,15:19], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -800,10 +801,10 @@ ytickname=[' '], $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -813,8 +814,8 @@ ytitl = energy
 plot, mgwemx[1,15:19], mgwemx[2,15:19], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 ytitle = ytitl, $
 xtitle = xtitl, $
@@ -825,10 +826,10 @@ ytickname=[' '], $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],offset*ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.4, 'IRIS SJ 2832 '+angstrom, /norm
 
 o = 0
 xyx = xpos[0] + 0.2*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -838,8 +839,8 @@ ytitl = energy
 plot, hmiemx[1,15:19], hmiemx[2,15:19], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
-xcharsize = 0.65, $
+ycharsize = 0.35, $
+xcharsize = 0.35, $
 xstyle = 8, $
 yticks = 2, $
 ytickname=[' '], $
@@ -848,12 +849,12 @@ xtitle = xtitl, $
 /ynoz, $
 ;/ylog, $
 xmargin = [12,3], $
-position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum', /norm
+xyouts, 0.92*xyx, xyy, charsize = 0.4, 'SDO HMI Continuum', /norm
 device,/close
-set_plot,mydevice
+set_plot,mydevice     
 
 
 
