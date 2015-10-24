@@ -53,7 +53,7 @@ endfor
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'
 flux = '[erg s!E-1!N cm!E-2!N '+angstrom+'!E-1!N sr!E-1!N]'
-energy = '[erg]' 
+energy = '[erg]'
 ;;;make plots
 plot_pos_calc, n_plots = 5, xpos, ypos
 base = '29-Mar-14 17:26:00'
@@ -75,7 +75,7 @@ for j = 0, frame-1 do begin
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
         titl =  strcompress('29-Mar-14-Ribbon-Energy' ,/remove_all)
         ytitl = energy
-        utplot, tsi[447:*], sidata[j,i,447:*], $ 
+        utplot, tsi[447:*], sidata[j,i,447:*], $
         base, $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $
@@ -210,7 +210,7 @@ xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 titl =  strcompress('29-Mar-14-Quake-Energy' ,/remove_all)
 ytitl = energy
-utplot, tsi[447:*], esiqk[447:*], $ 
+utplot, tsi[447:*], esiqk[447:*], $
 base, $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
@@ -348,7 +348,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 titl =  strcompress('29-Mar-14-17:45-South-Ribbon-Energy-Distribution' ,/remove_all)
 ytitl = energy
 xtitl = 'Ribbon Length [arcsec]'
-plot, siemx[1,0:4], siemx[2,0:4], $ 
+plot, siemx[1,0:4], siemx[2,0:4], $
 ;base, $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
@@ -374,7 +374,7 @@ xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 ;titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = energy
-plot, mgemx[1,0:4], mgemx[2,0:4], $ 
+plot, mgemx[1,0:4], mgemx[2,0:4], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
 ycharsize = 0.35, $
@@ -417,7 +417,7 @@ xmargin = [12,3], $
 position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
+xyouts, 0.98*xyx, 1.015*xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -478,7 +478,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 titl =  strcompress('29-Mar-14-17:45-North-Ribbon-Energy-Distribution' ,/remove_all)
 ytitl = energy
 xtitl = 'Ribbon Length [arcsec]'
-plot, siemx[1,5:9], siemx[2,5:9], $ 
+plot, siemx[1,5:9], siemx[2,5:9], $
 ;base, $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
@@ -503,7 +503,7 @@ xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 ;titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = energy
-plot, mgemx[1,5:9], mgemx[2,5:9], $ 
+plot, mgemx[1,5:9], mgemx[2,5:9], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
 ycharsize = 0.35, $
@@ -546,7 +546,7 @@ xmargin = [12,3], $
 position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
+xyouts, 0.98*xyx, 1.015*xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -607,7 +607,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 titl =  strcompress('29-Mar-14-17:46-South-Ribbon-Energy-Distribution' ,/remove_all)
 ytitl = energy
 xtitl = 'Ribbon Length [arcsec]'
-plot, siemx[1,10:14], siemx[2,10:14], $ 
+plot, siemx[1,10:14], siemx[2,10:14], $
 ;base, $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
@@ -632,7 +632,7 @@ xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 ;titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = energy
-plot, mgemx[1,10:14], mgemx[2,10:14], $ 
+plot, mgemx[1,10:14], mgemx[2,10:14], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
 ycharsize = 0.35, $
@@ -675,7 +675,7 @@ xmargin = [12,3], $
 position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, 1.05*xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
+xyouts, 0.98*xyx, 1.015*xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -736,7 +736,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 titl =  strcompress('29-Mar-14-17:46-North-Ribbon-Energy-Distribution' ,/remove_all)
 ytitl = energy
 xtitl = 'Ribbon Length [arcsec]'
-plot, siemx[1,15:19], siemx[2,15:19], $ 
+plot, siemx[1,15:19], siemx[2,15:19], $
 ;base, $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
@@ -761,7 +761,7 @@ xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 ;titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = energy
-plot, mgemx[1,15:19], mgemx[2,15:19], $ 
+plot, mgemx[1,15:19], mgemx[2,15:19], $
 ;timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
 ycharsize = 0.35, $
@@ -804,7 +804,7 @@ xmargin = [12,3], $
 position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 
-xyouts, xyx, xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
+xyouts, 0.98*xyx, 1.015*xyy, charsize = 0.4, 'IRIS SG Balmer '+angstrom, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -854,8 +854,10 @@ position = [xpos[0],offset+ypos[0,o],xpos[1], ypos[1,o]], $
 
 xyouts, 0.92*xyx, xyy, charsize = 0.4, 'SDO HMI Continuum', /norm
 device,/close
-set_plot,mydevice     
-
+set_plot,mydevice
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 
