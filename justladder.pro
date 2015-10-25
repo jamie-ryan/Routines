@@ -1,6 +1,6 @@
 pro justladder
 ;###TO DO
-;1)titles size and positioning...side of plot or on plot
+;1)
 ;2)ribbon energy distribution plots, sort x-axis title positioning
 ;3)sort red dotted line...why is it b&w?
 
@@ -68,8 +68,8 @@ for j = 0, frame-1 do begin
 
         mydevice=!d.name
         set_plot,'ps'
-        ;device,filename=fff,/portrait,/encapsulated, decomposed=0,color=1, bits = 8
-        device,filename=fff,/portrait,/encapsulated, decomposed=0,/color, bits = 8
+        ;device,filename=fff,/portrait,/encapsulated, decomposed=0,/color, colors=2  , bits=8, bits = 8
+        device,filename=fff,/portrait,/encapsulated, decomposed=0,colors =2,/color bits = 8
         o = 4
         xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
@@ -79,7 +79,7 @@ for j = 0, frame-1 do begin
         base, $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $
-        ycharsize = 0.65, $
+        ycharsize = 0.55, $
         xcharsize = 0.65, $
         xstyle = 8, $
         ytitle = ytitl, $
@@ -104,7 +104,7 @@ for j = 0, frame-1 do begin
         utplot, tmg[595:*], mgdata[j,i,597:*], $ ;583
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $
-        ycharsize = 0.65, $
+        ycharsize = 0.55 , $
         xcharsize = 0.65, $
         xstyle = 8, $
         ytitle = ytitl, $
@@ -130,7 +130,7 @@ for j = 0, frame-1 do begin
         utplot, tspqk[12:*], balmerdata[j,i,12:*], $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $
-        ycharsize = 0.65, $
+        ycharsize = 0.55 , $
         xcharsize = 0.65, $
         xstyle = 8, $
         ytitle = ytitl, $
@@ -156,7 +156,7 @@ for j = 0, frame-1 do begin
         utplot, tmgw[150:*], mgwdata[j,i,150:*], $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $
-        ycharsize = 0.65, $
+        ycharsize = 0.55 , $
         xcharsize = 0.65, $
         xstyle = 8, $
         ytitle = ytitl, $
@@ -182,7 +182,7 @@ for j = 0, frame-1 do begin
         utplot, thmi[36:78], hmidata[j,i,36:78], $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $
-        ycharsize = 0.65, $
+        ycharsize = 0.55 , $
         xcharsize = 0.65, $
         xstyle = 8, $
         yticks = 2, $
@@ -204,7 +204,7 @@ endfor
 
 mydevice=!d.name
 set_plot,'ps'
-device,filename='29-Mar-14-Quake-Energy-Ladder.eps',/portrait,/encapsulated, decomposed=0,color=1
+device,filename='29-Mar-14-Quake-Energy-Ladder.eps',/portrait,/encapsulated, decomposed=0,/color, colors=2  , bits=8
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
@@ -214,7 +214,7 @@ utplot, tsi[447:*], esiqk[447:*], $
 base, $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
+ycharsize = 0.55 , $
 xcharsize = 0.65, $
 xstyle = 8, $
 ytitle = ytitl, $
@@ -239,7 +239,7 @@ ytitl = energy
 utplot, tmg[595:*], emgqk[597:*], $ ;583
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
+ycharsize = 0.55 , $
 xcharsize = 0.65, $
 xstyle = 8, $
 ytitle = ytitl, $
@@ -265,7 +265,7 @@ ytitl = energy
 utplot, tspqk[12:*], ebalmerqk[12:*], $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
+ycharsize = 0.55 , $
 xcharsize = 0.65, $
 xstyle = 8, $
 ytitle = ytitl, $
@@ -291,7 +291,7 @@ ytitl = energy
 utplot, tmgw[150:*], emgwqk[150:*], $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
+ycharsize = 0.55 , $
 xcharsize = 0.65, $
 xstyle = 8, $
 ytitle = ytitl, $
@@ -317,7 +317,7 @@ ytitl = energy
 utplot, thmi[36:78], ehmiqk[36:78], $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
-ycharsize = 0.65, $
+ycharsize = 0.55 , $
 xcharsize = 0.65, $
 xstyle = 8, $
 yticks = 2, $
@@ -341,7 +341,7 @@ offset = 0.03
 
 mydevice=!d.name
 set_plot,'ps'
-device,filename='29-Mar-14-17-45-South-Ribbon-Energy-Distribution-Ladder.eps',/portrait,/encapsulated, decomposed=0,color=1
+device,filename='29-Mar-14-17-45-South-Ribbon-Energy-Distribution-Ladder.eps',/portrait,/encapsulated, decomposed=0,/color, colors=2  , bits=8
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
@@ -471,7 +471,7 @@ set_plot,mydevice
 
 mydevice=!d.name
 set_plot,'ps'
-device,filename='29-Mar-14-17-45-North-Ribbon-Energy-Distribution-Ladder.eps',/portrait,/encapsulated, decomposed=0,color=1
+device,filename='29-Mar-14-17-45-North-Ribbon-Energy-Distribution-Ladder.eps',/portrait,/encapsulated, decomposed=0,/color, colors=2  , bits=8
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
@@ -600,7 +600,7 @@ set_plot,mydevice
 
 mydevice=!d.name
 set_plot,'ps'
-device,filename='29-Mar-14-17-46-South-Ribbon-Energy-Distribution-Ladder.eps',/portrait,/encapsulated, decomposed=0,color=1
+device,filename='29-Mar-14-17-46-South-Ribbon-Energy-Distribution-Ladder.eps',/portrait,/encapsulated, decomposed=0,/color, colors=2  , bits=8
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
@@ -729,7 +729,7 @@ set_plot,mydevice
 
 mydevice=!d.name
 set_plot,'ps'
-device,filename='29-Mar-14-17-46-North-Ribbon-Energy-Distribution-Ladder.eps',/portrait,/encapsulated, decomposed=0,color=1
+device,filename='29-Mar-14-17-46-North-Ribbon-Energy-Distribution-Ladder.eps',/portrait,/encapsulated, decomposed=0,/color, colors=2  , bits=8
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange

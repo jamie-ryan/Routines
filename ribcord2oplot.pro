@@ -90,7 +90,7 @@ mydevice=!d.name
 set_plot,'ps'
 device,filename='29-Mar-14-17-46-HMI-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 3
-plot_map, shmi[62], dmin = 0, dmax = 2000
+plot_map, shmi[63], dmin = 0, dmax = 2000
 oplot_ribbon_coords, hmicoords2, 1.
 device,/close
 set_plot,mydevice
