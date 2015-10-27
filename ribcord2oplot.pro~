@@ -13,8 +13,8 @@ restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/HMI-diff-15-Oct-15.sav'
 
 
-sub_map, map1400, ssi, xrange = [480., 540.], yrange = [240., 300.]
-sub_map, submg, smg, xrange = [450., 550.], yrange = [200., 300.]
+sub_map, map1400, ssi, xrange = [475., 575.], yrange = [250., 300.]
+sub_map, submg, smg, xrange = [475., 575.], yrange = [250., 300.]
 sub_map, diff2832, smgw, xrange = [475., 575.], yrange = [230., 280.]
 sub_map, diff, shmi, xrange = [485., 535.], yrange = [250., 275.]
 

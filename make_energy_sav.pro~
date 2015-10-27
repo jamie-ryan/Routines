@@ -35,21 +35,21 @@ nc = nrb/2
 ;qkirxa = 519.
 ;qkirya = 262.
 
-;qkmgxp = 588 
-;qkmgyp = 441 
-;rbmgxp = 504 
-;rbmgyp = 487 
+;qkmgxp = 588
+;qkmgyp = 441
+;rbmgxp = 504
+;rbmgyp = 487
 
-;qksixp = 588 
-;qksiyp = 441 
-;rbsixp = 511 
-;rbsiyp = 485 
+;qksixp = 588
+;qksiyp = 441
+;rbsixp = 511
+;rbsiyp = 485
 qkslitpos = strarr(nn)
 qkspypos = strarr(nn)
 
 
 ;;;calculate pixel location from given arcsec coords
-;SDO HMI;;;;;;;;;;;;; 
+;SDO HMI;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 ;quake position
 qkxa = 517.2 ;arcsec
@@ -69,12 +69,12 @@ qkmgwyp = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
 ;qkspyp = ;find_iris_slit_pos(qkya,sp2826, /y, /a2p)
 
 
-;;;read in coord files for each data set 
+;;;read in coord files for each data set
 ;;;(to change coords ammend file, eg, hmicoords1.txt)
 ;;;coord1.txt = 5 south ribbon + 5 north ribbon coords for frame1 (eg diff[62])
 ;;;coord2.txt = 5 south ribbon + 5 north ribbon coords for frame2 (eg diff[63])
-;;;put coords into array eg, hmicoords1 = fltarr(2,10) 
-;;;coords1[*,0:4] = south ribbon 
+;;;put coords into array eg, hmicoords1 = fltarr(2,10)
+;;;coords1[*,0:4] = south ribbon
 ;;;coords1[*,5:9] = north ribbon
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 for i = 1,2 do begin
@@ -95,7 +95,7 @@ endfor
 ;;;Calculate pixel locations for each ribbon sample (arcsecs)
 
 ;;;#1 frame at hmi 17:45:31:
-;sji_1400_hdr[495], 
+;sji_1400_hdr[495],
 ;sji_2796_hdr[661]
 ;sji_2832_hdr[166]
 ;diffindex[62]
@@ -103,7 +103,7 @@ endfor
 ;;;coords1[*,5:9] = north ribbon at #1frame
 
 ;;;#2 frame at hmi 17:46:16:
-;sji_1400_hdr[498], 
+;sji_1400_hdr[498],
 ;sji_2796_hdr[666]
 ;sji_2832_hdr[167]
 ;diffindex[63]
@@ -111,8 +111,8 @@ endfor
 ;;;coords2[*,5:9] = north ribbon at #2frame
 
 ;exclude balmer from dataset as coord conversion is different
-;dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi'] 
-dataset = ['si', 'mg', 'mgw', 'hmi'] 
+;dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+dataset = ['si', 'mg', 'mgw', 'hmi']
 ;;;cycle through dataset
 for k = 0, n_elements(dataset)-1 do begin
     ;;;cycle through coords
@@ -124,7 +124,7 @@ for k = 0, n_elements(dataset)-1 do begin
         ;;;then assign xp a new dataset dependant name eg, hmirbxp5
         ;;;;;#1 FRAME
         if (k eq 0) then begin
-            map = 'sji_1400_hdr[495]' 
+            map = 'sji_1400_hdr[495]'
             com = 'xp = convert_coord_iris('+dataset[k]+'coords1[0,'+ii+'], '+map+',  /x, /a2p)'
             exe = execute(com)
             com = dataset[k]+'rbxp'+ii+' = xp'
@@ -185,9 +185,9 @@ for k = 0, n_elements(dataset)-1 do begin
             com = 'yp = convert_coord_hmi('+dataset[k]+'coords1[1,'+ii+'], '+map+',  /y, /a2p)'
             exe = execute(com)
             com = dataset[k]+'rbyp'+ii+' = yp'
-            exe = execute(com)            
+            exe = execute(com)
         endif
-        
+
         ;;;SEE DETAILS ABOVE...
         ;;;;;#2 FRAME
         if (k eq 0) then begin
@@ -306,7 +306,7 @@ balmerrbxp19 = 7.
 balmerrbyp19 = 510.
 
 
-;;;set up single pixel arrays to contain lightcurve data 
+;;;set up single pixel arrays to contain lightcurve data
 qkmg = fltarr(nmg)
 qkmgw = fltarr(nmgw)
 qksi = fltarr(nsi)
@@ -366,7 +366,7 @@ for j = 0, nrb-1 do begin
     exe = execute(com)
 
     ;;;Fill single pixel arrays with intensity data
-    ;;;then convert to Flux and Energy 
+    ;;;then convert to Flux and Energy
     ;;;;;;;;;;;;;;;;;;;;;;;;;;SI IV 1400
     for i = 0, nsi-1, 1 do begin
         if (j eq 19) then begin
@@ -374,13 +374,13 @@ for j = 0, nrb-1 do begin
         endif
         com = 'in = map1400[i].data[sirbxp'+jj+', sirbyp'+jj+']'
         exe = execute(com)
-        com = 'rbsi'+jj+'[i] = in' 
+        com = 'rbsi'+jj+'[i] = in'
         exe = execute(com)
     endfor
     ;calculate flux and energy
     if (j eq 19) then begin
-        iris_radiometric_calibration, qksi, wave = 1400., n_pixels = 1, Fsiqk, Esiqk, /sji                     
-    endif    
+        iris_radiometric_calibration, qksi, wave = 1400., n_pixels = 1, Fsiqk, Esiqk, /sji
+    endif
     com = 'iris_radiometric_calibration, rbsi'+jj+', wave = 1400., n_pixels = 1,Fsirb'+jj+', Esirb'+jj+', /sji'
     exe = execute(com)
 
@@ -390,21 +390,21 @@ for j = 0, nrb-1 do begin
         if (j eq 19) then begin
             qkmg[i] = submg[i].data[qkmgxp, qkmgyp] ;qkmg[i] = submg[17 + i].data[qkmgxp, qkmgyp]
         endif
-    com = 'in = submg[i].data[mgrbxp'+jj+', mgrbyp'+jj+']' 
+    com = 'in = submg[i].data[mgrbxp'+jj+', mgrbyp'+jj+']'
     exe = execute(com)
     com = 'rbmg'+jj+'[i] = in'
     exe = execute(com)
     endfor
     ;calculate flux and energy
     if (j eq 19) then begin
-        iris_radiometric_calibration, qkmg, wave = 2976., n_pixels = 1,Fmgqk, Emgqk, /sji                    
+        iris_radiometric_calibration, qkmg, wave = 2976., n_pixels = 1,Fmgqk, Emgqk, /sji
     endif
     com = 'iris_radiometric_calibration, rbmg'+jj+', wave = 2976., n_pixels = 1,Fmgrb'+jj+', Emgrb'+jj+', /sji'
     exe = execute(com)
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;BALMER
 
-    for i = 0, nn-1, 1 do begin  
+    for i = 0, nn-1, 1 do begin
         com = 'in = total(sp2826.'+tagarr[i]+'.int[39:44, balmerrbxp'+jj+',balmerrbyp'+jj+'])/((44-39))'
         exe = execute(com)
 
@@ -413,7 +413,7 @@ for j = 0, nrb-1 do begin
 
         com = 'tsprb'+jj+'[i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerrbxp'+jj+']'
         exe = execute(com)
-        
+
         if (j eq 19) then begin
 ;            qkslitpos = string(qkslitp[i], format = '(I0)')
 ;            qkspypos = string(qkspyp[i], format = '(I0)')
@@ -448,11 +448,11 @@ for j = 0, nrb-1 do begin
         exe = execute(com)
         com = 'rbmgw'+jj+'[i] = in
         exe = execute(com)
-    endfor   
+    endfor
 
     ;calculate flux and energy
     if (j eq 19) then begin
-        iris_radiometric_calibration, qkmgw, wave = 2832., n_pixels = 1,Fmgwqk, Emgwqk, /sji                   
+        iris_radiometric_calibration, qkmgw, wave = 2832., n_pixels = 1,Fmgwqk, Emgwqk, /sji
     endif
     com = 'iris_radiometric_calibration, rbmgw'+jj+', wave = 2832., n_pixels = 1,Fmgwrb'+jj+', Emgwrb'+jj+', /sji'
     exe = execute(com)
@@ -473,7 +473,7 @@ for j = 0, nrb-1 do begin
     ;calculate flux and energy
     if (j eq 19) then begin
         hmi_radiometric_calibration, qkhmi, n_pixels = 1, Fhmiqk, Ehmiqk
-    endif  
+    endif
     com = 'hmi_radiometric_calibration, rbhmi'+jj+', n_pixels = 1, Fhmirb'+jj+', Ehmirb'+jj+''
     exe = execute(com)
 endfor
@@ -482,52 +482,52 @@ endfor
 ;ribbons energy
 ;frame
 siemx[0,0:9] =  495
-mgemx[0,0:9] = 664
+mgemx[0,0:9] = 661
 balmeremx[0,0:9] = 173
 mgwemx[0,0:9] = 166
 hmiemx[0,0:9] = 62
 siemx[0,10:*] =  498
-mgemx[0,10:*] = 666
+mgemx[0,10:*] = 664
 balmeremx[0,10:*] = 174
 mgwemx[0,10:*] = 167
 hmiemx[0,10:*] = 63
 
 ;coord
-siemx[1,0:9] = sicoord1[0,*]
-mgemx[1,0:9] = mgcoord1[0,*]
-balmeremx[1,0:9] = balmercoord1[0,*]
-mgwemx[1,0:9] = mgwcoord1[0,*]
-hmiemx[1,0:9] = hmicoord1[0,*]
-siemx[1,10:*] = sicoord2[0,*]
-mgemx[1,10:*] = mgcoord2[0,*]
-balmeremx[1,10:*] = balmercoord2[0,*]
-mgwemx[1,10:*] = mgwcoord2[0,*]
-hmiemx[1,10:*] = hmicoord2[0,*]
+siemx[1,0:9] = sicoords1[0,*]
+mgemx[1,0:9] = mgcoords1[0,*]
+balmeremx[1,0:9] = mgwcoords1[0,*]
+mgwemx[1,0:9] = mgwcoords1[0,*]
+hmiemx[1,0:9] = hmicoords1[0,*]
+siemx[1,10:*] = sicoords2[0,*]
+mgemx[1,10:*] = mgcoords2[0,*]
+balmeremx[1,10:*] = mgwcoords2[0,*]
+mgwemx[1,10:*] = mgwcoords2[0,*]
+hmiemx[1,10:*] = hmicoords2[0,*]
 
 ;ribbons flux
 ;frame
 sifmx[0,0:9] =  495
-mgfmx[0,0:9] = 664
+mgfmx[0,0:9] = 661
 balmerfmx[0,0:9] = 173
 mgwfmx[0,0:9] = 166
 hmifmx[0,0:9] = 62
 sifmx[0,10:*] =  498
-mgfmx[0,10:*] = 666
+mgfmx[0,10:*] = 664
 balmerfmx[0,10:*] = 174
 mgwfmx[0,10:*] = 167
 hmifmx[0,10:*] = 63
 
 ;coord
-sifmx[1,0:9] = sicoord1[0,*]
-mgfmx[1,0:9] = mgcoord1[0,*]
-balmerfmx[1,0:9] = balmercoord1[0,*]
-mgwfmx[1,0:9] = mgwcoord1[0,*]
-hmifmx[1,0:9] = hmicoord1[0,*]
-sifmx[1,10:*] = sicoord2[0,*]
-mgfmx[1,10:*] = mgcoord2[0,*]
-balmerfmx[1,10:*] = balmercoord2[0,*]
-mgwfmx[1,10:*] = mgwcoord2[0,*]
-hmifmx[1,10:*] = hmicoord2[0,*]
+sifmx[1,0:9] = sicoords1[0,*]
+mgfmx[1,0:9] = mgcoords1[0,*]
+balmerfmx[1,0:9] = mgwcoords1[0,*]
+mgwfmx[1,0:9] = mgwcoords1[0,*]
+hmifmx[1,0:9] = hmicoords1[0,*]
+sifmx[1,10:*] = sicoords2[0,*]
+mgfmx[1,10:*] = mgcoords2[0,*]
+balmerfmx[1,10:*] = mgwcoords2[0,*]
+mgwfmx[1,10:*] = mgwcoords2[0,*]
+hmifmx[1,10:*] = hmicoords2[0,*]
 
 for i = 0 , nrb-1 do begin
     ii = string(i, format = '(I0)')
@@ -575,12 +575,12 @@ endfor
 ;quake energy
 ;frame
 siemxqk[0,0] =  495
-mgemxqk[0,0] = 664
+mgemxqk[0,0] = 661
 balmeremxqk[0,0] = 173
 mgwemxqk[0,0] = 166
 hmiemxqk[0,0] = 62
 siemxqk[0,1] =  498
-mgemxqk[0,1] = 666
+mgemxqk[0,1] = 664
 balmeremxqk[0,1] = 174
 mgwemxqk[0,1] = 167
 hmiemxqk[0,1] = 63
@@ -608,12 +608,12 @@ hmiemxqk[2,1] = ehmiqk[hmiemx[0,10]]
 ;quake flux
 ;frame
 sifmxqk[0,0] =  495
-mgfmxqk[0,0] = 664
+mgfmxqk[0,0] = 661
 balmerfmxqk[0,0] = 173
 mgwfmxqk[0,0] = 166
 hmifmxqk[0,0] = 62
 sifmxqk[0,1] =  498
-mgfmxqk[0,1] = 666
+mgfmxqk[0,1] = 664
 balmerfmxqk[0,1] = 174
 mgwfmxqk[0,1] = 167
 hmifmxqk[0,1] = 63
@@ -781,7 +781,7 @@ Fmgwrb18, Emgwrb18, $
 Fmgwrb19, Emgwrb19, $
 tmgw, $
 mgwcoords1, $
-mgwcoords1, $
+mgwcoords2, $
 mgwfmxqk, $
 mgwfmx, $
 mgwemxqk, $
@@ -828,7 +828,7 @@ if keyword_set(area) then begin
     ff = findfile(datdir+'hmi-high*')
 
     for j = 0, n_elements(fmg) - 1 do begin
-    ;;;;;;;open files 
+    ;;;;;;;open files
 
     openr,lun,fmg[j],/get_lun
 
@@ -954,7 +954,7 @@ if keyword_set(area) then begin
     ;bgarr = fltarr(nnn)
     for i = 0, nnn-1, 1 do begin
     com = 'boxarr'+string(j,format = '(I0)')+'[i] = total(diff[i].data[h[0,*],h[1,*]])'
-    exe = execute(com) 
+    exe = execute(com)
     endfor
     ;;;;;intensity of flare area in erg/s.cm^2.sr
     com = 'hmi_radiometric_calibration, boxarr'+string(j,format = '(I0)')+ $
@@ -967,10 +967,10 @@ if keyword_set(area) then begin
     ;HMI quake area array...eventually calculate iris quake energy based on solid angle relationship found by trumpet.pro
     qkarea = fltarr(nnn)
     ;based on the four iris pixels (4*0.1667") flagged by quake_area.pro.....more detailed version needed
-    ;assuming 2 iris pixels relate to the radius of a circular quake impact, 
+    ;assuming 2 iris pixels relate to the radius of a circular quake impact,
     ;but 0.505/0.1667 = 3 therefore 3 iris pixels equal one hmi pixel, which sets minimum resolution
-    ;iris_quake_radius = 2*(0.1667*7.5e5)  
-    ;iris_quake_area = !pi*quake_radius^2 
+    ;iris_quake_radius = 2*(0.1667*7.5e5)
+    ;iris_quake_area = !pi*quake_radius^2
     for i= 0, nnn-1 do begin
     qkarea[i] = diff[i].data[qkxp, qkyp] + $
     diff[i].data[qkxp, qkyp + 1] + $

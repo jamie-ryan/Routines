@@ -482,12 +482,12 @@ endfor
 ;ribbons energy
 ;frame
 siemx[0,0:9] =  495
-mgemx[0,0:9] = 664
+mgemx[0,0:9] = 661
 balmeremx[0,0:9] = 173
 mgwemx[0,0:9] = 166
 hmiemx[0,0:9] = 62
 siemx[0,10:*] =  498
-mgemx[0,10:*] = 666
+mgemx[0,10:*] = 664
 balmeremx[0,10:*] = 174
 mgwemx[0,10:*] = 167
 hmiemx[0,10:*] = 63
@@ -507,12 +507,12 @@ hmiemx[1,10:*] = hmicoords2[0,*]
 ;ribbons flux
 ;frame
 sifmx[0,0:9] =  495
-mgfmx[0,0:9] = 664
+mgfmx[0,0:9] = 661
 balmerfmx[0,0:9] = 173
 mgwfmx[0,0:9] = 166
 hmifmx[0,0:9] = 62
 sifmx[0,10:*] =  498
-mgfmx[0,10:*] = 666
+mgfmx[0,10:*] = 664
 balmerfmx[0,10:*] = 174
 mgwfmx[0,10:*] = 167
 hmifmx[0,10:*] = 63
@@ -564,23 +564,23 @@ for i = 0 , nrb-1 do begin
     hmiemx[2,i] = hmimxe
 
     ;max energy
-    sifmx[2,i] =  simxe
-    mgfmx[2,i] = mgmxe
-    balmerfmx[2,i] = balmermxe
-    mgwfmx[2,i] = mgwmxe
-    hmifmx[2,i] = hmimxe
+    sifmx[2,i] =  simxf
+    mgfmx[2,i] = mgmxf
+    balmerfmx[2,i] = balmermxf
+    mgwfmx[2,i] = mgwmxf
+    hmifmx[2,i] = hmimxf
 endfor
 
 
 ;quake energy
 ;frame
 siemxqk[0,0] =  495
-mgemxqk[0,0] = 664
+mgemxqk[0,0] = 661
 balmeremxqk[0,0] = 173
 mgwemxqk[0,0] = 166
 hmiemxqk[0,0] = 62
 siemxqk[0,1] =  498
-mgemxqk[0,1] = 666
+mgemxqk[0,1] = 664
 balmeremxqk[0,1] = 174
 mgwemxqk[0,1] = 167
 hmiemxqk[0,1] = 63
@@ -608,12 +608,12 @@ hmiemxqk[2,1] = ehmiqk[hmiemx[0,10]]
 ;quake flux
 ;frame
 sifmxqk[0,0] =  495
-mgfmxqk[0,0] = 664
+mgfmxqk[0,0] = 661
 balmerfmxqk[0,0] = 173
 mgwfmxqk[0,0] = 166
 hmifmxqk[0,0] = 62
 sifmxqk[0,1] =  498
-mgfmxqk[0,1] = 666
+mgfmxqk[0,1] = 664
 balmerfmxqk[0,1] = 174
 mgwfmxqk[0,1] = 167
 hmifmxqk[0,1] = 63
