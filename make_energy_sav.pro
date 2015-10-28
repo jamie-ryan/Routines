@@ -531,44 +531,44 @@ hmifmx[1,10:*] = hmicoords2[0,*]
 
 for i = 0 , nrb-1 do begin
     ii = string(i, format = '(I0)')
-    com = 'simxe = esirb'+ii+'[siemx[0,0]]
+    com = 'siemx[2,i] = esirb'+ii+'[siemx[0,0]]
     exe = execute(com)
-    com = 'simxf = fsirb'+ii+'[siemx[0,0]]
-    exe = execute(com)
-
-    com = 'mgmxe = emgrb'+ii+'[mgemx[0,0]]
-    exe = execute(com)
-    com = 'mgmxf = fmgrb'+ii+'[mgemx[0,0]]
+    com = 'sifmx[2,i]  = fsirb'+ii+'[siemx[0,0]]
     exe = execute(com)
 
-    com = 'balmermxe = ebalmerrb'+ii+'[balmeremx[0,0]]
+    com = 'mgemx[2,i] = emgrb'+ii+'[mgemx[0,0]]
     exe = execute(com)
-    com = 'balmermxf = fbalmerrb'+ii+'[balmeremx[0,0]]
-    exe = execute(com)
-
-    com = 'mgwmxe = emgwrb'+ii+'[mgwemx[0,0]]
-    exe = execute(com)
-    com = 'mgwmxf = fmgwrb'+ii+'[mgwemx[0,0]]
+    com = 'mgfmx[2,i] = fmgrb'+ii+'[mgemx[0,0]]
     exe = execute(com)
 
-    com = 'hmimxe = ehmirb'+ii+'[hmiemx[0,0]]
+    com = 'balmeremx[2,i] = ebalmerrb'+ii+'[balmeremx[0,0]]
     exe = execute(com)
-    com = 'hmimxf = fhmirb'+ii+'[hmiemx[0,0]]
+    com = 'balmerfmx[2,i] = fbalmerrb'+ii+'[balmeremx[0,0]]
     exe = execute(com)
 
-    ;max energy
-    siemx[2,i] =  simxe
-    mgemx[2,i] = mgmxe
-    balmeremx[2,i] = balmermxe
-    mgwemx[2,i] = mgwmxe
-    hmiemx[2,i] = hmimxe
+    com = 'mgwemx[2,i] = emgwrb'+ii+'[mgwemx[0,0]]
+    exe = execute(com)
+    com = 'mgwfmx[2,i] = fmgwrb'+ii+'[mgwemx[0,0]]
+    exe = execute(com)
+
+    com = 'hmiemx[2,i] = ehmirb'+ii+'[hmiemx[0,0]]
+    exe = execute(com)
+    com = 'hmifmx[2,i] = fhmirb'+ii+'[hmiemx[0,0]]
+    exe = execute(com)
 
     ;max energy
-    sifmx[2,i] =  simxf
-    mgfmx[2,i] = mgmxf
-    balmerfmx[2,i] = balmermxf
-    mgwfmx[2,i] = mgwmxf
-    hmifmx[2,i] = hmimxf
+;    siemx[2,i] =  simxe
+;    mgemx[2,i] = mgmxe
+;    balmeremx[2,i] = balmermxe
+;    mgwemx[2,i] = mgwmxe
+;    hmiemx[2,i] = hmimxe
+
+    ;max energy
+;    sifmx[2,i] =  simxf
+;    mgfmx[2,i] = mgmxf
+;    balmerfmx[2,i] = balmermxf
+;    mgwfmx[2,i] = mgwmxf
+;    hmifmx[2,i] = hmimxf
 endfor
 
 

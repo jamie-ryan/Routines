@@ -1,16 +1,10 @@
 pro justladder
-;###TO DO
-;1)
-;2)ribbon energy distribution plots, sort x-axis title positioning
-;3)sort red dotted line...why is it b&w?
 
-
-
-restore,'29-Mar-2014-energies-iris-siiv-single-pixel-Oct27-2015.sav'
-restore,'29-Mar-2014-energies-iris-mgii-single-pixel-Oct27-2015.sav'
-restore,'29-Mar-2014-energies-iris-balmer-single-pixel-Oct27-2015.sav'
-restore,'29-Mar-2014-energies-iris-mgw-single-pixel-Oct27-2015.sav'
-restore, '29-Mar-2014-energies-hmi-single-pixel-Oct27-2015.sav'
+restore,'29-Mar-2014-energies-iris-siiv-single-pixel-Oct28-2015.sav'
+restore,'29-Mar-2014-energies-iris-mgii-single-pixel-Oct28-2015.sav'
+restore,'29-Mar-2014-energies-iris-balmer-single-pixel-Oct28-2015.sav'
+restore,'29-Mar-2014-energies-iris-mgw-single-pixel-Oct28-2015.sav'
+restore, '29-Mar-2014-energies-hmi-single-pixel-Oct28-2015.sav'
 
 npix = 10
 frame = 2
@@ -50,22 +44,45 @@ for x = 10, 19  do begin
        print, 'flag2'
 endfor
 
+dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+for i = 1,2 do begin
+    ii = string(i, format = '(I0)')
+    for k = 0, n_elements(dataset)-1 do begin
+        flnm = dataset[k]+'coords'+ii+'.txt' ;eg, flnm=hmicoords1.txt
+        openr, lun, flnm, /get_lun
+        nlin =  file_lines(flnm)
+        tmp = fltarr(2, nlin)
+        readf, lun, tmp
+        com = dataset[k]+'coords'+ii+ '= tmp' ;readf,lun,hmg
+        exe = execute(com)
+        free_lun, lun
+    endfor
+endfor
+
+
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'
 flux = '[erg s!E-1!N cm!E-2!N '+angstrom+'!E-1!N sr!E-1!N]'
 energy = '[erg]'
+
 ;;;make plots
 plot_pos_calc, n_plots = 5, xpos, ypos
 base = '29-Mar-14 17:26:00'
 sec = 19.*60. ;location in seconds for vertical line...17:45 - 17:26 = 19 mins...19mins*60secs
 for j = 0, frame-1 do begin
     for i = 0, npix-1 do begin
+
         ;make filename
         jj = string(j+1, format = '(I0)')
         ii = string(i+1, format = '(I0)')
-        fff = '29-Mar-14-Ribbon-Position-'+ii+'-Frame-'+jj+'-Energy-Ladder.eps'
+        ;used hmi coords as reference point
+        if (j eq 0) then xx = string(hmicoords1[0,i], format = '(I0)') else $ 
+        xx = string(hmicoords2[0,i], format = '(I0)')
+        if (j eq 0) then yy = string(hmicoords1[1,i], format = '(I0)') else $ 
+        yy = string(hmicoords2[1,i], format = '(I0)')
 
-
+        ;used hmi coords as reference point
+        fff = '29-Mar-14-Ribbon-xyPosition-'+xx+'-'+yy+'-Frame-'+jj+'-Energy-Ladder.eps' 
         mydevice=!d.name
         set_plot,'ps'
         ;device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1  , bits=8, bits = 8
@@ -130,7 +147,7 @@ for j = 0, frame-1 do begin
         titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
         ytitl = energy
         utplot, tspqk, balmerdata[j,i,*], $
-        yrange = [mn, mx]
+        yrange = [mn, mx], $
         /yst, $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $

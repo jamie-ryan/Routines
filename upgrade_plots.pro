@@ -1,7 +1,5 @@
 pro upgrade_plots
-to do:
-1)double check ribbon locations...use similar coords between data sets
-2)
+
 
 
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'

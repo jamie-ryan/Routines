@@ -1,4 +1,9 @@
 pro upgrade_plots
+;to do:
+;1)double check ribbon locations...use similar coords between data sets
+;2)
+
+
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav'
@@ -47,8 +52,10 @@ mydevice=!d.name
 set_plot,'ps'
 device,filename='29-Mar-14-SI-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 !P.MULTI=[0, 2, 1, 0, 1]
+loadct,3
 plot_map, ssi[494],dmin = 0, dmax = 1000, title = 'Si IV 17:45 Ribbon Samples'
 oplot_ribbon_coords, sicoords1, 2
+loadct,3
 plot_map, ssi[498],dmin = 0, dmax = 1000 ,title = 'Si IV 17:46 Ribbon Samples'
 oplot_ribbon_coords, sicoords2, 2
 device,/close
@@ -58,8 +65,10 @@ mydevice=!d.name
 set_plot,'ps'
 device,filename='29-Mar-14-MG-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 !P.MULTI=[0, 2, 1, 0, 1]
+loadct,3
 plot_map, smg[661], dmin = 0, dmax = 5000, title = 'Mg II 17:45 Ribbon Samples'
 oplot_ribbon_coords, mgcoords1, 2
+loadct,3
 plot_map, smg[664],dmin = 0, dmax = 5000,title = 'Mg II 17:46 Ribbon Samples'
 oplot_ribbon_coords, mgcoords2, 2
 device,/close
@@ -69,8 +78,10 @@ mydevice=!d.name
 set_plot,'ps'
 device,filename='29-Mar-14-MGW-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 !P.MULTI=[0, 2, 1, 0, 1]
+loadct,3
 plot_map, smgw[166],dmin = 0, dmax = 1000, title = 'Mg II wing 17:45 Ribbon Samples'
 oplot_ribbon_coords, mgwcoords1, 2
+loadct,3
 plot_map, smgw[167],dmin = 0, dmax = 500, title = 'Mg II wing 17:46 Ribbon Samples'
 oplot_ribbon_coords, mgwcoords2, 2
 device,/close
@@ -80,19 +91,21 @@ mydevice=!d.name
 set_plot,'ps'
 device,filename='29-Mar-14-HMI-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 !P.MULTI=[0, 2, 1, 0, 1]
+loadct,3
 plot_map, shmi[62] ,dmin = 0, dmax = 3000, title = 'HMI 17:45 Ribbon Samples'
 oplot_ribbon_coords, hmicoords1, 2
+loadct,3
 plot_map, shmi[63] ,dmin = 0, dmax = 3000, title = 'HMI 17:46 Ribbon Samples'
 oplot_ribbon_coords, hmicoords2, 2
 device,/close
 set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+!p.multi = 0
 ;;balmer continuum spectrum 2825.7 and 2825.8
 mydevice=!d.name
 set_plot,'ps'
-device,filename='29-Mar-14-Balmer-Continuum.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
-plot, sp2826.tag0173.wvl[25:60], sp2826.tag0173.int[25:60,3,435], /xst, title = 'Balmer Continuum Sample', ytitle = 'Relative Intensity [DN Pixel!e1!n]', xtitle = 'Wavelength ['+angstrom+']'
+device,filename='29-Mar-14-Balmer-Continuum.eps',/landscape,/encapsulated, decomposed=0,color=1, bits=8
+plot, sp2826.tag0173.wvl[25:60], sp2826.tag0173.int[25:60,3,435], /xst, title = 'Balmer Continuum Sample', ytitle = 'Relative Intensity [DN Pixel!e-1!n]', xtitle = 'Wavelength ['+angstrom+']'
 vert_line, 2825.7, 1
 vert_line, 2825.8, 1
 device,/close
