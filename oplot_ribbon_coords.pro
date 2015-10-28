@@ -8,9 +8,9 @@ for i = 0 ,nrb-1 do begin
     xf = central_coord_x + box_size
     y0 = central_coord_y - box_size
     yf = central_coord_y + box_size
-    loadct,8
-    oplot, [x0, xf], [y0, yf], color = 190 ;bottom left to top right
-    oplot, [x0, xf], [yf, y0], color = 190 ;top
+    loadct,40 ;8
+    oplot, [x0, xf], [y0, yf], color = 150 ;r 240 ;190 ;bottom left to top right
+    oplot, [x0, xf], [yf, y0], color = 150 ;r 240 ;190 ;top
     oplot, [central_coord_x, central_coord_x], [y0, yf], color = 190 ;right side
     oplot, [x0, xf], [central_coord_y, central_coord_y], color = 190 ;bottom
 endfor
@@ -25,7 +25,7 @@ yf = central_coord_y + box_size
 loadct, 1
 oplot, [x0, xf], [y0, yf], color = 200 ;bottom left to top right
 oplot, [x0, xf], [yf, y0], color = 200 ;top
-oplot, [central_coord_x, central_coord_x], [y0, yf], color = 0 ;right side
-oplot, [x0, xf], [central_coord_y, central_coord_y], color = 0 ;bottom
+oplot, [central_coord_x, central_coord_x], [y0, yf], color = 200 ;right side
+oplot, [x0, xf], [central_coord_y, central_coord_y], color = 200 ;bottom
 
 end

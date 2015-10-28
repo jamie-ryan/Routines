@@ -1,4 +1,9 @@
 pro upgrade_plots
+to do:
+1)double check ribbon locations...use similar coords between data sets
+2)
+
+
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav'
@@ -95,12 +100,12 @@ oplot_ribbon_coords, hmicoords2, 2
 device,/close
 set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+!p.multi = 0
 ;;balmer continuum spectrum 2825.7 and 2825.8
 mydevice=!d.name
 set_plot,'ps'
-device,filename='29-Mar-14-Balmer-Continuum.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
-plot, sp2826.tag0173.wvl[25:60], sp2826.tag0173.int[25:60,3,435], /xst, title = 'Balmer Continuum Sample', ytitle = 'Relative Intensity [DN Pixel!e1!n]', xtitle = 'Wavelength ['+angstrom+']'
+device,filename='29-Mar-14-Balmer-Continuum.eps',/landscape,/encapsulated, decomposed=0,color=1, bits=8
+plot, sp2826.tag0173.wvl[25:60], sp2826.tag0173.int[25:60,3,435], /xst, title = 'Balmer Continuum Sample', ytitle = 'Relative Intensity [DN Pixel!e-1!n]', xtitle = 'Wavelength ['+angstrom+']'
 vert_line, 2825.7, 1
 vert_line, 2825.8, 1
 device,/close
