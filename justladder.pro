@@ -498,7 +498,7 @@ openw, lun, 'energy-table.tex', /get_lun
 printf, lun, '\begin{table}[H]'
 printf, lun, '\centering'
 printf, lun, '\begin{tabular}{|c|c|c|c|}'
-printf, lun, 'Time & Sunquake Coords (x,y)  & E_{Si IV} & E_{Mg II} & E_{Balm} & E_{Mg II w} & E_{HMI} & E_{area}\\'
+printf, lun, 'Time UT & Sunquake Coords x",y"  & $E_{Si IV}$ & $E_{Mg II}$ & $E_{Balm}$ & $E_{Mg II w}$ & $E_{HMI}$ & $E_{area}$\\'
 printf, lun, '\hline'
 
 siq = string(esiqk[495], format = '(E0.2)')
@@ -527,7 +527,7 @@ for j = 0, frame-1 do begin
       printf, lun, '\begin{table}[H]'
       printf, lun, '\centering'
       printf, lun, '\begin{tabular}{|c|c|c|c|}'
-      printf, lun, 'Time & Si IV (x,y) & E_{Si IV} & Mg II (x,y) & E_{Mg II} & Balm (x,y) & E_{Balm} & Mg II w (x,y) & E_{Mg II w} & HMI (x,y) & E_{HMI}\\'
+      printf, lun, 'Time & Si IV (x,y) & $E_{Si IV}$ & Mg II (x,y) & $E_{Mg II}$ & Balm (x,y) & $E_{Balm}$ & Mg II w (x,y) & $E_{Mg II w}$ & HMI (x,y) & $E_{HMI}$\\'
       printf, lun, '\hline'
     endif
 
