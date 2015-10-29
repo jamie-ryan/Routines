@@ -4,8 +4,8 @@ tic
 ;;restore data sav files
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
-;restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav'
-restore, '/disk/solar3/jsr2/Data/SDO/HMI-diff-15-Oct-15.sav'
+restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav'
+;restore, '/disk/solar3/jsr2/Data/SDO/HMI-diff-15-Oct-15.sav'
 
 ;;date string
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
@@ -654,20 +654,35 @@ qkarea = fltarr(nnn)
 ;A = 2.6e16 cm^2
 ;B = 13*((0.6*7.25e7)(0.6*7.25e7)) cm^2
 for i= 0, nnn-1 do begin
-qkarea[i] = diff[i].data[qkxp, qkyp] + $
-diff[i].data[qkxp, qkyp + 1] + $
-diff[i].data[qkxp - 1, qkyp + 1] + $
-diff[i].data[qkxp - 1, qkyp] + $
-diff[i].data[qkxp - 1, qkyp - 1] + $
-diff[i].data[qkxp, qkyp - 1] + $
-diff[i].data[qkxp + 1, qkyp - 1] + $
-diff[i].data[qkxp + 1, qkyp] + $
-diff[i].data[qkxp + 1, qkyp + 1] + $
+; qkarea[i] = diff[i].data[qkxp, qkyp] + $
+; diff[i].data[qkxp, qkyp + 1] + $
+; diff[i].data[qkxp - 1, qkyp + 1] + $
+; diff[i].data[qkxp - 1, qkyp] + $
+; diff[i].data[qkxp - 1, qkyp - 1] + $
+; diff[i].data[qkxp, qkyp - 1] + $
+; diff[i].data[qkxp + 1, qkyp - 1] + $
+; diff[i].data[qkxp + 1, qkyp] + $
+; diff[i].data[qkxp + 1, qkyp + 1] + $
+;
+; diff[i].data[qkxp, qkyp + 2] + $
+; diff[i].data[qkxp - 2, qkyp ] + $
+; diff[i].data[qkxp, qkyp - 2] + $
+; diff[i].data[qkxp + 2, qkyp]
+qkarea[i] = sbhmimap[i].data[qkxp, qkyp] + $
+sbhmimap[i].data[qkxp, qkyp + 1] + $
+sbhmimap[i].data[qkxp - 1, qkyp + 1] + $
+sbhmimap[i].data[qkxp - 1, qkyp] + $
+sbhmimap[i].data[qkxp - 1, qkyp - 1] + $
+sbhmimap[i].data[qkxp, qkyp - 1] + $
+sbhmimap[i].data[qkxp + 1, qkyp - 1] + $
+sbhmimap[i].data[qkxp + 1, qkyp] + $
+sbhmimap[i].data[qkxp + 1, qkyp + 1] + $
 
-diff[i].data[qkxp, qkyp + 2] + $
-diff[i].data[qkxp - 2, qkyp ] + $
-diff[i].data[qkxp, qkyp - 2] + $
-diff[i].data[qkxp + 2, qkyp]
+sbhmimap[i].data[qkxp, qkyp + 2] + $
+sbhmimap[i].data[qkxp - 2, qkyp ] + $
+sbhmimap[i].data[qkxp, qkyp - 2] + $
+sbhmimap[i].data[qkxp + 2, qkyp]
+
 endfor
 hmi_radiometric_calibration, qkarea, n_pixels = 13, Fqk_13px_area, Eqk_13px_area
 

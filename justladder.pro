@@ -504,16 +504,16 @@ printf, lun, '\hline'
 siq = string(esiqk[495], format = '(E0.2)')
 mgq = string(emgqk[661], format = '(E0.2)')
 balmq = string(ebalmerqk[173], format = '(E0.2)')
-hmiq = string(emgwqk[166], format = '(E0.2)')
-mgwq = string(ehmiqk[62], format = '(E0.2)')
+mgwq = string(emgwqk[166], format = '(E0.2)')
+hmiq = string(ehmiqk[62], format = '(E0.2)')
 e13qkarea = string(Eqk_13px_area[62], format = '(E0.2)')
 printf, lun, '17:45 & 518.5, 264.0 & '+siq+' & '+mgq+' & '+balmq+' & '+mgwq+' & '+hmiq+' & '+e13qkarea+'\\'
 
 siq = string(esiqk[498], format = '(E0.2)')
 mgq = string(emgqk[664], format = '(E0.2)')
 balmq = string(ebalmerqk[174], format = '(E0.2)')
-hmiq = string(emgwqk[167], format = '(E0.2)')
-mgwq = string(ehmiqk[63], format = '(E0.2)')
+mgwq = string(emgwqk[167], format = '(E0.2)')
+hmiq = string(ehmiqk[63], format = '(E0.2)')
 e13qkarea = string(Eqk_13px_area[63], format = '(E0.2)')
 printf, lun, '17:46 & 518.5, 264.0 & '+siq+' & '+mgq+' & '+balmq+' & '+mgwq+' & '+hmiq+' & '+e13qkarea+'\\'
 printf, lun, '\end{tabular}'
