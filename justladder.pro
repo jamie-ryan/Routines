@@ -495,9 +495,9 @@ set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;make latex table file
 openw, lun, 'energy-table.tex', /get_lun
-printf, lun, '\begin{table}[H]'
+printf, lun, '\begin{table}'
 printf, lun, '\centering'
-printf, lun, '\begin{tabular}{|c|c|c|c|}'
+printf, lun, '\begin{tabular}{|c|c|c|c|c|c|c|c|}'
 printf, lun, 'Time UT & Sunquake Coords x",y"  & $E_{Si IV}$ & $E_{Mg II}$ & $E_{Balm}$ & $E_{Mg II w}$ & $E_{HMI}$ & $E_{area}$\\'
 printf, lun, '\hline'
 
@@ -524,25 +524,31 @@ for j = 0, frame-1 do begin
   for i = 0, npix-1 do begin
 
     if (j eq 0) && (i eq 0) then begin
-      printf, lun, '\begin{table}[H]'
+      printf, lun, '\begin{sidewaystable}[h]'
+      printf, lun, '\tiny'
       printf, lun, '\centering'
-      printf, lun, '\begin{tabular}{|c|c|c|c|}'
-      printf, lun, 'Time & Si IV (x,y) & $E_{Si IV}$ & Mg II (x,y) & $E_{Mg II}$ & Balm (x,y) & $E_{Balm}$ & Mg II w (x,y) & $E_{Mg II w}$ & HMI (x,y) & $E_{HMI}$\\'
+      printf, lun, '\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}'
+      printf, lun, 'Time & Si Coords (x,y) & $E_{Si IV}$ & Mg Coords(x,y) & $E_{Mg II}$ & Balm Coords(x,y) & $E_{Balm}$ & Mgw Coords (x,y) & $E_{Mg II w}$ & HMI Coords (x,y) & $E_{HMI}$\\'
       printf, lun, '\hline'
     endif
 
 
     if (j eq 0) then begin
-      sixx = string(sicoords1[0,i], format = '(E0.2)')
-      siyy = string(sicoords1[1,i], format = '(E0.2)')
-      mgxx = string(mgcoords1[0,i], format = '(E0.2)')
-      mgyy = string(mgcoords1[1,i], format = '(E0.2)')
-      balmxx = string(balmercoords1[0,i], format = '(E0.2)')
-      balmyy = string(balmercoords1[1,i], format = '(E0.2)')
-      mgwxx = string(mgwcoords1[0,i], format = '(E0.2)')
-      mgwyy = string(mgwcoords1[1,i], format = '(E0.2)')
-      xx = string(hmicoords1[0,i], format = '(E0.2)')
-      yy = string(hmicoords1[1,i], format = '(E0.2)')
+      sixx = string(sicoords1[0,i], format = '(F0.2)')
+      siyy = string(sicoords1[1,i], format = '(F0.2)')
+      sixy = sixx+', '+siyy
+      mgxx = string(mgcoords1[0,i], format = '(F0.2)')
+      mgyy = string(mgcoords1[1,i], format = '(F0.2)')
+      mgxy = mgxx+', '+mgyy
+      balmxx = string(balmercoords1[0,i], format = '(F0.2)')
+      balmyy = string(balmercoords1[1,i], format = '(F0.2)')
+      balmxy = balmxx+', '+balmyy
+      mgwxx = string(mgwcoords1[0,i], format = '(F0.2)')
+      mgwyy = string(mgwcoords1[1,i], format = '(F0.2)')
+      mgwxy = mgwxx+', '+mgwyy
+      xx = string(hmicoords1[0,i], format = '(F0.2)')
+      yy = string(hmicoords1[1,i], format = '(F0.2)')
+      xy = xx+', '+yy
 
       si = string(sidata[j,i,495], format = '(E0.2)')
       mg = string(mgdata[j,i,661], format = '(E0.2)')
@@ -550,20 +556,25 @@ for j = 0, frame-1 do begin
       hmi = string(hmidata[j,i,62], format = '(E0.2)')
       mgw = string(mgwdata[j,i,166], format = '(E0.2)')
       ;fltarr(frame,npix,n_elements(tsi))
-      printf, lun, '17:45, '+sixx+','+siyy+' & '+si+' & '+mgxx+','+mgyy+' & '+mg+' & '+balmxx+','+balmyy+' & '+balm+' & '+mgwxx+','+mgwyy+' & '+mgw+' & '+xx+','+yy+' & '+hmi+'\\'
+      printf, lun, '17:45 & '+sixy+' & '+si+' & '+mgxy+' & '+mg+' & '+balmxy+' & '+balm+' & '+mgwxy+' & '+mgw+' & '+xy+' & '+hmi+'\\'
     endif
 
     if (j eq 1) then begin
-      sixx = string(sicoords2[0,i], format = '(E0.2)')
-      siyy = string(sicoords2[1,i], format = '(E0.2)')
-      mgxx = string(mgcoords2[0,i], format = '(E0.2)')
-      mgyy = string(mgcoords2[1,i], format = '(E0.2)')
-      balmxx = string(balmercoords2[0,i], format = '(E0.2)')
-      balmyy = string(balmercoords2[1,i], format = '(E0.2)')
-      mgwxx = string(mgwcoords2[0,i], format = '(E0.2)')
-      mgwyy = string(mgwcoords2[1,i], format = '(E0.2)')
-      xx = string(hmicoords2[0,i], format = '(E0.2)')
-      yy = string(hmicoords2[1,i], format = '(E0.2)')
+      sixx = string(sicoords2[0,i], format = '(F0.2)')
+      siyy = string(sicoords2[1,i], format = '(F0.2)')
+      sixy = sixx+', '+siyy
+      mgxx = string(mgcoords2[0,i], format = '(F0.2)')
+      mgyy = string(mgcoords2[1,i], format = '(F0.2)')
+      mgxy = mgxx+', '+mgyy
+      balmxx = string(balmercoords2[0,i], format = '(F0.2)')
+      balmyy = string(balmercoords2[1,i], format = '(F0.2)')
+      balmxy = balmxx+', '+balmyy
+      mgwxx = string(mgwcoords2[0,i], format = '(F0.2)')
+      mgwyy = string(mgwcoords2[1,i], format = '(F0.2)')
+      mgwxy = mgwxx+', '+mgwyy
+      xx = string(hmicoords2[0,i], format = '(F0.2)')
+      yy = string(hmicoords2[1,i], format = '(F0.2)')
+      xy = xx+', '+yy
 
       si = string(sidata[j,i,498], format ='(E0.2)')
       mg = string(mgdata[j,i,664], format ='(E0.2)')
@@ -571,13 +582,12 @@ for j = 0, frame-1 do begin
       mgw = string(mgwdata[j,i,167], format ='(E0.2)')
       hmi = string(hmidata[j,i,63], format ='(E0.2)')
       ;fltarr(frame,npix,n_elements(tsi))
-      printf, lun, '17:46, '+sixx+','+siyy+' & '+si+' & '+mgxx+','+mgyy+' & '+mg+' & '+balmxx+','+balmyy+' & '+balm+' & '+mgwxx+','+mgwyy+' & '+mgw+' & '+xx+','+yy+' & '+hmi+'\\'
-    endif
+      printf, lun, '17:46 & '+sixy+' & '+si+' & '+mgxy+' & '+mg+' & '+balmxy+' & '+balm+' & '+mgwxy+' & '+mgw+' & '+xy+' & '+hmi+'\\'
 
     if (j eq 1) && (i eq npix-1) then begin
       printf, lun, '\end{tabular}'
       printf, lun, '\caption{Coordinates and Energies at 17:45 and 17:46 for ribbon sample locations.}\label{ribenergytab}'
-      printf, lun, '\end{table}'
+      printf, lun, '\end{sidewaystable}'
     endif
 
 ;;;maybe include a 3d ribbon energy profile (x,y,E)?
