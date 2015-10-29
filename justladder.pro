@@ -562,4 +562,32 @@ for j = 0, frame-1 do begin
   endfor
 endfor
 free_lun, lun
+
+;qkarea plot
+mydevice=!d.name
+set_plot,'ps'
+device,filename='29-Mar-14-Quake-Area-Energy.eps',/portrait,/encapsulated, decomposed=0,color = 1  , bits=8
+ytitl = energy
+utplot, thmi[38:78], Eqk_13px_area[38:78], $
+timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+linestyle = 0, $
+ycharsize = 0.55 , $
+xcharsize = 0.65, $
+xstyle = 8, $
+title = '13 HMI Pixel Quake Area Energy'
+ytitle = ytitl, $
+/nolabel, $
+yticks = 2, $
+ytickname=[' '], $
+XTICKFORMAT="(A1)", $
+/ynozero, $
+;/ylog, $
+xmargin = [12,3], $
+loadct,3
+vert_line,sec,1, color = 100
+loadct,0
+xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
+device,/close
+set_plot,mydevice
+
 end
