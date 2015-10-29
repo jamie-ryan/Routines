@@ -493,24 +493,47 @@ device,/close
 set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+siq = string(esiqk[495], format = '(E0.2)')
+mgq = string(emgqk[495], format = '(E0.2)')
+balmq = string(ebalmerqk[495], format = '(E0.2)')
+hmiq = string(emgwqk[495], format = '(E0.2)')
+mgwq = string(ehmiqk[495], format = '(E0.2)')
+e13qkarea = string(Eqk_13px_area[62], format = '(E0.2)')
 ;;;;make latex table file
 openw, lun, 'energy-table.tex', /get_lun
+printf, lun '%tex file generated with justladder.pro'
+printf, lun '%table of sunquake pixel energies and coordinates'
 printf, lun, '\begin{table}[H]'
 printf, lun, '\centering'
 printf, lun, '\begin{tabular}{|c|c|c|c|}'
 printf, lun, 'Time & Sunquake Coords (x,y)  & E_{Si IV} & E_{Mg II} & E_{Balm} & E_{Mg II w} & E_{HMI} & E_{area}\\'
 printf, lun, '\hline'
-printf, lun, '17:45 & 518.5, 264.0 & esiqk[495] & emgqk[661] & ebalmerqk[173] & emgwqk[166] & ehmiqk[62] & Eqk_13px_area[62]\\'
-printf, lun, '17:46 & 518.5*, 264.0* & esiqk[498] & emgqk[664] & ebalmerqk[174] & emgwqk[167] & ehmiqk[63] & Eqk_13px_area[63]\\'
+
+siq = string(esiqk[495], format = '(E0.2)')
+mgq = string(emgqk[661], format = '(E0.2)')
+balmq = string(ebalmerqk[173], format = '(E0.2)')
+hmiq = string(emgwqk[166], format = '(E0.2)')
+mgwq = string(ehmiqk[62], format = '(E0.2)')
+e13qkarea = string(Eqk_13px_area[62], format = '(E0.2)')
+printf, lun, '17:45 & 518.5, 264.0 & '+siq+' & '+mgq+' & '+balmq+' & '+mgwq+' & '+hmiq+' & '+e13qkarea+'\\'
+
+siq = string(esiqk[498], format = '(E0.2)')
+mgq = string(emgqk[664], format = '(E0.2)')
+balmq = string(ebalmerqk[174], format = '(E0.2)')
+hmiq = string(emgwqk[167], format = '(E0.2)')
+mgwq = string(ehmiqk[63], format = '(E0.2)')
+e13qkarea = string(Eqk_13px_area[63], format = '(E0.2)')
+printf, lun, '17:46 & 518.5, 264.0 & '+siq+' & '+mgq+' & '+balmq+' & '+mgwq+' & '+hmiq+' & '+e13qkarea+'\\'
 printf, lun, '\end{tabular}'
 printf, lun, '\caption{Pixel coordinates in arcsecs and Energies in ergs at 17:45 and 17:46 for the sunquake pixel and area. *coordinates are the central pixel of a 13 pixel sunquake area}\label{qkenergytab}'
 printf, lun, '\end{table}'
+
 for j = 0, frame-1 do begin
   for i = 0, npix-1 do begin
 
     if (j eq 0) && (i eq 0) then begin
-    printf, lun, '\begin{table}[H]'
+      printf, lun '%table of ribbon pixel energies and coordinates'
+      printf, lun, '\begin{table}[H]'
       printf, lun, '\centering'
       printf, lun, '\begin{tabular}{|c|c|c|c|}'
       printf, lun, 'Time & Si IV (x,y) & E_{Si IV} & Mg II (x,y) & E_{Mg II} & Balm (x,y) & E_{Balm} & Mg II w (x,y) & E_{Mg II w} & HMI (x,y) & E_{HMI}\\'
