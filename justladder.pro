@@ -567,7 +567,6 @@ free_lun, lun
 mydevice=!d.name
 set_plot,'ps'
 device,filename='29-Mar-14-Quake-Area-Energy.eps',/portrait,/encapsulated, decomposed=0,color = 1  , bits=8
-ytitl = energy
 utplot, thmi[38:78], Eqk_13px_area[38:78], $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
@@ -575,7 +574,7 @@ ycharsize = 0.55 , $
 xcharsize = 0.65, $
 xstyle = 8, $
 title = '13 HMI Pixel Quake Area Energy'
-ytitle = ytitl, $
+ytitle = '[erg]', $
 /nolabel, $
 yticks = 2, $
 ytickname=[' '], $
