@@ -232,7 +232,7 @@ device,filename='29-Mar-14-Quake-Energy-Ladder.eps',/portrait,/encapsulated, dec
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
-titl =  titl = '29-Mar-14-Sunquake-Location-Energy-coords-518.5-264.0'
+titl = '29-Mar-14-Sunquake-Location-Energy-coords-518.5-264.0'
 ytitl = energy
 utplot, tsi[447:*], esiqk[447:*], $
 base, $
