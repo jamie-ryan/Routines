@@ -583,16 +583,13 @@ for j = 0, frame-1 do begin
       hmi = string(hmidata[j,i,63], format ='(E0.2)')
       ;fltarr(frame,npix,n_elements(tsi))
       printf, lun, '17:46 & '+sixy+' & '+si+' & '+mgxy+' & '+mg+' & '+balmxy+' & '+balm+' & '+mgwxy+' & '+mgw+' & '+xy+' & '+hmi+'\\'
+    endif
 
     if (j eq 1) && (i eq npix-1) then begin
       printf, lun, '\end{tabular}'
       printf, lun, '\caption{Coordinates and Energies at 17:45 and 17:46 for ribbon sample locations.}\label{ribenergytab}'
       printf, lun, '\end{sidewaystable}'
     endif
-
-;;;maybe include a 3d ribbon energy profile (x,y,E)?
-;;;or 2d (x,E)...could demo many coords.
-
   endfor
 endfor
 free_lun, lun
