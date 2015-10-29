@@ -574,11 +574,11 @@ for j = 0, frame-1 do begin
       xx = string(hmicoords2[0,i], format = '(E0.2)')
       yy = string(hmicoords2[1,i], format = '(E0.2)')
 
-      si = string(sidata[j,i,498], format = .2'(E0.2)')
+      si = string(sidata[j,i,498], format ='(E0.2)')
       mg = string(mgdata[j,i,664], format =.2 '(E0.2)')
       balm = string(balmerdata[j,i,174], format.2 = '(E0.2)')
-      mgw = string(mgwdata[j,i,167], format = .2'(E0.2)')
-      hmi = string(hmidata[j,i,63], format = .2'(E0.2)')
+      mgw = string(mgwdata[j,i,167], format ='(E0.2)')
+      hmi = string(hmidata[j,i,63], format ='(E0.2)')
       ;fltarr(frame,npix,n_elements(tsi))
       printf, lun, '17:46, '+sixx+','+siyy+' & '+si+' & '+mgxx+','+mgyy+' & '+mg+' & '+balmxx+','+balmyy+' & '+balm+' & '+mgwxx+','+mgwyy+' & '+mgw+' & '+xx+','+yy+' & '+hmi+'\\'
     endif
