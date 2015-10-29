@@ -52,8 +52,13 @@ qkspypos = strarr(nn)
 ;SDO HMI;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 ;quake position
-qkxa = 517.2 ;arcsec
-qkya = 261.4 ;arcsec
+
+hqkxa = 517.2 ;my old coords for hmi
+hqkya = 261.4 ;my old coords for hmi
+qkxa = 518.5 ;Donea et al 2014
+qkya = 264.0 ;Donea et al 2014
+hqkxp = convert_coord_hmi(hqkxa, diffindex[63],  /x, /a2p)
+hqkyp = convert_coord_hmi(hqkya, diffindex[63],  /y, /a2p)
 qkxp = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p)
 qkyp = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
 qksixp = convert_coord_iris(qkxa, sji_1400_hdr[498], /x, /a2p)
@@ -312,7 +317,7 @@ qkmgw = fltarr(nmgw)
 qksi = fltarr(nsi)
 qkbalmer = fltarr(sample*nn)
 qkhmi = fltarr(nnn)
-
+hqkhmi = fltarr(nnn) fltarr(nnn) ;hqkxp
 
 sifmxqk = fltarr(3,2)
 siemxqk = fltarr(3,2)
@@ -463,6 +468,7 @@ for j = 0, nrb-1 do begin
     for i = 0, nnn-1, 1 do begin
         if (j eq 19) then begin
             qkhmi[i] = diff[i].data[qkxp, qkyp]
+            hqkhmi[i] = diff[i].data[hqkxp, hqkyp]
         endif
     com = 'in = diff[i].data[hmirbxp'+jj+', hmirbyp'+jj+']'
     exe = execute(com)
@@ -473,6 +479,7 @@ for j = 0, nrb-1 do begin
     ;calculate flux and energy
     if (j eq 19) then begin
         hmi_radiometric_calibration, qkhmi, n_pixels = 1, Fhmiqk, Ehmiqk
+        hmi_radiometric_calibration, hqkhmi, n_pixels = 1, hFhmiqk, hEhmiqk
     endif
     com = 'hmi_radiometric_calibration, rbhmi'+jj+', n_pixels = 1, Fhmirb'+jj+', Ehmirb'+jj+''
     exe = execute(com)
@@ -637,7 +644,38 @@ balmerfmxqk[2,1] = ebalmerqk[balmerfmx[0,10]]
 mgwfmxqk[2,1] = fmgwqk[mgwfmx[0,10]]
 hmifmxqk[2,1] = ehmiqk[hmifmx[0,10]]
 
+;HMI quake area array...eventually calculate iris quake energy based on solid angle relationship found by trumpet.pro
+qkarea = fltarr(nnn)
+;based on the four iris pixels (4*0.1667") flagged by quake_area.pro.....more detailed version needed
+;assuming 2 iris pixels relate to the radius of a circular quake impact,
+;but 0.505/0.1667 = 3 therefore 3 iris pixels equal one hmi pixel, which sets minimum resolution
+;iris_quake_radius = 2*(0.1667*7.5e5)
+;iris_quake_area = !pi*quake_radius^2
+;A = 2.6e16 cm^2
+;B = 13*((0.6*7.25e7)(0.6*7.25e7)) cm^2
+for i= 0, nnn-1 do begin
+qkarea[i] = diff[i].data[qkxp, qkyp] + $
+diff[i].data[qkxp, qkyp + 1] + $
+diff[i].data[qkxp - 1, qkyp + 1] + $
+diff[i].data[qkxp - 1, qkyp] + $
+diff[i].data[qkxp - 1, qkyp - 1] + $
+diff[i].data[qkxp, qkyp - 1] + $
+diff[i].data[qkxp + 1, qkyp - 1] + $
+diff[i].data[qkxp + 1, qkyp] + $
+diff[i].data[qkxp + 1, qkyp + 1] + $
 
+diff[i].data[qkxp, qkyp + 2] + $
+diff[i].data[qkxp - 2, qkyp ] + $
+diff[i].data[qkxp, qkyp - 2] + $
+diff[i].data[qkxp + 2, qkyp]
+endfor
+hmi_radiometric_calibration, qkarea, n_pixels = 13, Fqk_13px_area, Eqk_13px_area
+
+save, $
+;quake area
+Fqk_9px_area, Eqk_9px_area, $
+thmi, $
+filename = '29-Mar-2014-energies-hmi-qkarea-'+date+'.sav'
 
 ;;;make sav files
 save, $
@@ -791,6 +829,7 @@ filename = '29-Mar-2014-energies-iris-mgw-single-pixel-'+date+'.sav'
 save, $
 ;hmi; for time use thmi
 Fhmiqk, Ehmiqk, $
+hFhmiqk, hEhmiqk, $
 Fhmirb0, Ehmirb0, $
 Fhmirb1, Ehmirb1, $
 Fhmirb2, Ehmirb2, $
@@ -984,7 +1023,11 @@ if keyword_set(area) then begin
     endfor
     hmi_radiometric_calibration, qkarea, n_pixels = 9, Fqk_9px_area, Eqk_9px_area
 
-
+    save, $
+    ;quake area
+    Fqk_9px_area, Eqk_9px_area, $
+    thmi, $
+    filename = '29-Mar-2014-energies-hmi-qkarea-'+date+'.sav'
 
 ;;;make .sav file
 
@@ -1024,11 +1067,7 @@ if keyword_set(area) then begin
     thmi, $
     filename = '29-Mar-2014-energies-hmi-area-'+date+'.sav'
 
-    save, $
-    ;quake area
-    Fqk_9px_area, Eqk_9px_area, $
-    thmi, $
-    filename = '29-Mar-2014-energies-hmi-qkarea-'+date+'.sav'
+
 endif
 toc
 end
