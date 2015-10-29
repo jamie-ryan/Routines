@@ -85,6 +85,8 @@ for j = 0, frame-1 do begin
 
         ;used hmi coords as reference point
         fff = '29-Mar-14-Ribbon-xyPosition-'+xx+'-'+yy+'-Frame-'+jj+'-Energy-Ladder.eps'
+        jjj = string(j+1, format = '(I0)')
+        titl = '29-Mar-14-Ribbon--Energy-hmicoords'+jjj+'-'+xx+'-'+yy
         mydevice=!d.name
         set_plot,'ps'
         ;device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1  , bits=8, bits = 8
@@ -92,7 +94,7 @@ for j = 0, frame-1 do begin
         o = 4
         xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
-        titl =  strcompress('29-Mar-14-Ribbon-Energy' ,/remove_all)
+        title = titl
         ytitl = energy
         utplot, tsi[447:*], sidata[j,i,447:*], $
         base, $
@@ -230,7 +232,7 @@ device,filename='29-Mar-14-Quake-Energy-Ladder.eps',/portrait,/encapsulated, dec
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
-titl =  strcompress('29-Mar-14-Quake-Energy' ,/remove_all)
+titl =  titl = '29-Mar-14-Sunquake-Location-Energy-coords-518.5-264.0'
 ytitl = energy
 utplot, tsi[447:*], esiqk[447:*], $
 base, $
