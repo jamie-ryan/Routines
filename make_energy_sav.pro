@@ -673,7 +673,7 @@ hmi_radiometric_calibration, qkarea, n_pixels = 13, Fqk_13px_area, Eqk_13px_area
 
 save, $
 ;quake area
-Fqk_9px_area, Eqk_9px_area, $
+Fqk_13px_area, Eqk_13px_area, $
 thmi, $
 filename = '29-Mar-2014-energies-hmi-qkarea-'+date+'.sav'
 
