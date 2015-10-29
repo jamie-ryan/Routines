@@ -493,12 +493,6 @@ device,/close
 set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-siq = string(esiqk[495], format = '(E0.2)')
-mgq = string(emgqk[495], format = '(E0.2)')
-balmq = string(ebalmerqk[495], format = '(E0.2)')
-hmiq = string(emgwqk[495], format = '(E0.2)')
-mgwq = string(ehmiqk[495], format = '(E0.2)')
-e13qkarea = string(Eqk_13px_area[62], format = '(E0.2)')
 ;;;;make latex table file
 openw, lun, 'energy-table.tex', /get_lun
 printf, lun, '\begin{table}[H]'
