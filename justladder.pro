@@ -563,6 +563,9 @@ for j = 0, frame-1 do begin
 endfor
 free_lun, lun
 
+plot_pos_calc, n_plots = 1, xpos, ypos
+base = '29-Mar-14 17:26:00'
+sec = 19.*60.
 ;qkarea plot
 mydevice=!d.name
 set_plot,'ps'
@@ -572,20 +575,20 @@ timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
 ycharsize = 0.55 , $
 xcharsize = 0.65, $
-xstyle = 8, $
+;xstyle = 8, $
 title = '13 HMI Pixel Quake Area Energy', $
 ytitle = energy, $
-/nolabel, $
-yticks = 2, $
-ytickname=[' '], $
-XTICKFORMAT="(A1)", $
-/ynozero, $
+;/nolabel, $
+;yticks = 2, $
+;ytickname=[' '], $
+;XTICKFORMAT="(A1)", $
+;/ynozero, $
 ;/ylog, $
-xmargin = [12,3], $
-loadct,3
-vert_line,sec,1, color = 100
-loadct,0
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
+xmargin = [12,3]
+; loadct,3
+; vert_line,sec,1, color = 100
+; loadct,0
+;xyouts, 0.2, 0.8, charsize = 0.7, 'HMI Continuum '+angstrom, /norm
 device,/close
 set_plot,mydevice
 
