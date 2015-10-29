@@ -530,8 +530,13 @@ for j = 0, frame-1 do begin
       xx = string(hmicoords1[0,i], format = '(I0)')
       yy = string(hmicoords1[1,i], format = '(I0)')
 
+      si = string(sidata[j,i,495], format = '(I0)')
+      mg = string(mgdata[j,i,661], format = '(I0)')
+      balm = string(balmerdata[j,i,173], format = '(I0)')
+      hmi = string(hmidata[j,i,62], format = '(I0)')
+      mgw = string(mgwdata[j,i,166], format = '(I0)')
       ;fltarr(frame,npix,n_elements(tsi))
-      printf, lun, '17:45, '+sixx+','+siyy+' & sidata[j,i,495] & '+mgxx+','+mgyy+' & mgdata[j,i,661] & '+balmxx+','+balmyy+' & balmerdata[j,i,173] & '+mgwxx+','+mgwyy+' & mgwdata[j,i,166] & '+xx+','+yy+' & hmidata[j,i,62]\\'
+      printf, lun, '17:45, '+sixx+','+siyy+' & '+si+' & '+mgxx+','+mgyy+' & '+mg+' & '+balmxx+','+balmyy+' & '+balm+' & '+mgwxx+','+mgwyy+' & '+mgw+' & '+xx+','+yy+' & '+hmi+'\\'
     endif
 
     if (j eq 1) then begin
@@ -546,8 +551,13 @@ for j = 0, frame-1 do begin
       xx = string(hmicoords2[0,i], format = '(I0)')
       yy = string(hmicoords2[1,i], format = '(I0)')
 
+      si = string(sidata[j,i,498], format = '(I0)')
+      mg = string(mgdata[j,i,664], format = '(I0)')
+      balm = string(balmerdata[j,i,174], format = '(I0)')
+      mgw = string(mgwdata[j,i,167], format = '(I0)')
+      hmi = string(hmidata[j,i,63], format = '(I0)')
       ;fltarr(frame,npix,n_elements(tsi))
-      printf, lun, '17:46, '+sixx+','+siyy+' & sidata[j,i,498] & '+mgxx+','+mgyy+' & mgdata[j,i,664] & '+balmxx+','+balmyy+' & balmerdata[j,i,174] & '+mgwxx+','+mgwyy+' & mgwdata[j,i,167] & '+xx+','+yy+' & hmidata[j,i,63]\\'
+      printf, lun, '17:46, '+sixx+','+siyy+' & '+si+' & '+mgxx+','+mgyy+' & '+mg+' & '+balmxx+','+balmyy+' & '+balm+' & '+mgwxx+','+mgwyy+' & '+mgw+' & '+xx+','+yy+' & '+hmi+'\\'
     endif
 
     if (j eq 1) && (i eq npix-1) then begin
