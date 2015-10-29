@@ -573,8 +573,8 @@ linestyle = 0, $
 ycharsize = 0.55 , $
 xcharsize = 0.65, $
 xstyle = 8, $
-title = '13 HMI Pixel Quake Area Energy'
-ytitle = '[erg]', $
+title = '13 HMI Pixel Quake Area Energy', $
+ytitle = energy, $
 /nolabel, $
 yticks = 2, $
 ytickname=[' '], $
