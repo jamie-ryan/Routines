@@ -317,7 +317,7 @@ qkmgw = fltarr(nmgw)
 qksi = fltarr(nsi)
 qkbalmer = fltarr(sample*nn)
 qkhmi = fltarr(nnn)
-hqkhmi = fltarr(nnn) fltarr(nnn) ;hqkxp
+hqkhmi = fltarr(nnn) ;hqkxp
 
 sifmxqk = fltarr(3,2)
 siemxqk = fltarr(3,2)
