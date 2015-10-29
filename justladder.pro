@@ -501,8 +501,6 @@ mgwq = string(ehmiqk[495], format = '(E0.2)')
 e13qkarea = string(Eqk_13px_area[62], format = '(E0.2)')
 ;;;;make latex table file
 openw, lun, 'energy-table.tex', /get_lun
-printf, lun '%tex file generated with justladder.pro'
-printf, lun '%table of sunquake pixel energies and coordinates'
 printf, lun, '\begin{table}[H]'
 printf, lun, '\centering'
 printf, lun, '\begin{tabular}{|c|c|c|c|}'
@@ -532,7 +530,6 @@ for j = 0, frame-1 do begin
   for i = 0, npix-1 do begin
 
     if (j eq 0) && (i eq 0) then begin
-      printf, lun '%table of ribbon pixel energies and coordinates'
       printf, lun, '\begin{table}[H]'
       printf, lun, '\centering'
       printf, lun, '\begin{tabular}{|c|c|c|c|}'
@@ -575,8 +572,8 @@ for j = 0, frame-1 do begin
       yy = string(hmicoords2[1,i], format = '(E0.2)')
 
       si = string(sidata[j,i,498], format ='(E0.2)')
-      mg = string(mgdata[j,i,664], format =.2 '(E0.2)')
-      balm = string(balmerdata[j,i,174], format.2 = '(E0.2)')
+      mg = string(mgdata[j,i,664], format ='(E0.2)')
+      balm = string(balmerdata[j,i,174], format = '(E0.2)')
       mgw = string(mgwdata[j,i,167], format ='(E0.2)')
       hmi = string(hmidata[j,i,63], format ='(E0.2)')
       ;fltarr(frame,npix,n_elements(tsi))
