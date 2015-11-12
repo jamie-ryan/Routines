@@ -79,6 +79,7 @@ if keyword_set(sg) then begin
 				n_photon = E_photon/erg ; = photon/erg
 			end
 			2: begin ;wavelength range
+                pixlambda = wav[1] - wav[0] ;bandpass equlas wavelength range
 				find1 = min(abs(iresp.lambda[*] - wav[0]),ind1)
 				find2 = min(abs(iresp.lambda[*] - wav[1]),ind2)
 				ind1 = ind1*1.
@@ -122,7 +123,7 @@ array = array*dn2photon; = photon/s.cm^2
 ;;;[erg/s.cm^2] / [effective_solid_angle] = erg/s.cm^2.sr
 D = 1.49e13 ; 1AU in cm 
 Wslit = !pi/(180.*3600.*3.) ;slit width
-effective_area = A_float*wslit
+effective_area = A_float*wslit*1d
 effective_solid_angle = effective_area/D^2 ; steradians
 array = array/effective_solid_angle ; erg/s.cm^2.sr 
 

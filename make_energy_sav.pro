@@ -260,6 +260,8 @@ for k = 0, n_elements(dataset)-1 do begin
     endfor
 endfor
 
+
+balmerbk = 620. ;from Heinzel and  Kleint 2014
 ;17:45:36
 ;sr
 balmerrbxp0 = 0.

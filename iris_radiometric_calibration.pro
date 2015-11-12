@@ -79,6 +79,7 @@ if keyword_set(sg) then begin
 				n_photon = E_photon/erg ; = photon/erg
 			end
 			2: begin ;wavelength range
+                pixlambda = wav[1] - wav[0] ;bandpass equlas wavelength range
 				find1 = min(abs(iresp.lambda[*] - wav[0]),ind1)
 				find2 = min(abs(iresp.lambda[*] - wav[1]),ind2)
 				ind1 = ind1*1.

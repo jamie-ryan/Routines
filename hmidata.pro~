@@ -39,7 +39,7 @@ endfor
 map2index,diff, diffindex, diffhmi 
 ;diffhmi = diff.data
 ;save, /comm, /variables, filename='hmi-20-02-15.sav'
-save, /comm, /variables, filename='hmi-16-05-15.sav'
-
+;save, /comm, /variables, filename='hmi-16-05-15.sav'
+save, /comm, /variables, filename='hmi-12-05-15.sav'
 
 end

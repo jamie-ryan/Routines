@@ -24,22 +24,29 @@ yaf = (ypf-hmiindex[0].crpix2+1)*hmiindex[0].cdelt2
 ;ya0 = 190.625
 ;yaf = 372.280
 
-
+;;;make sub map
 sub_map, hmimap, xr=[xa0,xaf], yr=[ya0,yaf], sbhmimap
 
+;;;coregister to eliminate rotational effects...i think
 sub = coreg_map(sbhmimap,sbhmimap(40))
+
+;;;starting point for differencing
 diff=diff_map(sub(1),sub(0),/rotate)
 
+;;;iterate through each submap and perform differencing
 iii = n_elements(files)
 for i=1, iii-1, 1 do begin
+;;differencing
 diff1=diff_map(sub(i),sub(i-1),/rotate)
-;diff1=diff_map(sub(i),sub(0),/rotate)
+
+;;;concatenate arrays to form one difference array
 diff=str_concat(diff,diff1)
 endfor
+
+;;;you probably don't need this bit but it's basically index2map but in reverse 
 map2index,diff, diffindex, diffhmi 
-;diffhmi = diff.data
-;save, /comm, /variables, filename='hmi-20-02-15.sav'
-;save, /comm, /variables, filename='hmi-16-05-15.sav'
-save, /comm, /variables, filename='hmi-12-05-15.sav'
+
+;;;make sav file
+save, /comm, /variables, filename='hmi-diff.sav'
 
 end
