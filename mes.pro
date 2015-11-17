@@ -35,12 +35,18 @@ thmi = diff.time[]
 
 
 ;;;arrays to contain energy values for each coord through the entire time series.
-;eg: sidata[time_frame, xcoord, ycoord, time]
+;eg: sidata[time_frame, xcoord, ycoord, time]....have to have seperate arrays due to different cadence
 sidata = fltarr(time_frames, nsi, nsi, n_elements(tsi))
 mgdata = fltarr(time_frames,nmg,nmg,n_elements(tmg))
 balmerdata = fltarr(time_frames,nbalm,nbalm,n_elements(tbalm))
 mgwdata = fltarr(time_frames,nmgw,nmgw,n_elements(tmgw))
 hmidata = fltarr(time_frames,nhmi,nhmi,n_elements(thmi))
+
+;;;array to contain coords for eacxh dataset
+datasets = 5 ;number of datasets
+nrb = 20 ;number of ribbon sample points
+dimensions = 2 ;x, y
+coords = fltarr(dimensions,nrb,datasets)
 
 ;;;calculate pixel location from given arcsec coords
 ;quake position

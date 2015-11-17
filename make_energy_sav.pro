@@ -97,6 +97,49 @@ for i = 1,2 do begin
 endfor
 
 
+;;;background measurement coords for each data set
+;Si IV and Mg II 
+
+bksia = fltarr(2,6)
+bksip = fltarr(2,6)
+bkmgp = fltarr(2,6)
+bksia[0,0] = 472.74468
+bksia[1,0] = 215.48495
+bksia[0,1] = 517.20386    
+bksia[1,1] = 213.44085
+bksia[0,2] = 574.43865     
+bksia[1,2] = 217.01802
+bksia[0,3] = 580.57095    
+bksia[1,3] = 327.91044
+bksia[0,4] = 522.82513      
+bksia[1,4] = 327.39942
+bksia[0,5] = 471.72263      
+bksia[1,5] = 329.95454
+
+for i = 0, n_elements(bksip[0,*]) do begin
+bksip[0, i] = convert_coord_iris(bksia, sji_1400_hdr[495], /x, /a2p)
+bksip[1, i] = convert_coord_iris(bksia, sji_1400_hdr[495], /y, /a2p)
+bkmgp[0, i] = convert_coord_iris(bksia, sji_2796_hdr[495], /x, /a2p)
+bkmgp[1, i] = convert_coord_iris(bksia, sji_2796_hdr[495], /y, /a2p)
+endfor
+
+dnbksi = total(map1400[495].data[bksip[0,*], bksip[1,*]])/n_elements(bksip[0,*])
+dnbkmg = total(submg[661].data[bkmgp[0,*], bkmgp[1,*]])/n_elements(bkmgp[0,*])
+
+iris_radiometric_calibration, dnbksi, wave = 1400., n_pixels = 1., fbksi, ebksi, /sji
+iris_radiometric_calibration, dnbkmg, wave = 2796., n_pixels = 1., fbkmg, ebkmg, /sji
+
+;Balmer
+
+wav1 = sp2826.tag00.wvl[39]
+wav2 = sp2826.tag00.wvl[44]
+w1 = string(wav1, format = '(I0)')
+w2 = string(wav2, format = '(I0)')
+
+bkb = 630. ;from heinzel and kleint
+dnbkb = total(sp2826.tag0172.int[39:44, 2, bkb])/((44-39)*2)
+iris_radiometric_calibration, dnbkb, wave=[wav1,wav2], n_pixels=1, Fbkbalm, Ebkbalm,/sg
+
 ;;;Calculate pixel locations for each ribbon sample (arcsecs)
 
 ;;;#1 frame at hmi 17:45:31:
@@ -387,10 +430,16 @@ for j = 0, nrb-1 do begin
     ;calculate flux and energy
     if (j eq 19) then begin
         iris_radiometric_calibration, qksi, wave = 1400., n_pixels = 1, Fsiqk, Esiqk, /sji
+        fsiqk = fsiqk - fbksi
+        esiqk = esiqk - ebksi
     endif
     com = 'iris_radiometric_calibration, rbsi'+jj+', wave = 1400., n_pixels = 1,Fsirb'+jj+', Esirb'+jj+', /sji'
     exe = execute(com)
 
+    com = 'Fsirb'+jj+' = Fsirb'+jj+' - fbksi'
+    exe = execute(com)
+    com = 'Esirb'+jj+' = Esirb'+jj+' - ebksi'
+    exe = execute(com)
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;MG II 2796
     for i = 0, nmg-1, 1 do begin
@@ -405,9 +454,17 @@ for j = 0, nrb-1 do begin
     ;calculate flux and energy
     if (j eq 19) then begin
         iris_radiometric_calibration, qkmg, wave = 2976., n_pixels = 1,Fmgqk, Emgqk, /sji
+        fmgqk = fmgqk - fbkmg
+        emgqk = emgqk - ebkmg
     endif
     com = 'iris_radiometric_calibration, rbmg'+jj+', wave = 2976., n_pixels = 1,Fmgrb'+jj+', Emgrb'+jj+', /sji'
     exe = execute(com)
+
+    com = 'Fmgrb'+jj+' = Fmgrb'+jj+' - fbkmg'
+    exe = execute(com)
+    com = 'Emgrb'+jj+' = Emgrb'+jj+' - ebkmg'
+    exe = execute(com)
+
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;BALMER
 
@@ -428,21 +485,24 @@ for j = 0, nrb-1 do begin
 ;            exe = execute(com)
 ;            com = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds['+qkslitpos+']'
 ;            exe = execute(com)
-            com = 'qkbalmer[i] = total(sp2826.'+tagarr[i]+'.int[39:44, 3:4,438])/((44-39)*2)'
+            com = 'qkbalmer[i] = total(sp2826.'+tagarr[i]+'.int[39:44, 3:4,438])/((44-39)*2)' 
             exe = execute(com)
             com = 'tspqk[i] = sp2826.'+tagarr[i]+'.time_ccsds[3]'
             exe = execute(com)
         endif
     endfor
     ;;calculate flux and energy
-    wav1 = sp2826.tag00.wvl[39]
-    wav2 = sp2826.tag00.wvl[44]
-    w1 = string(wav1, format = '(I0)')
-    w2 = string(wav2, format = '(I0)')
     if (j eq 19) then begin
         iris_radiometric_calibration, qkbalmer, wave = [wav1, wav2], n_pixels = 10, Fbalmerqk, Ebalmerqk, /sg
+        Fbalmerqk = Fbalmerqk - fbkbalm
+        Ebalmerqk = Ebalmerqk - ebkbalm
     endif
     com = 'iris_radiometric_calibration,rbbalmer'+jj+',wave=['+w1+','+w2+'],n_pixels=10,Fbalmerrb'+jj+',Ebalmerrb'+jj+',/sg'
+    exe = execute(com)
+
+    com = 'Fbalmerrb'+jj+' = Fbalmerrb'+jj+' - fbkbalm'
+    exe = execute(com)
+    com = 'Ebalmerrb'+jj+' = Ebalmerrb'+jj+' - ebkbalm'
     exe = execute(com)
 
 
