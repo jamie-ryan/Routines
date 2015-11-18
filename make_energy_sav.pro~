@@ -103,8 +103,8 @@ endfor
 bksia = fltarr(2,6)
 bksip = fltarr(2,6)
 bkmgp = fltarr(2,6)
-bksia[0,0] = 472.74468
-bksia[1,0] = 215.48495
+bksia[0,0] = 472.74468 ;x
+bksia[1,0] = 215.48495 ;y
 bksia[0,1] = 517.20386    
 bksia[1,1] = 213.44085
 bksia[0,2] = 574.43865     
@@ -116,11 +116,11 @@ bksia[1,4] = 327.39942
 bksia[0,5] = 471.72263      
 bksia[1,5] = 329.95454
 
-for i = 0, n_elements(bksip[0,*]) do begin
-bksip[0, i] = convert_coord_iris(bksia, sji_1400_hdr[495], /x, /a2p)
-bksip[1, i] = convert_coord_iris(bksia, sji_1400_hdr[495], /y, /a2p)
-bkmgp[0, i] = convert_coord_iris(bksia, sji_2796_hdr[495], /x, /a2p)
-bkmgp[1, i] = convert_coord_iris(bksia, sji_2796_hdr[495], /y, /a2p)
+for i = 0, n_elements(bksip[0,*]) - 1 do begin
+bksip[0, i] = convert_coord_iris(bksia[0,i], sji_1400_hdr[495], /x, /a2p)
+bksip[1, i] = convert_coord_iris(bksia[1,i], sji_1400_hdr[495], /y, /a2p)
+bkmgp[0, i] = convert_coord_iris(bksia[0,i], sji_2796_hdr[661], /x, /a2p)
+bkmgp[1, i] = convert_coord_iris(bksia[1,i], sji_2796_hdr[661], /y, /a2p)
 endfor
 
 dnbksi = total(map1400[495].data[bksip[0,*], bksip[1,*]])/n_elements(bksip[0,*])
