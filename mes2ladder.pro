@@ -1,4 +1,4 @@
-pro justladder, date
+pro mes2ladder, date
 
 restore,'29-Mar-2014-bk subtracted-iris-hmi-energies-'+date+'.sav'
 
