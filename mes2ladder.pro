@@ -1,6 +1,6 @@
-pro mes2ladder, date
+pro mes2ladder
 
-restore,'29-Mar-2014-bk subtracted-iris-hmi-energies-'+date+'.sav'
+restore,'29-Mar-2014-bk subtracted-iris-hmi-energies-Nov20.sav'
 
 npix = 10
 frame = 2
