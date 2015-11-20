@@ -155,7 +155,7 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     for j = 0, n_elements(tagarr)-1 do begin
         com = 'tmp[j] = total(sp2826.'+tagarr[j]+'.int[39:44, balmerdata[0, 0, i, j], balmerdata[0, 1, i, j]])/(44-39)' ;include quake area based on my iris spectra calculation
         exe = execute(com)
-        com = 'tbalm[0, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[qkslitp[j]]'
+        com = 'tbalm[0, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[0, 0, i, j]]'
         exe = execute(com)
     endfor
     iris_radiometric_calibration, tmp - dnbkb, wave=[wav1,wav2], n_pixels=1, f, e, /sg
@@ -164,7 +164,7 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     for j = 0, n_elements(tagarr)-1 do begin
         com = 'tmp[j] = total(sp2826.'+tagarr[j]+'.int[39:44, balmerdata[1, 0, i, j], balmerdata[1, 1, i, j]])/(44-39)' ;include quake area based on my iris spectra calculation
         exe = execute(com)
-        com = 'tbalm[1, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[qkslitp[j]]'
+        com = 'tbalm[1, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[1, 0, i, j]]'
         exe = execute(com)
     endfor
     iris_radiometric_calibration, tmp - dnbkb, wave=[wav1,wav2], n_pixels=1, f, e, /sg
@@ -237,17 +237,16 @@ mgdata[1, 2, npt-1, *] = f
 mgdata[1, 3, npt-1, *] = e 
 
 ;;;iris 2825.7 to 2825.8 \AA\ (Balmer continuum) section
-qkslitp = find_iris_slit_pos(qkxa,sp2826)
-qkspyp = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
-balmerdata[0, 0, npt-1, *] = qkslitp
-balmerdata[0, 1, npt-1, *] = qkspyp
-balmerdata[1, 0, npt-1, *] = qkslitp
-balmerdata[1, 1, npt-1, *] = qkspyp
+
+balmerdata[0, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
+balmerdata[0, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+balmerdata[1, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
+balmerdata[1, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
 tmp = fltarr(n_elements(tagarr))
 for i = 0, n_elements(tagarr)-1 do begin
-    com = 'tbalm[0, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[qkslitp[i]]'
+    com = 'tbalm[0, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerdata[0, 0, npt-1, i]]'
     exe = execute(com)
-    com = 'tbalm[1, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[qkslitp[i]]'
+    com = 'tbalm[1, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerdata[1, 0, npt-1, i]]'
     exe = execute(com)
     com = 'tmp[i] = total(sp2826.'+tagarr[i]+'.int[39:44, qkslitp[i], qkspyp[i]])/((44-39)*2)' 
     exe = execute(com)
