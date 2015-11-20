@@ -39,7 +39,7 @@ wav2 = sp2826.tag00.wvl[44]
 ;;;set time series to run from 17:20 to 17:55 
 tsi = map1400.time ;[]
 tmg = submg.time ;[]
-tbalm = strarr(n_elements(tagarr))
+tbalm = strarr(time_frames, npt, n_elements(tagarr)) ;balmer time array, each column couples with the corresponding e and f columns in balmerdata 
 tmgw = diff2832.time ;[]
 thmi = diff.time ;[]
 
@@ -155,12 +155,16 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     for j = 0, n_elements(tagarr)-1 do begin
         com = 'tmp[j] = total(sp2826.'+tagarr[j]+'.int[39:44, balmerdata[0, 0, i, j], balmerdata[0, 1, i, j]])/(44-39)' ;include quake area based on my iris spectra calculation
         exe = execute(com)
+        com = 'tbalm[0, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[qkslitp[j]]'
+        exe = execute(com)
     endfor
     iris_radiometric_calibration, tmp - dnbkb, wave=[wav1,wav2], n_pixels=1, f, e, /sg
     balmerdata[0, 2, i, *] = f
     balmerdata[0, 3, i, *] = e
     for j = 0, n_elements(tagarr)-1 do begin
         com = 'tmp[j] = total(sp2826.'+tagarr[j]+'.int[39:44, balmerdata[1, 0, i, j], balmerdata[1, 1, i, j]])/(44-39)' ;include quake area based on my iris spectra calculation
+        exe = execute(com)
+        com = 'tbalm[1, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[qkslitp[j]]'
         exe = execute(com)
     endfor
     iris_radiometric_calibration, tmp - dnbkb, wave=[wav1,wav2], n_pixels=1, f, e, /sg
@@ -241,7 +245,9 @@ balmerdata[1, 0, npt-1, *] = qkslitp
 balmerdata[1, 1, npt-1, *] = qkspyp
 tmp = fltarr(n_elements(tagarr))
 for i = 0, n_elements(tagarr)-1 do begin
-    com = 'tbalm[i] = sp2826.'+tagarr[i]+'.time_ccsds[qkslitp[i]]'
+    com = 'tbalm[0, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[qkslitp[i]]'
+    exe = execute(com)
+    com = 'tbalm[1, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[qkslitp[i]]'
     exe = execute(com)
     com = 'tmp[i] = total(sp2826.'+tagarr[i]+'.int[39:44, qkslitp[i], qkspyp[i]])/((44-39)*2)' 
     exe = execute(com)
@@ -293,6 +299,6 @@ tmg, $
 tbalm, $
 tmgw, $
 thmi, $
-filename = '29-Mar-2014-bk subtracted-energies-'+date+'.sav'
+filename = '29-Mar-2014-bk subtracted-iris-hmi-energies-'+date+'.sav'
 toc
 end
