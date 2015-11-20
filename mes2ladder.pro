@@ -380,11 +380,11 @@ for j = 0, frame-1 do begin
       yy = string(hmicoords1[1,i], format = '(F0.2)')
       xy = xx+', '+yy
 
-      si = string(sidata[j,i,495], format = '(E0.2)')
-      mg = string(mgdata[j,i,661], format = '(E0.2)')
-      balm = string(balmerdata[j,i,173], format = '(E0.2)')
-      hmi = string(hmidata[j,i,62], format = '(E0.2)')
-      mgw = string(mgwdata[j,i,166], format = '(E0.2)')
+      si = string(sidata[j,3,i,495], format = '(E0.2)')
+      mg = string(mgdata[j,3,i,661], format = '(E0.2)')
+      balm = string(balmerdata[j,3,i,173], format = '(E0.2)')
+      hmi = string(hmidata[j,3,i,62], format = '(E0.2)')
+      mgw = string(mgwdata[j,3,i,166], format = '(E0.2)')
       ;fltarr(frame,npix,n_elements(tsi))
       printf, lun, '17:45 & '+sixy+' & '+si+' & '+mgxy+' & '+mg+' & '+balmxy+' & '+balm+' & '+mgwxy+' & '+mgw+' & '+xy+' & '+hmi+'\\'
     endif
