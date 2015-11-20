@@ -298,6 +298,6 @@ tmg, $
 tbalm, $
 tmgw, $
 thmi, $
-filename = '29-Mar-2014-bk subtracted-iris-hmi-energies-'+date+'.sav'
+filename = '29-Mar-2014-bk-subtracted-iris-hmi-energies-'+date+'.sav'
 toc
 end
