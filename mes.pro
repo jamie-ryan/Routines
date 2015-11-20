@@ -248,7 +248,7 @@ for i = 0, n_elements(tagarr)-1 do begin
     exe = execute(com)
     com = 'tbalm[1, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerdata[1, 0, npt-1, i]]'
     exe = execute(com)
-    com = 'tmp[i] = total(sp2826.'+tagarr[i]+'.int[39:44, qkslitp[i], qkspyp[i]])/((44-39)*2)' 
+    com = 'tmp[i] = total(sp2826.'+tagarr[i]+'.int[39:44, balmerdata[0, 0, npt-1, i], qkspyp[i]])/((44-39)*2)' 
     exe = execute(com)
 endfor
 iris_radiometric_calibration, tmp, wave=[wav1,wav2], n_pixels=1, f, e, /sg
