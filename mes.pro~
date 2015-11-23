@@ -1,5 +1,8 @@
 pro mes
 
+;to do:
+;1)qkarea instaed of single pixel
+
 ;time_frames = the number of time frames that ribbon coords have been sampled from.
 ;nsi, nmg, nbalm, nmgw, nhim are the number of ribbon coords for each data set. I think this is the bast way, as each data set has different sized ribbons, therefore it is unreasonable to assume that one spatial coord could relate to that of another dataset. So instead, I am going to produce high resolution energy distribution plots for each dataset, looking for common features. This approach should help to highlight regions in each dataset-ribbons that are related. i.e, there's a peak here and a trough to the right, there's the same feature in the ribbon above and below (in altitude)
 
