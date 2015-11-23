@@ -172,6 +172,10 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     a=0
     balmint = fltarr(8, 1093, n_elements(tagarr))
     for j = 0, n_elements(tagarr)-1 do begin
+        com = 'tbalm[0, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[0, 0, i, j]]'
+        exe = execute(com)
+        com = 'tbalm[1, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[1, 0, i, j]]'
+        exe = execute(com)
         for l = 39, 44 do begin
             com = 'a = a + sp2826.'+tagarr[j]+'.int[l, *, *]'
             exe = execute(com)
@@ -180,16 +184,12 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
         a = a/(44 - 39)
         balmint[*,*,j] = a - dnbkb
     endfor    
-
-        tmp0 = fltarr(n_elements(tagarr))
-        tmp1 = fltarr(n_elements(tagarr))
+    tmp0 = fltarr(n_elements(tagarr))
+    tmp1 = fltarr(n_elements(tagarr))
+    balmerdata[where(balmerdata eq 1092.00, /null)] = 422.000 ;remove bad coords
     for j = 0, n_elements(tagarr) - 1 do begin
-        tmp0[j] = sumarea(balmint, balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius, /sg)
-        tmp1[j] = sumarea(balmint, balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius, /sg)
-        com = 'tbalm[0, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[0, 0, i, j]]'
-        exe = execute(com)
-        com = 'tbalm[1, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[1, 0, i, j]]'
-        exe = execute(com)
+        tmp0[j] = sumarea(balmint[*,*,j], balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius, /sg)
+        tmp1[j] = sumarea(balmint[*,*,j], balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius, /sg)
     endfor
     iris_radiometric_calibration, tmp0, wave=[wav1,wav2], n_pixels=1, f, e, /sg
     balmerdata[0, 2, i, *] = f
