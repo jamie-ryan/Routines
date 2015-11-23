@@ -273,10 +273,10 @@ balmerdata[0, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
 balmerdata[0, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
 balmerdata[1, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
 balmerdata[1, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
-tmp = 0
+tmp = fltarr(n_elements(tagarr))
 a=0
 for i = 0, n_elements(tagarr)-1 do begin
-    tmp = sumarea(balmint[*,*,i], balmerdata[0, 0, npt-1, i], balmerdata[0, 1, npt-1, i], iradius, /sg)
+    tmp[i] = sumarea(balmint[*,*,i], balmerdata[0, 0, npt-1, i], balmerdata[0, 1, npt-1, i], iradius, /sg)
     com = 'tbalm[0, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerdata[0, 0, npt-1, i]]'
     exe = execute(com)
     com = 'tbalm[1, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerdata[1, 0, npt-1, i]]'
