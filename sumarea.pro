@@ -36,7 +36,7 @@ if (sz[0] eq 3) then begin
 
     ;construct pixel area array based on radius
     if keyword_set(sg) then area = array[xcp, ycp - radius : ycp + radius, *] $
-    else area = array[xcp - xradius : xcp + xradius, ycp - radius : ycp + radius, *]
+    else area = array[xcp - radius : xcp + radius, ycp - radius : ycp + radius, *]
 
     ;removes negative values in array, handy for differenced data
     area[where(array lt 0, /null)] = 0
