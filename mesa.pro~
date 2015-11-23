@@ -179,8 +179,13 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
         a = reform(a)
         a = a/(44 - 39)
         balmint[*,*,j] = a - dnbkb
-        tmp0 = sumarea(balmint[*,*,j], balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius, /sg)
-        tmp1 = sumarea(balmint[*,*,j], balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius, /sg)
+    endfor    
+
+        tmp0 = fltarr(n_elements(tagarr))
+        tmp1 = fltarr(n_elements(tagarr))
+    for j = 0, n_elements(tagarr) - 1 do begin
+        tmp0 = sumarea(balmint, balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius, /sg)
+        tmp1 = sumarea(balmint, balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius, /sg)
         com = 'tbalm[0, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[0, 0, i, j]]'
         exe = execute(com)
         com = 'tbalm[1, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[1, 0, i, j]]'
