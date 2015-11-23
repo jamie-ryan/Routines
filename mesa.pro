@@ -179,8 +179,8 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
         a = reform(a)
         a = a/(44 - 39)
         balmint[*,*,j] = a - dnbkb
-        tmp0 = sumarea(balmint[*,*,j], balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius)
-        tmp1 = sumarea(balmint[*,*,j], balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius)
+        tmp0 = sumarea(balmint[*,*,j], balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius, /sg)
+        tmp1 = sumarea(balmint[*,*,j], balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius, /sg)
         com = 'tbalm[0, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[0, 0, i, j]]'
         exe = execute(com)
         com = 'tbalm[1, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[1, 0, i, j]]'
@@ -268,16 +268,16 @@ balmerdata[0, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
 balmerdata[0, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
 balmerdata[1, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
 balmerdata[1, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
-tmp = fltarr(n_elements(tagarr))
+tmp = 0
+a=0
 for i = 0, n_elements(tagarr)-1 do begin
+    tmp = sumarea(balmint[*,*,i], balmerdata[0, 0, npt-1, i], balmerdata[0, 1, npt-1, i], iradius, /sg)
     com = 'tbalm[0, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerdata[0, 0, npt-1, i]]'
     exe = execute(com)
     com = 'tbalm[1, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerdata[1, 0, npt-1, i]]'
     exe = execute(com)
-    com = 'tmp[i] = total(sp2826.'+tagarr[i]+'.int[39:44, balmerdata[0, 0, npt-1, i], balmerdata[0, 1, npt-1, i]])/((44-39)*2)' 
-    exe = execute(com)
 endfor
-iris_radiometric_calibration, tmp - dnbkb, wave=[wav1,wav2], n_pixels=1, f, e, /sg
+iris_radiometric_calibration, tmp, wave=[wav1,wav2], n_pixels = 1+2*iradius, f, e, /sg
 balmerdata[0, 2, npt-1, *] = f
 balmerdata[0, 3, npt-1, *] = e
 balmerdata[1, 2, npt-1, *] = f
