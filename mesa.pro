@@ -1,4 +1,4 @@
-pro mes
+pro mesa
 
 ;to do:
 ;1)qkarea instaed of single pixel
@@ -144,12 +144,12 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     mgdata[0, 1, i, *] = convert_coord_iris(mgcoords1[1, i], sji_2796_hdr[661], /y, /a2p) 
     mgdata[1, 0, i, *] = convert_coord_iris(mgcoords2[0, i], sji_2796_hdr[664], /x, /a2p)  
     mgdata[1, 1, i, *] = convert_coord_iris(mgcoords2[1, i], sji_2796_hdr[664], /y, /a2p)
-    tmp = submg.data[mgdata[0, 0, i, 0], mgdata[0, 1, i, 0]] - dnbkmg
-    iris_radiometric_calibration, tmp, wave = 2796., n_pixels = 1, f, e, /sji
+    tmp = sumarea(submg.data - dnbkmg, mgdata[0, 0, i, 0], mgdata[0, 1, i, 0], iradius)
+    iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, /sji
     mgdata[0, 2, i, *] = f
     mgdata[0, 3, i, *] = e
-    tmp = submg.data[mgdata[1, 0, i, 0], mgdata[1, 1, i, 0]] - dnbkmg
-    iris_radiometric_calibration, tmp, wave = 2796., n_pixels = 1, f, e, /sji
+    tmp = sumarea(submg.data - dnbkmg, mgdata[1, 0, i, 0], mgdata[1, 1, i, 0], iradius)
+    iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, /sji
     mgdata[1, 2, i, *] = f
     mgdata[1, 3, i, *] = e 
 
@@ -164,37 +164,50 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
        exe = execute(com)
     endfor
     dnbkb = total(tmp)/(20) ;take average for bk
-    tmp = fltarr(n_elements(tagarr))
+
+
+;;;;;;;;;test bed
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+    tmp = 0
+    a=0
+    balmint = fltarr(8, 1093, n_elements(tagarr))
     for j = 0, n_elements(tagarr)-1 do begin
-        com = 'tmp[j] = total(sp2826.'+tagarr[j]+'.int[39:44, balmerdata[0, 0, i, j], balmerdata[0, 1, i, j]])/(44-39)' ;include quake area based on my iris spectra calculation
-        exe = execute(com)
+        for l = 39, 44 do begin
+            com = 'a = a + sp2826.'+tagarr[j]+'.int[l, *, *]'
+            exe = execute(com)
+        endfor
+        a = reform(a)
+        a = a/(44 - 39)
+        balmint[*,*,j] = a - dnbkb
+        tmp0 = sumarea(balmint[*,*,j], balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius)
+        tmp1 = sumarea(balmint[*,*,j], balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius)
         com = 'tbalm[0, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[0, 0, i, j]]'
-        exe = execute(com)
-    endfor
-    iris_radiometric_calibration, tmp - dnbkb, wave=[wav1,wav2], n_pixels=1, f, e, /sg
-    balmerdata[0, 2, i, *] = f
-    balmerdata[0, 3, i, *] = e
-    for j = 0, n_elements(tagarr)-1 do begin
-        com = 'tmp[j] = total(sp2826.'+tagarr[j]+'.int[39:44, balmerdata[1, 0, i, j], balmerdata[1, 1, i, j]])/(44-39)' ;include quake area based on my iris spectra calculation
         exe = execute(com)
         com = 'tbalm[1, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[1, 0, i, j]]'
         exe = execute(com)
     endfor
-    iris_radiometric_calibration, tmp - dnbkb, wave=[wav1,wav2], n_pixels=1, f, e, /sg
+    iris_radiometric_calibration, tmp0, wave=[wav1,wav2], n_pixels=1, f, e, /sg
+    balmerdata[0, 2, i, *] = f
+    balmerdata[0, 3, i, *] = e
+    iris_radiometric_calibration, tmp1, wave=[wav1,wav2], n_pixels=1, f, e, /sg
     balmerdata[1, 2, i, *] = f
     balmerdata[1, 3, i, *] = e
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+    
 
     ;;;iris 2832 \AA\ section
     mgwdata[0, 0, i, *] = convert_coord_iris(mgwcoords1[0, i], sji_2832_hdr[166], /x, /a2p)
     mgwdata[0, 1, i, *] = convert_coord_iris(mgwcoords1[1, i], sji_2832_hdr[166], /y, /a2p)
     mgwdata[1, 0, i, *] = convert_coord_iris(mgwcoords2[0, i], sji_2832_hdr[167], /x, /a2p) 
     mgwdata[1, 1, i, *] = convert_coord_iris(mgwcoords2[1, i], sji_2832_hdr[167], /y, /a2p)
-    tmp = diff2832.data[mgwdata[0, 0, i, 0], mgwdata[0, 1, i, 0]]
-    iris_radiometric_calibration, tmp, wave = 2832., n_pixels = 1, f, e, /sji
+    tmp = sumarea(diff2832.data, mgwdata[0, 0, i, 0], mgwdata[0, 1, i, 0], iradius)
+    iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, /sji
     mgwdata[0, 2, i, *] = f
     mgwdata[0, 3, i, *] = e
-    tmp = diff2832.data[mgwdata[1, 0, i, 0], mgwdata[1, 1, i, 0]]
-    iris_radiometric_calibration, tmp, wave = 2832., n_pixels = 1, f, e, /sji
+    tmp = sunarea(diff2832.data, mgwdata[1, 0, i, 0], mgwdata[1, 1, i, 0], iradius)
+    iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, /sji
     mgwdata[1, 2, i, *] = f
     mgwdata[1, 3, i, *] = e
 
@@ -203,12 +216,12 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     hmidata[0, 1, i, *] = convert_coord_hmi(hmicoords1[1, i], diffindex[62],  /y, /a2p)
     hmidata[1, 0, i, *] = convert_coord_hmi(hmicoords2[0, i], diffindex[63],  /x, /a2p)
     hmidata[1, 1, i, *] = convert_coord_hmi(hmicoords2[1, i], diffindex[63],  /y, /a2p)
-    tmp = diff.data[hmidata[0, 0, i, 0], hmidata[0, 1, i, 0]]
-    hmi_radiometric_calibration, tmp, n_pixels = 1, f, e
+    tmp = sumarea(diff.data, hmidata[0, 0, i, 0], hmidata[0, 1, i, 0], sradius)
+    hmi_radiometric_calibration, tmp, n_pixels = snp, f, e
     hmidata[0, 2, i, *] = f
     hmidata[0, 3, i, *] = e
-    tmp = diff.data[hmidata[1, 0, i, 0], hmidata[1, 1, i, 0]]
-    hmi_radiometric_calibration, tmp, n_pixels = 1, f, e
+    tmp = sumarea(diff.data, hmidata[1, 0, i, 0], hmidata[1, 1, i, 0], sradius)
+    hmi_radiometric_calibration, tmp, n_pixels = snp, f, e
     hmidata[1, 2, i, *] = f
     hmidata[1, 3, i, *] = e
 endfor
@@ -226,12 +239,12 @@ sidata[0, 0, npt-1, *] = convert_coord_iris(qkxa, sji_1400_hdr[498], /x, /a2p)
 sidata[0, 1, npt-1, *] = convert_coord_iris(qkya, sji_1400_hdr[498], /y, /a2p)
 sidata[1, 0, npt-1, *] = convert_coord_iris(qkxa, sji_1400_hdr[498], /x, /a2p)
 sidata[1, 1, npt-1, *] = convert_coord_iris(qkya, sji_1400_hdr[498], /y, /a2p)
-tmp = map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]]
-iris_radiometric_calibration, tmp, wave = 1400., n_pixels = 1, f, e, /sji
+tmp = sumarea(map1400.data - dnbksi, sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0], iradius)
+iris_radiometric_calibration, tmp, wave = 1400., n_pixels = inp, f, e, /sji
 sidata[0, 2, npt-1, *] = f
 sidata[0, 3, npt-1, *] = e
-tmp = map1400.data[sidata[1, 0, npt-1, 0], sidata[1, 1, i, 0]]
-iris_radiometric_calibration, tmp, wave = 1400., n_pixels = 1, f, e, /sji
+tmp = sumarea(map1400.data - dnbksi, sidata[1, 0, npt-1, 0], sidata[1, 1, i, 0], iradius)
+iris_radiometric_calibration, tmp, wave = 1400., n_pixels = inp, f, e, /sji
 sidata[1, 2, npt-1, *] = f
 sidata[1, 3, npt-1, *] = e
 
@@ -240,12 +253,12 @@ mgdata[0, 0, npt-1, *] = convert_coord_iris(qkxa, sji_2796_hdr[664], /x, /a2p)
 mgdata[0, 1, npt-1, *] = convert_coord_iris(qkya, sji_2796_hdr[664], /y, /a2p)
 mgdata[1, 0, npt-1, *] = convert_coord_iris(qkxa, sji_2796_hdr[664], /x, /a2p)
 mgdata[1, 1, npt-1, *] = convert_coord_iris(qkya, sji_2796_hdr[664], /y, /a2p)
-tmp = submg.data[mgdata[0, 0, npt-1, 0], mgdata[0, 1, npt-1, 0]]
-iris_radiometric_calibration, tmp, wave = 2796., n_pixels = 1, f, e, /sji
+tmp = sumarea(submg.data - dnbkmg, mgdata[0, 0, npt-1, 0], mgdata[0, 1, npt-1, 0], iradius)
+iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, /sji
 mgdata[0, 2, npt-1, *] = f
 mgdata[0, 3, npt-1, *] = e
-tmp = submg.data[mgdata[1, 0, npt-1, 0], mgdata[1, 1, npt-1, 0]]
-iris_radiometric_calibration, tmp, wave = 2796., n_pixels = 1, f, e, /sji
+tmp = sumarea(submg.data - dnbkmg, mgdata[1, 0, npt-1, 0], mgdata[1, 1, npt-1, 0], iradius)
+iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, /sji
 mgdata[1, 2, npt-1, *] = f
 mgdata[1, 3, npt-1, *] = e 
 
@@ -264,7 +277,7 @@ for i = 0, n_elements(tagarr)-1 do begin
     com = 'tmp[i] = total(sp2826.'+tagarr[i]+'.int[39:44, balmerdata[0, 0, npt-1, i], balmerdata[0, 1, npt-1, i]])/((44-39)*2)' 
     exe = execute(com)
 endfor
-iris_radiometric_calibration, tmp, wave=[wav1,wav2], n_pixels=1, f, e, /sg
+iris_radiometric_calibration, tmp - dnbkb, wave=[wav1,wav2], n_pixels=1, f, e, /sg
 balmerdata[0, 2, npt-1, *] = f
 balmerdata[0, 3, npt-1, *] = e
 balmerdata[1, 2, npt-1, *] = f
@@ -275,12 +288,12 @@ mgwdata[0, 0, npt-1, *] = convert_coord_iris(qkxa, sji_2832_hdr[167], /x, /a2p)
 mgwdata[0, 1, npt-1, *] = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
 mgwdata[1, 0, npt-1, *] = convert_coord_iris(qkxa, sji_2832_hdr[167], /x, /a2p)
 mgwdata[1, 1, npt-1, *] = convert_coord_iris(qkya, sji_2832_hdr[167], /y, /a2p)
-tmp = diff2832.data[mgwdata[0, 0, npt-1, 0], mgwdata[0, 1, npt-1, 0]]
-iris_radiometric_calibration, tmp, wave = 2832., n_pixels = 1, f, e, /sji
+tmp = sumarea(diff2832.data, mgwdata[0, 0, npt-1, 0], mgwdata[0, 1, npt-1, 0], iradius)
+iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, /sji
 mgwdata[0, 2, npt-1, *] = f
 mgwdata[0, 3, npt-1, *] = e
-tmp = diff2832.data[mgwdata[1, 0, npt-1, 0], mgwdata[1, 1, npt-1, 0]]
-iris_radiometric_calibration, tmp, wave = 2832., n_pixels = 1, f, e, /sji
+tmp = sumarea(diff2832.data, mgwdata[1, 0, npt-1, 0], mgwdata[1, 1, npt-1, 0], iradius)
+iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, /sji
 mgwdata[1, 2, npt-1, *] = f
 mgwdata[1, 3, npt-1, *] = e
 
@@ -289,12 +302,12 @@ hmidata[0, 0, npt-1, *] = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p) ;npt
 hmidata[0, 1, npt-1, *] = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
 hmidata[1, 0, npt-1, *] = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p)
 hmidata[1, 1, npt-1, *] = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
-tmp = diff.data[hmidata[0, 0, npt-1, 0], hmidata[0, 1, npt-1, 0]]
-hmi_radiometric_calibration, tmp, n_pixels = 1, f, e
+tmp = sumarea(diff.data, hmidata[0, 0, npt-1, 0], hmidata[0, 1, npt-1, 0], sradius)
+hmi_radiometric_calibration, tmp, n_pixels = snp, f, e
 hmidata[0, 2, npt-1, *] = f
 hmidata[0, 3, npt-1, *] = e
-tmp = diff.data[hmidata[1, 0, npt-1, 0], hmidata[1, 1, npt-1, 0]]
-hmi_radiometric_calibration, tmp, n_pixels = 1, f, e
+tmp = sumarea(diff.data, hmidata[1, 0, npt-1, 0], hmidata[1, 1, npt-1, 0], sradius)
+hmi_radiometric_calibration, tmp, n_pixels = snp, f, e
 hmidata[1, 2, npt-1, *] = f
 hmidata[1, 3, npt-1, *] = e
 
@@ -311,6 +324,6 @@ tmg, $
 tbalm, $
 tmgw, $
 thmi, $
-filename = '29-Mar-2014-bk-subtracted-iris-hmi-energies-'+date+'.sav'
+filename = '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 toc
 end
