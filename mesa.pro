@@ -184,7 +184,7 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     endfor    
     tmp0 = fltarr(n_elements(tagarr))
     tmp1 = fltarr(n_elements(tagarr))
-    balmerdata[where(balmerdata[0,1,i,*] eq 1092.00, /null)] = 422.000 ;remove bad coords
+    balmerdata[where(balmerdata[0,1,*,*] eq 1092.00, /null)] = 422.000 ;remove bad coords
     for j = 0, n_elements(tagarr) - 1 do begin
         tmp0[j] = sumarea(balmint[*,*,j], balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius, /sg)
         tmp1[j] = sumarea(balmint[*,*,j], balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius, /sg)
