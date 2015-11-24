@@ -44,7 +44,7 @@ for j = 0, frame-1 do begin
         yy = string(hmicoords2[1,i], format = '(I0)')
 
         ;used hmi coords as reference point
-        fff = '29-Mar-14-Ribbon-xyPosition-'+xx+'-'+yy+'-Frame-'+jj+'-Energy-Ladder.eps'
+        fff = '29-Mar-14-Ribbon-xyPosition-'+xx+'-'+yy+'-Frame-'+jj+'-Area-Energy-Ladder.eps'
         jjj = string(j+1, format = '(I0)')
         titl = '29-Mar-14-Ribbon--Energy-hmicoords'+jjj+'-'+xx+'-'+yy
         mydevice=!d.name
@@ -188,7 +188,7 @@ endfor
 
 mydevice=!d.name
 set_plot,'ps'
-device,filename='29-Mar-14-Quake-Energy-Ladder.eps',/portrait,/encapsulated, decomposed=0,color = 1  , bits=8
+device,filename='29-Mar-14-Quake-Area-Energy-Ladder.eps',/portrait,/encapsulated, decomposed=0,color = 1  , bits=8
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
@@ -324,7 +324,7 @@ set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;make latex table file
-openw, lun, 'energy-table.tex', /get_lun
+openw, lun, 'area-energy-table.tex', /get_lun
 printf, lun, '\begin{table}'
 printf, lun, '\centering'
 printf, lun, '\begin{tabular}{|c|c|c|c|c|c|c|c|}'

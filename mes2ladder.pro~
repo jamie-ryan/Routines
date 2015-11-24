@@ -44,7 +44,7 @@ for j = 0, frame-1 do begin
         yy = string(hmicoords2[1,i], format = '(I0)')
 
         ;used hmi coords as reference point
-        fff = '29-Mar-14-Ribbon-xyPosition-'+xx+'-'+yy+'-Frame-'+jj+'-Energy-Ladder.eps'
+        fff = '29-Mar-14-Ribbon-xyPosition-'+xx+'-'+yy+'-Frame-'+jj+'-Area-Energy-Ladder.eps'
         jjj = string(j+1, format = '(I0)')
         titl = '29-Mar-14-Ribbon--Energy-hmicoords'+jjj+'-'+xx+'-'+yy
         mydevice=!d.name
@@ -188,7 +188,7 @@ endfor
 
 mydevice=!d.name
 set_plot,'ps'
-device,filename='29-Mar-14-Quake-Energy-Ladder.eps',/portrait,/encapsulated, decomposed=0,color = 1  , bits=8
+device,filename='29-Mar-14-Quake-Area-Energy-Ladder.eps',/portrait,/encapsulated, decomposed=0,color = 1  , bits=8
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
@@ -417,7 +417,7 @@ for j = 0, frame-1 do begin
 
     if (j eq 1) && (i eq npix-1) then begin
       printf, lun, '\end{tabular}'
-      printf, lun, '\caption{Coordinates and Energies at 17:45 and 17:46 for ribbon sample locations.}\label{ribenergytab}'
+      printf, lun, '\caption{Coordinates and Energies at 17:45 and 17:46 for ribbon sample locations. Energies are calculated from pixel locations associated with an area comparable to that of the sunquake impact.}\label{ribenergytab}'
       printf, lun, '\end{sidewaystable}'
     endif
   endfor
