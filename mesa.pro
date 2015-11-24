@@ -145,6 +145,7 @@ balmerdata[0, 0, npt-1, *] = c
 c = 0
 
 c = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+c[where(c eq 1092.00, /null)] = 422.00 
 balmerdata[0, 1, npt-1, *] = c
 c = 0
 
@@ -153,6 +154,7 @@ balmerdata[1, 0, npt-1, *] = c
 c = 0
 
 c = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+c[where(c eq 1092.00, /null)] = 422.00 
 balmerdata[1, 1, npt-1, *] = c
 c = 0
 ;;;loop to fill data array coord columns and calculate flux' and energies. 
