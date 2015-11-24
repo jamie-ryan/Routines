@@ -1,8 +1,6 @@
 pro mesa
 
-;to do:
-;1)qkarea instaed of single pixel
-;
+
 ;tmp = total(map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]], $
 ;map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]]
 
@@ -186,7 +184,7 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     endfor    
     tmp0 = fltarr(n_elements(tagarr))
     tmp1 = fltarr(n_elements(tagarr))
-    balmerdata[where(balmerdata eq 1092.00, /null)] = 422.000 ;remove bad coords
+    balmerdata[where(balmerdata[0,1,i,*] eq 1092.00, /null)] = 422.000 ;remove bad coords
     for j = 0, n_elements(tagarr) - 1 do begin
         tmp0[j] = sumarea(balmint[*,*,j], balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius, /sg)
         tmp1[j] = sumarea(balmint[*,*,j], balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius, /sg)
@@ -273,6 +271,7 @@ balmerdata[0, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
 balmerdata[0, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
 balmerdata[1, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
 balmerdata[1, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+balmerdata[where(balmerdata[0,1,npt-1,*] eq 1092.00, /null)] = 422.000 ;remove bad coords
 tmp = fltarr(n_elements(tagarr))
 a=0
 for i = 0, n_elements(tagarr)-1 do begin
