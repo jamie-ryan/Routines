@@ -52,6 +52,9 @@ tbalm = strarr(time_frames, npt, n_elements(tagarr)) ;balmer time array, each co
 tmgw = diff2832.time ;[]
 thmi = diff.time ;[]
 
+;quake position 
+qkxa = 518.5 ;Donea et al 2014
+qkya = 264.0 ;Donea et al 2014
 
 
 ;;;background pixel locations for si and mg and balmer
@@ -116,6 +119,24 @@ endfor
 ;;;;use tmp, e and f arrays to save memory
 tmp = 0
 
+;sort out balmercoords problems...purge data of dodgy values (where statement below)
+for i = 0, n_elements(balmercoords1[0,*]) - 1 do begin
+    balmerdata[0, 0, i, *] = find_iris_slit_pos(balmercoords1[0, i],sp2826) 
+    balmerdata[0, 1, i, *] = find_iris_slit_pos(balmercoords1[1, i],sp2826, /y, /a2p) 
+    balmerdata[1, 0, i, *] = find_iris_slit_pos(balmercoords2[0, i],sp2826) 
+    balmerdata[1, 1, i, *] = find_iris_slit_pos(balmercoords2[1, i],sp2826, /y, /a2p) 
+
+endfor
+balmerdata[0, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
+balmerdata[0, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+balmerdata[1, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
+balmerdata[1, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+
+;purge dodgy values
+a = where(balmerdata eq 1092.00, ind)
+b = array_indices(balmerdata, a)
+balmerdata[where(balmerdata[b[0, *], b[1, *], b[2, 0], b[3, *]], /null)] = 422.00
+
 ;;;loop to fill data array coord columns and calculate flux' and energies. 
 for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
 
@@ -152,10 +173,6 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     mgdata[1, 3, i, *] = e 
 
     ;;;iris 2825.7 to 2825.8 \AA\ section (Balmer continuum)
-    balmerdata[0, 0, i, *] = find_iris_slit_pos(balmercoords1[0, i],sp2826) 
-    balmerdata[0, 1, i, *] = find_iris_slit_pos(balmercoords1[1, i],sp2826, /y, /a2p) 
-    balmerdata[1, 0, i, *] = find_iris_slit_pos(balmercoords2[0, i],sp2826) 
-    balmerdata[1, 1, i, *] = find_iris_slit_pos(balmercoords2[1, i],sp2826, /y, /a2p) 
     tmp = fltarr(20) ;bk array
     for k = 0, 19 do begin ;make bk data
        com = 'tmp[k] = total(sp2826.'+tagarr[129 + k]+'.int[39:44, balmerdata[0, 0, i, 129 + k], bkb])/(44-39)' ;balmer background
@@ -184,7 +201,6 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     endfor    
     tmp0 = fltarr(n_elements(tagarr))
     tmp1 = fltarr(n_elements(tagarr))
-    balmerdata[where(balmerdata[0,1,*,*] eq 1092.00, /null)] = 422.000 ;remove bad coords
     for j = 0, n_elements(tagarr) - 1 do begin
         tmp0[j] = sumarea(balmint[*,*,j], balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius, /sg)
         tmp1[j] = sumarea(balmint[*,*,j], balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius, /sg)
@@ -233,9 +249,6 @@ endfor
 ;Sunquake location fill data array coord columns and calculate flux' and energies.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;quake position 
-qkxa = 518.5 ;Donea et al 2014
-qkya = 264.0 ;Donea et al 2014
 
 ;;;iris 1400 \AA\ section
 sidata[0, 0, npt-1, *] = convert_coord_iris(qkxa, sji_1400_hdr[498], /x, /a2p)
@@ -267,11 +280,6 @@ mgdata[1, 3, npt-1, *] = e
 
 ;;;iris 2825.7 to 2825.8 \AA\ (Balmer continuum) section
 
-balmerdata[0, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
-balmerdata[0, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
-balmerdata[1, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
-balmerdata[1, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
-balmerdata[where(balmerdata[0,1,npt-1,*] eq 1092.00, /null)] = 422.000 ;remove bad coords
 tmp = fltarr(n_elements(tagarr))
 a=0
 for i = 0, n_elements(tagarr)-1 do begin
