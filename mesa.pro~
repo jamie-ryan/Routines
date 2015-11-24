@@ -211,7 +211,7 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, /sji
     mgwdata[0, 2, i, *] = f
     mgwdata[0, 3, i, *] = e
-    tmp = sunarea(diff2832.data, mgwdata[1, 0, i, 0], mgwdata[1, 1, i, 0], iradius)
+    tmp = sumarea(diff2832.data, mgwdata[1, 0, i, 0], mgwdata[1, 1, i, 0], iradius)
     iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, /sji
     mgwdata[1, 2, i, *] = f
     mgwdata[1, 3, i, *] = e
