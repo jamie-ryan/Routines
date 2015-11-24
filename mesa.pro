@@ -118,25 +118,43 @@ endfor
 
 ;;;;use tmp, e and f arrays to save memory
 tmp = 0
+c = 0
 
-;sort out balmercoords problems...purge data of dodgy values (where statement below)
+;sort out balmercoords problems...purge data of dodgy values
 for i = 0, n_elements(balmercoords1[0,*]) - 1 do begin
-    balmerdata[0, 0, i, *] = find_iris_slit_pos(balmercoords1[0, i],sp2826) 
-    balmerdata[0, 1, i, *] = find_iris_slit_pos(balmercoords1[1, i],sp2826, /y, /a2p) 
-    balmerdata[1, 0, i, *] = find_iris_slit_pos(balmercoords2[0, i],sp2826) 
-    balmerdata[1, 1, i, *] = find_iris_slit_pos(balmercoords2[1, i],sp2826, /y, /a2p) 
+    c = find_iris_slit_pos(balmercoords1[0, i],sp2826) 
+    balmerdata[0, 0, i, *] = c
+    c = 0
+ 
+    c = find_iris_slit_pos(balmercoords1[1, i],sp2826, /y, /a2p)
+    c[where(c eq 1092.00, /null)] = 422.00 
+    balmerdata[0, 1, i, *] = c
+    c = 0
 
+    c = find_iris_slit_pos(balmercoords2[0, i],sp2826) 
+    balmerdata[1, 0, i, *] = c
+    c = 0
+
+    c = find_iris_slit_pos(balmercoords2[1, i],sp2826, /y, /a2p)  
+    c[where(c eq 1092.00, /null)] = 422.00 
+    balmerdata[1, 1, i, *] = c 
+    c = 0
 endfor
-balmerdata[0, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
-balmerdata[0, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
-balmerdata[1, 0, npt-1, *] = find_iris_slit_pos(qkxa,sp2826)
-balmerdata[1, 1, npt-1, *] = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+c = find_iris_slit_pos(qkxa,sp2826)
+balmerdata[0, 0, npt-1, *] = c
+c = 0
 
-;purge dodgy values
-a = where(balmerdata eq 1092.00, ind)
-b = array_indices(balmerdata, a)
-balmerdata[where(balmerdata[b[0, *], b[1, *], b[2, 0], b[3, *]], /null)] = 422.00
+c = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+balmerdata[0, 1, npt-1, *] = c
+c = 0
 
+c = find_iris_slit_pos(qkxa,sp2826)
+balmerdata[1, 0, npt-1, *] = c
+c = 0
+
+c = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+balmerdata[1, 1, npt-1, *] = c
+c = 0
 ;;;loop to fill data array coord columns and calculate flux' and energies. 
 for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
 
@@ -180,9 +198,6 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     endfor
     dnbkb = total(tmp)/(20) ;take average for bk
 
-
-;;;;;;;;;test bed
-;;;;;;;;;;;;;;;;;;;;;;;;;;
     tmp = 0
     a=0
     balmint = fltarr(8, 1093, n_elements(tagarr))
@@ -211,10 +226,6 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     iris_radiometric_calibration, tmp1, wave=[wav1,wav2], n_pixels=1, f, e, /sg
     balmerdata[1, 2, i, *] = f
     balmerdata[1, 3, i, *] = e
-
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;
-    
 
     ;;;iris 2832 \AA\ section
     mgwdata[0, 0, i, *] = convert_coord_iris(mgwcoords1[0, i], sji_2832_hdr[166], /x, /a2p)
@@ -279,7 +290,6 @@ mgdata[1, 2, npt-1, *] = f
 mgdata[1, 3, npt-1, *] = e 
 
 ;;;iris 2825.7 to 2825.8 \AA\ (Balmer continuum) section
-
 tmp = fltarr(n_elements(tagarr))
 a=0
 for i = 0, n_elements(tagarr)-1 do begin
