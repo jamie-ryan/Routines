@@ -1,6 +1,6 @@
 pro mes2ladder
 
-restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Nov24-2015.sav'
+restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Nov25-2015.sav'
 
 npix = 10
 frame = 2
@@ -324,7 +324,7 @@ set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;make latex table file
-openw, lun, 'energy-table.tex', /get_lun
+openw, lun, 'area-energy-table.tex', /get_lun
 printf, lun, '\begin{table}'
 printf, lun, '\centering'
 printf, lun, '\begin{tabular}{|c|c|c|c|c|c|c|c|}'

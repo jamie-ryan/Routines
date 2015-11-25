@@ -23,7 +23,7 @@ if (sz[0] eq 2) then begin
     else area = array[xcp - radius : xcp + radius, ycp - radius : ycp + radius]
 
     ;removes negative values in array, handy for differenced data
-    area[where(array lt 0, /null)] = 0
+    area[where(area lt 0, /null)] = 0
 
     ;sum pixels in area
     result = total(area[*, *])

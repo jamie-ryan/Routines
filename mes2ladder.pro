@@ -1,6 +1,6 @@
 pro mes2ladder
 
-restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Nov24-2015.sav'
+restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Nov25-2015.sav'
 
 npix = 10
 frame = 2
@@ -82,7 +82,7 @@ for j = 0, frame-1 do begin
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
         titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
         ytitl = energy
-        utplot, tmg[595:*], mgdata[j, 3, i, 597:*], $ ;583
+        utplot, tmg[595:*], mgdata[j, 3, i, 595:*], $ ;583
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $
         ycharsize = 0.55 , $

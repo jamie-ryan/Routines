@@ -39,7 +39,7 @@ if (sz[0] eq 3) then begin
     else area = array[xcp - radius : xcp + radius, ycp - radius : ycp + radius, *]
 
     ;removes negative values in array, handy for differenced data
-    area[where(array lt 0, /null)] = 0
+    area[where(area lt 0, /null)] = 0
 
     ;loop to sum pixels in area for each time element
     for i = 0, sz[3] - 1 do begin
