@@ -1,6 +1,6 @@
 pro mes2ladder
 
-restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Nov25-2015.sav'
+restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Nov30-2015.sav'
 
 npix = 10
 frame = 2
@@ -51,14 +51,17 @@ for j = 0, frame-1 do begin
         set_plot,'ps'
         ;device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1  , bits=8, bits = 8
         device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1, bits = 8
+        
         o = 4
         xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
         title = titl
         ytitl = energy
+        linecolors
         utplot, tsi[447:*], sidata[j, 3, i, 447:*], $ ;sidata[time_frame, e, coord, t]
         base, $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+        psym = -2, $ 
         linestyle = 0, $
         ycharsize = 0.55, $
         xcharsize = 0.65, $
@@ -73,7 +76,7 @@ for j = 0, frame-1 do begin
         xmargin = [12,3], $
         position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]]
         loadct,3
-        vert_line,sec,1, color = 100
+        vert_line,sec,1, color = 2
         loadct,0
         xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
 
@@ -82,7 +85,8 @@ for j = 0, frame-1 do begin
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
         titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
         ytitl = energy
-        utplot, tmg[595:*], mgdata[j, 3, i, 597:*], $ ;583
+        linecolors
+        utplot, tmg[595:*], mgdata[j, 3, i, 595:*], $ ;583
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $
         ycharsize = 0.55 , $
@@ -99,7 +103,7 @@ for j = 0, frame-1 do begin
         position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
         /NoErase
         loadct,3
-        vert_line,sec,1, color = 100
+        vert_line,sec,1, color = 2
         loadct,0
         xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
 
@@ -110,6 +114,7 @@ for j = 0, frame-1 do begin
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
         titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
         ytitl = energy
+        linecolors
         utplot, tbalm[j, i, *], balmerdata[j, 3, i, *], $ ;tbalm[1, i, j]
         yrange = [mn, mx], $
         /yst, $
@@ -128,7 +133,7 @@ for j = 0, frame-1 do begin
         position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
         /NoErase
         loadct,3
-        vert_line,sec,1, color = 100
+        vert_line,sec,1, color = 2
         loadct,0
         xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
 
@@ -137,6 +142,7 @@ for j = 0, frame-1 do begin
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
         titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
         ytitl = energy
+        linecolors        
         utplot, tmgw[150:*], mgwdata[j, 3, i, 150:*], $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $
@@ -154,7 +160,7 @@ for j = 0, frame-1 do begin
         position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
         /NoErase
         loadct,3
-        vert_line,sec,1, color = 100
+        vert_line,sec,1, color = 2
         loadct,0
         xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
 
@@ -163,6 +169,7 @@ for j = 0, frame-1 do begin
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
         titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
         ytitl = energy
+        linecolors
         utplot, thmi[36:78], hmidata[j, 3, i, 36:78], $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
         linestyle = 0, $
@@ -178,7 +185,7 @@ for j = 0, frame-1 do begin
         position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
         /NoErase
         loadct,3
-        vert_line,sec,1, color = 100
+        vert_line,sec,1, color = 2
         loadct,0
         xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum', /norm
         device,/close
@@ -194,6 +201,7 @@ xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 titl = '29-Mar-14-Sunquake-Location-Energy-coords-518.5-264.0'
 ytitl = energy
+linecolors
 utplot, tsi[447:*], sidata[0, 3, npix, 447:*], $
 base, $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
@@ -211,7 +219,7 @@ XTICKFORMAT="(A1)", $
 xmargin = [12,3], $
 position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]]
 loadct,3
-vert_line,sec,1, color = 100
+vert_line,sec,1, color = 2
 loadct,0
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
 
@@ -220,7 +228,8 @@ xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 ;titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = energy
-utplot, tmg[595:*], mgdata[0, 3, npix, 597:*], $ ;583
+linecolors
+utplot, tmg[597:*], mgdata[0, 3, npix, 597:*], $ ;583
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
 ycharsize = 0.55 , $
@@ -237,7 +246,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 /NoErase
 loadct,3
-vert_line,sec,1, color = 100
+vert_line,sec,1, color = 2
 loadct,0
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
 
@@ -246,6 +255,7 @@ xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 ;titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = energy
+linecolors
 utplot, tbalm[0, npix, 12:*], balmerdata[0, 3, npix, 12:*], $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
@@ -263,7 +273,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 /NoErase
 loadct,3
-vert_line,sec,1, color = 100
+vert_line,sec,1, color = 2
 loadct,0
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
 
@@ -272,6 +282,7 @@ xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 ;titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = energy
+linecolors
 utplot, tmgw[150:*], mgwdata[0, 3, npix, 150:*], $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
@@ -289,7 +300,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 /NoErase
 loadct,3
-vert_line,sec,1, color = 100
+vert_line,sec,1, color = 2
 loadct,0
 xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
 
@@ -298,6 +309,7 @@ xyx = xpos[0] + 0.2*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 ;titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = energy
+linecolors
 utplot, thmi[36:78], hmidata[0, 3, npix, 36:78], $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
@@ -313,14 +325,26 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 loadct,3
-vert_line,sec,1, color = 100
+vert_line,sec,1, color = 2
 loadct,0
 xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum', /norm
 device,/close
 set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+openw, lun, 'bk-energy-table.tex', /get_lun
+printf, lun, '\begin{table}'
+printf, lun, '\centering'
+printf, lun, '\begin{tabular}{|c|c|c|}'
+printf, lun, 'Si IV & Mg II & Balmer Continuum \\'
+printf, lun, '\hline'
+bksi = string(dnbksi, format = '(E0.2)')
+bkmg = string(dnbkmg, format = '(E0.2)')
+bkb = string(dnbkb, format = '(E0.2)')
+printf, lun, ''+bksi+' & '+bkmg+' & '+bkb+'\\'
+printf, lun, '\end{tabular}'
+printf, lun, '\caption{Background radiation values in DN for IRIS Si IV, Mg II and Balmer continuum. }\label{bktab}'
+printf, lun, '\end{table}'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;make latex table file

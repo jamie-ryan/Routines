@@ -339,8 +339,11 @@ hmidata[1, 3, npt-1, *] = e
 save, $
 ;quake area
 sidata, $
+dnbksi, $
 mgdata, $
+dnbkmg, $
 balmerdata, $
+dnbkb, $
 mgwdata, $
 hmidata, $
 tsi, $
