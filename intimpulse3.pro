@@ -11,14 +11,17 @@ npt = 1 + (nrb/time_frames)
 ;analyse peak slope, function returns flag[0, *] = gradient, flag[1, *] = flag
 ;flag can have three values, 2 = +ve slope, 1 = -ve slope and 0 = zero slope
 ;the number of elements in each column contained in flag is based on n_elements(2*array[max:*]) 
+for j = 0, time_frames - 1 do begin
 for i = 0, npt - 1 do begin
 d = reform(sidata[j,3,i,*])
 pkslope, d, cadence[0], f, t1, t2, dt, e
 
-stri = {Si IV flag:f, tsi1:t1, tsi2:t2, dtsi:dt, esi:e}
-if i eq 0 then strt = {Si IV flag:f, tsi1:t1, tsi2:t2, dtsi:dt, esi:e} else $
+stri = {Siflag:f, tsi1:t1, tsi2:t2, dtsi:dt, esi:e}
+if i eq 0 then strt = {Siflag:f, tsi1:t1, tsi2:t2, dtsi:dt, esi:e} else $
 strt = create_struct(strt, stri)
 endfor
+endfor
+
 
 mgflag = pkslope(reform(mgdata[0,3,0,*]))
 balmflag = pkslope(reform(balmerdata[0,3,0,*]))

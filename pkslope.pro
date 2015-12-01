@@ -34,7 +34,7 @@ ledg = where(rflag[1,0:nlmt-1] eq 0.)
 t1 = ledg[n_elements(ledg)-1]
 t2 = nlmt-1+redg[0] 
 dt = t2 - t1
-t = fltarr(dt)
+t = fltarr(dt+1)
     for i = 0, dt - 1 do begin
         t[i] = i*cadence
     endfor
