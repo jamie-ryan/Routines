@@ -11,7 +11,10 @@ npt = 1 + (nrb/time_frames)
 ;analyse peak slope, function returns flag[0, *] = gradient, flag[1, *] = flag
 ;flag can have three values, 2 = +ve slope, 1 = -ve slope and 0 = zero slope
 ;the number of elements in each column contained in flag is based on n_elements(2*array[max:*]) 
-siflag = pkslope(sidata[0,3,0,*])
+siflag = pkslope(reform(sidata[0,3,0,*]))
+
+
+
 mgflag = pkslope(mgdata[0,3,0,*])
 balmflag = pkslope(balmerdata[0,3,0,*])
 mgwflag = pkslope(mgwdata[0,3,0,*])

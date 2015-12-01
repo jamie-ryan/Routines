@@ -17,10 +17,6 @@ balmflag = pkslope(balmerdata[0,3,0,*])
 mgwflag = pkslope(mgwdata[0,3,0,*])
 hmiflag = pkslope(hmidata[0,3,0,*])
 
-amx = max(a, ind)
-amxind = array_indices(a, ind)
-nlmt = n_elements(a[amxind:*])
-
 
 
 
