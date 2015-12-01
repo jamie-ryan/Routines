@@ -29,11 +29,20 @@ plot,a
 oplot,a-shift(a,1)
 
 
-
 b = abs(reform(deriv(mgdata[0,3,0,*]))) - reform(deriv(mgdata[0,3,0,*]))
 c = abs(reform(deriv(balmerdata[0,3,0,*])))
 d = abs(reform(deriv(mgwdata[0,3,0,*])))
 e = abs(reform(deriv(hmidata[0,3,0,*])))
+
+
+
+
+
+
+
+
+
+
 
 
 
