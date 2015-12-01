@@ -1,4 +1,4 @@
-pro pkslope, a, cadence, rflag, t1, t2, deltt, e
+pro pkslope, a, cadence, rflag, amxind, t1, t2, deltt, e
 ;This function finds the maximum in array 'a' 
 ;and analyses the slope either side of the peak, 
 ;looking for turning points and saddle points. 

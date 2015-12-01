@@ -14,9 +14,16 @@ npt = 1 + (nrb/time_frames)
 for j = 0, time_frames - 1 do begin
 for i = 0, npt - 1 do begin
 d = reform(sidata[j,3,i,*])
-pkslope, d, cadence[0], f, t1, t2, dt, e
-
-stri = {Siflag:f, tsi1:t1, tsi2:t2, dtsi:dt, esi:e}
+pkslope, d, cadence[0], f, mxind, t1, t2, dt, e
+jj = string(j, format = '(I0)')
+ii = string(i, format = '(I0)')
+mx = string(mxind, format = '(I0)')
+jjiimx = jj+','+ii+','+mx
+com = 'tag = Sidata['+jjiimx+']'
+exe = execute(com) 
+com = 'stri = {Sidat:d['+mx+'], Siflag:f, mx:mxind, tsi1:t1, tsi2:t2, dtsi:dt, esi:e}'
+exe = execute(com)
+strt = {tag:stri}
 if i eq 0 then strt = {Siflag:f, tsi1:t1, tsi2:t2, dtsi:dt, esi:e} else $
 strt = create_struct(strt, stri)
 endfor
