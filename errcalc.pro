@@ -19,9 +19,9 @@ function errcalc, array, q
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;IDL> PRINT, SIZE(FINDGEN(10, 20))
+;IDL> PRINT, SIZE(FINDGEN(2, 10))
 ;IDL prints:
-;   2   10   20   4   200
+;   2   2   10   4   200
 ;the array has 2 dimensions, equal to 10 and 20, a type code of 4, and 200 elements total
 sz = size(array) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -38,18 +38,13 @@ endif
 ;so need to follow BODMAS
 ;BRACKETS
 ;1) (deltx/x)^2)
-;2) sum = (deltx/x)^2)+...+(deltz/z)^2+(deltu/u)^2)+...+(deltw/w)^2
-;3) deltq = sqrt(a)*q
+;2) deltq = sqrt((deltx/x)^2)+...+(deltz/z)^2+(deltu/u)^2)+...+(deltw/w)^2)*q
 ;;;;;;;;;;;;;;;;;;;;;
 ;1)
-delt = fltarr(sz[1])
-for i = 0, sz[1] - 1 do begin
-    delt[i] = (array[0,i]/array[1,i])^2
-endfor
-;2) 
-sum = total(delt)
-;3)
-deltq = sqrt(sum)*q 
+delt = fltarr(sz[2])
+delt[*] = (array[0,*]/array[1,*])^2
+;2)
+deltq = sqrt(total(delt))*q 
 ;;;;;;;;;;;;;;;;;;;;
 return, q
 end
