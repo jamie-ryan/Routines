@@ -20,24 +20,26 @@ npt = 1 + (nrb/time_frames)
 timp = fltarr(time_frames, npt)
 eimp = fltarr(time_frames, npt)
 for j = 0, time_frames - 1 do begin
-for i = 0, npt - 1 do begin
-d = reform(dd[j,3,i,*])
-pkslope, d, cadence[0], f, mxind, t1, t2, dt, e
-timp[j,i] = dt
-eimp[j,i] = e
-jj = string(j, format = '(I0)')
-ii = string(i, format = '(I0)')
-mx = string(mxind, format = '(I0)')
-jjiimx = jj+''+ii
-;tag = 'Sidata_'+jjiimx
-nlmt = n_elements(f[0,*])
-nslope = n_elements(tsi) - nlmt
-com = 'stri = {Sidat:d[nslope:*], Siflag:f, mx:mxind, tsi1:t1, tsi2:t2, dtsi:dt, esi:e}'
-exe = execute(com)
-com = 'st = {s'+jjiimx+':stri}
-exe = execute(com)
-if (i eq 0) then si = st else si = create_struct(si, st)
-endfor
+    for i = 0, npt - 1 do begin
+        d = 0
+        d = reform(dd[j,3,i,*])
+        pkslope, d, cadence[0], f, mxind, t1, t2, dt, e
+        timp[j,i] = dt
+        eimp[j,i] = e
+        jj = string(j, format = '(I0)')
+        ii = string(i, format = '(I0)')
+        mx = string(mxind, format = '(I0)')
+        jjiimx = jj+''+ii
+        ;tag = 'Sidata_'+jjiimx
+        nlmt = n_elements(f[0,*])
+        nslope = n_elements(ttt) - nlmt
+        com = 'stri = {Sidat:d[nslope:*], Siflag:f, mx:mxind, t1:t1, t2:t2, dt:dt, e:e}'
+        exe = execute(com)
+        com = 'st = {s'+jjiimx+':stri}
+        exe = execute(com)
+        if (j eq 0) and (i eq 0) then si = st else  $
+        si = create_struct(si, st)
+    endfor
 endfor
 t_av = total(timp)/(time_frames*npt)
 e_av = total(eimp)/(time_frames*npt)

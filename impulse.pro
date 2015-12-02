@@ -15,4 +15,20 @@ intimpulse3, mgdata, mg, timpmg, eimpmg, timpmg_av, eimpmg_av
 intimpulse3, balmerdata, balm, timpbalm, eimpbalm, timpbalm_av, eimpbalm_av
 intimpulse3, mgwdata, mgw, timpmgw, eimpmgw, timpmgw_av, eimpmgw_av
 intimpulse3, hmidata, hmi, timphmi, eimphmi, timphmi_av, eimphmi_av
+
+
+t_av = (timpsi_av + timpmg_av + timpbalm_av + timpmgw_av + timphmi_av)/5.
+
+earry = [eimpsi_av, eimpmg_av, eimpbalm_av, eimpmgw_av, eimphmi_av]
+
+d1 = strcompress(strmid(systime(),4,7),/remove_all)
+d2 = strcompress(strmid(systime(),20),/remove_all)
+date = d1+'-'+d2
+save, t_av, $
+si, timpsi, eimpsi, timpsi_av, eimpsi_av, $
+mg, timpmg, eimpmg, timpmg_av, eimpmg_av, $
+balm, timpbalm, eimpbalm, timpbalm_av, eimpbalm_av, $
+mgw, timpmgw, eimpmgw, timpmgw_av, eimpmgw_av, $
+hmi, timphmi, eimphmi, timphmi_av, eimphmi_av, $
+filename = '29-Mar-14-impulsive-phase-'+date+'.sav'
 end

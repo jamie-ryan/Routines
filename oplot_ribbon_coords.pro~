@@ -1,4 +1,4 @@
-pro oplot_ribbon_coords, coords, box_size
+pro oplot_ribbon_coords, coords, box_size, box = box, cross = cross
 
 nrb = 10
 for i = 0 ,nrb-1 do begin
@@ -8,11 +8,19 @@ for i = 0 ,nrb-1 do begin
     xf = central_coord_x + box_size
     y0 = central_coord_y - box_size
     yf = central_coord_y + box_size
-    loadct,3
-    oplot, [x0, xf], [y0, yf], color = 200 ;bottom left to top right
-    oplot, [x0, xf], [yf, y0], color = 200 ;top
-    oplot, [central_coord_x, central_coord_x], [y0, yf], color = 255 ;right side
-    oplot, [x0, xf], [central_coord_y, central_coord_y], color = 255 ;bottom
+    loadct,40 ;8
+    if keyword_set(cross) then begin
+        oplot, [x0, xf], [y0, yf], color = 150 ;r 240 ;190 ;bottom left to top right
+        oplot, [x0, xf], [yf, y0], color = 150 ;r 240 ;190 ;top
+        oplot, [central_coord_x, central_coord_x], [y0, yf], color = 190 ;right side
+        oplot, [x0, xf], [central_coord_y, central_coord_y], color = 190 ;bottom
+    endif
+    if keyword_set(box) then begin
+        oplot, [x0, x0], [y0, yf], color = 150 ;left side
+        oplot, [x0, xf], [yf, yf], color = 150 ;top
+        oplot, [xf, xf], [yf, y0], color = 190 ;right side
+        oplot, [x0, xf], [y0, y0], color = 190 ;bottom
+    endif
 endfor
 qkxa = 517.2
 qkya = 261.4
@@ -23,9 +31,10 @@ xf = central_coord_x + box_size
 y0 = central_coord_y - box_size
 yf = central_coord_y + box_size
 loadct, 1
-oplot, [x0, xf], [y0, yf], color = 200 ;bottom left to top right
-oplot, [x0, xf], [yf, y0], color = 200 ;top
-oplot, [central_coord_x, central_coord_x], [y0, yf], color = 0 ;right side
-oplot, [x0, xf], [central_coord_y, central_coord_y], color = 0 ;bottom
-
+if keyword_set(cross) then begin
+    oplot, [x0, xf], [y0, yf], color = 200 ;bottom left to top right
+    oplot, [x0, xf], [yf, y0], color = 200 ;top
+    oplot, [central_coord_x, central_coord_x], [y0, yf], color = 200 ;right side
+    oplot, [x0, xf], [central_coord_y, central_coord_y], color = 200 ;bottom
+endif
 end
