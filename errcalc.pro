@@ -42,7 +42,7 @@ endif
 ;3) deltq = sqrt(a)*q
 ;;;;;;;;;;;;;;;;;;;;;
 ;1)
-delt = fltarr(sz[0])
+delt = fltarr(sz[1])
 for i = 0, sz[1] - 1 do begin
     delt[i] = (array[0,i]/array[1,i])^2
 endfor
