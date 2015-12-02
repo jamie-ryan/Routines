@@ -1,8 +1,14 @@
-pro intimpulse2
+pro intimpulse2, d, si, timp, eimp, t_av, e_av
+;INPUT:
+;   d = [time_frames,column, npt, t]
+;OUTPUT:
+;   si = data structure 
+;   timp = [time_frames, npt] = impulsive phase time for each coord 
+;   eimp = [time_frames, npt] = impulsive phase integrated energy for each coord
+;   t_av = average impulsive phase time
+;   e_av = average impulsive phase integrated energy
 ;integrate energy curve over duration of impulsive phase of flare
 
-
-restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Nov30-2015.sav'
 cadence = [26., 19., 72., 75., 45. ] ;si, mg  , balmer  , mgw  , hmi 
 time_frames = 2
 nrb = 20
@@ -11,26 +17,31 @@ npt = 1 + (nrb/time_frames)
 ;analyse peak slope, function returns flag[0, *] = gradient, flag[1, *] = flag
 ;flag can have three values, 2 = +ve slope, 1 = -ve slope and 0 = zero slope
 ;the number of elements in each column contained in flag is based on n_elements(2*array[max:*]) 
+timp = fltarr(time_frames, npt)
+eimp = fltarr(time_frames, npt)
 for j = 0, time_frames - 1 do begin
 for i = 0, npt - 1 do begin
-d = reform(sidata[j,3,i,*])
+d = reform(d[j,3,i,*])
 pkslope, d, cadence[0], f, mxind, t1, t2, dt, e
+timp[j,i] = dt
+eimp[j,i] = e
 jj = string(j, format = '(I0)')
 ii = string(i, format = '(I0)')
 mx = string(mxind, format = '(I0)')
-jjiimx = jj+','+ii+','+mx
-com = 'stri = {Sidata['+jjiimx+']:        Sidat:d[], Siflag'+jjiimx+':f, tsi1:t1, tsi2:t2, dtsi:dt, esi:e}'
+jjiimx = jj+''+ii
+;tag = 'Sidata_'+jjiimx
+nlmt = n_elements(f[0,*])
+nslope = n_elements(tsi) - nlmt
+com = 'stri = {Sidat:d[nslope:*], Siflag:f, mx:mxind, tsi1:t1, tsi2:t2, dtsi:dt, esi:e}'
 exe = execute(com)
-if i eq 0 then strt = {Siflag:f, tsi1:t1, tsi2:t2, dtsi:dt, esi:e} else $
-strt = create_struct(strt, stri)
+com = 'st = {s'+jjiimx+':stri}
+exe = execute(com)
+if (i eq 0) then si = st else si = create_struct(si, st)
 endfor
 endfor
+t_av = total(timp)/(time_frames*npt)
+e_av = total(eimp)/(time_frames*npt)
 
-
-mgflag = pkslope(reform(mgdata[0,3,0,*]))
-balmflag = pkslope(reform(balmerdata[0,3,0,*]))
-mgwflag = pkslope(reform(mgwdata[0,3,0,*]))
-hmiflag = pkslope(reform(hmidata[0,3,0,*]))
 
 
 
