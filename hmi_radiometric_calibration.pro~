@@ -24,7 +24,7 @@
 ; MODIFICATION HISTORY:
 ;       Written 13/08/15 by Jamie Ryan
 ;-
-pro hmi_radiometric_calibration, array, n_pixels = n_pixels, fout, eout
+pro hmi_radiometric_calibration, array, n_pixels = n_pixels, fout, eout, f_err, e_err
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN] / [texp] = DN/s
@@ -75,15 +75,16 @@ area = !pi*14.^2 ;cm^2...14cm = r = telescope aperture radius
 effective_area = area*(transmittance_med/100.) ;area multiplied by relative transmittance gives effective area???
 D = 1.49e13 ; 1AU in cm 
 effective_solid_angle = effective_area/D^2 ; steradians
-array = array/effective_solid_angle ; erg/s.cm^2.sr   				;;;;;;with ratio 2 1.1e25
+array = array/effective_solid_angle ; erg/s.cm^2.sr   				
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
 band_pass = 76.e-3 ;equivalent width of 6173Å continuum
-fout = array/band_pass ; = erg/s.cm^2.sr.Å					;;;;;1.5e28
-eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass		;;;;;6e13
-
+fout = array/band_pass ; = erg/s.cm^2.sr.Å					
+eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass
+f_err = errcalc(hmi_err,fout)
+e_err = errcalc(hmi_err,eout)		
 end
 
 

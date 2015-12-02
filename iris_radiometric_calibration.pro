@@ -28,7 +28,7 @@
 ;       
 ; MODIFICATION HISTORY:
 ;       Written 03/06/15 by Jamie Ryan
-pro iris_radiometric_calibration, array, wave = wave, n_pixels = n_pixels, fout, eout, sg = sg, sji = sji
+pro iris_radiometric_calibration, array, wave = wave, n_pixels = n_pixels, fout, eout, f_err, e_err, sg = sg, sji = sji
 
 
 
@@ -130,6 +130,9 @@ array = array/effective_solid_angle ; erg/s.cm^2.sr
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
 fout = array/pixlambda ; = erg/s.cm^2.sr.Å					
-eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda		  				
+eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda
+;iris_err = fltarr(see list of variables)		  				
+f_err = errcalc(iris_err,fout)
+e_err = errcalc(iris_err,eout)		
 
 end

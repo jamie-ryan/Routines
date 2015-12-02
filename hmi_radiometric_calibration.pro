@@ -24,7 +24,7 @@
 ; MODIFICATION HISTORY:
 ;       Written 13/08/15 by Jamie Ryan
 ;-
-pro hmi_radiometric_calibration, array, n_pixels = n_pixels, fout, eout
+pro hmi_radiometric_calibration, array, n_pixels = n_pixels, fout, eout, f_err, e_err
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN] / [texp] = DN/s
@@ -82,7 +82,10 @@ array = array/effective_solid_angle ; erg/s.cm^2.sr
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
 band_pass = 76.e-3 ;equivalent width of 6173Å continuum
 fout = array/band_pass ; = erg/s.cm^2.sr.Å					
-eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass		
+eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass
+;hmi_err = fltarr(see list of variables)		  				
+f_err = errcalc(hmi_err,fout)
+e_err = errcalc(hmi_err,eout)		
 end
 
 
