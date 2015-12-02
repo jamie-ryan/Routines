@@ -21,6 +21,7 @@ timp = fltarr(time_frames, npt)
 eimp = fltarr(time_frames, npt)
 for j = 0, time_frames - 1 do begin
 for i = 0, npt - 1 do begin
+d=0
 d = reform(dd[j,3,i,*])
 pkslope, d, cadence[0], f, mxind, t1, t2, dt, e
 timp[j,i] = dt

@@ -15,13 +15,4 @@ intimpulse3, mgdata, mg, timpmg, eimpmg, timpmg_av, eimpmg_av
 intimpulse3, balmerdata, balm, timpbalm, eimpbalm, timpbalm_av, eimpbalm_av
 intimpulse3, mgwdata, mgw, timpmgw, eimpmgw, timpmgw_av, eimpmgw_av
 intimpulse3, hmidata, hmi, timphmi, eimphmi, timphmi_av, eimphmi_av
-
-mgflag = pkslope(reform(mgdata[0,3,0,*]))
-balmflag = pkslope(reform(balmerdata[0,3,0,*]))
-mgwflag = pkslope(reform(mgwdata[0,3,0,*]))
-hmiflag = pkslope(reform(hmidata[0,3,0,*]))
-
-
-
-
 end
