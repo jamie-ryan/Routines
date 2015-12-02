@@ -46,5 +46,5 @@ delt[*] = (array[0,*]/array[1,*])^2
 ;2)
 deltq = sqrt(total(delt))*q 
 ;;;;;;;;;;;;;;;;;;;;
-return, q
+return, deltq
 end

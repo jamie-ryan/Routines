@@ -38,17 +38,13 @@ endif
 ;so need to follow BODMAS
 ;BRACKETS
 ;1) (deltx/x)^2)
-;2) sum = (deltx/x)^2)+...+(deltz/z)^2+(deltu/u)^2)+...+(deltw/w)^2
-;3) deltq = sqrt(a)*q
+;2) deltq = sqrt((deltx/x)^2)+...+(deltz/z)^2+(deltu/u)^2)+...+(deltw/w)^2)*q
 ;;;;;;;;;;;;;;;;;;;;;
 ;1)
 delt = fltarr(sz[2])
 delt[*] = (array[0,*]/array[1,*])^2
-
-;2) 
-sum = total(delt)
-;3)
-deltq = sqrt(sum)*q 
+;2)
+deltq = sqrt(total(delt))*q 
 ;;;;;;;;;;;;;;;;;;;;
 return, q
 end
