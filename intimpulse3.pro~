@@ -41,15 +41,4 @@ endfor
 endfor
 t_av = total(timp)/(time_frames*npt)
 e_av = total(eimp)/(time_frames*npt)
-
-
-
-
-
-
-
-
-
-
-
 end

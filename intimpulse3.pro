@@ -1,4 +1,4 @@
-pro intimpulse2, d, si, timp, eimp, t_av, e_av
+pro intimpulse3, d, si, timp, eimp, t_av, e_av
 ;INPUT:
 ;   d = [time_frames,column, npt, t]
 ;OUTPUT:
