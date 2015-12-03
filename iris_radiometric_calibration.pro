@@ -146,6 +146,9 @@ nerr = 6
 iris_err = fltarr(2,nerr)
 f_err = fltarr(n_elements(array))
 e_err = fltarr(n_elements(array))
+
+if keyword_set(sg) then lambda = (wav[1] + wav[0])/n_elements(wav)
+
 for i = 0, n_elements(array) - 1 do begin
 ;iris_err = fltarr(see list of variables)	
 ;iris_err[1,0] = physical value	  				
