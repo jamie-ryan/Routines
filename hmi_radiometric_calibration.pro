@@ -126,7 +126,7 @@ hmi_err[1,6] = lambda
 hmi_err[0,7] = dtrans
 hmi_err[1,7] = transmittance_med
 hmi_err[0,8] = dbp
-hmi_err[1,8] = bandpass
+hmi_err[1,8] = band_pass
 
 f_err[i] = errcalc(hmi_err,fout[i])
 e_err[i] = errcalc(hmi_err,eout[i])		
