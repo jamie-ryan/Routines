@@ -8,7 +8,7 @@
 ;       iris_flux_energy, array, wave = [wave], n_pixels = n_pixels, fout, eout, /sji or /sg 
 ;
 ; INPUT PARAMETERS: 
-;       array   	the IRIS data array, slit-jaw or or spectrograph
+;       array (1D)   	the IRIS data array, slit-jaw or or spectrograph
 ;       wave		= [lambda1, lambda2] or = lambda the wavelength range of the data contained 
 ;			in the array in angstroms. If there is a wavelength range, function calculates
 ;			average based on each iresp.wav increment  
@@ -17,8 +17,10 @@
 ;	/sg		for spectrograph data
 ;
 ; OUTPUT PARAMETERS:
-;       Fout		a fluxarray containing intensity data in units of erg/s/cm^(-2)/angstrom/sr
-;       Eout		a fluxarray containing intensity data in units of erg/s        
+;       Fout		a array containing intensity flux data in units of erg/s/cm^(-2)/angstrom/sr
+;       Eout		an array containing energy data in units of erg 
+;       f_err       array containing the errors for Fout in units of erg/s/cm^(-2)/angstrom/sr
+;       e_err       array containing the errors for Eout in units of erg
 ;
 ; EXAMPLES:
 ;       
@@ -31,7 +33,7 @@
 pro iris_radiometric_calibration, array, wave = wave, n_pixels = n_pixels, fout, eout, f_err, e_err, sg = sg, sji = sji
 
 
-
+dDN = 1. 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;Grab iris response
@@ -40,24 +42,30 @@ iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN] / [texp] = DN/s
 texp = 8.0000496
+dt = 5.0e-8 ;uncertainty associated with texp
 array = array/texp
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN.s^-1] / [area_on_sun] = DN/s.cm^2
-area_on_sun =  (0.16635000*7.25e7)^2 ;at 1AU, 1" = 7.25e5m...result is in cm^2
+dpl = 5.0e-6 ;uncertainty in pixel length, in arcseconds
+pixel_length = 0.16635000 ;iris pixel length in arcseconds
+dacm = 5.0e4 ;uncertainty in arcseconds to cm
+arccm = 7.25e7 ;at 1AU, 1" = 7.25e5m...result is in cm
+area_on_sun =  (pixel_length*arccm)^2
 array = array/area_on_sun ; = DN/s.cm^2   		
 
 
 ;spectral scale pixel in angstroms....nuv = 2796, 2832.....fuv = 1330, 1400
 pixfuv = 12.8e-3
 pixnuv = 25.6e-3
+dpxlam = 5.0e-5
 if (max(wave) lt 1500.) then pixlambda = pixfuv else pixlambda = pixnuv
-
 
 
 h = !const.h  ; planck's constant
 c = !const.c; speed of light m/s
 lambda = wave*1.e-10 ;wavelength in metres if wave is in angstroms
+dlam = 5.0e-11
 erg = 1.e-7 ; erg in joules
 wav = wave/10.
 
@@ -131,8 +139,33 @@ array = array/effective_solid_angle ; erg/s.cm^2.sr
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
 fout = array/pixlambda ; = erg/s.cm^2.sr.Å					
 eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda
-;iris_err = fltarr(see list of variables)		  				
-f_err = errcalc(iris_err,fout)
-e_err = errcalc(iris_err,eout)		
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;ERRORS;;;;;;;;;;;;;;;;;;;;;;;;;;;
+nerr = 6
+iris_err = fltarr(2,nerr)
+f_err = fltarr(n_elements(array))
+e_err = fltarr(n_elements(array))
+for i = 0, n_elements(array) - 1 
+;iris_err = fltarr(see list of variables)	
+;iris_err[1,0] = physical value	  				
+;iris_err[0,0] = associated uncertainty 
+iris_err = 0
+iris_err = fltarr(2,nerr)
+iris_err[0,0] = dDN
+iris_err[1,0] = array[i]
+iris_err[0,1] = dt
+iris_err[1,1] = texp
+iris_err[0,2] = dpl
+iris_err[1,2] = pixel_length
+iris_err[0,3] = dacm
+iris_err[1,3] = arccm
+iris_err[0,4] = dpxlam
+iris_err[1,4] = pixlambda
+iris_err[0,5] = dlam
+iris_err[1,5] = lambda
+
+f_err[i] = errcalc(iris_err,fout[i])
+e_err[i] = errcalc(iris_err,eout[i])		
+endfor
 end
