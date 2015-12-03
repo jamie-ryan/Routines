@@ -36,7 +36,7 @@ time_frames = 2
 time_frame_string = strarr(time_frames)
 time_frame_string[0] = '17:45'
 time_frame_string[1] = '17:46'
-npt = 1 + (nrb/time_frames)balmint ; number of ribbon coords per time_frame + 1 qk coord
+npt = 1 + (nrb/time_frames) ; number of ribbon coords per time_frame + 1 qk coord
 columns = 4 ;x,y,E,F
 fande = 2 ;columns for error arrays containing f and e
 wav1 = sp2826.tag00.wvl[39]
@@ -103,7 +103,7 @@ hmidata = fltarr(time_frames, columns, npt, n_elements(thmi))
 sierr = fltarr(time_frames, fande, npt, n_elements(tsi))
 mgerr = fltarr(time_frames, fande, npt, n_elements(tmg))
 balmererr = fltarr(time_frames, fande, npt, n_elements(tagarr))
-mgwerr = fltarr(time_frames, fande, npt, n_elements(tmgw
+mgwerr = fltarr(time_frames, fande, npt, n_elements(tmgw))
 hmierr = fltarr(time_frames, fande, npt, n_elements(thmi))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
