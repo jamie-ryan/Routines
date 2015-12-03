@@ -74,9 +74,9 @@ wav = wave/10.
 if keyword_set(sg) then begin
 	if (pixlambda eq pixfuv) then n = 0 else n = 1	
 
-		;switch to set single wavelength or range
+		;case to set single wavelength or range
 		x = n_elements(wave)
-		switch x of
+		case x of
 			1: begin ;single wavelength
 				find =  min(abs(iresp.lambda[*] - wav[0]), ind1)
 				A = iresp.AREA_SG[ind1,n]
@@ -99,7 +99,7 @@ if keyword_set(sg) then begin
 				E_photon = total(E_phot)/n_elements(E_phot)
 				n_photon = E_photon/erg ; = photon/erg
 			end
-		endswitch
+		endcase
 	
 endif
 

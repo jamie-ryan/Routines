@@ -76,7 +76,7 @@ if keyword_set(sg) then begin
 
 		;switch to set single wavelength or range
 		x = n_elements(wave)
-		switch x of
+		case x of
 			1: begin ;single wavelength
 				find =  min(abs(iresp.lambda[*] - wav[0]), ind1)
 				A = iresp.AREA_SG[ind1,n]
@@ -99,7 +99,7 @@ if keyword_set(sg) then begin
 				E_photon = total(E_phot)/n_elements(E_phot)
 				n_photon = E_photon/erg ; = photon/erg
 			end
-		endswitch
+		endcase
 	
 endif
 
@@ -146,6 +146,9 @@ nerr = 6
 iris_err = fltarr(2,nerr)
 f_err = fltarr(n_elements(array))
 e_err = fltarr(n_elements(array))
+
+if keyword_set(sg) then lambda = (wav[1] + wav[0])/n_elements(wav)
+
 for i = 0, n_elements(array) - 1 do begin
 ;iris_err = fltarr(see list of variables)	
 ;iris_err[1,0] = physical value	  				
