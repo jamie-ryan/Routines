@@ -33,7 +33,7 @@
 pro iris_radiometric_calibration, array, wave = wave, n_pixels = n_pixels, fout, eout, f_err, e_err, sg = sg, sji = sji
 
 
-dDN = 
+dDN = 1. 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;Grab iris response

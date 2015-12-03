@@ -28,7 +28,7 @@
 ;-
 pro hmi_radiometric_calibration, array, n_pixels = n_pixels, fout, eout, f_err, e_err
 
-dDN = 0.5
+dDN = 1.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN] / [texp] = DN/s

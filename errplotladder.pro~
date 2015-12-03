@@ -6,8 +6,8 @@ pro errplotladder
 ;
 ;
 ;sierr = fltarr(time_frames, fande, npt, n_elements(tsi))
-; for f: oploterror, sidata[j, 2, i, 447:*], sierr[j, 0, i, *]
-; for e: oploterror, sidata[j, 3, i, 447:*], sierr[j, 1, i, *]
+; for f: oploterror, sidata[j, 2, i, 447:*], sierr[j, 0, i, *],
+; for e: oploterror, sidata[j, 3, i, 447:*], sierr[j, 1, i, *],
 
 ;mgerr = fltarr(time_frames, fande, npt, n_elements(tmg))
 ;balmererr = fltarr(time_frames, fande, npt, n_elements(tagarr))
