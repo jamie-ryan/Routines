@@ -11,10 +11,10 @@ pro mesa
 tic
 
 ;;;restore data sav files
-restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
-restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
-restore, '/disk/solar3/jsr2/Data/SDO/hmi-12-05-15.sav'
-;restore, '/disk/solar3/jsr2/Data/SDO/HMI-diff-15-Oct-15.sav'
+restore, '/unsafe/jsr2/iris-16-03-15.sav'
+restore, '/unsafe/jsr2/sp2826-Apr28-2015.sav'
+restore, '/unsafe/jsr2/hmi-12-05-15.sav'
+;restore, '/unsafe/jsr2/HMI-diff-15-Oct-15.sav'
 
 ;;;date string
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
@@ -22,11 +22,12 @@ d2 = strcompress(strmid(systime(),20),/remove_all)
 date = d1+'-'+d2
 
 ;;;directories
-dir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/'
-datdir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/Dat/'
+;dir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/'
+;datdir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/Dat/'
 
 ;;;iris spectra fits
-fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
+;fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
+fsp = findfile('/unsafe/jsr2/Data/IRIS/*raster*.fits')
 
 ;;;some variables for loops, arrays element definition and header info 
 sample = 1 ;use this for spectra
@@ -391,14 +392,18 @@ hmierr[1,1,npt-1,*] = e_err*visiblewidth
 save, $
 ;quake area
 sidata, $
+sierr, $
 dnbksi, $
 mgdata, $
+mgerr, $
 dnbkmg, $
 balmerdata, $
-balmint, $
+balmererr, $
 dnbkb, $
 mgwdata, $
+mgwerr, $
 hmidata, $
+hmierr, $
 tsi, $
 tmg, $
 tbalm, $
