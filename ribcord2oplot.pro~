@@ -1,4 +1,4 @@
-pro ribcord2oplot
+pro ribcord2oplot, date
 
 ;plots multicoloured crosses over ribbon coords
 ;;;si ribbon Coord-oplots
@@ -8,7 +8,7 @@ pro ribcord2oplot
 ;restore,'29-Mar-2014-energies-iris-balmer-single-pixel-Oct24-2015.sav'
 ;restore,'29-Mar-2014-energies-iris-mgw-single-pixel-Oct24-2015.sav'
 ;restore, '29-Mar-2014-energies-hmi-single-pixel-Oct24-2015.sav'
-restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Dec2-2015.sav'
+restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'-2015.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/HMI-diff-15-Oct-15.sav'

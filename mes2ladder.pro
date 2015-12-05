@@ -2,7 +2,7 @@ pro mes2ladder, date
 
 ;date is a string 
 
-restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'-2015.sav'
+restore, '/unsafe/jsr2/'+date+'-2015/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'-2015.sav'
 
 npix = 10
 frame = 2
