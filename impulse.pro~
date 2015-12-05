@@ -30,5 +30,5 @@ mg, timpmg, eimpmg, timpmg_av, eimpmg_av, $
 balm, timpbalm, eimpbalm, timpbalm_av, eimpbalm_av, $
 mgw, timpmgw, eimpmgw, timpmgw_av, eimpmgw_av, $
 hmi, timphmi, eimphmi, timphmi_av, eimphmi_av, $
-filename = '29-Mar-14-impulsive-phase-'+date+'.sav'
+filename = '/unsafe/jsr2/'+fdate+'-2015/29-Mar-14-impulsive-phase-'+fdate+'.sav'
 end

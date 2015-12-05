@@ -1,8 +1,5 @@
 pro impulse, fdate
-spawn, 'cd /unsafe/jsr2/'+fdate+'-2015' 
-restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'-2015.sav'
-
-
+restore, '/unsafe/jsr2/'+fdate+'-2015/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'-2015.sav'
 
 
 intimpulse3, sidata, si, timpsi, eimpsi, timpsi_av, eimpsi_av
@@ -24,14 +21,14 @@ t_av = (timpsi_av + timpmg_av + timpbalm_av + timpmgw_av + timphmi_av)/5.
 
 earry = [eimpsi_av, eimpmg_av, eimpbalm_av, eimpmgw_av, eimphmi_av]
 
-d1 = strcompress(strmid(systime(),4,7),/remove_all)
-d2 = strcompress(strmid(systime(),20),/remove_all)
-date = d1+'-'+d2
+;d1 = strcompress(strmid(systime(),4,7),/remove_all)
+;d2 = strcompress(strmid(systime(),20),/remove_all)
+;date = d1+'-'+d2
 save, t_av, $
 si, timpsi, eimpsi, timpsi_av, eimpsi_av, $
 mg, timpmg, eimpmg, timpmg_av, eimpmg_av, $
 balm, timpbalm, eimpbalm, timpbalm_av, eimpbalm_av, $
 mgw, timpmgw, eimpmgw, timpmgw_av, eimpmgw_av, $
 hmi, timphmi, eimphmi, timphmi_av, eimphmi_av, $
-filename = '29-Mar-14-impulsive-phase-'+date+'.sav'
+filename = '/unsafe/jsr2/'+fdate+'-2015/29-Mar-14-impulsive-phase-'+fdate+'.sav'
 end
