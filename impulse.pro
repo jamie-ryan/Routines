@@ -1,5 +1,8 @@
 pro impulse, fdate
-restore, '/unsafe/jsr2/'+fdate+'-2015/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'-2015.sav'
+spawn, 'cd /unsafe/jsr2/'+fdate+'-2015' 
+restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'-2015.sav'
+
+
 
 
 intimpulse3, sidata, si, timpsi, eimpsi, timpsi_av, eimpsi_av
