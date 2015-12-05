@@ -15,7 +15,7 @@ pro errplotladder
 ;hmierr = fltarr(time_frames, fande, npt, n_elements(thmi))
 
 
-restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Dec2-2015.sav'
+restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Dec4-2015.sav'
 
 npix = 10
 frame = 2

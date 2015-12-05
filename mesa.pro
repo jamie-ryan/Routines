@@ -182,16 +182,16 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     iris_radiometric_calibration, tmp, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
     sidata[0, 2, i, *] = f
     sidata[0, 3, i, *] = e
-    sierr[0,0,i,*] = f_err*visiblewidth 
-    sierr[0,1,i,*] = e_err*visiblewidth
+    sierr[0,0,i,*] = f_err
+    sierr[0,1,i,*] = e_err
 
 ;    tmp = map1400.data[sidata[1, 0, i, 0], sidata[1, 1, i, 0]] - dnbksi
     tmp = sumarea(map1400.data - dnbksi, sidata[1, 0, i, 0], sidata[1, 1, i, 0], iradius)
     iris_radiometric_calibration, tmp, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
     sidata[1, 2, i, *] = f
     sidata[1, 3, i, *] = e
-    sierr[1,0,i,*] = f_err*visiblewidth 
-    sierr[1,1,i,*] = e_err*visiblewidth
+    sierr[1,0,i,*] = f_err
+    sierr[1,1,i,*] = e_err
 
     ;;;iris 2796\AA\ section
     dnbkmg = total(submg[661].data[bkmgp[0,*], bkmgp[1,*]])/n_elements(bkmgp[0,*]) ;mg
@@ -203,14 +203,14 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
     mgdata[0, 2, i, *] = f
     mgdata[0, 3, i, *] = e
-    mgerr[0,0,i,*] = f_err*visiblewidth 
-    mgerr[0,1,i,*] = e_err*visiblewidth
+    mgerr[0,0,i,*] = f_err
+    mgerr[0,1,i,*] = e_err
     tmp = sumarea(submg.data - dnbkmg, mgdata[1, 0, i, 0], mgdata[1, 1, i, 0], iradius)
     iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
     mgdata[1, 2, i, *] = f
     mgdata[1, 3, i, *] = e 
-    mgerr[1,0,i,*] = f_err*visiblewidth 
-    mgerr[1,1,i,*] = e_err*visiblewidth
+    mgerr[1,0,i,*] = f_err
+    mgerr[1,1,i,*] = e_err
 
     ;;;iris 2825.7 to 2825.8 \AA\ section (Balmer continuum)
     tmp = fltarr(20) ;bk array
@@ -242,16 +242,16 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
         tmp0[j] = sumarea(balmint[*,*,j], balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius, /sg)
         tmp1[j] = sumarea(balmint[*,*,j], balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius, /sg)
     endfor
-    iris_radiometric_calibration, tmp0, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
-    balmerdata[0, 2, i, *] = f*balmwidth
-    balmerdata[0, 3, i, *] = e*balmwidth
-    balmererr[0,0,i,*] = f_err*visiblewidth 
-    balmererr[0,1,i,*] = e_err*visiblewidth
-    iris_radiometric_calibration, tmp1, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
-    balmerdata[1, 2, i, *] = f*balmwidth
-    balmerdata[1, 3, i, *] = e*balmwidth
-    balmererr[1,0,i,*] = f_err*visiblewidth 
-    balmererr[1,1,i,*] = e_err*visiblewidth
+    iris_radiometric_calibration, tmp0*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
+    balmerdata[0, 2, i, *] = f
+    balmerdata[0, 3, i, *] = e
+    balmererr[0,0,i,*] = f_err
+    balmererr[0,1,i,*] = e_err
+    iris_radiometric_calibration, tmp1*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
+    balmerdata[1, 2, i, *] = f
+    balmerdata[1, 3, i, *] = e
+    balmererr[1,0,i,*] = f_err
+    balmererr[1,1,i,*] = e_err
 
     ;;;iris 2832 \AA\ section
     mgwdata[0, 0, i, *] = convert_coord_iris(mgwcoords1[0, i], sji_2832_hdr[166], /x, /a2p)
@@ -262,14 +262,14 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
     mgwdata[0, 2, i, *] = f
     mgwdata[0, 3, i, *] = e
-    mgwerr[0,0,i,*] = f_err*visiblewidth 
-    mgwerr[0,1,i,*] = e_err*visiblewidth
+    mgwerr[0,0,i,*] = f_err ;*visiblewidth 
+    mgwerr[0,1,i,*] = e_err ;*visiblewidth
     tmp = sumarea(diff2832.data, mgwdata[1, 0, i, 0], mgwdata[1, 1, i, 0], iradius)
     iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
     mgwdata[1, 2, i, *] = f
     mgwdata[1, 3, i, *] = e
-    mgwerr[1,0,i,*] = f_err*visiblewidth 
-    mgwerr[1,1,i,*] = e_err*visiblewidth
+    mgwerr[1,0,i,*] = f_err ;*visiblewidth 
+    mgwerr[1,1,i,*] = e_err ;*visiblewidth
 
     ;;;SDO HMI continuum section
     hmidata[0, 0, i, *] = convert_coord_hmi(hmicoords1[0, i], diffindex[62],  /x, /a2p)
@@ -277,17 +277,17 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     hmidata[1, 0, i, *] = convert_coord_hmi(hmicoords2[0, i], diffindex[63],  /x, /a2p)
     hmidata[1, 1, i, *] = convert_coord_hmi(hmicoords2[1, i], diffindex[63],  /y, /a2p)
     tmp = sumarea(diff.data, hmidata[0, 0, i, 0], hmidata[0, 1, i, 0], sradius)
-    hmi_radiometric_calibration, tmp, n_pixels = snp, f, e, f_err, e_err
-    hmidata[0, 2, i, *] = f*visiblewidth
-    hmidata[0, 3, i, *] = e*visiblewidth
-    hmierr[0,0,i,*] = f_err*visiblewidth 
-    hmierr[0,1,i,*] = e_err*visiblewidth
+    hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
+    hmidata[0, 2, i, *] = f
+    hmidata[0, 3, i, *] = e
+    hmierr[0,0,i,*] = f_err
+    hmierr[0,1,i,*] = e_err
     tmp = sumarea(diff.data, hmidata[1, 0, i, 0], hmidata[1, 1, i, 0], sradius)
-    hmi_radiometric_calibration, tmp, n_pixels = snp, f, e, f_err, e_err
-    hmidata[1, 2, i, *] = f*visiblewidth
-    hmidata[1, 3, i, *] = e*visiblewidth
-    hmierr[1,0,i,*] = f_err*visiblewidth 
-    hmierr[1,1,i,*] = e_err*visiblewidth
+    hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
+    hmidata[1, 2, i, *] = f
+    hmidata[1, 3, i, *] = e
+    hmierr[1,0,i,*] = f_err
+    hmierr[1,1,i,*] = e_err
 
 endfor
 
@@ -305,14 +305,14 @@ tmp = sumarea(map1400.data - dnbksi, sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0],
 iris_radiometric_calibration, tmp, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
 sidata[0, 2, npt-1, *] = f
 sidata[0, 3, npt-1, *] = e
-sierr[0,0,npt-1,*] = f_err*visiblewidth 
-sierr[0,1,npt-1,*] = e_err*visiblewidth
+sierr[0,0,npt-1,*] = f_err
+sierr[0,1,npt-1,*] = e_err
 tmp = sumarea(map1400.data - dnbksi, sidata[1, 0, npt-1, 0], sidata[1, 1, i, 0], iradius)
 iris_radiometric_calibration, tmp, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
 sidata[1, 2, npt-1, *] = f
 sidata[1, 3, npt-1, *] = e
-sierr[1,0,npt-1,*] = f_err*visiblewidth 
-sierr[1,1,npt-1,*] = e_err*visiblewidth
+sierr[1,0,npt-1,*] = f_err
+sierr[1,1,npt-1,*] = e_err
 
 ;;;iris 2796 \AA\ section
 mgdata[0, 0, npt-1, *] = convert_coord_iris(qkxa, sji_2796_hdr[664], /x, /a2p)
@@ -323,14 +323,14 @@ tmp = sumarea(submg.data - dnbkmg, mgdata[0, 0, npt-1, 0], mgdata[0, 1, npt-1, 0
 iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
 mgdata[0, 2, npt-1, *] = f
 mgdata[0, 3, npt-1, *] = e
-mgerr[0,0,npt-1,*] = f_err*visiblewidth 
-mgerr[0,1,npt-1,*] = e_err*visiblewidth
+mgerr[0,0,npt-1,*] = f_err
+mgerr[0,1,npt-1,*] = e_err
 tmp = sumarea(submg.data - dnbkmg, mgdata[1, 0, npt-1, 0], mgdata[1, 1, npt-1, 0], iradius)
 iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
 mgdata[1, 2, npt-1, *] = f
 mgdata[1, 3, npt-1, *] = e 
-mgerr[1,0,npt-1,*] = f_err*visiblewidth 
-mgerr[1,1,npt-1,*] = e_err*visiblewidth
+mgerr[1,0,npt-1,*] = f_err
+mgerr[1,1,npt-1,*] = e_err
 
 ;;;iris 2825.7 to 2825.8 \AA\ (Balmer continuum) section
 tmp = fltarr(n_elements(tagarr))
@@ -342,15 +342,15 @@ for i = 0, n_elements(tagarr)-1 do begin
     com = 'tbalm[1, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerdata[1, 0, npt-1, i]]'
     exe = execute(com)
 endfor
-iris_radiometric_calibration, tmp, wave=[wav1,wav2], n_pixels = 1+2*iradius, f, e, f_err, e_err, /sg
-balmerdata[0, 2, npt-1, *] = f*balmwidth
-balmerdata[0, 3, npt-1, *] = e*balmwidth
-balmerdata[1, 2, npt-1, *] = f*balmwidth
-balmerdata[1, 3, npt-1, *] = e*balmwidth
-balmererr[0,0,npt-1,*] = f_err*visiblewidth 
-balmererr[0,1,npt-1,*] = e_err*visiblewidth
-balmererr[1,0,npt-1,*] = f_err*visiblewidth 
-balmererr[1,1,npt-1,*] = e_err*visiblewidth
+iris_radiometric_calibration, tmp*balmwidth, wave=[wav1,wav2], n_pixels = 1+2*iradius, f, e, f_err, e_err, /sg
+balmerdata[0, 2, npt-1, *] = f
+balmerdata[0, 3, npt-1, *] = e
+balmerdata[1, 2, npt-1, *] = f
+balmerdata[1, 3, npt-1, *] = e
+balmererr[0,0,npt-1,*] = f_err
+balmererr[0,1,npt-1,*] = e_err
+balmererr[1,0,npt-1,*] = f_err
+balmererr[1,1,npt-1,*] = e_err
 
 ;;;iris 2832 \AA\ section
 mgwdata[0, 0, npt-1, *] = convert_coord_iris(qkxa, sji_2832_hdr[167], /x, /a2p)
@@ -361,14 +361,14 @@ tmp = sumarea(diff2832.data, mgwdata[0, 0, npt-1, 0], mgwdata[0, 1, npt-1, 0], i
 iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
 mgwdata[0, 2, npt-1, *] = f
 mgwdata[0, 3, npt-1, *] = e
-mgwerr[0,0,npt-1,*] = f_err*visiblewidth 
-mgwerr[0,1,npt-1,*] = e_err*visiblewidth
+mgwerr[0,0,npt-1,*] = f_err
+mgwerr[0,1,npt-1,*] = e_err
 tmp = sumarea(diff2832.data, mgwdata[1, 0, npt-1, 0], mgwdata[1, 1, npt-1, 0], iradius)
 iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
 mgwdata[1, 2, npt-1, *] = f
 mgwdata[1, 3, npt-1, *] = e
-mgwerr[1,0,npt-1,*] = f_err*visiblewidth 
-mgwerr[1,1,npt-1,*] = e_err*visiblewidth
+mgwerr[1,0,npt-1,*] = f_err
+mgwerr[1,1,npt-1,*] = e_err
 
 ;;;SDO HMI continuum section
 hmidata[0, 0, npt-1, *] = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p) ;npt -1 is last row in coord columns.
@@ -376,18 +376,19 @@ hmidata[0, 1, npt-1, *] = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
 hmidata[1, 0, npt-1, *] = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p)
 hmidata[1, 1, npt-1, *] = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
 tmp = sumarea(diff.data, hmidata[0, 0, npt-1, 0], hmidata[0, 1, npt-1, 0], sradius)
-hmi_radiometric_calibration, tmp, n_pixels = snp, f, e, f_err, e_err
-hmidata[0, 2, npt-1, *] = f*visiblewidth
-hmidata[0, 3, npt-1, *] = e*visiblewidth
-hmierr[0,0,npt-1,*] = f_err*visiblewidth 
-hmierr[0,1,npt-1,*] = e_err*visiblewidth
+hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
+hmidata[0, 2, npt-1, *] = f
+hmidata[0, 3, npt-1, *] = e
+hmierr[0,0,npt-1,*] = f_err
+hmierr[0,1,npt-1,*] = e_err
 tmp = sumarea(diff.data, hmidata[1, 0, npt-1, 0], hmidata[1, 1, npt-1, 0], sradius)
-hmi_radiometric_calibration, tmp, n_pixels = snp, f, e, f_err, e_err
-hmidata[1, 2, npt-1, *] = f*visiblewidth
-hmidata[1, 3, npt-1, *] = e*visiblewidth
-hmierr[1,0,npt-1,*] = f_err*visiblewidth 
-hmierr[1,1,npt-1,*] = e_err*visiblewidth
+hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
+hmidata[1, 2, npt-1, *] = f
+hmidata[1, 3, npt-1, *] = e
+hmierr[1,0,npt-1,*] = f_err
+hmierr[1,1,npt-1,*] = e_err
 
+spawn, 'mkdir /unsafe/jsr2/'+date
 ;;;or maybe write individual sav files for each dataset?
 save, $
 ;quake area
@@ -409,6 +410,6 @@ tmg, $
 tbalm, $
 tmgw, $
 thmi, $
-filename = '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
+filename = '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 toc
 end
