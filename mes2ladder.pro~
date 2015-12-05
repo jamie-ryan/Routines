@@ -1,6 +1,8 @@
-pro mes2ladder
+pro mes2ladder, date
 
-restore, '29-Mar-2014-bk-subtracted-iris-hmi-area-energies-Dec2-2015.sav'
+;date is a string 
+
+restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'-2015.sav'
 
 npix = 10
 frame = 2
