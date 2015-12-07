@@ -8,22 +8,22 @@ for i = 0 ,nrb-1 do begin
     xf = central_coord_x + box_size
     y0 = central_coord_y - box_size
     yf = central_coord_y + box_size
-    loadct,40 ;8
+    loadct,6
     if keyword_set(cross) then begin
-        oplot, [x0, xf], [y0, yf], color = 150 ;r 240 ;190 ;bottom left to top right
-        oplot, [x0, xf], [yf, y0], color = 150 ;r 240 ;190 ;top
-        oplot, [central_coord_x, central_coord_x], [y0, yf], color = 190 ;right side
-        oplot, [x0, xf], [central_coord_y, central_coord_y], color = 190 ;bottom
+        oplot, [x0, xf], [y0, yf], color = 125 ;r 240 ;190 ;bottom left to top right
+        oplot, [x0, xf], [yf, y0], color = 125 ;r 240 ;190 ;top
+        oplot, [central_coord_x, central_coord_x], [y0, yf], color = 125 ;right side
+        oplot, [x0, xf], [central_coord_y, central_coord_y], color = 125 ;bottom
     endif
     if keyword_set(box) then begin
-        oplot, [x0, x0], [y0, yf], color = 150 ;left side
-        oplot, [x0, xf], [yf, yf], color = 150 ;top
-        oplot, [xf, xf], [yf, y0], color = 190 ;right side
-        oplot, [x0, xf], [y0, y0], color = 190 ;bottom
+        oplot, [x0, x0], [y0, yf], color = 125 ;left side
+        oplot, [x0, xf], [yf, yf], color = 125 ;top
+        oplot, [xf, xf], [yf, y0], color = 125 ;right side
+        oplot, [x0, xf], [y0, y0], color = 125 ;bottom
     endif
 endfor
-qkxa = 517.2
-qkya = 261.4
+qkxa = 518.5
+qkya = 262.0
 central_coord_x = qkxa
 central_coord_y = qkya
 x0 = central_coord_x - box_size
