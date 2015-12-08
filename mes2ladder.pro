@@ -63,7 +63,7 @@ for j = 0, frame-1 do begin
         utplot, tsi[447:*], sidata[j, 3, i, 447:*], $ ;sidata[time_frame, e, coord, t]
         base, $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
-        psym = -2, $ 
+;        psym = -2, $ 
         linestyle = 0, $
         ycharsize = 0.55, $
         xcharsize = 0.65, $
