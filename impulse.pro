@@ -107,7 +107,7 @@ for j = 0, time_frames - 1 do begin
         set_plot,'ps'
         ;device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1  , bits=8, bits = 8
         device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1, bits = 8
-        plot, e[0,*], e[1,*], ytitle = 'Energy [erg]', xtitle = 'Dataset'
+        plot, e[0,*], e[1,*], ytitle = 'Energy [erg]', xtitle = 'Dataset', /ylog
         device,/close
         set_plot,mydevice     
     endfor

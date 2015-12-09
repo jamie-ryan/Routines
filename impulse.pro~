@@ -98,6 +98,7 @@ for j = 0, time_frames - 1 do begin
         xx = '518.5'
         yy = '264.0'
         endif
+
         ;used hmi coords as reference point
         fff = dir+'29-Mar-14-Ribbon-xyPosition-'+xx+'-'+yy+'-Frame-'+jj+'-Impulse-Energy.eps'
         jjj = string(j+1, format = '(I0)')
