@@ -105,7 +105,7 @@ endfor
 
 
 endif
-if keyword_set(table)
+if keyword_set(table) then begin
 ;insert latex table here
 endif
 
