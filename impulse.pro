@@ -56,7 +56,9 @@ for i = 1,2 do begin
 endfor
 datasets = 6 ;rhessi, siiv, mgii, balm, mgiiw, hmi
 for j = 0, time_frames - 1 do begin
+    jj = string(j, format = '(I0)')
     for i = 0, npt - 1 do begin
+    ii = string(i, format = '(I0)')
 
         e = fltarr(2, datasets) ;[0, *] = datatitle  [1, *] = eimp
 
