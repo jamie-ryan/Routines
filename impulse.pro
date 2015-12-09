@@ -35,7 +35,7 @@ mgw, timpmgw, eimpmgw, timpmgw_av, eimpmgw_av, $
 hmi, timphmi, eimphmi, timphmi_av, eimphmi_av, $
 filename = '/unsafe/jsr2/'+fdate+'-2015/29-Mar-14-impulsive-phase-'+fdate+'.sav'
 
-if keyword_set(plot)
+if keyword_set(plot) then begin
 time_frames = 2 
 npt = 1 + (nrb/time_frames) ; number of ribbon coords per time_frame + 1 qk coord
 
@@ -105,7 +105,7 @@ endfor
 
 
 endif
-if keyword_set(table)
+if keyword_set(table) then begin
 ;insert latex table here
 endif
 
