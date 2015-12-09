@@ -87,11 +87,17 @@ for j = 0, time_frames - 1 do begin
         e[1, 5] = eimphmi[j,i]
 
         ;plot
+        if (i lt npt-1) then begin
         if (j eq 0) then xx = string(hmicoords1[0,i], format = '(I0)') else $
         xx = string(hmicoords2[0,i], format = '(I0)')
         if (j eq 0) then yy = string(hmicoords1[1,i], format = '(I0)') else $
         yy = string(hmicoords2[1,i], format = '(I0)')
+        endif
 
+        if (i eq npt -1) then begin
+        xx = '518.5'
+        yy = '264.0'
+        endif
         ;used hmi coords as reference point
         fff = dir+'29-Mar-14-Ribbon-xyPosition-'+xx+'-'+yy+'-Frame-'+jj+'-Impulse-Energy.eps'
         jjj = string(j+1, format = '(I0)')
