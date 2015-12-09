@@ -41,7 +41,9 @@ columns = 4 ;x,y,E,F
 fande = 2 ;columns for error arrays containing f and e
 wav1 = sp2826.tag00.wvl[39]
 wav2 = sp2826.tag00.wvl[44]
-iradius = 3.;iris qk radius in pixels
+
+;instrument specific radius (not including central pixel)
+iradius = 4.;iris qk radius in pixels
 sradius = 1.;sdo qk radius in pixels
 inp = (iradius + 1)*(iradius + 1) ;npixels for iris radiometric calibration
 snp = (sradius + 1)*(sradius + 1) ;npixels for sdo radiometric calibration
@@ -63,21 +65,21 @@ qkya = 264.0 ;Donea et al 2014
 
 
 ;;;background pixel locations for si and mg and balmer
-bksia = fltarr(2,6)
-bksip = fltarr(2,6)
-bkmgp = fltarr(2,6)
+bksia = fltarr(2,3)
+bksip = fltarr(2,3)
+bkmgp = fltarr(2,3)
 bksia[0,0] = 472.74468 ;x
 bksia[1,0] = 215.48495 ;y
 bksia[0,1] = 517.20386    
 bksia[1,1] = 213.44085
 bksia[0,2] = 574.43865     
 bksia[1,2] = 217.01802
-bksia[0,3] = 580.57095    
-bksia[1,3] = 327.91044
-bksia[0,4] = 522.82513      
-bksia[1,4] = 327.39942
-bksia[0,5] = 471.72263      
-bksia[1,5] = 329.95454
+;bksia[0,3] = 580.57095    
+;bksia[1,3] = 327.91044
+;bksia[0,4] = 522.82513      
+;bksia[1,4] = 327.39942
+;bksia[0,5] = 471.72263      
+;bksia[1,5] = 329.95454
 for i = 0, n_elements(bksip[0,*]) - 1 do begin
 bksip[0, i] = convert_coord_iris(bksia[0,i], sji_1400_hdr[495], /x, /a2p)
 bksip[1, i] = convert_coord_iris(bksia[1,i], sji_1400_hdr[495], /y, /a2p)
@@ -86,7 +88,7 @@ bkmgp[1, i] = convert_coord_iris(bksia[1,i], sji_2796_hdr[661], /y, /a2p)
 endfor
 
 dnbkb = fltarr(n_elements(tagarr))
-bkb = 630. ;from heinzel and kleint balmer paper
+bkb = 100.;630. ;from heinzel and kleint balmer paper
 
 
 

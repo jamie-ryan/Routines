@@ -17,8 +17,9 @@ nrb = 20 ; number ribbon coords
 time_frames = 2 
 npt = 1 + (nrb/time_frames)
 
-iradius = 3.* 0.167;iris qk radius in pixels
-sradius = 1. * 0.505;sdo qk radius in pixels
+;instrument specific radius (not including central pixel)
+iradius = 4.* 0.167;iris qk radius in arcseconds 
+sradius = 1. * 0.505;sdo qk radius in arcseconds
 
 sub_map, map1400, ssi, xrange = [460., 560.], yrange = [220., 320.]
 sub_map, submg, smg, xrange = [460., 560.], yrange = [220., 320.]
