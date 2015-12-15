@@ -1,0 +1,11 @@
+pro imptemp
+restore, 'Dec9-2015/29-Mar-14-impulsive-phase-Dec9.sav'
+
+siav = total(eimpsi[*, 0: 9])/20
+mgav = total(eimpmg[*, 0: 9])/20
+balmav = total(eimpbalm[*, 0: 9])/20
+mgwav = total(eimpmgw[*, 0: 9])/20
+hmiav = total(eimphmi[*, 0: 9])/20
+
+
+end

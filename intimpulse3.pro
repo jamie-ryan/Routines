@@ -42,5 +42,9 @@ for j = 0, time_frames - 1 do begin
     endfor
 endfor
 t_av = total(timp)/(time_frames*npt)
-e_av = total(eimp)/(time_frames*npt)
+
+;average energy at ribbon locations
+e_av = total(eimpmg[*, 0: 9])/20
+
+;e_av = total(eimp)/(time_frames*npt)
 end
