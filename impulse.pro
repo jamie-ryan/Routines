@@ -114,7 +114,44 @@ for j = 0, time_frames - 1 do begin
 endfor
 
 
+;rhessi
+e[0, 0] = 0
+e[1, 0] = eimprhessi
+
+;si
+e[0, 1] = 1
+e[1, 1] = eimpsi_av
+
+;mg
+e[0, 2] = 2
+e[1, 2] = eimpmg_av
+
+;balm
+e[0, 3] = 3
+e[1, 3] = eimpbalm_av
+
+;mgw
+e[0, 4] = 4
+e[1, 4] = eimpmgw_av
+
+;hmi
+e[0, 5] = 5
+e[1, 5] = eimphmi_av
+
+;average impulsive energy plot 
+;used hmi coords as reference point
+fff = dir+'29-Mar-14-Average-Impulse-Energy.eps'
+jjj = string(j+1, format = '(I0)')
+titl = '29-Mar-14-Average-Impulse-Energy.eps'
+mydevice=!d.name
+set_plot,'ps'
+;device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1  , bits=8, bits = 8
+device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1, bits = 8
+plot, e[0,*], e[1,*], ytitle = 'Energy [erg]', xtitle = 'Dataset', /ylog
+device,/close
+set_plot,mydevice     
 endif
+
 if keyword_set(table) then begin
 ;insert latex table here
 endif
