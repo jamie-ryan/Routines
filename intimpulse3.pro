@@ -33,7 +33,7 @@ for j = 0, time_frames - 1 do begin
         ;tag = 'Sidata_'+jjiimx
         nlmt = n_elements(f[0,*])
         nslope = n_elements(d) - nlmt
-        com = 'stri = {Sidat:d[nslope:*], Siflag:f, mx:mxind, t1:t1, t2:t2, dt:dt, e:e}'
+        com = 'stri = {dat:d[nslope:*], flag:f, mx:mxind, t1:t1, t2:t2, dt:dt, e:e}'
         exe = execute(com)
         com = 'st = {s'+jjiimx+':stri}
         exe = execute(com)
@@ -44,7 +44,7 @@ endfor
 t_av = total(timp)/(time_frames*npt)
 
 ;average energy at ribbon locations
-e_av = total(eimpmg[*, 0: 9])/20
+e_av = total(eimp[*, 0: 9])/20
 
 ;e_av = total(eimp)/(time_frames*npt)
 end

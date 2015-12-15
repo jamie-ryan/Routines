@@ -33,7 +33,7 @@ for j = 0, time_frames - 1 do begin
         ;tag = 'Sidata_'+jjiimx
         nlmt = n_elements(f[0,*])
         nslope = n_elements(d) - nlmt
-        com = 'stri = {Sidat:d[nslope:*], Siflag:f, mx:mxind, t1:t1, t2:t2, dt:dt, e:e}'
+        com = 'stri = {dat:d[nslope:*], flag:f, mx:mxind, t1:t1, t2:t2, dt:dt, e:e}'
         exe = execute(com)
         com = 'st = {s'+jjiimx+':stri}
         exe = execute(com)
