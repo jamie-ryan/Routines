@@ -140,6 +140,7 @@ save, bdiff, biffind, biffdat, filename = '/unsafe/jsr2/blue/sotbluesmthdiff.sav
 save, gdiff, giffind, giffdat, filename = '/unsafe/jsr2/green/sotgreensmthdiff.sav'
 
 
+
 ;make .sav
 save, rfilt, filename = '/unsafe/jsr2/red/sotredfullfilt.sav'
 save, bfilt, filename = '/unsafe/jsr2/blue/sotbluefullfilt.sav'
