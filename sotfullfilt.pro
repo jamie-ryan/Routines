@@ -77,7 +77,40 @@ gdat = reform(gda[*,*,ss_good])
 fg_rigidalign, gind, gdat, gindo, gdato, dx = 512, dy = 512, x0=10, y0=10
 index2map, gindo, gdato, gmp
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;subtract background
+snp = (((2*500.)+1)*((2*500.)+1))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Red
+rbk = sumarea(rdato, 900., 900., 50.)
+rbknpix = (((2*50.)+1)*((2*50.)+1))
+rbk = rbk/rbknpix 
+rbk = total(rbk)/n_elements(rbk)
+tmp = rdato[*, *, *] - rbk
+rdato = tmp
+rdato[where(rdato lt 0., /null)] = 0.
+tmp = 0
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Green
+gbk = sumarea(gdato, 900., 900., 50.)
+gbknpix = (((2*50.)+1)*((2*50.)+1))
+gbk = gbk/gbknpix
+gbk = total(gbk)/n_elements(gbk)
+tmp = gdato[*, *, *] - gbk
+gdato = tmp
+gdato[where(gdato lt 0., /null)] = 0.
+tmp = 0
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Blue
+bbk = sumarea(bdato, 900., 900., 50.)
+bbknpix = (((2*50.)+1)*((2*50.)+1))
+bbk = bbk/bbknpix
+bbk = total(bbk)/n_elements(bbk)
+tmp = bdato[*, *, *] - bbk
+bdato = tmp
+bdato[where(bdato lt 0., /null)] = 0.
+tmp = 0
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;kerr & fletcher 2014 data processing
 ;log unsharp filter (ri) 
@@ -134,14 +167,44 @@ bfilt = biffdat*mask
 gfilt = giffdat*mask
 
 ;make .sav
-save, mask, cindo, cdato, cmp, filename = '/unsafe/jsr2/CaIIH/sotcaii_mask.sav'
-save, rdiff, riffind, riffdat, filename = '/unsafe/jsr2/red/sotredsmthdiff.sav'
-save, bdiff, biffind, biffdat, filename = '/unsafe/jsr2/blue/sotbluesmthdiff.sav'
-save, gdiff, giffind, giffdat, filename = '/unsafe/jsr2/green/sotgreensmthdiff.sav'
+;save, mask, cindo, cdato, cmp, filename = '/unsafe/jsr2/CaIIH/sotcaii_mask.sav'
+;save, rdiff, riffind, riffdat, filename = '/unsafe/jsr2/red/sotredsmthdiff.sav'
+;save, bdiff, biffind, biffdat, filename = '/unsafe/jsr2/blue/sotbluesmthdiff.sav'
+;save, gdiff, giffind, giffdat, filename = '/unsafe/jsr2/green/sotgreensmthdiff.sav'
 
 
 ;make .sav
 save, rfilt, filename = '/unsafe/jsr2/red/sotredfullfilt.sav'
 save, bfilt, filename = '/unsafe/jsr2/blue/sotbluefullfilt.sav'
 save, gfilt, filename = '/unsafe/jsr2/green/sotgreenfullfilt.sav'
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;WL pixel detection from filtered data
+
+;;mean
+rfilt[where(rfilt lt 0., /null)] = 0.
+gfilt[where(gfilt lt 0., /null)] = 0.
+bfilt[where(bfilt lt 0., /null)] = 0.
+rav = total(rfilt)/(nx*ny)
+gav = total(gfilt)/(nx*ny)
+bav = total(bfilt)/(nx*ny)
+
+;;standard deviation (sigma)
+rsd = stddev(rfilt)
+gsd = stddev(gfilt)
+bsd = stddev(bfilt)
+
+
+;;detection threshold (2*sigma)
+rwl = where(rfilt gt 2*rsd, rd)
+gwl = where(gfilt gt 2*gsd, gd)
+bwl = where(bfilt gt 2*bsd, bd)
+rind = array_indices(rfilt, rwl)
+gind = array_indices(gfilt, gwl)
+bind = array_indices(bfilt, bwl)
+
+;make .sav
+save, rfilt, rav, rsd, rind, rwl, filename = '/unsafe/jsr2/red/sotredfullfiltWL.sav'
+save, bfilt, bav, bsd, bind, gwl, filename = '/unsafe/jsr2/blue/sotbluefullfiltWL.sav'
+save, gfilt, gav, gsd, gind, bwl, filename = '/unsafe/jsr2/green/sotgreenfullfiltWL.sav'
 end
