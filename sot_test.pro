@@ -8,16 +8,17 @@ restore, '/unsafe/jsr2/blue/sotbluefullfiltWL.sav'
 ;yc = 512.;central y pixel
 ;radius = 500.;radius of box (in pixels)..not including central pixel
 ;snp = number of pixels
-
+;boxarr61[i] = total(sbhmimap[i].data[h61[0,*],h61[1,*]]) 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Red
 snp = n_elements(rind[0,*]) 
 rfilt[where(rfilt lt 0., /null)] = 0.
 nt = n_elements(rfilt[0,0,*])
 tmp = fltarr(nt)
-for i = 0, nt -1 do begin
-;boxarr61[i] = total(sbhmimap[i].data[h61[0,*],h61[1,*]]) 
-    tmp[i] = total(rfilt[rind[0,*], rind[1,*], i])
+for j = 0, nt -1 do begin
+    for i = 0, n_elements(rind[0,*]) - 1 do begin
+        tmp[j] = tmp[j] + total(rfilt[rind[0,i], rind[1,i], j])
+    endfor
 endfor
 sot_power, tmp, n_pixels = snp, red_p, red_e, /r
 
@@ -27,8 +28,10 @@ snp = n_elements(gind[0,*])
 gfilt[where(gfilt lt 0., /null)] = 0.
 nt = n_elements(gfilt[0,0,*])
 tmp = fltarr(nt)
-for i = 0, nt -1 do begin
-    tmp[i] =total(gfilt[gind[0,*], gind[1,*], i])
+for j = 0, nt -1 do begin
+    for i = 0, n_elements(gind[0,*]) - 1 do begin
+        tmp[j] = tmp[j] + total(gfilt[gind[0,i], gind[1,i], j])
+    endfor
 endfor
 sot_power, tmp, n_pixels = snp, grn_p, grn_e, /g;
 
@@ -38,8 +41,10 @@ snp = n_elements(bind[0,*])
 bfilt[where(bfilt lt 0., /null)] = 0.
 nt = n_elements(bfilt[0,0,*])
 tmp = fltarr(nt)
-for i = 0, nt -1 do begin
-    tmp[i] = total(bfilt[bind[0,*], bind[1,*], i])
+for j = 0, nt -1 do begin
+    for i = 0, n_elements(bind[0,*]) -1 do begin
+        tmp[j] = tmp[j] + total(bfilt[bind[0,i], bind[1,i], j])
+    endfor
 endfor
 sot_power, tmp, n_pixels = snp, blue_p, blue_e, /b
 
