@@ -62,7 +62,7 @@ fitnum_min = (fitnum_max - nfiles) + 1
 nwav = n_elements(wavelength[39:44]) ;wavelength range for balmer
 ypix =  n_elements(dat[0,*,0]) ;y pixels
 xpix =  n_elements(dat[0,0,*]) ;slit position
-alldat = fltarr(nfiles, nwav, ypix, xpix) ;data array
+alldat = fltarr(xpix, ypix, nfiles) ;data array
 times = strarr(nfiles, xpix) ;time array for utplot 
 
 hdr = 0
@@ -73,7 +73,12 @@ for i = 0, nfiles - 1 do begin
     ;load data and put into data array
     d = iris_obj(f[i])
     dat = d->getvar(6, /load)
-    alldat[i, *,*,*] = dat[39:44, *, *]
+;    alldat[i, *,*,*] = dat[39:44, *, *]
+    a = 0
+    for l = 39, 44 do begin 
+    a = a + dat[l, *, *]
+    endfor
+    alldat[*,*, i] = a
 
     ;load times for each slit position
     ;and put in times array
@@ -89,13 +94,13 @@ for i = 0, nfiles - 1 do begin
     allhdr = create_struct(allhdr, hdrtmp) 
 
 endfor
-plot,wavelength[39:44], alldat[29,*, 620, 3] ;will plot 179.fit spectrum
-utplot,times[*,3], alldat[*,*, 447, 3] ;will plot lightcurve 
+;plot,wavelength[39:44], alldat[29,*, 620, 3] ;will plot 179.fit spectrum
+;utplot,times[*,3], alldat[*,*, 447, 3] ;will plot lightcurve 
 
 
 
-
-restore, '/unsafe/jsr2/sp2826-Apr28-2015.sav'
+restore, '/unsafe/jsr2/sp2826-Jan15-2016.sav'
+;restore, '/unsafe/jsr2/sp2826-Apr28-2015.sav'
 ;;;some variables for loops, arrays element definition and header info 
 sample = 1 ;use this for spectra
 nrb = 20 ; number ribbon coords
@@ -166,28 +171,25 @@ c = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
 ;c[where(c eq 1092.00, /null)] = 422.00 
 balmerdata[1, 1, npt-1, *] = c
 c = 0
-
-
-balmerdata[0, 2, i, j] = alldat[j, balmercoords1[0,i], ]
-balmerdata[1, 2, i, j] = alldat[j, balmercoords2[1,i], ]
-balmerdata[0, 2, i, j] = alldat[j, balmercoords1[0,i], ]
-balmerdata[1, 2, i, j] = alldat[j, balmercoords2[1,i], ]
-
-
 for i = 0, npt-1 do begin
     for j = 0, nfiles-1 do begin
     whereslit = 0
     whereslit = where(balmerdata[0, 0, i, 0:15] eq balmerdata[0, 0, i, j], ind)
-    wsind = array_indices(balmerdata[0, 0, i, 0:15])
-    dnbkb = avg(alldat[0:15, *, balmerdata[0,1,i,j], balmerdata[0,0,i,wsind[*] ]])
-    dnbkb = avg(alldat[0:15, 2, i, wsind[*]])
+    wsind = array_indices(balmerdata[0, 0, i, 0:15], whereslit)
+    dnbkb = avg(alldat[balmerdata[0,0,i,wsind[*] ], balmerdata[0,1,i,wsind[*]],0:15])
+    alldat[*, *, j] - dnbkb
+    ;fill data arrays ready to pass to mesa
+    balmerdata[0, 2, i, j] = alldat[balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], j] - dnbkb
+    balmerdata[0, 3, i, j] = alldat[balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], j] - dnbkb
+    balmerdata[1, 2, i, j] = alldat[balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], j] - dnbkb
+    balmerdata[1, 3, i, j] = alldat[balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], j] - dnbkb
     endfor
 endfor
 
+;;;preflare subtraction
 
 
-
-
+save, alldat, balmerdata, filename = 'balmerdata.sav'
 
 
 
@@ -214,7 +216,7 @@ pf = 160.
 ;avsdbk[4,*] = stddev(avsdbk[2,*])
 ;avsdbk[5,*] = avsdbk[2, i] - avsdbk[2, pf]
 
-;;;check my data
+
 
 
 

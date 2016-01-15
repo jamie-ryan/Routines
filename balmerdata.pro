@@ -1,53 +1,4 @@
-iris_test
-;;/unsafe/jsr2/iris_check
-
-f = iris_files(path='/unsafe/jsr2/iris_check')
-;IDL> print, f
-;iris_l2_20140329_140938_3860258481_raster_t000_r00174.fits
-
-;;;general reading in of info and a quick plot to check
-d = iris_obj(f[0])
-d->show_lines
-dat = d->getvar(6, /load)
-wavelength = d->getlam(6)
-times = d->ti2utc()
-plot, wavelength[*],dat[*,630,3]
-
-
-;;;Balmer 2825.7 to 2825.8
-plot, wavelength[39:44], dat[39:44,620,3]
-av = avg(dat[39:44,620,*])
-;IDL> print, av
-;      121.536
-
-sd = stddev(dat[39:44, 620, *])
-;IDL> print, sd
-;      19.4927
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;attempting to copy Heinzel & Kleint
-av = avg(dat[39:44,620,0:5])
-;IDL> print, av
-;      112.924
-
-;y1 (620) bk removal for "quiet sun"
-qs =  total(dat[39:44,620,6])/(44.-39.) - av
-;print, intensity
-;      74.9264
-
-;qs vs flare, i.e, y1 = 620 vs y2 = 447
-;----y----|---preflare---------|-------flare--------|
-;---------|--------------------|--------------------|
-;y2 vs y1 |  ~20 DN/s more     | ~80 DN/s more      |
-;---y1----| average = 50 DN/s* | average = 55 DN/s* |
-;*y1 has bk removed as above
-;*y2 has bk removed, then preflare value is also removed from enhancement to find absolute increase.
-
-;y2 (447) bk removal for "flaring sun"
-fs = total(dat[39:44,447,6])/(44.-39.) - avg(dat[39:44,447,0:5])
-
-
+pro balmerdata
 ;need more data to test..try a new method of reading in all fits into one array
 f = iris_files(path='/unsafe/jsr2/IRIS')
 
@@ -177,7 +128,7 @@ for i = 0, npt-1 do begin
     whereslit = where(balmerdata[0, 0, i, 0:15] eq balmerdata[0, 0, i, j], ind)
     wsind = array_indices(balmerdata[0, 0, i, 0:15], whereslit)
     dnbkb = avg(alldat[balmerdata[0,0,i,wsind[*] ], balmerdata[0,1,i,wsind[*]],0:15])
-    alldat[balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], j] - dnbkb
+    alldat[*, *, j] - dnbkb
     ;fill data arrays ready to pass to mesa
     balmerdata[0, 2, i, j] = alldat[balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], j] - dnbkb
     balmerdata[0, 3, i, j] = alldat[balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], j] - dnbkb
@@ -189,35 +140,6 @@ endfor
 ;;;preflare subtraction
 
 
-
-
-
-
-
-
-
-
-
-;heinzel and klient style bk removal and enhancement isolation
-avsdbk = fltarr(6,nfiles)
-;av = 
-;sd = 
-;bk removed data = 
-;av of bk removed data =
-;sd of bk removed data =
-;absolute enhancement = 
-;
-;pf = preflare element number
-pf = 160.
-;avsdbk[0,*] = avg(alldat[j, 39:44,i,0:5])
-;avsdbk[1,*] = stddev(alldat[j, 39:44,i,0:5])
-;avsdbk[2,*] = total(alldat[39:44,447,6])/(44.-39.) - 
-;avsdbk[3,*] = avg(avsdbk[2,*])
-;avsdbk[4,*] = stddev(avsdbk[2,*])
-;avsdbk[5,*] = avsdbk[2, i] - avsdbk[2, pf]
-
-
-
-
+save, alldat, balmerdata, filename = 'balmerdata.sav'
 
 end
