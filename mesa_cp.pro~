@@ -59,7 +59,6 @@ tbalm = strarr(time_frames, npt, n_elements(tagarr)) ;balmer time array, each co
 tmgw = diff2832.time ;[]
 thmi = diff.time ;[]
 
-
 ;quake position 
 qkxa = 518.5 ;Donea et al 2014
 qkya = 264.0 ;Donea et al 2014
@@ -215,13 +214,6 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     mgerr[1,0,i,*] = f_err
     mgerr[1,1,i,*] = e_err
 
-    ;;;iris 2825.7 to 2825.8 \AA\ section (Balmer continuum)
-    tmp = fltarr(20) ;bk array
-    for k = 0, 19 do begin ;make bk data
-       com = 'tmp[k] = total(sp2826.'+tagarr[129 + k]+'.int[39:44, balmerdata[0, 0, i, 129 + k], bkb])/(44-39)' ;balmer background
-       exe = execute(com)
-    endfor
-    dnbkb = total(tmp)/(20) ;take average for bk
 
     tmp = 0
     a=0
@@ -237,7 +229,32 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
         endfor
         a = reform(a)
         a = a/(44 - 39)
-        balmint[*,*,j] = a - dnbkb
+        balmint[*,*,j] = a - bkb
+
+;Heinzel and Klient method for background removal and enhancement isolation
+;bkremoved = total(dat[39:44,447,6])/(44.-39.) - avg(dat[39:44,447,0:5])
+;absenhancement = flarebkremoved - preflarebkremoved
+if (j eq 0) then begin
+    ;;;iris 2825.7 to 2825.8 \AA\ section (Balmer continuum)
+    tmp = fltarr(20) ;bk array
+    for k = 0, 19 do begin ;make bk data
+       com = 'tmp[k] = total(sp2826.'+tagarr[129 + k]+'.int[39:44, balmerdata[0, 0, i, 129 + k], bkb])/(44-39)' ;balmer background
+       exe = execute(com)
+    endfor
+    dnbkb = total(tmp)/(20) ;take average for bk
+
+endif
+
+if (j gt 0) then begin
+whereslit = 0
+whereslit = where(balmerdata[0, 0, i, 0:j] eq balmerdata[0, 0, i, j], ind)
+wsind = array_indices(balmerdata[0, 0, i, 0:j])
+dnbkb = avg(balmerdata[0, 2, wsind[*], 0:j])
+endif
+a = reform(a)
+a = a/(44 - 39)
+balmint[*,*,j] = a - dnbkb
+
     endfor    
     tmp0 = fltarr(n_elements(tagarr))
     tmp1 = fltarr(n_elements(tagarr))

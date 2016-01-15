@@ -1,6 +1,7 @@
 function find_iris_slit_pos, coord, struc, y=y, a2p = a2p, p2a = p2a
 ;struc = 'sp2826'
-fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
+;fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
+fsp = iris_files(path='/unsafe/jsr2/IRIS')
 nn = n_elements(fsp)
 result = fltarr(nn)
 if not keyword_set(y) then begin

@@ -33,7 +33,7 @@ tmp = fltarr(npix)
     if keyword_set(a2p) then begin
         for i = 0, nn-1 do begin
         ii = string(i, format = '(I0)')
-        com = 'tmp = abs(coord - '+struc+'.tag0'+ii+'.solar_y)'
+        com = 'tmp = abs(coord - struc.tag0'+ii+'.solar_y)'
         exe = execute(com)
         mn = min(tmp, loc)
         ind = array_indices(tmp, loc)
@@ -46,7 +46,7 @@ tmp = fltarr(npix)
         for i = 0, nn-1 do begin
         ii = string(i, format = '(I0)')
         coordstr = string(coord, format = '(I0)')
-        com = 'result['+ii+'] = '+struc+'.tag0'+ii+'.solar_y['+coordstr+']'
+        com = 'result['+ii+'] = struc.tag0'+ii+'.solar_y['+coordstr+']'
         exe = execute(com)
         endfor
     endif

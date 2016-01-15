@@ -8,6 +8,7 @@ lambda = string(lambda, format ='(I0)' )
 
 
 f = iris_files('../IRIS/*raster*.fits')
+f = iris_files(path='/unsafe/jsr2/IRIS')
 nnn = n_elements(f)
 tagarr = strarr(nnn)
 dataarr = strarr(nnn)
@@ -70,7 +71,7 @@ structname = 'sp'+lambda
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
 filnm = strcompress(structname+'-'+d1+'-'+d2+'.sav', /remove_all)
-com = 'save, sp'+lambda+', filename = filnm'
+com = 'save, sp'+lambda+',tagarr, filename = filnm'
 exe = execute(com)
  
 end
