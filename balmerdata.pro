@@ -123,11 +123,12 @@ c = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
 balmerdata[1, 1, npt-1, *] = c
 c = 0
 for i = 0, npt-1 do begin
+print, i
     for j = 0, nfiles-1 do begin
     whereslit = 0
-    whereslit = where(balmerdata[0, 0, i, 0:15] eq balmerdata[0, 0, i, j], ind)
-    wsind = array_indices(balmerdata[0, 0, i, 0:15], whereslit)
-    dnbkb = avg(alldat[balmerdata[0,0,i,wsind[*] ], balmerdata[0,1,i,wsind[*]],0:15])
+    whereslit = where(balmerdata[0, 0, i, 0:22] eq balmerdata[0, 0, i, j], ind)
+    wsind = array_indices(balmerdata[0, 0, i, 0:22], whereslit)
+    dnbkb = avg(alldat[balmerdata[0,0,i,wsind[3,*] ], balmerdata[0,1,i,wsind[3,*]]])
     alldat[*, *, j] = alldat[*, *, j] - dnbkb
     ;fill data arrays ready to pass to mesa
     balmerdata[0, 2, i, j] = alldat[balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], j] - dnbkb
