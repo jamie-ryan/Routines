@@ -1,8 +1,8 @@
 pro mes2ladder, date
 
 ;date is a string 
-dir = '/unsafe/jsr2/'+date+'-2015/'
-restore, dir+'29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'-2015.sav'
+dir = '/unsafe/jsr2/'+date+'/'
+restore, dir+'29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 
 npix = 10
 frame = 2
@@ -36,19 +36,17 @@ for j = 0, frame-1 do begin
     for i = 0, npix-1 do begin
 
         ;make filename
-        jj = string(j+1, format = '(I0)')
+;        jj = string(j+1, format = '(I0)')
         ii = string(i+1, format = '(I0)')
 
         ;used hmi coords as reference point
-        if (j eq 0) then xx = string(hmicoords1[0,i], format = '(I0)') else $
-        xx = string(hmicoords2[0,i], format = '(I0)')
-        if (j eq 0) then yy = string(hmicoords1[1,i], format = '(I0)') else $
-        yy = string(hmicoords2[1,i], format = '(I0)')
+        if (j eq 0) then ii = string(i+1, format = '(I0)') else $
+        ii = string(i+11, format = '(I0)')
 
         ;used hmi coords as reference point
-        fff = dir+'29-Mar-14-Ribbon-xyPosition-'+xx+'-'+yy+'-Frame-'+jj+'-Area-Energy-Ladder.eps'
-        jjj = string(j+1, format = '(I0)')
-        titl = '29-Mar-14-Ribbon--Energy-hmicoords'+jjj+'-'+xx+'-'+yy
+        fff = dir+'29-Mar-14-Ribbon-Area-'+ii+'-Energy-Ladder.eps'
+;        jjj = string(j+1, format = '(I0)')
+        titl = '29-Mar-14-Ribbon-Area-'+ii+'-Energy-Ladder'
         mydevice=!d.name
         set_plot,'ps'
         ;device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1  , bits=8, bits = 8
@@ -63,7 +61,7 @@ for j = 0, frame-1 do begin
         utplot, tsi[447:*], sidata[j, 3, i, 447:*], $ ;sidata[time_frame, e, coord, t]
         base, $
         timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
-        psym = -2, $ 
+;        psym = -2, $ 
         linestyle = 0, $
         ycharsize = 0.55, $
         xcharsize = 0.65, $
@@ -80,12 +78,12 @@ for j = 0, frame-1 do begin
         loadct,3
         vert_line,sec,1, color = 2
         loadct,0
-        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
+        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom+' Coord:'+ii, /norm
 
         o = 3
         xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
-        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
+;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
         ytitl = energy
         linecolors
         utplot, tmg[595:*], mgdata[j, 3, i, 595:*], $ ;583
@@ -107,14 +105,14 @@ for j = 0, frame-1 do begin
         loadct,3
         vert_line,sec,1, color = 2
         loadct,0
-        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
+        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom+' Coord:'+ii, /norm
 
         o = 2
         mn = 0.8*min(balmerdata[j, 3, i, 155:*])
         mx = 1.5*max(balmerdata[j, 3, i, 155:*])
         xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
-        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
+;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
         ytitl = energy
         linecolors
         utplot, tbalm[j, i, *], balmerdata[j, 3, i, *], $ ;tbalm[1, i, j]
@@ -137,12 +135,12 @@ for j = 0, frame-1 do begin
         loadct,3
         vert_line,sec,1, color = 2
         loadct,0
-        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
+        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom+' Coord:'+ii, /norm
 
         o = 1
         xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
-        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
+;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
         ytitl = energy
         linecolors        
         utplot, tmgw[150:*], mgwdata[j, 3, i, 150:*], $
@@ -164,12 +162,12 @@ for j = 0, frame-1 do begin
         loadct,3
         vert_line,sec,1, color = 2
         loadct,0
-        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
+        xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom+' Coord:'+ii, /norm
 
         o = 0
         xyx = xpos[0] + 0.2*((xpos[1] - xpos[0])/2) ;middle of xrange
         xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
-        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
+;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
         ytitl = energy
         linecolors
         utplot, thmi[36:78], hmidata[j, 3, i, 36:78], $
@@ -189,7 +187,7 @@ for j = 0, frame-1 do begin
         loadct,3
         vert_line,sec,1, color = 2
         loadct,0
-        xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum', /norm
+        xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum Coord:'+ii, /norm
         device,/close
         set_plot,mydevice
     endfor
@@ -201,7 +199,7 @@ device,filename=dir+'29-Mar-14-Quake-Area-Energy-Ladder.eps',/portrait,/encapsul
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
-titl = '29-Mar-14-Sunquake-Location-Energy-coords-518.5-264.0'
+titl = '29-Mar-14-Sunquake-Location-Energy-Coords-518.5-264.0'
 ytitl = energy
 linecolors
 utplot, tsi[447:*], sidata[0, 3, npix, 447:*], $
@@ -223,7 +221,7 @@ position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]]
 loadct,3
 vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom+' Coord: SQ', /norm
 
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -250,7 +248,7 @@ position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 loadct,3
 vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom+' Coord: SQ', /norm
 
 o = 2
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -277,7 +275,7 @@ position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 loadct,3
 vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom+' Coord: SQ', /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -304,7 +302,7 @@ position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
 loadct,3
 vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom, /norm
+xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom+' Coord: SQ', /norm
 
 o = 0
 xyx = xpos[0] + 0.2*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -329,7 +327,7 @@ position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 loadct,3
 vert_line,sec,1, color = 2
 loadct,0
-xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum', /norm
+xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum Coord: SQ', /norm
 device,/close
 set_plot,mydevice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
