@@ -1,4 +1,4 @@
-pro oplot_ribbon_coords, coords, box_size, box = box, cross = cross
+pro oplot_ribbon_coords, coords, box_size, box = box, cross = cross, set_2 = set_2
 
 nrb = 10
 for i = 0 ,nrb-1 do begin
@@ -21,6 +21,8 @@ for i = 0 ,nrb-1 do begin
         oplot, [xf, xf], [yf, y0], color = 125 ;right side
         oplot, [x0, xf], [y0, y0], color = 125 ;bottom
     endif
+    if keyword_set(set_2) then ii = string(i+11, format = '(I0)') else ii = string(i+1, format = '(I0)')
+    XYouts, x0, yf, ii, COLOR=FSC_Color('red'), ALIGN=0.5, CHARSIZE=0.75
 endfor
 qkxa = 518.5
 qkya = 262.0
@@ -30,7 +32,7 @@ x0 = central_coord_x - box_size
 xf = central_coord_x + box_size
 y0 = central_coord_y - box_size
 yf = central_coord_y + box_size
-loadct, 1
+loadct, 6
 if keyword_set(cross) then begin
     oplot, [x0, xf], [y0, yf], color = 200 ;bottom left to top right
     oplot, [x0, xf], [yf, y0], color = 200 ;top
@@ -43,4 +45,6 @@ if keyword_set(box) then begin
     oplot, [xf, xf], [yf, y0], color = 190 ;right side
     oplot, [x0, xf], [y0, y0], color = 190 ;bottom
 endif
+ii = 'SQ'
+XYouts, x0, yf, ii, COLOR=FSC_Color('red'), ALIGN=0.5, CHARSIZE=0.75
 end

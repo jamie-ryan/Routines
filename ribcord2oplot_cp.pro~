@@ -12,9 +12,8 @@ restore, '/unsafe/jsr2/'+date+'-2015/29-Mar-2014-bk-subtracted-iris-hmi-area-ene
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 ;restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
 restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
-;restore, '/unsafe/jsr2/balmdat-Jan20-2016.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/HMI-diff-15-Oct-15.sav'
-
+;restore, '/unsafe/jsr2/balmdat-Jan20-2016.sav'
 
 dir = '/unsafe/jsr2/'+date+'-2015/'
 nrb = 20 ; number ribbon coords
