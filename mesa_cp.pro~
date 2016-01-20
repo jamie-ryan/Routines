@@ -1,4 +1,4 @@
-pro mesa
+pro mesa_cp, date
 
 
 ;tmp = total(map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]], $
@@ -15,7 +15,8 @@ restore, '/unsafe/jsr2/iris-16-03-15.sav'
 restore, '/unsafe/jsr2/sp2826-Apr28-2015.sav'
 restore, '/unsafe/jsr2/hmi-12-05-15.sav'
 ;restore, '/unsafe/jsr2/HMI-diff-15-Oct-15.sav'
-
+restore, 'balmdat-Jan20-2016.sav'
+restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 ;;;date string
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
@@ -27,8 +28,8 @@ date = d1+'-'+d2
 
 ;;;iris spectra fits
 ;fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
-fsp = findfile('/unsafe/jsr2/Data/IRIS/*raster*.fits')
-
+fsp = findfile('/unsafe/jsr2/IRIS/*raster*.fits')
+nfiles = n_elements(fsp)
 ;;;some variables for loops, arrays element definition and header info 
 sample = 1 ;use this for spectra
 nrb = 20 ; number ribbon coords
@@ -55,9 +56,10 @@ visiblewidth = (7500. - 3800.)/76.e-3 ;in angstroms
 ;;;set time series to run from 17:20 to 17:55 
 tsi = map1400.time ;[]
 tmg = submg.time ;[]
-tbalm = strarr(time_frames, npt, n_elements(tagarr)) ;balmer time array, each column couples with the corresponding e and f columns in balmerdata 
+tbalm = strarr(time_frames, npt, nfiles) ;balmer time array, each column couples with the corresponding e and f columns in balmerdata 
 tmgw = diff2832.time ;[]
 thmi = diff.time ;[]
+
 
 ;quake position 
 qkxa = 518.5 ;Donea et al 2014
@@ -87,17 +89,21 @@ bkmgp[0, i] = convert_coord_iris(bksia[0,i], sji_2796_hdr[661], /x, /a2p)
 bkmgp[1, i] = convert_coord_iris(bksia[1,i], sji_2796_hdr[661], /y, /a2p)
 endfor
 
-dnbkb = fltarr(n_elements(tagarr))
-bkb = 100.;630. ;from heinzel and kleint balmer paper
-
-
 
 ;;;arrays to contain energy values for each coord through the entire time series.
 ;eg: sidata[time_frame, xcoord, ycoord, time]....have to have seperate arrays due to different cadence
 ;data = [time_frame, x, y, F, E] = fltarr(2, 4, 10, t)
 sidata = fltarr(time_frames, columns, npt, n_elements(tsi))
 mgdata = fltarr(time_frames, columns, npt, n_elements(tmg))
-balmerdata = fltarr(time_frames, columns, npt, n_elements(tagarr))
+balmerdata = fltarr(time_frames, columns, npt, nfiles)
+for i = 0, npt-1 do begin ;fill with pixel coords from balm_bk
+for j = 0, nfiles -1 do begin
+balmerdata[0,0,i,j] = balmpix[0,0,i,j]
+balmerdata[0,1,i,j] = balmpix[0,1,i,j]
+balmerdata[1,0,i,j] = balmpix[1,0,i,j]
+balmerdata[1,1,i,j] = balmpix[1,1,i,j]
+endfor
+endfor
 mgwdata = fltarr(time_frames, columns, npt, n_elements(tmgw))
 hmidata = fltarr(time_frames, columns, npt, n_elements(thmi))
 
@@ -114,7 +120,7 @@ hmierr = fltarr(time_frames, fande, npt, n_elements(thmi))
 ;;;read in coord files for each data set
 ;;;(to change coords ammend file, eg, hmicoords1.txt)
 ;;;based on naming convention (no zero, always start with 1), eg, hmicoords1, hmicoords2, hmicoords3 etc.
-dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+dataset = ['si', 'mg', 'mgw', 'hmi']
 for i = 1,2 do begin
     ii = string(i, format = '(I0)')
     for k = 0, n_elements(dataset)-1 do begin
@@ -129,46 +135,9 @@ for i = 1,2 do begin
     endfor
 endfor
 
+
 ;;;;use tmp, e and f arrays to save memory
 tmp = 0
-c = 0
-
-;sort out balmercoords problems...purge data of dodgy values
-for i = 0, n_elements(balmercoords1[0,*]) - 1 do begin
-    c = find_iris_slit_pos(balmercoords1[0, i],sp2826) 
-    balmerdata[0, 0, i, *] = c
-    c = 0
- 
-    c = find_iris_slit_pos(balmercoords1[1, i],sp2826, /y, /a2p)
-    c[where(c eq 1092.00, /null)] = 422.00 
-    balmerdata[0, 1, i, *] = c
-    c = 0
-
-    c = find_iris_slit_pos(balmercoords2[0, i],sp2826) 
-    balmerdata[1, 0, i, *] = c
-    c = 0
-
-    c = find_iris_slit_pos(balmercoords2[1, i],sp2826, /y, /a2p)  
-    c[where(c eq 1092.00, /null)] = 422.00 
-    balmerdata[1, 1, i, *] = c 
-    c = 0
-endfor
-c = find_iris_slit_pos(qkxa,sp2826)
-balmerdata[0, 0, npt-1, *] = c
-c = 0
-
-c = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
-c[where(c eq 1092.00, /null)] = 422.00 
-balmerdata[0, 1, npt-1, *] = c
-c = 0
-
-c = find_iris_slit_pos(qkxa,sp2826)
-balmerdata[1, 0, npt-1, *] = c
-c = 0
-
-c = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
-c[where(c eq 1092.00, /null)] = 422.00 
-balmerdata[1, 1, npt-1, *] = c
 c = 0
 ;;;loop to fill data array coord columns and calculate flux' and energies. 
 for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
@@ -214,60 +183,22 @@ for i = 0, n_elements(sicoords1[0,*]) - 1 do begin
     mgerr[1,0,i,*] = f_err
     mgerr[1,1,i,*] = e_err
 
-
-    tmp = 0
-    a=0
-    balmint = fltarr(8, 1093, n_elements(tagarr))
-    for j = 0, n_elements(tagarr)-1 do begin
-        com = 'tbalm[0, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[0, 0, i, j]]'
-        exe = execute(com)
-        com = 'tbalm[1, i, j] = sp2826.'+tagarr[j]+'.time_ccsds[balmerdata[1, 0, i, j]]'
-        exe = execute(com)
-        for l = 39, 44 do begin
-            com = 'a = a + sp2826.'+tagarr[j]+'.int[l, *, *]'
-            exe = execute(com)
-        endfor
-        a = reform(a)
-        a = a/(44 - 39)
-        balmint[*,*,j] = a - bkb
-
-;Heinzel and Klient method for background removal and enhancement isolation
-;bkremoved = total(dat[39:44,447,6])/(44.-39.) - avg(dat[39:44,447,0:5])
-;absenhancement = flarebkremoved - preflarebkremoved
-if (j eq 0) then begin
     ;;;iris 2825.7 to 2825.8 \AA\ section (Balmer continuum)
-    tmp = fltarr(20) ;bk array
-    for k = 0, 19 do begin ;make bk data
-       com = 'tmp[k] = total(sp2826.'+tagarr[129 + k]+'.int[39:44, balmerdata[0, 0, i, 129 + k], bkb])/(44-39)' ;balmer background
-       exe = execute(com)
-    endfor
-    dnbkb = total(tmp)/(20) ;take average for bk
-
-endif
-
-if (j gt 0) then begin
-whereslit = 0
-whereslit = where(balmerdata[0, 0, i, 0:j] eq balmerdata[0, 0, i, j], ind)
-wsind = array_indices(balmerdata[0, 0, i, 0:j])
-dnbkb = avg(balmerdata[0, 2, wsind[*], 0:j])
-endif
-a = reform(a)
-a = a/(44 - 39)
-balmint[*,*,j] = a - dnbkb
-
+    
+    tmp = 0
+    a1=0
+    tmp0 = fltarr(nfiles)
+    tmp1 = fltarr(nfiles)
+    for j = 0, nfiles-1 do begin
+        tbalm[0, i, j] = times[j, balmpix[0,0,i,j]]
+        tbalm[1, i, j] = times[j, balmpix[1,0,i,j]]
     endfor    
-    tmp0 = fltarr(n_elements(tagarr))
-    tmp1 = fltarr(n_elements(tagarr))
-    for j = 0, n_elements(tagarr) - 1 do begin
-        tmp0[j] = sumarea(balmint[*,*,j], balmerdata[0, 0, i, j], balmerdata[0, 1, i, j], iradius, /sg)
-        tmp1[j] = sumarea(balmint[*,*,j], balmerdata[1, 0, i, j], balmerdata[1, 1, i, j], iradius, /sg)
-    endfor
-    iris_radiometric_calibration, tmp0*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
+    iris_radiometric_calibration, balmdat[0,i,*]*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
     balmerdata[0, 2, i, *] = f
     balmerdata[0, 3, i, *] = e
     balmererr[0,0,i,*] = f_err
     balmererr[0,1,i,*] = e_err
-    iris_radiometric_calibration, tmp1*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
+    iris_radiometric_calibration, balmdat[1,i,*]*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
     balmerdata[1, 2, i, *] = f
     balmerdata[1, 3, i, *] = e
     balmererr[1,0,i,*] = f_err
@@ -355,20 +286,18 @@ mgerr[1,1,npt-1,*] = e_err
 ;;;iris 2825.7 to 2825.8 \AA\ (Balmer continuum) section
 tmp = fltarr(n_elements(tagarr))
 a=0
-for i = 0, n_elements(tagarr)-1 do begin
-    tmp[i] = sumarea(balmint[*,*,i], balmerdata[0, 0, npt-1, i], balmerdata[0, 1, npt-1, i], iradius, /sg)
-    com = 'tbalm[0, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerdata[0, 0, npt-1, i]]'
-    exe = execute(com)
-    com = 'tbalm[1, npt-1, i] = sp2826.'+tagarr[i]+'.time_ccsds[balmerdata[1, 0, npt-1, i]]'
-    exe = execute(com)
-endfor
-iris_radiometric_calibration, tmp*balmwidth, wave=[wav1,wav2], n_pixels = 1+2*iradius, f, e, f_err, e_err, /sg
+for j = 0, nfiles-1 do begin
+    tbalm[0, npt-1, j] = times[j, balmpix[0,0,npt-1,j]]
+    tbalm[1, npt-1, j] = times[j, balmpix[1,0,npt-1,j]]
+endfor    
+iris_radiometric_calibration, balmdat[0,npt-1,*]*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
 balmerdata[0, 2, npt-1, *] = f
 balmerdata[0, 3, npt-1, *] = e
-balmerdata[1, 2, npt-1, *] = f
-balmerdata[1, 3, npt-1, *] = e
 balmererr[0,0,npt-1,*] = f_err
 balmererr[0,1,npt-1,*] = e_err
+iris_radiometric_calibration, balmdat[1, npt-1,*]*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
+balmerdata[1, 2, npt-1, *] = f
+balmerdata[1, 3, npt-1, *] = e
 balmererr[1,0,npt-1,*] = f_err
 balmererr[1,1,npt-1,*] = e_err
 
@@ -408,7 +337,7 @@ hmidata[1, 3, npt-1, *] = e
 hmierr[1,0,npt-1,*] = f_err
 hmierr[1,1,npt-1,*] = e_err
 
-spawn, 'mkdir /unsafe/jsr2/'+date
+;spawn, 'mkdir /unsafe/jsr2/'+date......this is now done in master.pro
 ;;;or maybe write individual sav files for each dataset?
 save, $
 ;quake area
@@ -420,7 +349,7 @@ mgerr, $
 dnbkmg, $
 balmerdata, $
 balmererr, $
-dnbkb, $
+balmbk, $
 mgwdata, $
 mgwerr, $
 hmidata, $

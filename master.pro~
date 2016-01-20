@@ -8,7 +8,7 @@ spawn, 'mkdir /unsafe/jsr2/'+date
 balm_bk, date
 mesa_cp, date
 mes2ladder, date
-ribcord2oplot_cp, date
+ribcord2oplot, date
 impulse, date, /plot
 end
 

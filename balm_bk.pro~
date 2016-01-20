@@ -1,4 +1,4 @@
-pro balm_bk
+pro balm_bk, date
 ;determine background values based on slit position
 ;restore, '/unsafe/jsr2/sp2826-Jan15-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
@@ -16,7 +16,7 @@ columns = 4 ;x,y,E,F
 qkxa = 518.5 ;Donea et al 2014
 qkya = 264.0 ;Donea et al 2014
 balmbk = fltarr(8)
-
+iradius = 4.;iris qk radius in pixels
 
 dataset = ['balmer']
 for i = 1,2 do begin
@@ -124,8 +124,10 @@ for i = 0, nfiles - 1 do begin
 endfor
 for i = 0, npt - 1 do begin
     for j = 0, nfiles -1 do begin
-        balmdat[0, i, j] = alldat[balmpix[0, 0, i, j], balmpix[0, 1, i, j], j]
-        balmdat[1, i, j] = alldat[balmpix[1, 0, i, j], balmpix[1, 1, i, j], j]
+;        balmdat[0, i, j] = alldat[balmpix[0, 0, i, j], balmpix[0, 1, i, j], j]
+;        balmdat[1, i, j] = alldat[balmpix[1, 0, i, j], balmpix[1, 1, i, j], j]
+        balmdat[0, i, j] = sumarea(alldat[*,*,j], balmpix[0, 0, i, j], balmpix[0, 1, i, j], iradius, /sg)
+        balmdat[1, i, j] = sumarea(alldat[*,*,j], balmpix[1, 0, i, j], balmpix[1, 1, i, j], iradius, /sg)
     endfor
 endfor
 
@@ -144,9 +146,12 @@ wi = array_indices(balmpix[0, 0, *, 0:30], ws)
 balmbk[i] = avg(balmdat[0, wi[2, *],wi[3, *]])
 endfor
 
+balmdat[0,*,*]=balmdat[0,*,*] - balmbk[balmpix[0,0,*,*]]
+balmdat[1,*,*]=balmdat[1,*,*] - balmbk[balmpix[1,0,*,*]]
+
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
-filnm = strcompress('balmdat-'+d1+'-'+d2+'.sav', /remove_all)
+filnm = strcompress('/unsafe/jsr2/'+date+'/balmdat-'+d1+'-'+d2+'.sav', /remove_all)
 
-save, balmercoords1, balmercoords2, balmpix, balmbk, filename = filnm
+save,alldat, allhdr, times, balmdat, balmercoords1, balmercoords2, balmpix, balmbk, filename = filnm
 end
