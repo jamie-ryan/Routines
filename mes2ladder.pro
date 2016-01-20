@@ -340,7 +340,7 @@ printf, lun, 'Si IV & Mg II & Balmer Continuum \\'
 printf, lun, '\hline'
 bksi = string(dnbksi, format = '(E0.2)')
 bkmg = string(dnbkmg, format = '(E0.2)')
-bkb = string(dnbkb, format = '(E0.2)')
+;bkb = string(dnbkb, format = '(E0.2)')
 printf, lun, ''+bksi+' & '+bkmg+' & '+bkb+'\\'
 printf, lun, '\end{tabular}'
 printf, lun, '\caption{Background radiation values in DN for IRIS Si IV, Mg II and Balmer continuum. }\label{bktab}'

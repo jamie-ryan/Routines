@@ -256,7 +256,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
 ;titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = energy
 linecolors
-utplot, tbalm[0, npix, 12:*], balmerdata[0, 3, npix, 12:*], $
+utplot, tbalm[0, npix, *], balmerdata[0, 3, npix, *], $
 timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
 linestyle = 0, $
 ycharsize = 0.55 , $
@@ -355,9 +355,10 @@ printf, lun, '\begin{tabular}{|c|c|c|c|c|c|c|c|}'
 printf, lun, 'Time UT & Sunquake Coords x",y"  & $E_{Si IV}$ & $E_{Mg II}$ & $E_{Balm}$ & $E_{Mg II w}$ & $E_{HMI}$ \\'
 printf, lun, '\hline'
 
+nmxbalm = n_elements(balmerdata[0, 3, npix, *])
 siq = string(sidata[0, 3, npix, 495], format = '(E0.2)')
 mgq = string(mgdata[0, 3, npix, 661], format = '(E0.2)')
-balmq = string(balmerdata[0, 3, npix, 173], format = '(E0.2)')
+balmq = string(balmerdata[0, 3, npix, nmxbalm -8], format = '(E0.2)')
 mgwq = string(mgwdata[0, 3, npix, 166], format = '(E0.2)')
 hmiq = string(hmidata[0, 3, npix, 62], format = '(E0.2)')
 
@@ -365,7 +366,7 @@ printf, lun, '17:45 & 518.5, 264.0 & '+siq+' & '+mgq+' & '+balmq+' & '+mgwq+' & 
 
 siq = string(sidata[0, 3, npix, 498], format = '(E0.2)')
 mgq = string(mgdata[0, 3, npix, 664], format = '(E0.2)')
-balmq = string(balmerdata[0, 3, npix, 174], format = '(E0.2)')
+balmq = string(balmerdata[0, 3, npix, nmxbalm -7], format = '(E0.2)')
 mgwq = string(mgwdata[0, 3, npix, 167], format = '(E0.2)')
 hmiq = string(hmidata[0, 3, npix, 63], format = '(E0.2)')
 
@@ -406,7 +407,7 @@ for j = 0, frame-1 do begin
 
       si = string(sidata[j,3,i,495], format = '(E0.2)')
       mg = string(mgdata[j,3,i,661], format = '(E0.2)')
-      balm = string(balmerdata[j,3,i,173], format = '(E0.2)')
+      balm = string(balmerdata[j,3,i,nmxbalm -8], format = '(E0.2)')
       hmi = string(hmidata[j,3,i,62], format = '(E0.2)')
       mgw = string(mgwdata[j,3,i,166], format = '(E0.2)')
       ;fltarr(frame,npix,n_elements(tsi))
@@ -432,7 +433,7 @@ for j = 0, frame-1 do begin
 
       si = string(sidata[j, 3, i, 498], format ='(E0.2)')
       mg = string(mgdata[j, 3, i, 664], format ='(E0.2)')
-      balm = string(balmerdata[j, 3, i, 174], format = '(E0.2)')
+      balm = string(balmerdata[j, 3, i, nmxbalm -7], format = '(E0.2)')
       mgw = string(mgwdata[j, 3, i, 167], format ='(E0.2)')
       hmi = string(hmidata[j, 3, i, 63], format ='(E0.2)')
       ;fltarr(frame,npix,n_elements(tsi))
