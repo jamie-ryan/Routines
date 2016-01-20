@@ -12,13 +12,15 @@ restore, '/unsafe/jsr2/'+date+'-2015/29-Mar-2014-bk-subtracted-iris-hmi-area-ene
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/sp2826-Apr28-2015.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/HMI-diff-15-Oct-15.sav'
+restore, '/unsafe/jsr2/balmdat-Jan20-2016.sav'
 dir = '/unsafe/jsr2/'+date+'-2015/'
 nrb = 20 ; number ribbon coords
 time_frames = 2 
 npt = 1 + (nrb/time_frames)
 
-iradius = 4.* 0.167;iris qk radius in pixels
-sradius = 1. * 0.505;sdo qk radius in pixels
+;instrument specific radius (not including central pixel)
+iradius = 4.* 0.167;iris qk radius in arcseconds 
+sradius = 1. * 0.505;sdo qk radius in arcseconds
 
 sub_map, map1400, ssi, xrange = [460., 560.], yrange = [220., 320.]
 sub_map, submg, smg, xrange = [460., 560.], yrange = [220., 320.]

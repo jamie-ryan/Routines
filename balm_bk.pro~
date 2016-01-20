@@ -144,5 +144,9 @@ wi = array_indices(balmpix[0, 0, *, 0:30], ws)
 balmbk[i] = avg(balmdat[0, wi[2, *],wi[3, *]])
 endfor
 
-save, balmercoords1, balmercoords2, balmpix, balmbk, filename = 'balmdat.sav'
+d1 = strcompress(strmid(systime(),4,7),/remove_all)
+d2 = strcompress(strmid(systime(),20),/remove_all)
+filnm = strcompress('balmdat-'+d1+'-'+d2+'.sav', /remove_all)
+
+save, balmercoords1, balmercoords2, balmpix, balmbk, filename = filnm
 end

@@ -148,5 +148,5 @@ d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
 filnm = strcompress('balmdat-'+d1+'-'+d2+'.sav', /remove_all)
 
-save, balmercoords1, balmercoords2, balmpix, balmbk, filename = filnm
+save,alldat, allhdr, times, balmdat, balmercoords1, balmercoords2, balmpix, balmbk, filename = filnm
 end
