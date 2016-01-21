@@ -1,7 +1,7 @@
 pro impulse, fdate, plot = plot, table = table
-restore, '/unsafe/jsr2/'+fdate+'-2015/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'-2015.sav'
+restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'.sav'
 
-dir = '/unsafe/jsr2/'+fdate+'-2015/'
+dir = '/unsafe/jsr2/'+fdate+'/'
 intimpulse3, sidata, si, timpsi, eimpsi, timpsi_av, eimpsi_av
 ;INPUT:
 ;   sidata = [time_frames,column, npt, t]
@@ -33,7 +33,7 @@ mg, timpmg, eimpmg, timpmg_av, eimpmg_av, $
 balm, timpbalm, eimpbalm, timpbalm_av, eimpbalm_av, $
 mgw, timpmgw, eimpmgw, timpmgw_av, eimpmgw_av, $
 hmi, timphmi, eimphmi, timphmi_av, eimphmi_av, $
-filename = '/unsafe/jsr2/'+fdate+'-2015/29-Mar-14-impulsive-phase-'+fdate+'.sav'
+filename = '/unsafe/jsr2/'+fdate+'/29-Mar-14-impulsive-phase-'+fdate+'.sav'
 
 if keyword_set(plot) then begin
 nrb = 20 ; number ribbon coords

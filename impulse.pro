@@ -1,7 +1,7 @@
 pro impulse, fdate, plot = plot, table = table
-restore, '/unsafe/jsr2/'+fdate+'-2015/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'-2015.sav'
+restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'.sav'
 
-dir = '/unsafe/jsr2/'+fdate+'-2015/'
+dir = '/unsafe/jsr2/'+fdate+'/'
 intimpulse3, sidata, si, timpsi, eimpsi, timpsi_av, eimpsi_av
 ;INPUT:
 ;   sidata = [time_frames,column, npt, t]
@@ -33,7 +33,7 @@ mg, timpmg, eimpmg, timpmg_av, eimpmg_av, $
 balm, timpbalm, eimpbalm, timpbalm_av, eimpbalm_av, $
 mgw, timpmgw, eimpmgw, timpmgw_av, eimpmgw_av, $
 hmi, timphmi, eimphmi, timphmi_av, eimphmi_av, $
-filename = '/unsafe/jsr2/'+fdate+'-2015/29-Mar-14-impulsive-phase-'+fdate+'.sav'
+filename = '/unsafe/jsr2/'+fdate+'/29-Mar-14-impulsive-phase-'+fdate+'.sav'
 
 if keyword_set(plot) then begin
 nrb = 20 ; number ribbon coords
@@ -87,22 +87,12 @@ for j = 0, time_frames - 1 do begin
         e[1, 5] = eimphmi[j,i]
 
         ;plot
-        if (i lt npt-1) then begin
-        if (j eq 0) then xx = string(hmicoords1[0,i], format = '(I0)') else $
-        xx = string(hmicoords2[0,i], format = '(I0)')
-        if (j eq 0) then yy = string(hmicoords1[1,i], format = '(I0)') else $
-        yy = string(hmicoords2[1,i], format = '(I0)')
-        endif
-
-        if (i eq npt -1) then begin
-        xx = '518.5'
-        yy = '264.0'
-        endif
+        if (j eq 0) then ii = string(i+1, format = '(I0)') else $
+        ii = string(i+11, format = '(I0)')
 
         ;used hmi coords as reference point
-        fff = dir+'29-Mar-14-Ribbon-xyPosition-'+xx+'-'+yy+'-Frame-'+jj+'-Impulse-Energy.eps'
-        jjj = string(j+1, format = '(I0)')
-        titl = '29-Mar-14-Ribbon--Energy-hmicoords'+jjj+'-'+xx+'-'+yy
+        fff = dir+'29-Mar-14-Ribbon-Area-'+ii+'-Impulse-Energy.eps'
+        titl = '29-Mar-14-Ribbon-Area-'+ii+'-Impulse-Energy'
         mydevice=!d.name
         set_plot,'ps'
         ;device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1  , bits=8, bits = 8
@@ -141,7 +131,6 @@ e[1, 5] = eimphmi_av
 ;average impulsive energy plot 
 ;used hmi coords as reference point
 fff = dir+'29-Mar-14-Average-Impulse-Energy.eps'
-jjj = string(j+1, format = '(I0)')
 titl = '29-Mar-14-Average-Impulse-Energy.eps'
 mydevice=!d.name
 set_plot,'ps'
