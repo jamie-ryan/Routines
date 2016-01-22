@@ -158,6 +158,7 @@ for j = 0, frame-1 do begin
     xyx = xpos[0] + 0.2*((xpos[1] - xpos[0])/2) ;middle of xrange
     xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
     ytitl = energy
+    xtitl = 'West to East Heliocentric Coordintes [arcsec]' 
     linecolors
     plot, hmicoords[0,*], hmi_eimp[0, 0:9], $
     linestyle = 0, $
@@ -166,6 +167,7 @@ for j = 0, frame-1 do begin
     xstyle = 8, $
     yticks = 2, $
     ytickname=[' '], $
+    xtitle = xtitl, $
     ytitle = ytitl, $
     /ynozero, $
     xmargin = [12,3], $
