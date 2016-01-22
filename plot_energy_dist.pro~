@@ -1,6 +1,4 @@
-plot_energy_dist, date, sidebyside = sidebyside
-
-;sidebyside = plot the two ladder plots side by side
+plot_energy_dist, date
 
 dir = '/unsafe/jsr2/'+date+'/
 

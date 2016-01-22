@@ -1,4 +1,4 @@
-plot_energy_dist, date
+pro plot_energy_dist, date
 
 dir = '/unsafe/jsr2/'+date+'/
 
