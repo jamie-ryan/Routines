@@ -115,7 +115,7 @@ mgw_timp, mgw_eimp, $
 hmi_timp, hmi_eimp, $
 filename = filnm
     
-;make structure
+;make structure and save
 description = 'energies integrated over impulsive phase' 
 ipt = {description:description, tstart:t_start, tend:t_end}
 rhessi = {timp:rhessi_timp, Eimp:rhessi_eimp} 
