@@ -1,50 +1,129 @@
-pro intimpulse3, dd, si, timp, eimp, t_av, e_av
-;INPUT:
-;   d = [time_frames,column, npt, t]
-;OUTPUT:
-;   si = data structure 
-;   timp = [time_frames, npt] = impulsive phase time for each coord 
-;   eimp = [time_frames, npt] = impulsive phase integrated energy for each coord
-;   t_av = average impulsive phase time
-;   e_av = average impulsive phase integrated energy
-;integrate energy curve over duration of impulsive phase of flare
+pro intimpulse3, fdate
 
+restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'.sav'
+
+dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 cadence = [26., 19., 72., 75., 45. ] ;si, mg  , balmer  , mgw  , hmi 
 time_frames = 2
 nrb = 20
 npt = 1 + (nrb/time_frames)
 
-;analyse peak slope, function returns flag[0, *] = gradient, flag[1, *] = flag
-;flag can have three values, 2 = +ve slope, 1 = -ve slope and 0 = zero slope
-;the number of elements in each column contained in flag is based on n_elements(2*array[max:*]) 
-timp = fltarr(time_frames, npt)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;IMPULSIVE PHASE TIME FROM RHESSI 50 - 100 keV???;;;
+;impulsive phase start time
+t_start = '*17:47*'
+t1find = '*17:46*'
+;impulsive phase end time
+t_end = '*17:48*'
+t2find = '*17:49*'
+
+;impulsive phase time in seconds
+rhessi_timp = 60. 
+
+
+;array to contain dataset specific impulsive phase 
 eimp = fltarr(time_frames, npt)
-for j = 0, time_frames - 1 do begin
-    for i = 0, npt - 1 do begin
-        d = 0
-        d = reform(dd[j,3,i,*])
-        pkslope, d, cadence[0], f, mxind, t1, t2, dt, e, /hlfpk
-        timp[j,i] = dt
-        eimp[j,i] = e
-        jj = string(j, format = '(I0)')
-        ii = string(i, format = '(I0)')
-        mx = string(mxind, format = '(I0)')
-        jjiimx = jj+''+ii
-        ;tag = 'Sidata_'+jjiimx
-        nlmt = n_elements(f[0,*])
-        nslope = n_elements(d) - nlmt
-        com = 'stri = {dat:d[nslope:*], flag:f, mx:mxind, t1:t1, t2:t2, dt:dt, e:e}'
-        exe = execute(com)
-        com = 'st = {s'+jjiimx+':stri}
-        exe = execute(com)
-        if (j eq 0) and (i eq 0) then si = st else  $
-        si = create_struct(si, st)
+rhessi_eimp = 1.0e29
+nset = n_elements(dataset)
+for k = 0, nset -1 do begin  
+    print, k  
+    for j = 0, time_frames - 1 do begin
+        for i = 0, npt - 1 do begin
+
+            ;select dataset
+            if (k eq 0) then begin
+            dd = sidata
+            t = tsi 
+            endif
+            if (k eq 1) then begin 
+            dd = mgdata
+            t = tmg
+            endif
+            if (k eq 2) then begin
+            dd = balmerdata
+            t = reform(tbalm[j, i, *])
+            endif
+            if (k eq 3) then begin
+            dd = mgwdata
+            t = tmgw
+            endif
+            if (k eq 4) then begin
+            dd = hmidata
+            t = thmi 
+            endif
+
+            ;make 1D energy array
+            d = 0
+            d = reform(dd[j,3,i,*])
+
+            ;find time array indices for impulsive phase
+            t1 = where(strmatch(t, t_start))
+            t2 = where(strmatch(t, t_end))
+            t1ind = 0
+            t2ind = n_elements(t2) - 1
+
+            ;if t_start and t_end are not found, 
+            ;try t1find instead
+            if (n_elements(t1) eq 1) then begin
+                if (t1 lt 0) then begin 
+                    t1 = where(strmatch(t, t1find))
+                    t1ind = n_elements(t1) - 1
+                endif
+            endif
+
+            ;try t2find instead
+            if (n_elements(t2) eq 1) then begin    
+                if (t2 lt 0) then begin
+                    t2 = where(strmatch(t, t2find))
+                    t2ind = 0
+                endif
+            endif
+
+            ;impulsive phase length in time array elements
+            dt = (t2[t2ind] - t1[t1ind]) + 1
+
+            ;impulsive length in seconds
+            ti = fltarr(dt)
+                for l = 0, dt - 1 do begin
+                    ti[l] = l*cadence[k]
+                endfor
+            deltt = max(ti)
+            
+            ;integrate energy
+            e = int_tabulated(ti, d[t1[t1ind]:t2[t2ind]])
+            eimp[j,i] = e
+        endfor
     endfor
+    ;make dataset specific arrays
+    com = dataset[k]+'_timp = deltt'
+    exe = execute(com)
+    com = dataset[k]+'_eimp = fltarr(time_frames, npt)'
+    exe = execute(com)
+    com = dataset[k]+'_eimp = eimp'
+    exe = execute(com)
+
+
 endfor
-t_av = total(timp)/(time_frames*npt)
 
-;average energy at ribbon locations
-e_av = total(eimpmg[*, 0: 9])/20
+filnm = '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-'+fdate+'.sav'
+save, t_start, t_end, rhessi_timp, rhessi_eimp, $
+si_timp, si_eimp, $
+mg_timp, mg_eimp, $
+balmer_timp, balmer_eimp, $
+mgw_timp, mgw_eimp, $
+hmi_timp, hmi_eimp, $
+filename = filnm
+    
 
-;e_av = total(eimp)/(time_frames*npt)
+description = 'energies integrated over impulsive phase' 
+ipe = {description:description, tstart:t_start, tend:t_end}
+rhessi = {timp:rhessi_timp, Eimp:rhessi_eimp} 
+si_iv = {timp:si_timp, Eimp:si_eimp}
+mg_ii = {timp:mg_timp, Eimp:mg_eimp}
+balmer = {timp:balmer_timp, Eimp:balmer_eimp}
+mgw = {timp:mgw_timp, Eimp:mgw_eimp}         
+hmi = {timp:hmi_timp, Eimp:hmi_eimp}
+
+filnm = '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-'+fdate+'.sav'
+save,
 end

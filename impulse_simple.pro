@@ -1,0 +1,18 @@
+pro pkslope, a, t, cadence, amxind, t_start, t_end, deltt, e
+
+;a = 1d array
+
+;
+t1 = where(strmatch(t, t_start))
+t2 = where(strmatch(t, t_end))
+
+
+dt = (t2[0] - t1[0]) + 1
+t = fltarr(dt)
+    for i = 0, dt - 1 do begin
+        t[i] = i*cadence
+    endfor
+e = int_tabulated(t, a[t1:t2])
+deltt = (t2 - t1)*cadence
+
+end

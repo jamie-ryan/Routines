@@ -1,0 +1,180 @@
+plot_energy_dist, date
+
+dir = '/unsafe/jsr2/'+date+'/
+
+dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+for i = 1,2 do begin
+    ii = string(i, format = '(I0)')
+    for k = 0, n_elements(dataset)-1 do begin
+        flnm = dataset[k]+'coords'+ii+'.txt' 
+        openr, lun, flnm, /get_lun
+        nlin =  file_lines(flnm)
+        tmp = fltarr(2, nlin)
+        readf, lun, tmp
+        com = dataset[k]+'coords'+ii+ '= tmp'
+        exe = execute(com)
+        free_lun, lun
+    endfor
+endfor
+
+;plot, mgcoords[0,*], mg_eimp[j, *]
+;plot, sicoords[0,*], si_eimp[j, *]                    
+;plot, balmercoords[0,*], balmer_eimp[j, *]
+;plot, mgwcoords[0,*], mgw_eimp[j, *]
+;plot, hmicoords[0,*], hmi_eimp[j, *]
+
+frame = 2
+npix = 10
+plot_pos_calc, n_plots = 5, xpos, ypos
+for j = 0, frame-1 do begin
+
+    ;sort coords into acsending order 
+    if (j = 0) then begin
+        sicoords = sicoords1
+        mgcoords = mgcoords1
+        balmercoords = balmercoords1
+        balmercoords[*, 0:4] = balmercoords1[*,5:9]
+        balmercoords[*, 5:9] = balmercoords1[*,0:4]
+        mgwcoords = mgwcoords1
+        mgwcoords[*, 0:4] = mgwcoords1[*,5:9]
+        mgwcoords[*, 5:9] = mgwcoords1[*,0:4]
+        hmicoords = hmicoords1
+        hmicoords[*, 0:4] = hmicoords1[*,5:9]
+        hmicoords[*, 5:9] = hmicoords1[*,0:4]
+    endif
+    if (j = 1) then begin
+        sicoords = sicoords2
+        mgcoords = mgcoords2
+        balmercoords = balmercoords2
+        balmercoords[*, 0:4] = balmercoords2[*,5:9]
+        balmercoords[*, 5:9] = balmercoords2[*,0:4]
+        mgwcoords = mgwcoords2
+        mgwcoords[*, 0:4] = mgwcoords2[*,5:9]
+        mgwcoords[*, 5:9] = mgwcoords2[*,0:4]
+        hmicoords = hmicoords2
+        hmicoords[*, 0:4] = hmicoords2[*,5:9]
+        hmicoords[*, 5:9] = hmicoords2[*,0:4]
+    endif
+
+    ;make coord number
+    jj = string(j+1, format = '(I0)')
+
+    ;fiename
+    fff = dir+'29-Mar-14-tf-'+jj+'-imp-phs-int-energies-Ladder.eps'
+    titl = '29 Mar 14 Impulsive Phase Integrated Energies'
+    mydevice=!d.name
+    set_plot,'ps'
+    device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1, bits = 8
+        
+    o = 4
+    xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    title = titl
+    ytitl = energy
+    linecolors
+    plot, sicoords[0,*], si_eimp[0, 0:9], $
+    ;oplot, si_eimp[npix], $
+    linestyle = 0, $
+    ycharsize = 0.55, $
+    xcharsize = 0.65, $
+    xstyle = 8, $
+    ytitle = ytitl, $
+    ytickname=[' '], $
+    yticks = 2, $
+    XTICKFORMAT="(A1)", $
+    /ynozero, $
+    xmargin = [12,3], $
+    position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+    /NoErase
+    loadct,0
+    xyouts, xyx, xyy, charsize = 0.7, 'Si IV Transition Region', /norm
+
+    o = 3
+    xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    ytitl = energy
+    linecolors
+    plot, mgcoords[0,*], mg_eimp[0, 0:9], $
+    linestyle = 0, $
+    ycharsize = 0.55 , $
+    xcharsize = 0.65, $
+    xstyle = 8, $
+    ytitle = ytitl, $
+    ytickname=[' '], $
+    yticks = 2, $
+    XTICKFORMAT="(A1)", $
+    /ynozero, $
+    xmargin = [12,3], $
+    position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+    /NoErase
+    loadct,0
+    xyouts, xyx, xyy, charsize = 0.7, 'Mg II Chromosphere', /norm
+
+    o = 2
+    mn = 0.8*min(balmerdata[j, 3, i, *])
+    mx = 1.5*max(balmerdata[j, 3, i, *])
+    xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    ytitl = energy
+    linecolors
+    plot, balmercoords[0,*], balmer_eimp[0, 0:9], $
+    /yst, $
+    linestyle = 0, $
+    ycharsize = 0.55 , $
+    xcharsize = 0.65, $
+    xstyle = 8, $
+    ytitle = ytitl, $
+    yticks = 2, $
+    ytickname=[' '], $
+    XTICKFORMAT="(A1)", $
+    xmargin = [12,3], $
+    position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+    /NoErase
+    loadct,0
+    xyouts, xyx, xyy, charsize = 0.7, 'Balmer Chromsphere', /norm
+
+    o = 1
+    xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    ytitl = energy
+    linecolors        
+    plot, mgwcoords[0,*], mgw_eimp[0, 0:9], $
+    linestyle = 0, $
+    ycharsize = 0.55 , $
+    xcharsize = 0.65, $
+    xstyle = 8, $
+    ytitle = ytitl, $
+    yticks = 2, $
+    ytickname=[' '], $
+    XTICKFORMAT="(A1)", $
+    /ynozero, $
+    xmargin = [12,3], $
+    position = [xpos[0],ypos[0,o]*1.01,xpos[1], ypos[1,o]], $
+    /NoErase
+    loadct,0
+    xyouts, xyx, xyy, charsize = 0.7, 'Mg II wing Upper-Photosphere', /norm
+
+    o = 0
+    xyx = xpos[0] + 0.2*((xpos[1] - xpos[0])/2) ;middle of xrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    ytitl = energy
+    linecolors
+    plot, hmicoords[0,*], hmi_eimp[0, 0:9], $
+    linestyle = 0, $
+    ycharsize = 0.55 , $
+    xcharsize = 0.65, $
+    xstyle = 8, $
+    yticks = 2, $
+    ytickname=[' '], $
+    ytitle = ytitl, $
+    /ynozero, $
+    xmargin = [12,3], $
+    position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
+    /NoErase
+    loadct,0
+    xyouts, 0.92*xyx, xyy, charsize = 0.7, 'HMI Continuum Photosphere', /norm
+    device,/close
+    set_plot,mydevice
+endfor
+
+end
