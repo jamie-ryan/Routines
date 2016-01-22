@@ -125,7 +125,7 @@ balmer = {timp:balmer_timp, Eimp:balmer_eimp}
 mgw = {timp:mgw_timp, Eimp:mgw_eimp}         
 hmi = {timp:hmi_timp, Eimp:hmi_eimp}
 ipe = {rhessi:rhessi, si_iv:si_iv, mg_ii:mg_ii, balmer:balmer, mgw:mgw, hmi:hmi}
-integrated_energies = creat_struct(ipt, ipe)
+integrated_energies = create_struct(ipt, ipe)
 filnm = '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-structure'+fdate+'.sav'
 save,integrated_energies, filename = filnm
 end

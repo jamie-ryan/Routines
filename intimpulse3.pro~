@@ -105,6 +105,7 @@ for k = 0, nset -1 do begin
 
 endfor
 
+;save arrays
 filnm = '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-'+fdate+'.sav'
 save, t_start, t_end, rhessi_timp, rhessi_eimp, $
 si_timp, si_eimp, $
@@ -114,16 +115,17 @@ mgw_timp, mgw_eimp, $
 hmi_timp, hmi_eimp, $
 filename = filnm
     
-
+;make structure
 description = 'energies integrated over impulsive phase' 
-ipe = {description:description, tstart:t_start, tend:t_end}
+ipt = {description:description, tstart:t_start, tend:t_end}
 rhessi = {timp:rhessi_timp, Eimp:rhessi_eimp} 
 si_iv = {timp:si_timp, Eimp:si_eimp}
 mg_ii = {timp:mg_timp, Eimp:mg_eimp}
 balmer = {timp:balmer_timp, Eimp:balmer_eimp}
 mgw = {timp:mgw_timp, Eimp:mgw_eimp}         
 hmi = {timp:hmi_timp, Eimp:hmi_eimp}
-
-filnm = '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-'+fdate+'.sav'
-save,
+ipe = {rhessi:rhessi, si_iv:si_iv, mg_ii:mg_ii, balmer:balmer, mgw:mgw, hmi:hmi}
+integrated_energies = creat_struct(ipt, ipe)
+filnm = '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-structure'+fdate+'.sav'
+save,integrated_energies, filename = filnm
 end
