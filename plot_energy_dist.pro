@@ -1,5 +1,5 @@
 pro plot_energy_dist, date
-restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-'+fdate+'.sav'
+restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-integrated-energies-'+date+'.sav'
 dir = '/unsafe/jsr2/'+date+'/
 energy = 'Energy [erg]'
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']

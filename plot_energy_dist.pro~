@@ -1,5 +1,5 @@
-pro plot_energy_dist, date
-
+pro plot_energy_dist, fdate
+restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-'+fdate+'.sav'
 dir = '/unsafe/jsr2/'+date+'/
 energy = 'Energy [erg]'
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
