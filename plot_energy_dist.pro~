@@ -111,8 +111,6 @@ for j = 0, frame-1 do begin
     xyouts, xyx, xyy, charsize = 0.7, 'Mg II Chromosphere', /norm
 
     o = 2
-    mn = 0.8*min(balmerdata[j, 3, i, *])
-    mx = 1.5*max(balmerdata[j, 3, i, *])
     xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
     xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
     ytitl = energy
