@@ -12,19 +12,11 @@ tic
 
 ;;;restore data sav files
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
-restore, '/unsafe/jsr2/sp2826-Apr28-2015.sav'
+;restore, '/unsafe/jsr2/sp2826-Apr28-2015.sav'
 restore, '/unsafe/jsr2/hmi-12-05-15.sav'
 ;restore, '/unsafe/jsr2/HMI-diff-15-Oct-15.sav'
 restore, 'balmdat-Jan20-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
-;;;date string
-d1 = strcompress(strmid(systime(),4,7),/remove_all)
-d2 = strcompress(strmid(systime(),20),/remove_all)
-date = d1+'-'+d2
-
-;;;directories
-;dir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/plots/'
-;datdir = '/disk/solar3/jsr2/Data/SDO/DATA-ANALYSIS/Dat/'
 
 ;;;iris spectra fits
 ;fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
@@ -64,7 +56,8 @@ thmi = diff.time ;[]
 ;quake position 
 qkxa = 518.5 ;Donea et al 2014
 qkya = 264.0 ;Donea et al 2014
-
+hmiqkxa = 519.5
+hmiqkya = 263.0
 
 ;;;background pixel locations for si and mg and balmer
 bksia = fltarr(2,3)

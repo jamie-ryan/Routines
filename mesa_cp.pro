@@ -12,7 +12,7 @@ tic
 
 ;;;restore data sav files
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
-restore, '/unsafe/jsr2/sp2826-Apr28-2015.sav'
+;restore, '/unsafe/jsr2/sp2826-Apr28-2015.sav'
 restore, '/unsafe/jsr2/hmi-12-05-15.sav'
 ;restore, '/unsafe/jsr2/HMI-diff-15-Oct-15.sav'
 restore, 'balmdat-Jan20-2016.sav'
@@ -56,7 +56,8 @@ thmi = diff.time ;[]
 ;quake position 
 qkxa = 518.5 ;Donea et al 2014
 qkya = 264.0 ;Donea et al 2014
-
+hmiqkxa = 519.5
+hmiqkya = 263.0
 
 ;;;background pixel locations for si and mg and balmer
 bksia = fltarr(2,3)
@@ -312,9 +313,9 @@ mgwerr[1,0,npt-1,*] = f_err
 mgwerr[1,1,npt-1,*] = e_err
 
 ;;;SDO HMI continuum section
-hmidata[0, 0, npt-1, *] = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p) ;npt -1 is last row in coord columns.
+hmidata[0, 0, npt-1, *] = convert_coord_hmi(hmiqkxa, diffindex[63],  /x, /a2p) ;npt -1 is last row in coord columns.
 hmidata[0, 1, npt-1, *] = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
-hmidata[1, 0, npt-1, *] = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p)
+hmidata[1, 0, npt-1, *] = convert_coord_hmi(hmiqkxa, diffindex[63],  /x, /a2p)
 hmidata[1, 1, npt-1, *] = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
 tmp = sumarea(diff.data, hmidata[0, 0, npt-1, 0], hmidata[0, 1, npt-1, 0], sradius)
 hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
