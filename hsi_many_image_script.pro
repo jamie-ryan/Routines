@@ -47,7 +47,9 @@ obj-> set, im_time_interval= [ ['29-Mar-2014 17:44:00.000', '29-Mar-2014 17:44:3
 ['29-Mar-2014 17:46:00.000', '29-Mar-2014 17:46:30.000'], $
 ['29-Mar-2014 17:46:30.000', '29-Mar-2014 17:47:00.000'], $ 
 ['29-Mar-2014 17:47:00.000', '29-Mar-2014 17:47:30.000']]                                
-obj-> set, image_algorithm= 'Clean'                                                       
+;obj-> set, image_algorithm= 'Clean'
+obj-> set, image_algorithm= 'Forward Fit'
+                                                       
 obj-> set, time_bin_def= [1.00000, 2.00000, 4.00000, 4.00000, 8.00000, 16.0000, 32.0000, $
  64.0000, 64.0000]                                                                        
 obj-> set, time_bin_min= 512L                                                             

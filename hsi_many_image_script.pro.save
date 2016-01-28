@@ -36,7 +36,8 @@
 ; To run this script as a procedure, uncomment the "pro" line and                         
 ; the last line (the "end" line).                                                         
 ;pro hsi_image_script, obj=obj                                                            
-;                                                                                         
+;                                                          
+search_network, /enable                               
 obj = hsi_image()                                                                         
 obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
 obj-> set, im_time_interval= [['29-Mar-2014 17:44:00.000', '29-Mar-2014 17:44:30.000'], $
@@ -54,10 +55,10 @@ obj-> set, time_bin_min= 512L
 ; Uncomment any of the following lines to take the action on obj                          
 ; Note: these are just examples.  There are many more options.                            
 ;data = obj-> getdata()    ; retrieve the last image made                                 
-;data = obj-> getdata(use_single=0)  ; retrieve all images in cube                        
+data = obj-> getdata(use_single=0)  ; retrieve all images in cube                        
 ;obj-> plot               ; plot the last image                                           
 ;obj-> plotman            ; plot the last image in plotman                                
-;obj-> plotman, /choose   ; choose which image(s) in cube to plot in plotman              
+obj-> plotman, /choose   ; choose which image(s) in cube to plot in plotman              
 ;                                                                                         
 ; To run this script as a main program or procedure, uncomment the "end" line below.      
 ; (To run as a procedure also uncomment the "pro" line above.)                            
