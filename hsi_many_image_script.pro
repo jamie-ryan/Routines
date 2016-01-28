@@ -63,7 +63,7 @@ time_intervals[*,6] =  ['29-Mar-2014 17:47:00.000', '29-Mar-2014 17:47:30.000']
 ;loop through each time interval
 for i = 0, nt-1 do begin
     ;choose time interval
-    obj-> set, im_time_interval= [ [time_intervals[0, i], [time_intervals[1, i]] ]
+    obj-> set, im_time_interval= [ [time_intervals[0, i]], [time_intervals[1, i]] ]
 
     ;;;set image construction algorithm
     ;obj-> set, image_algorithm= 'Back Projection'
@@ -85,11 +85,11 @@ for i = 0, nt-1 do begin
     ii = string(i, format = '(I0)')
     fil = 'rhessi_image_'+ii+'.sav'
     save, obj,  data, time_interval, filename = fil                         
-    obj-> plot               ; plot the last image                                           
-    ;obj-> plotman            ; plot the last image in plotman                                
-    obj-> plotman, /choose   ; choose which image(s) in cube to plot in plotman              
+    ;obj-> plot               ; plot the last image                                           
+    obj-> plotman            ; plot the last image in plotman                                
+    ;obj-> plotman, /choose   ; choose which image(s) in cube to plot in plotman              
     ;                                                                                         
 endfor
 ; To run this script as a main program or procedure, uncomment the "end" line below.      
 ; (To run as a procedure also uncomment the "pro" line above.)                            
-end                                                                                      
+end
