@@ -1,4 +1,4 @@
-pro hsi_im2map
+pro hsi_im2map, nt
 ;RHESSI FITS files are converted to maps by using fits2map. 
 ;RHESSI images can be created using the RHESSI GUI and saved as FITS files 
 ;or using the command line
@@ -47,22 +47,23 @@ obj = hsi_image()
 obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
 
 ;time intervals
-nt = 7
+;nt = 7
 hrstart = 17 
 hrend = 17
 minstart = 44
-minend = 47
+minend = 52
 secst = 0
 secend = 30
 time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minend, secst, secend)
+obj-> set, im_time_interval= time_intervals
 
-obj-> set, im_time_interval= [ ['29-Mar-2014 17:44:00.000', '29-Mar-2014 17:44:30.000'], $
-['29-Mar-2014 17:44:30.000', '29-Mar-2014 17:45:00.000'], $
-['29-Mar-2014 17:45:00.000', '29-Mar-2014 17:45:30.000'], $ 
-['29-Mar-2014 17:45:30.000', '29-Mar-2014 17:46:00.000'], $
-['29-Mar-2014 17:46:00.000', '29-Mar-2014 17:46:30.000'], $
-['29-Mar-2014 17:46:30.000', '29-Mar-2014 17:47:00.000'], $ 
-['29-Mar-2014 17:47:00.000', '29-Mar-2014 17:47:30.000']] 
+;obj-> set, im_time_interval= [ ['29-Mar-2014 17:44:00.000', '29-Mar-2014 17:44:30.000'], $
+;['29-Mar-2014 17:44:30.000', '29-Mar-2014 17:45:00.000'], $
+;['29-Mar-2014 17:45:00.000', '29-Mar-2014 17:45:30.000'], $ 
+;['29-Mar-2014 17:45:30.000', '29-Mar-2014 17:46:00.000'], $
+;['29-Mar-2014 17:46:00.000', '29-Mar-2014 17:46:30.000'], $
+;['29-Mar-2014 17:46:30.000', '29-Mar-2014 17:47:00.000'], $ 
+;['29-Mar-2014 17:47:00.000', '29-Mar-2014 17:47:30.000']] 
 
 
 ;;;set image construction algorithm

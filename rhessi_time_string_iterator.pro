@@ -17,33 +17,49 @@ tout = strarr(2,nt)
 ;['29-Mar-2014 17:45:00.000', '29-Mar-2014 17:45:30.000'], $  
 ;['29-Mar-2014 17:47:00.000', '29-Mar-2014 17:47:30.000']] 
 
-nhrsec = ((hrend - hrstart) * 60 * 60)/nt
+nhrsec = (((hrend - hrstart) * 60 * 60)) / nt
 
-;if there is zero hours change then prevent loop crashing
-if (nhrsec eq 0) then nhr = 1 else nhr = nhrsec
+nminsec = (((minend - minstart) * 60)) / nt
 
-;if zero mins then stop program
-nminsec = ((minend - minstart) * 60)/nt
-if (nhrsec eq 0) then end
+ntotsec = nhrsec + nminsec + secst
 
 ;calculate number of seconds per iteration
-nsec = (nhrsec + nminsec + secst) / nt
+nsec = ntotsec / nt
 
 
 for i = 0, nt - 1 do begin
-nhr = (nhrsec + nsec * i) / 60 / 60
-nmin = (nminsec + nsec * i) / 60
+nhr = fix((nhrsec * i) / 60. / 60.)
+nhr1 = fix((nhrsec * (i+1)) / 60. / 60.)
+nmin = fix((nminsec * i) / 60.)
+nmin1 = fix((nminsec * (i+1)) / 60.)
 nsecs = nsec + nsec * i
+nsecs1= nsec + nsec * (i + 1)
 
-ns = fix((nsec * i)/60)
+ns = fix((nsecs )/60.)
+ns1 = fix((nsecs1 )/60.)
 ;convert nsecs into time units
-nsecs = ( ( nsecs / 60 ) -  ns ) * 60
+nsecs = ( ( nsecs / 60. ) -  ns ) * 60
+nsecs1 = ( ( nsecs1 / 60. ) -  ns1 ) * 60
 
-hrs = string(nhr, format = '(I0)')
-mins = string(nmin, format = '(I0)')
-if (nsecs = 0) then secs = '00' else secs = string(nsecs, format = '(I0)')
+hrs = string(hrstart + nhr, format = '(I0)')
+hrs1 = string(hrstart + nhr1, format = '(I0)')
+
+if (minstart + nmin lt 10) then $
+mins = '0'+string(minstart + nmin, format = '(I0)') $
+else mins = string(minstart + nmin, format = '(I0)')
+
+if (minstart + nmin1 lt 10) then $      
+mins1 = '0'+string(minstart + nmin1, format = '(I0)') $
+else mins1 = string(minstart + nmin1, format = '(I0)')
+
+if (nsecs lt 10) then secs = '0'+string(nsecs, format = '(I0)') $
+else secs = string(nsecs, format = '(I0)')
+
+if (nsecs1 lt 10) then secs1 = '0'+string(nsecs1, format = '(I0)') $
+else secs1 = string(nsecs1, format = '(I0)')
+
 tout[0,i] = '29-Mar-2014 '+hrs+':'+mins+':'+secs+'.000'
-tout[1,i] = '29-Mar-2014 '+hrs+':'+mins+':'+secs+'.000'
+tout[1,i] = '29-Mar-2014 '+hrs1+':'+mins1+':'+secs1+'.000'
 endfor
 return, tout
 end
