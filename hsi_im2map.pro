@@ -66,20 +66,23 @@ obj-> set, image_algorithm= 'FORWARDFIT'
 obj-> set, time_bin_def= [1.00000, 2.00000, 4.00000, 4.00000, 8.00000, 16.0000, 32.0000, $
  64.0000, 64.0000]                                                                        
 obj-> set, time_bin_min= 512L                                                             
-                                                                                          
+obj-> set, use_single_return_mode = 0                                                                                    
 ; Uncomment any of the following lines to take the action on obj                          
 ; Note: these are just examples.  There are many more options.                            
 data = obj-> getdata()    ; retrieve the last image made                                 
 ;data = obj-> getdata(use_single=0)  ; retrieve all images in cube
 
 ;;;create index
-indx =  obj->get( /summary_info), /struct
-
-
-ffit = 'yourfile.fits'
-obj->fitsfile, this_out_filename= ffit
+help, obj->get( /summary_info), /struct
+ind =  obj->get( /summary_info)
+ffit= 'rhessi_im2map.fits'
+obj-> set, im_out_fits_filename = ffit
+obj->fitswrite
 
 ;;;fits files to maps section
 ;fits2map, ffit
+obj-> set, im_input_fits = ffit
 hsi_fits2map, ffit, rhessimaps
+save, /variables, filename = 'rhessi_image_all_variables.sav'
+save, rhessimaps, filename = 'rhessi_image_maps.sav'
 end
