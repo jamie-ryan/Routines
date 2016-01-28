@@ -1,0 +1,19 @@
+pro hsi_im2map
+;RHESSI FITS files are converted to maps by using fits2map. 
+;RHESSI images can be created using the RHESSI GUI and saved as FITS files 
+;or using the command line
+
+
+
+;;;create index
+;;;maybe put into hsi_many_images.pro
+indx =  obj->get( /summary_info), /struct
+
+
+ffit = 'yourfile.fits'
+obj->fitsfile, this_out_filename= ffit
+
+;;;fits files to maps section
+;fits2map, ffit
+hsi_fits2map, ffit, rhessimaps
+end

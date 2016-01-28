@@ -1,3 +1,8 @@
+pro hsi_im2map
+;RHESSI FITS files are converted to maps by using fits2map. 
+;RHESSI images can be created using the RHESSI GUI and saved as FITS files 
+;or using the command line
+
 ; hsi_image script - created Wed Jan 27 13:44:32 2016 by hsi_params2script                
 ; Includes only parameters changed from default settings.                                 
 ;                                                                                         
@@ -35,61 +40,46 @@
 ;                                                                                         
 ; To run this script as a procedure, uncomment the "pro" line and                         
 ; the last line (the "end" line).                                                         
-pro hsi_many_image_script                                                          
+                                                          
 
 search_network, /enable                                                                                         
 obj = hsi_image()                                                                         
 obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
 
-;obj-> set, im_time_interval= [ ['29-Mar-2014 17:44:00.000', '29-Mar-2014 17:44:30.000'], $
-;['29-Mar-2014 17:44:30.000', '29-Mar-2014 17:45:00.000'], $
-;['29-Mar-2014 17:45:00.000', '29-Mar-2014 17:45:30.000'], $ 
-;['29-Mar-2014 17:45:30.000', '29-Mar-2014 17:46:00.000'], $
-;['29-Mar-2014 17:46:00.000', '29-Mar-2014 17:46:30.000'], $
-;['29-Mar-2014 17:46:30.000', '29-Mar-2014 17:47:00.000'], $ 
-;['29-Mar-2014 17:47:00.000', '29-Mar-2014 17:47:30.000']] 
+obj-> set, im_time_interval= [ ['29-Mar-2014 17:44:00.000', '29-Mar-2014 17:44:30.000'], $
+['29-Mar-2014 17:44:30.000', '29-Mar-2014 17:45:00.000'], $
+['29-Mar-2014 17:45:00.000', '29-Mar-2014 17:45:30.000'], $ 
+['29-Mar-2014 17:45:30.000', '29-Mar-2014 17:46:00.000'], $
+['29-Mar-2014 17:46:00.000', '29-Mar-2014 17:46:30.000'], $
+['29-Mar-2014 17:46:30.000', '29-Mar-2014 17:47:00.000'], $ 
+['29-Mar-2014 17:47:00.000', '29-Mar-2014 17:47:30.000']] 
 
-;;;number of images or time intervals
-nt = 7                                
-time_intervals = strarr(2,nt)
-time_intervals[*,0] =  ['29-Mar-2014 17:44:00.000', '29-Mar-2014 17:44:30.000']
-time_intervals[*,1] =  ['29-Mar-2014 17:44:30.000', '29-Mar-2014 17:45:00.000']
-time_intervals[*,2] =  ['29-Mar-2014 17:45:00.000', '29-Mar-2014 17:45:30.000']
-time_intervals[*,3] =  ['29-Mar-2014 17:45:30.000', '29-Mar-2014 17:46:00.000']
-time_intervals[*,4] =  ['29-Mar-2014 17:46:00.000', '29-Mar-2014 17:46:30.000']
-time_intervals[*,5] =  ['29-Mar-2014 17:46:30.000', '29-Mar-2014 17:47:00.000']
-time_intervals[*,6] =  ['29-Mar-2014 17:47:00.000', '29-Mar-2014 17:47:30.000']
 
-;loop through each time interval
-for i = 0, nt-1 do begin
-    ;choose time interval
-    obj-> set, im_time_interval= [ [time_intervals[0, i], [time_intervals[1, i]] ]
+;;;set image construction algorithm
+;obj-> set, image_algorithm= 'Back Projection'
+;obj-> set, image_algorithm= 'CLEAN' 
+;obj-> set, image_algorithm= 'PIXON' 
+;obj-> set, image_algorithm= 'MEM_NJIT' 
+obj-> set, image_algorithm= 'FORWARDFIT'
+;obj-> set, image_algorithm= 'VIS_FWDFIT'              
 
-    ;;;set image construction algorithm
-    ;obj-> set, image_algorithm= 'Back Projection'
-    ;obj-> set, image_algorithm= 'CLEAN' 
-    ;obj-> set, image_algorithm= 'PIXON' 
-    ;obj-> set, image_algorithm= 'MEM_NJIT' 
-    obj-> set, image_algorithm= 'FORWARDFIT'
-    ;obj-> set, image_algorithm= 'VIS_FWDFIT'              
+obj-> set, time_bin_def= [1.00000, 2.00000, 4.00000, 4.00000, 8.00000, 16.0000, 32.0000, $
+ 64.0000, 64.0000]                                                                        
+obj-> set, time_bin_min= 512L                                                             
+                                                                                          
+; Uncomment any of the following lines to take the action on obj                          
+; Note: these are just examples.  There are many more options.                            
+data = obj-> getdata()    ; retrieve the last image made                                 
+;data = obj-> getdata(use_single=0)  ; retrieve all images in cube
 
-    obj-> set, time_bin_def= [1.00000, 2.00000, 4.00000, 4.00000, 8.00000, 16.0000, 32.0000, $
-     64.0000, 64.0000]                                                                        
-    obj-> set, time_bin_min= 512L                                                             
-                                                                                              
-    ; Uncomment any of the following lines to take the action on obj                          
-    ; Note: these are just examples.  There are many more options.                            
-    data = obj-> getdata()    ; retrieve the last image made                                 
-    ;data = obj-> getdata(use_single=0)  ; retrieve all images in cube
-    time_interval = time_intervals[*,i]
-    ii = string(i, format = '(I0)')
-    fil = 'rhessi_image_'+ii+'.sav'
-    save, obj,  data, time_interval, filename = fil                         
-    obj-> plot               ; plot the last image                                           
-    ;obj-> plotman            ; plot the last image in plotman                                
-    obj-> plotman, /choose   ; choose which image(s) in cube to plot in plotman              
-    ;                                                                                         
-endfor
-; To run this script as a main program or procedure, uncomment the "end" line below.      
-; (To run as a procedure also uncomment the "pro" line above.)                            
-end                                                                                      
+;;;create index
+indx =  obj->get( /summary_info), /struct
+
+
+ffit = 'yourfile.fits'
+obj->fitsfile, this_out_filename= ffit
+
+;;;fits files to maps section
+;fits2map, ffit
+hsi_fits2map, ffit, rhessimaps
+end
