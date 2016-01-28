@@ -35,7 +35,7 @@
 ;                                                                                         
 ; To run this script as a procedure, uncomment the "pro" line and                         
 ; the last line (the "end" line).                                                         
-pro hsi_many_image_script                                                          
+pro hsi_image_script, obj=obj                                                            
 
 search_network, /enable                                                                                         
 obj = hsi_image()                                                                         
@@ -60,32 +60,27 @@ time_intervals[*,4] =  ['29-Mar-2014 17:46:00.000', '29-Mar-2014 17:46:30.000']
 time_intervals[*,5] =  ['29-Mar-2014 17:46:30.000', '29-Mar-2014 17:47:00.000']
 time_intervals[*,6] =  ['29-Mar-2014 17:47:00.000', '29-Mar-2014 17:47:30.000']
 
-;loop through each time interval
-for i = 0, nt-1 do begin
-    ;choose time interval
-    obj-> set, im_time_interval= [ [time_intervals[0, i], [time_intervals[1, i]] ]
+obj-> set, im_time_interval= [ [time_intervals[0, i], [time_intervals[1, i]] ]
+;;;set image construction algorithm
+;obj-> set, image_algorithm= 'Back Projection'
+;obj-> set, image_algorithm= 'CLEAN' 
+;obj-> set, image_algorithm= 'PIXON' 
+;obj-> set, image_algorithm= 'MEM_NJIT' 
+obj-> set, image_algorithm= 'FORWARDFIT'
+;obj-> set, image_algorithm= 'VIS_FWDFIT'              
 
-    ;;;set image construction algorithm
-    ;obj-> set, image_algorithm= 'Back Projection'
-    ;obj-> set, image_algorithm= 'CLEAN' 
-    ;obj-> set, image_algorithm= 'PIXON' 
-    ;obj-> set, image_algorithm= 'MEM_NJIT' 
-    obj-> set, image_algorithm= 'FORWARDFIT'
-    ;obj-> set, image_algorithm= 'VIS_FWDFIT'              
-
-    obj-> set, time_bin_def= [1.00000, 2.00000, 4.00000, 4.00000, 8.00000, 16.0000, 32.0000, $
-     64.0000, 64.0000]                                                                        
-    obj-> set, time_bin_min= 512L                                                             
-                                                                                              
-    ; Uncomment any of the following lines to take the action on obj                          
-    ; Note: these are just examples.  There are many more options.                            
-    data = obj-> getdata()    ; retrieve the last image made                                 
-    ;data = obj-> getdata(use_single=0)  ; retrieve all images in cube                        
-    obj-> plot               ; plot the last image                                           
-    ;obj-> plotman            ; plot the last image in plotman                                
-    obj-> plotman, /choose   ; choose which image(s) in cube to plot in plotman              
-    ;                                                                                         
-endfor
+obj-> set, time_bin_def= [1.00000, 2.00000, 4.00000, 4.00000, 8.00000, 16.0000, 32.0000, $
+ 64.0000, 64.0000]                                                                        
+obj-> set, time_bin_min= 512L                                                             
+                                                                                          
+; Uncomment any of the following lines to take the action on obj                          
+; Note: these are just examples.  There are many more options.                            
+;data = obj-> getdata()    ; retrieve the last image made                                 
+data = obj-> getdata(use_single=0)  ; retrieve all images in cube                        
+;obj-> plot               ; plot the last image                                           
+;obj-> plotman            ; plot the last image in plotman                                
+obj-> plotman, /choose   ; choose which image(s) in cube to plot in plotman              
+;                                                                                         
 ; To run this script as a main program or procedure, uncomment the "end" line below.      
 ; (To run as a procedure also uncomment the "pro" line above.)                            
 end                                                                                      
