@@ -80,7 +80,11 @@ for i = 0, nt-1 do begin
     ; Uncomment any of the following lines to take the action on obj                          
     ; Note: these are just examples.  There are many more options.                            
     data = obj-> getdata()    ; retrieve the last image made                                 
-    ;data = obj-> getdata(use_single=0)  ; retrieve all images in cube                        
+    ;data = obj-> getdata(use_single=0)  ; retrieve all images in cube
+    time_interval = time_intervals[*,i]
+    ii = string(i, format = '(I0)')
+    fil = 'rhessi_image_'+ii+'.sav'
+    save, obj,  data, time_interval, filename = fil                         
     obj-> plot               ; plot the last image                                           
     ;obj-> plotman            ; plot the last image in plotman                                
     obj-> plotman, /choose   ; choose which image(s) in cube to plot in plotman              
