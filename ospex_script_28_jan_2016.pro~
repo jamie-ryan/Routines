@@ -94,9 +94,7 @@ data = obj-> getdata()    ; retrieve the last image made
 ;data = obj-> getdata(use_single=0)  ; retrieve all images in cube
 time_bins = obj -> getaxis (/ut)
 energy_bins = obj -> getaxis (/energy)
-; plot time profile, summing over energy bins
 obj -> plot, /pl_time, /dim1_sum
-;plot spectogram
-spectrum_object -> plotman, /pl_spec    ;plot spectrogram
+
 save, obj, filename = 'spec_object.sav'
 end
