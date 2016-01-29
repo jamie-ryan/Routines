@@ -15,7 +15,7 @@
 ;  http://hesperia.gsfc.nasa.gov/ssw/packages/spex/doc/ospex_explanation.htm                 
 ;  for a complete list of methods and their arguments.                                       
 ;                                                                                            
-pro ospex_script_2_oct_2015, obj=obj                                                         
+pro ospex_script_28_jan_2016, obj=obj                                                         
 if not is_class(obj,'SPEX',/quiet) then obj = ospex()                                        
 obj-> set, $                                                                                 
  spex_specfile= '/unsafe/jsr2/hsi_spectrum_20140329_173000.fits'            
@@ -88,4 +88,5 @@ obj-> set, spex_tband= [['29-Mar-2014 17:30:00.000', '29-Mar-2014 17:44:47.000']
  ['29-Mar-2014 17:44:47.000', '29-Mar-2014 17:59:34.000'], ['29-Mar-2014 17:59:34.000', $    
  '29-Mar-2014 18:14:21.000'], ['29-Mar-2014 18:14:21.000', '29-Mar-2014 18:29:08.000']]      
 obj -> restorefit, file='/unsafe/jsr2/ospex_results_2_oct_2015.fits'        
+save, obj, filename = 'spec_object.sav'
 end
