@@ -14,7 +14,7 @@ npt = 1 + (nrb/time_frames) ; number of ribbon coords per time_frame + 1 qk coor
 columns = 4 ;x,y,E,F
 ;quake position 
 qkxa = 518.5 ;Donea et al 2014
-qkya = 264.0 ;Donea et al 2014
+qkya = 262.0 ;Donea et al 2014
 balmbk = fltarr(8)
 iradius = 4.;iris qk radius in pixels
 
@@ -151,7 +151,7 @@ balmdat[1,*,*]=balmdat[1,*,*] - balmbk[balmpix[1,0,*,*]]
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
-filnm = strcompress('/unsafe/jsr2/'+date+'/balmdat-'+d1+'-'+d2+'.sav', /remove_all)
+filnm = strcompress('/unsafe/jsr2/'+date+'/balmdat-'+date+'.sav', /remove_all)
 
 save,alldat, allhdr, times, balmdat, balmercoords1, balmercoords2, balmpix, balmbk, filename = filnm
 end

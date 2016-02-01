@@ -7,7 +7,7 @@ lambda = string(lambda, format ='(I0)' )
 ;y = string(y, format = '(I0)' )
 
 
-f = iris_files('../IRIS/*raster*.fits')
+;f = iris_files('../IRIS/*raster*.fits')
 f = iris_files(path='/unsafe/jsr2/IRIS')
 nnn = n_elements(f)
 tagarr = strarr(nnn)

@@ -11,8 +11,8 @@ npt = 1 + (nrb/time_frames)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;IMPULSIVE PHASE TIME FROM RHESSI 50 - 100 keV???;;;
 ;impulsive phase start time
-t_start = '*17:47*'
-t1find = '*17:46*'
+t_start = '*17:44*'
+t1find = '*17:43*'
 ;impulsive phase end time
 t_end = '*17:48*'
 t2find = '*17:49*'
