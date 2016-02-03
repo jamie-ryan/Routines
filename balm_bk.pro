@@ -32,6 +32,7 @@ for i = 1,2 do begin
         free_lun, lun
     endfor
 endfor
+
 ;;;;use tmp, e and f arrays to save memory
 tmp = 0
 c = 0
@@ -122,6 +123,10 @@ for i = 0, nfiles - 1 do begin
     allhdr = create_struct(allhdr, hdrtmp) 
 
 endfor
+
+
+;;fill array with intensity from sunquake area 
+alldat[where(alldat lt 0., /null)] = 0 
 for i = 0, npt - 1 do begin
     for j = 0, nfiles -1 do begin
 ;        balmdat[0, i, j] = alldat[balmpix[0, 0, i, j], balmpix[0, 1, i, j], j]
@@ -146,8 +151,16 @@ wi = array_indices(balmpix[0, 0, *, 0:30], ws)
 balmbk[i] = avg(balmdat[0, wi[2, *],wi[3, *]])
 endfor
 
+;remove background
 balmdat[0,*,*]=balmdat[0,*,*] - balmbk[balmpix[0,0,*,*]]
 balmdat[1,*,*]=balmdat[1,*,*] - balmbk[balmpix[1,0,*,*]]
+
+preflare = 
+;remove preflare
+balmdat[0,*,*]=balmdat[0,*,*] 
+balmdat[1,*,*]=balmdat[1,*,*] 
+
+
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)

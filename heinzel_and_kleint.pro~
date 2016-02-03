@@ -101,9 +101,9 @@ preflare[where(preflare lt 0, /null)] = 0
 ;;fill array bk subtracted, slit averaged, preflare subtracted data (finished product)
 balm_fini = fltarr(ypix, ntime)
 for i = 0, ntime - 1 do begin
-    for k = 0, ypix - 1 do begin
-        balm_fini[k, i] = balmdat_slitsum[k, i] - preflare[k] 
-    endfor
+for k = 0, ypix - 1 do begin
+balm_fini[k, i] = balmdat_slitsum[k, i] - preflare[k] 
+endfor
 endfor
 ;utplot, times[time_start:*, 0], balm_fini[423,*]
 save, /variables, filename = 'balm_fini.sav'
