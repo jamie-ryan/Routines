@@ -2,7 +2,7 @@ pro balm_bk, date
 ;determine background values based on slit position
 ;restore, '/unsafe/jsr2/sp2826-Jan15-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
-f = iris_files(path='/unsafe/jsr2/IRIS/old')
+f = iris_files(path='/unsafe/jsr2/IRIS')
 nfiles = n_elements(f)
 sample = 1 ;use this for spectra
 nrb = 20 ; number ribbon coords
@@ -44,28 +44,58 @@ for i = 0, nfiles -1 do begin
     obj_destroy, d
 endfor
 
-ncd = n_elements(balmercoords1[0,*])
-bc1 = fltarr(2, ncd + 1)
-bc2 = fltarr(2, ncd + 1)
-bc1[*, 0:ncd-1] = balmercoords1
-bc1[0, ncd] = qkxa
-bc1[1, ncd] = qkya
-bc2[*, 0:ncd-1] = balmercoords2
-bc2[0, ncd] = qkxa
-bc2[1, ncd] = qkya
+;;;;use tmp, e and f arrays to save memory
+tmp = 0
+c = 0
 
-;find indices for slit positions closest to balmercoords
-xind1 = find_iris_slit_pos_new(bc1[0,*], iris_x_pos)
-yind1 = find_iris_slit_pos_new(bc1[1,*], iris_y_pos)
-xind2 = find_iris_slit_pos_new(bc2[0,*], iris_x_pos)
-yind2 = find_iris_slit_pos_new(bc2[1,*], iris_y_pos)
+;array to contain balmer coords converted to pixels for each coord in each time frame.
+balmpix = fltarr(time_frames, 2, n_elements(balmercoords1[0,*]) + 1, nfiles)
 
+
+;sort out balmercoords problems...purge data of dodgy values
+for i = 0, n_elements(balmercoords1[0,*]) - 1 do begin
+    c = find_iris_slit_pos(balmercoords1[0, i],sp2826) 
+    balmpix[0, 0, i, *] = c
+    c = 0
+ 
+    c = find_iris_slit_pos(balmercoords1[1, i],sp2826, /y, /a2p)
+;    c[where(c eq 1092.00, /null)] = 422.00 
+    balmpix[0, 1, i, *] = c
+    c = 0
+
+    c = find_iris_slit_pos(balmercoords2[0, i],sp2826) 
+    balmpix[1, 0, i, *] = c
+    c = 0
+
+    c = find_iris_slit_pos(balmercoords2[1, i],sp2826, /y, /a2p)  
+;    c[where(c eq 1092.00, /null)] = 422.00 
+    balmpix[1, 1, i, *] = c 
+    c = 0
+endfor
+c = find_iris_slit_pos(qkxa,sp2826)
+balmpix[0, 0, npt-1, *] = c
+c = 0
+
+c = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+;c[where(c eq 1092.00, /null)] = 422.00 
+balmpix[0, 1, npt-1, *] = c
+c = 0
+
+c = find_iris_slit_pos(qkxa,sp2826)
+balmpix[1, 0, npt-1, *] = c
+c = 0
+
+c = find_iris_slit_pos(qkya,sp2826, /y, /a2p)
+;c[where(c eq 1092.00, /null)] = 422.00 
+balmpix[1, 1, npt-1, *] = c
+c = 0
 
 ;;;read in data
 ;;;find the numbers needed to create alldata array
 d = iris_obj(f[0])
 dat = d->getvar(6, /load)
 wavelength = d->getlam(6)
+
 fitnum_max = 179 ;specific to event, used in allhdr tag naming
 fitnum_min = (fitnum_max - nfiles) + 1
 nwav = n_elements(wavelength[39:44]) ;wavelength range for balmer
@@ -73,8 +103,8 @@ ypix =  n_elements(dat[0,*,0]) ;y pixels
 xpix =  n_elements(dat[0,0,*]) ;slit position
 alldat = fltarr(xpix, ypix, nfiles) ;data array
 balmdat = fltarr(time_frames, npt, nfiles)
- 
-obj_destroy, d
+times = strarr(nfiles, xpix) ;time array for utplot 
+
 hdr = 0
 dat = 0
 ;fill data and time arrays
@@ -83,16 +113,26 @@ for i = 0, nfiles - 1 do begin
     ;load data and put into data array
     d = iris_obj(f[i])
     dat = d->getvar(6, /load)
-    
-    ;sum across Balmer continuum range 2825.7 to 2825.8 angstroms
+;    alldat[i, *,*,*] = dat[39:44, *, *]
     a = 0
     for l = 39, 44 do begin 
     a = a + dat[l, *, *]
     endfor
     alldat[*,*, i] = a
 
-    ;clean up 
-    obj_destroy, d
+    ;load times for each slit position
+    ;and put in times array
+    time = d->ti2utc()
+    times[i,*] = time
+
+    ;make structure containing each header
+    hdr = d->gethdr(iext, /struct)
+    ii = string(fitnum_min + i, format = '(I0)')
+    com = 'hdrtmp = {tag'+ii+' :hdr}'
+    exe = execute(com)
+    if (i eq 0) then allhdr = hdrtmp else $
+    allhdr = create_struct(allhdr, hdrtmp) 
+
 endfor
 
 

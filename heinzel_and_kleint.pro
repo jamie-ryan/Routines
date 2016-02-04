@@ -46,7 +46,7 @@ endfor
 for i = 0, nfiles - 1 do begin
     for j = 0, xpix - 1 do begin
         for k = 0, ypix - 1 do begin
-            balmdatav[j,k,i] =  avg(alldat[39:44, j, k, i])
+            balmdatav[j,k,i] =  total(alldat[39:44, j, k, i])
         endfor
     endfor
 endfor
@@ -61,6 +61,14 @@ for j = 0, xpix - 1 do begin
     endfor
 endfor
 
+bk = fltarr(8)
+for i = 0, 7 do begin 
+bk[i] = avg(balmbk[i, *])
+endfor
+;;;avg balmbk for y
+ ;avg(balmbk[3, *])
+
+
 ;make smaller processed data array
 time_start = 10 ;17:30
 ntime = n_elements(times[time_start:*,0])
@@ -68,7 +76,7 @@ balmdat_bk_subtracted = fltarr(xpix, ypix, ntime)
 for i = 0, ntime - 1 do begin
     for j = 0, xpix - 1 do begin
         for k = 0, ypix - 1 do begin
-            balmdat_bk_subtracted[j,k,i] = balmdatav[j,k,time_start + i] - balmbk[j,k]
+            balmdat_bk_subtracted[j,k,i] = balmdatav[j,k,time_start + i] - bk[j]
         endfor
     endfor
 endfor

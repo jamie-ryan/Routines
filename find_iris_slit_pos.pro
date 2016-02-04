@@ -1,14 +1,4 @@
-;;;;;;;find x coord in arcsecs
-;load individual fit file
-;then run x = d->getxpos() to find x in "
-;tutc=d->ti2utc() gives corresponding time in utc
-
-
-
-
-
-
-function find_iris_slit_pos, coord, struc, y=y, a2p = a2p, p2a = p2a
+function find_iris_slit_pos, coord, iris_x_pos, y=y, a2p = a2p, p2a = p2a
 ;struc = 'sp2826'
 fsp = findfile('/disk/solar3/jsr2/Data/IRIS/old/')
 ;fsp = iris_files(path='/unsafe/jsr2/IRIS/iris/level2/2014/03/30/20140330_140236_3860258481/')
