@@ -1,0 +1,6 @@
+subtract pre-flare values 17:40 to 17:44
+
+preflare = [ypix, ntime]
+preflare = avg()
+
+

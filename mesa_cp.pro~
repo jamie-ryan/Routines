@@ -5,7 +5,14 @@ pro mesa_cp, date
 ;map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]]
 
 ;time_frames = the number of time frames that ribbon coords have been sampled from.
-;nsi, nmg, nbalm, nmgw, nhim are the number of ribbon coords for each data set. I think this is the bast way, as each data set has different sized ribbons, therefore it is unreasonable to assume that one spatial coord could relate to that of another dataset. So instead, I am going to produce high resolution energy distribution plots for each dataset, looking for common features. This approach should help to highlight regions in each dataset-ribbons that are related. i.e, there's a peak here and a trough to the right, there's the same feature in the ribbon above and below (in altitude)
+
+;TO dO
+;take out the time_frmaes dimension.
+;produce data comparing iris_x_pos, probably only the tail end of the bright north ribbon
+;look into iris_y_pos coords and ammend to cater for possible change in sj and hmi y coord
+;produce sj and hmi data comparing north ribbon comparison use existing coords ammended to 
+;reprocess hmi with the sot process
+
 
 ;;;start timer
 tic
@@ -15,7 +22,8 @@ restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/sp2826-Apr28-2015.sav'
 restore, '/unsafe/jsr2/hmi-12-05-15.sav'
 ;restore, '/unsafe/jsr2/HMI-diff-15-Oct-15.sav'
-restore, 'balmdat-Jan20-2016.sav'
+;restore, 'balmdat-Jan20-2016.sav'
+restore, '/unsafe/jsr2/'+date+'/balmdat-bk subtracted-area-summed-'+date+'.sav'
 restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 
 ;;;iris spectra fits
@@ -313,9 +321,9 @@ mgwerr[1,0,npt-1,*] = f_err
 mgwerr[1,1,npt-1,*] = e_err
 
 ;;;SDO HMI continuum section
-hmidata[0, 0, npt-1, *] = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p) ;npt -1 is last row in coord columns.
+hmidata[0, 0, npt-1, *] = convert_coord_hmi(hmiqkxa, diffindex[63],  /x, /a2p) ;npt -1 is last row in coord columns.
 hmidata[0, 1, npt-1, *] = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
-hmidata[1, 0, npt-1, *] = convert_coord_hmi(qkxa, diffindex[63],  /x, /a2p)
+hmidata[1, 0, npt-1, *] = convert_coord_hmi(hmiqkxa, diffindex[63],  /x, /a2p)
 hmidata[1, 1, npt-1, *] = convert_coord_hmi(qkya, diffindex[63],  /y, /a2p)
 tmp = sumarea(diff.data, hmidata[0, 0, npt-1, 0], hmidata[0, 1, npt-1, 0], sradius)
 hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err

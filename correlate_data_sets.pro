@@ -1,4 +1,4 @@
-pro mesa_cp, date
+pro correlate_data_sets, date
 
 
 ;tmp = total(map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]], $
@@ -19,16 +19,13 @@ tic
 
 ;;;restore data sav files
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
-;restore, '/unsafe/jsr2/sp2826-Apr28-2015.sav'
 restore, '/unsafe/jsr2/hmi-12-05-15.sav'
-;restore, '/unsafe/jsr2/HMI-diff-15-Oct-15.sav'
-restore, 'balmdat-Jan20-2016.sav'
 restore, '/unsafe/jsr2/'+date+'/balmdat-bk subtracted-area-summed-'+date+'.sav'
-restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
+;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 
 ;;;iris spectra fits
 ;fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
-fsp = findfile('/unsafe/jsr2/IRIS/*raster*.fits')
+fsp = findfile('/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(fsp)
 ;;;some variables for loops, arrays element definition and header info 
 sample = 1 ;use this for spectra
@@ -53,7 +50,7 @@ balmwidth = (3600. - 1400.)/0.1  ;in angstroms
 visiblewidth = (7500. - 3800.)/76.e-3 ;in angstroms
 
 
-;;;set time series to run from 17:20 to 17:55 
+;;;set time series to run from 17:30 to 17:55 
 tsi = map1400.time ;[]
 tmg = submg.time ;[]
 tbalm = strarr(time_frames, npt, nfiles) ;balmer time array, each column couples with the corresponding e and f columns in balmerdata 

@@ -1,17 +1,10 @@
-pro balm_bk, date
+pro balm_data, date
 ;determine background values based on slit position
 ;restore, '/unsafe/jsr2/sp2826-Jan15-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 f = iris_files(path='/unsafe/jsr2/IRIS/old')
-nfiles = n_elements(f)
-sample = 1 ;use this for spectra
-nrb = 20 ; number ribbon coords
-time_frames = 2 
-time_frame_string = strarr(time_frames)
-time_frame_string[0] = '17:45'
-time_frame_string[1] = '17:46'
-npt = 1 + (nrb/time_frames) ; number of ribbon coords per time_frame + 1 qk coord
-columns = 4 ;x,y,E,F
+
+
 ;quake position 
 qkxa = 518.5 ;Donea et al 2014
 qkya = 264.0 ;Donea et al 2014
@@ -31,6 +24,8 @@ for i = 0, nfiles -1 do begin
     obj_destroy, d
 endfor
 
+;;;array to contain y locations corresponding to each slit position
+iris_y_pix = fltarr(8, nfiles)
 
 
 ;;;read in data
@@ -43,8 +38,11 @@ fitnum_min = (fitnum_max - nfiles) + 1
 nwav = n_elements(wavelength[39:44]) ;wavelength range for balmer
 ypix =  n_elements(dat[0,*,0]) ;y pixels
 xpix =  n_elements(dat[0,0,*]) ;slit position
+nfiles = n_elements(f)
+
+
 alldat = fltarr(xpix, ypix, nfiles) ;data array
-balmdat = fltarr(time_frames, npt, nfiles)
+balmdat = fltarr(8, nfiles)
  
 obj_destroy, d
 hdr = 0
@@ -68,50 +66,46 @@ for i = 0, nfiles - 1 do begin
 endfor
 
 
-;;fill array with intensity from sunquake area 
-alldat[where(alldat lt 0., /null)] = 0 
-for i = 0, npt - 1 do begin
-    for j = 0, nfiles -1 do begin
 
-        ;;convert iris_x_pos to pixel_pos
-                  
-
-;        balmdat[0, i, j] = alldat[balmpix[0, 0, i, j], balmpix[0, 1, i, j], j]
-;        balmdat[1, i, j] = alldat[balmpix[1, 0, i, j], balmpix[1, 1, i, j], j]
-        balmdat[0, i, j] = sumarea(alldat[*,*,j], balmpix[0, 0, i, j], balmpix[0, 1, i, j], iradius, /sg)
-        balmdat[1, i, j] = sumarea(alldat[*,*,j], balmpix[1, 0, i, j], balmpix[1, 1, i, j], iradius, /sg)
+;fill array with back 
+balmbk = fltarr(xpix,ypix)
+bkstart = 0 ;17:40
+bkend = 4 ;17:44
+for j = 0, xpix - 1 do begin
+    for k = 0, ypix - 1 do begin
+        balmbk[j, k] = avg(alldat[j, k, bkstart:bkend])
     endfor
 endfor
 
-balmbk = fltarr(8)
-;;;find array indices for slit positions 0 to 7 and make balmbk
-for i = 0, 7 do begin
-ws = 0
-wi = 0
-ii = i*1.
-
-;times[0:30, 0] = 16:51 to 17:29
-ws = where(balmpix[0, 0, *, 0:30] eq ii)
-wi = array_indices(balmpix[0, 0, *, 0:30], ws)
-
-;balmbk contains the avg value for each slit pos
-balmbk[i] = avg(balmdat[0, wi[2, *],wi[3, *]])
+bk = fltarr(8)
+for i = 0, 7 do begin 
+bk[i] = avg(balmbk[i, *])
 endfor
 
-;remove background
-balmdat[0,*,*]=balmdat[0,*,*] - balmbk[balmpix[0,0,*,*]]
-balmdat[1,*,*]=balmdat[1,*,*] - balmbk[balmpix[1,0,*,*]]
+;fill array with bk subtracted data
+balmdat_bk_subtracted = fltarr(xpix, ypix, nfiles)
+for i = 0, nfiles - 1 do begin
+    for j = 0, xpix - 1 do begin
+        for k = 0, ypix - 1 do begin
+            balmdat_bk_subtracted[j,k,i] = alldat[j,k,i] - bk[j]
+        endfor
+    endfor
+endfor
 
-preflare = 
-;remove preflare
-balmdat[0,*,*]=balmdat[0,*,*] 
-balmdat[1,*,*]=balmdat[1,*,*] 
 
+
+;;;fill array with intensity summed over an area equal to sunquake area 
+alldat[where(alldat lt 0., /null)] = 0 
+for j = 0, 7 do begin 
+    for i = 0, nfiles -1 do begin
+        balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
+    endfor
+endfor
 
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
 filnm = strcompress('/unsafe/jsr2/'+date+'/balmdat-'+date+'.sav', /remove_all)
 
-save,alldat, allhdr, times, balmdat, balmercoords1, balmercoords2, balmpix, balmbk, filename = filnm
+save,balmdat, times, iris_x_pos, iris_y_pos, filename = filnm
 end
