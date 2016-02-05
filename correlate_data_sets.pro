@@ -53,7 +53,7 @@ visiblewidth = (7500. - 3800.)/76.e-3 ;in angstroms
 ;;;set time series to run from 17:30 to 17:55 
 tsi = map1400.time ;[]
 tmg = submg.time ;[]
-tbalm = strarr(time_frames, npt, nfiles) ;balmer time array, each column couples with the corresponding e and f columns in balmerdata 
+;times = balmer
 tmgw = diff2832.time ;[]
 thmi = diff.time ;[]
 

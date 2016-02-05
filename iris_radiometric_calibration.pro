@@ -30,18 +30,47 @@
 ;       
 ; MODIFICATION HISTORY:
 ;       Written 03/06/15 by Jamie Ryan
-pro iris_radiometric_calibration, array, wave = wave, n_pixels = n_pixels, fout, eout, f_err, e_err, sg = sg, sji = sji
+pro iris_radiometric_calibration, $
+array, $
+struct, $
+wave = wave, $
+n_pixels = n_pixels, $
+fout, $
+eout, $
+f_err, $
+e_err, $
+sg = sg, $
+sji = sji
 
 
 dDN = 1. 
-
+narr = n_elements(array)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;Grab iris response
 iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN] / [texp] = DN/s
-texp = 8.0000496
+for i = 0, narr - 1 do begin
+    for j = 0, 8 do begin
+        if keyword_set(sg) then begin
+            texp = fltarr(8, narr)
+            com = 'texp[j, i] = struct.'+tagarr[i]'+.exposure_time[j]'
+            exe = execute(com)
+            array[i] = t
+        endif
+
+        if keyword_set(sji) then begin
+            texp = fltarr(narr)
+            texp[j] = struct[i].exptimes
+            array = array[i]/texp[i]
+        endif
+    endfor
+endfor
+
+
+
+
 dt = 5.0e-8 ;uncertainty associated with texp
 array = array/texp
 

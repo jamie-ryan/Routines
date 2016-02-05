@@ -120,22 +120,39 @@ endfor
 ;endfor
 
 
-
+balmerdata = fltarr(4, 8, nfiles)
 ;;;array to contain y pixel locations corresponding to each slit position
-
+iris_x_pix = fltarr(8, nfiles)
+for i = 0 , nfiles-1 do begin
+a = 0
+a = find_iris_slit_pos_new(iris_x_pos[*,i], iris_x_pos[*,i])
+iris_x_pix[*,i] = a
+endfor
 coords = [269., 272., 271., 261., 264., 264., 264.7, 264.6]
 iris_y_pix = find_iris_slit_pos_new(coords, iris_y_pos)
 
+balmerdata[0, *, *] = iris_x_pix[*, *]
+balmerdata[1, *, *] = iris_y_pix[*, *]
 
 
 ;;;fill array with intensity summed over an area equal to sunquake area 
 alldat[where(alldat lt 0., /null)] = 0 
 for j = 0, 7 do begin 
     for i = 0, nfiles -1 do begin
+        ;fill array with intensity summed over an area equal to sunquake area
         balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
     endfor
 endfor
 
+;calculate energy
+balmwidth = (3600. - 1400.)/0.1  ;in angstroms
+wav1 = wavelength[39]
+wav2 = wavelength[44]
+for j = 0 , 7 do begin 
+iris_radiometric_calibration, balmdat[j,*]*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
+balmerdata[2, j, *] = f
+balmerdata[3, j, *] = e
+endfor
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
