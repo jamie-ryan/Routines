@@ -2,8 +2,8 @@ pro balm_data, date
 ;determine background values based on slit position
 ;restore, '/unsafe/jsr2/sp2826-Jan15-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
-f = iris_files(path='/unsafe/jsr2/IRIS/old')
-
+f = iris_files(path='/unsafe/jsr2/IRIS/old/')
+nfiles = n_elements(f)
 
 ;quake position 
 qkxa = 518.5 ;Donea et al 2014
@@ -24,11 +24,7 @@ for i = 0, nfiles -1 do begin
     obj_destroy, d
 endfor
 
-;;;array to contain y locations corresponding to each slit position
-iris_y_pix = fltarr(8, nfiles)
-
-
-;;;read in data
+;;read in data
 ;;;find the numbers needed to create alldata array
 d = iris_obj(f[0])
 dat = d->getvar(6, /load)
@@ -38,7 +34,7 @@ fitnum_min = (fitnum_max - nfiles) + 1
 nwav = n_elements(wavelength[39:44]) ;wavelength range for balmer
 ypix =  n_elements(dat[0,*,0]) ;y pixels
 xpix =  n_elements(dat[0,0,*]) ;slit position
-nfiles = n_elements(f)
+
 
 
 alldat = fltarr(xpix, ypix, nfiles) ;data array
@@ -91,6 +87,44 @@ for i = 0, nfiles - 1 do begin
         endfor
     endfor
 endfor
+
+;y0 = 415 ;259" 
+;yf = 499 ;273"
+;ny = 499 - 415
+;iris_y_pix = fltarr(8,)
+
+;;enhanced pixel detector
+;;;y coordinates based on impulsive phase 17:44 to 17:48  
+;times[*,8]  ;17:44
+;times[*,12]  ;17:48
+;times[*,8:12] 
+;for j = 0, 7 do begin
+;    imp_start = 8
+;    imp_end = 12
+;    for i = 0, 
+;        rwl = 0
+;        rind = 0
+;        tmpav = 0
+;        tmpsd = 0
+;        tmp = 0
+;        tmp = alldat[j, *, i]
+;        tmp[where(tmp lt 0, /null)] = 0
+;        tmpav = avg(tmp)
+        ;;standard deviation (sigma)
+;        tmpsd = stddev(tmp)
+        ;;detection threshold (2*sigma)
+;        rwl = where(tmp gt 2*tmpsd, rd)
+;        rind = array_indices(tmp, rwl)
+;        iris_y_pix[j, *, i] = rind[1,y0:yf]            
+;    endfor
+;endfor
+
+
+
+;;;array to contain y pixel locations corresponding to each slit position
+
+coords = [269., 272., 271., 261., 264., 264., 264.7, 264.6]
+iris_y_pix = find_iris_slit_pos_new(coords, iris_y_pos)
 
 
 
