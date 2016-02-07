@@ -149,7 +149,16 @@ balmwidth = (3600. - 1400.)/0.1  ;in angstroms
 wav1 = wavelength[39]
 wav2 = wavelength[44]
 for j = 0 , 7 do begin 
-iris_radiometric_calibration, balmdat[j,*]*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg, slitpos = j
+
+;convert DN to energy [erg]
+iris_radiometric_calibration, $
+balmdat[j,*]*balmwidth, $
+wave=[wav1,wav2], $
+n_pixels=1, $
+f, e, f_err, e_err, $
+/sg, slitpos = j
+
+;fill array with energies
 balmerdata[2, j, *] = f
 balmerdata[3, j, *] = e
 endfor

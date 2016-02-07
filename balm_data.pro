@@ -153,6 +153,7 @@ for j = 0 , 7 do begin
 ;convert DN to energy [erg]
 iris_radiometric_calibration, $
 balmdat[j,*]*balmwidth, $
+sp2826, $
 wave=[wav1,wav2], $
 n_pixels=1, $
 f, e, f_err, e_err, $
