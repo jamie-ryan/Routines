@@ -49,7 +49,7 @@ narr = n_elements(array)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;Grab iris response
 iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
-
+tagarr = tag_names(struct)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN] / [texp] = DN/s
 texp = fltarr(narr)
