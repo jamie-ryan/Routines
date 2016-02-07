@@ -28,7 +28,7 @@ smthdat = fltarr(nx, ny, nt)
 ;ri = alog10(rdato) - alog10(SMOOTH(rdato,10))
 ;bi = alog10(bdato) - alog10(SMOOTH(bdato,10))
 ;gi = alog10(gdato) - alog10(SMOOTH(gdato,10))
-smthdat = hmidata - SMOOTH(rdato,10)
+smthdat = hmidata - SMOOTH(hmidata,10)
 index2map, hmiindex, smthdat, hmimap
 
 ;;;wider crop, probably better for seeing everything

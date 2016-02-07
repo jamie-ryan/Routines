@@ -65,7 +65,7 @@ for i=1, nc-1, 1 do begin
     rdiff1=diff_map(rsub(i),rsub(i-2),/rotate)
 
     ;;;concatenate arrays to form one difference array
-    hmidiff=str_concat(rdiff,rdiff1)
+    hmidiff=str_concat(hmidiff,rdiff1)
 endfor
 
 map2index, hmidiff, diffind, diffdat

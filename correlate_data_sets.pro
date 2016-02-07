@@ -19,8 +19,8 @@ tic
 
 ;;;restore data sav files
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
-restore, '/unsafe/jsr2/hmi-12-05-15.sav'
-restore, '/unsafe/jsr2/'+date+'/balmdat-bk subtracted-area-summed-'+date+'.sav'
+restore, '/unsafe/jsr2/hmifullfiltWLdetection-'+date+'.sav'
+restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 
 ;;;iris spectra fits
@@ -90,20 +90,15 @@ endfor
 
 ;;;arrays to contain energy values for each coord through the entire time series.
 ;eg: sidata[time_frame, xcoord, ycoord, time]....have to have seperate arrays due to different cadence
-;data = [time_frame, x, y, F, E] = fltarr(2, 4, 10, t)
-sidata = fltarr(time_frames, columns, npt, n_elements(tsi))
-mgdata = fltarr(time_frames, columns, npt, n_elements(tmg))
-balmerdata = fltarr(time_frames, columns, npt, nfiles)
-for i = 0, npt-1 do begin ;fill with pixel coords from balm_bk
-for j = 0, nfiles -1 do begin
-balmerdata[0,0,i,j] = balmpix[0,0,i,j]
-balmerdata[0,1,i,j] = balmpix[0,1,i,j]
-balmerdata[1,0,i,j] = balmpix[1,0,i,j]
-balmerdata[1,1,i,j] = balmpix[1,1,i,j]
-endfor
-endfor
-mgwdata = fltarr(time_frames, columns, npt, n_elements(tmgw))
-hmidata = fltarr(time_frames, columns, npt, n_elements(thmi))
+sidata = fltarr(columns, slitpos, n_elements(tsi))
+mgdata = fltarr(columns, slitpos, n_elements(tmg))
+;balmerdata = fltarr(columns, slitpos, nfiles)
+mgwdata = fltarr(columns, slitpos, n_elements(tmgw))
+hmidata = fltarr(columns, slitpos, n_elements(thmi))
+
+
+
+
 
 ;;;arrays to contain errors associated with corresponding data 
 sierr = fltarr(time_frames, fande, npt, n_elements(tsi))
