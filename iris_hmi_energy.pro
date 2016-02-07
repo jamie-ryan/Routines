@@ -156,8 +156,8 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     mgwerr[1,i,*] = e_err ;*visiblewidth
 
     ;;;SDO HMI continuum section
-    hmidata[0, i, *] = convert_coord_hmi(hmicoords[0, i], diffindex[62],  /x, /a2p)
-    hmidata[1, i, *] = convert_coord_hmi(hmicoords[1, i], diffindex[62],  /y, /a2p)
+    hmidata[0, i, *] = convert_coord_hmi(hmicoords[0, i], diffind[62],  /x, /a2p)
+    hmidata[1, i, *] = convert_coord_hmi(hmicoords[1, i], diffind[62],  /y, /a2p)
     tmp = sumarea(hmidiff.data, hmidata[0, i, 0], hmidata[1, i, 0], sradius)
     hmi_radiometric_calibration, tmp*visiblewidth, diffind, n_pixels = snp, f, e, f_err, e_err
     hmidata[0, 2, i, *] = f
