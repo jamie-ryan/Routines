@@ -128,7 +128,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     sidata[1, i, *] = convert_coord_iris(sicoords[1, i], sji_1400_hdr[495], /y, /a2p)
 ;    tmp = map1400.data[sidata[0, 0, i, 0], sidata[0, 1, i, 0]] - dnbksi
     tmp = sumarea(map1400.data - dnbksi, sidata[0, i, 0], sidata[1, i, 0], iradius)
-    iris_radiometric_calibration, tmp, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
+    iris_radiometric_calibration, tmp, sji_1400_hdr, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
     sidata[2, i, *] = f
     sidata[3, i, *] = e
     sierr[0,i,*] = f_err
@@ -139,7 +139,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     mgdata[0, i, *] = convert_coord_iris(mgcoords[0, i], sji_2796_hdr[661], /x, /a2p)
     mgdata[1, i, *] = convert_coord_iris(mgcoords[1, i], sji_2796_hdr[661], /y, /a2p) 
     tmp = sumarea(submg.data - dnbkmg, mgdata[0, i, 0], mgdata[1, i, 0], iradius)
-    iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
+    iris_radiometric_calibration, tmp, sji_2796_hdr, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
     mgdata[2, i, *] = f
     mgdata[3, i, *] = e
     mgerr[0,i,*] = f_err
@@ -149,7 +149,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     mgwdata[0, i, *] = convert_coord_iris(mgwcoords[0, i], sji_2832_hdr[166], /x, /a2p)
     mgwdata[1, i, *] = convert_coord_iris(mgwcoords[1, i], sji_2832_hdr[166], /y, /a2p)
     tmp = sumarea(diff2832.data, mgwdata[0, i, 0], mgwdata[1, i, 0], iradius)
-    iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
+    iris_radiometric_calibration, tmp, sji_2832_hdr, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
     mgwdata[2, i, *] = f
     mgwdata[3, i, *] = e
     mgwerr[0,i,*] = f_err ;*visiblewidth 
@@ -159,7 +159,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     hmidata[0, i, *] = convert_coord_hmi(hmicoords[0, i], diffindex[62],  /x, /a2p)
     hmidata[1, i, *] = convert_coord_hmi(hmicoords[1, i], diffindex[62],  /y, /a2p)
     tmp = sumarea(hmidiff.data, hmidata[0, i, 0], hmidata[1, i, 0], sradius)
-    hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
+    hmi_radiometric_calibration, tmp*visiblewidth, diffind, n_pixels = snp, f, e, f_err, e_err
     hmidata[0, 2, i, *] = f
     hmidata[0, 3, i, *] = e
     hmierr[0,0,i,*] = f_err
