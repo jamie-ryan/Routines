@@ -22,7 +22,7 @@ restore, '/unsafe/jsr2/iris-16-03-15.sav'
 restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
 restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
-
+restore, '/unsafe/jsr2/sp2826-Feb7-2016.sav'
 ;;;iris spectra fits
 ;fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
 fsp = findfile('/unsafe/jsr2/IRIS/old/')
