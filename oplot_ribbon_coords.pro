@@ -1,6 +1,6 @@
 pro oplot_ribbon_coords, coords, box_size, box = box, cross = cross, set_2 = set_2
 
-nrb = 10
+nrb = 8
 for i = 0 ,nrb-1 do begin
     central_coord_x = coords[0,i]
     central_coord_y = coords[1,i]
@@ -46,5 +46,5 @@ if keyword_set(box) then begin
     oplot, [x0, xf], [y0, y0], color = 190 ;bottom
 endif
 ii = 'SQ'
-XYouts, x0, yf, ii, COLOR=FSC_Color('red'), ALIGN=0.5, CHARSIZE=0.45
+XYouts, xf/2., yf/2., ii, COLOR=FSC_Color('red'), ALIGN=0.5, CHARSIZE=0.50
 end

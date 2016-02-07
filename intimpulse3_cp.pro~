@@ -1,0 +1,131 @@
+pro intimpulse3, fdate
+
+restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'.sav'
+
+dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+cadence = [26., 19., 72., 75., 45. ] ;si, mg  , balmer  , mgw  , hmi 
+
+nrb = 8
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;IMPULSIVE PHASE TIME FROM RHESSI 50 - 100 keV???;;;
+;impulsive phase start time
+t_start = '*17:44*'
+t1find = '*17:43*'
+;impulsive phase end time
+t_end = '*17:48*'
+t2find = '*17:49*'
+
+;impulsive phase time in seconds
+rhessi_timp = 60. 
+
+
+;array to contain dataset specific impulsive phase 
+eimp = fltarr(npt)
+rhessi_eimp = 1.0e29 ;needs verifying
+nset = n_elements(dataset)
+for k = 0, nset -1 do begin  
+    print, k  
+
+    for i = 0, npt - 1 do begin
+
+        ;select dataset
+        if (k eq 0) then begin
+        dd = sidata
+        t = tsi 
+        endif
+        if (k eq 1) then begin 
+        dd = mgdata
+        t = tmg
+        endif
+        if (k eq 2) then begin
+        dd = balmerdata
+        t = reform(times[i, *])
+        endif
+        if (k eq 3) then begin
+        dd = mgwdata
+        t = tmgw
+        endif
+        if (k eq 4) then begin
+        dd = hmidata
+        t = thmi 
+        endif
+
+        ;make 1D energy array
+        d = 0
+        d = reform(dd[3,i,*])
+
+        ;find time array indices for impulsive phase
+        t1 = where(strmatch(t, t_start))
+        t2 = where(strmatch(t, t_end))
+        t1ind = 0
+        t2ind = n_elements(t2) - 1
+
+        ;if t_start and t_end are not found, 
+        ;try t1find instead
+        if (n_elements(t1) eq 1) then begin
+            if (t1 lt 0) then begin 
+                t1 = where(strmatch(t, t1find))
+                t1ind = n_elements(t1) - 1
+            endif
+        endif
+
+        ;try t2find instead
+        if (n_elements(t2) eq 1) then begin    
+            if (t2 lt 0) then begin
+                t2 = where(strmatch(t, t2find))
+                t2ind = 0
+            endif
+        endif
+
+        ;impulsive phase length in time array elements
+        dt = (t2[t2ind] - t1[t1ind]) + 1
+
+        ;impulsive length in seconds
+        ti = fltarr(dt)
+            for l = 0, dt - 1 do begin
+                ti[l] = l*cadence[k]
+            endfor
+        deltt = max(ti)
+        
+        ;integrate energy
+        e = int_tabulated(ti, d[t1[t1ind]:t2[t2ind]])
+        eimp[j,i] = e
+    endfor
+
+    ;make dataset specific arrays
+    com = dataset[k]+'_timp = deltt'
+    exe = execute(com)
+    com = dataset[k]+'_eimp = fltarr(time_frames, npt)'
+    exe = execute(com)
+    com = dataset[k]+'_eimp = eimp'
+    exe = execute(com)
+
+
+endfor
+
+;save arrays
+filnm = '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-'+fdate+'.sav'
+save, t_start, t_end, rhessi_timp, rhessi_eimp, $
+si_timp, si_eimp, $
+mg_timp, mg_eimp, $
+balmer_timp, balmer_eimp, $
+mgw_timp, mgw_eimp, $
+hmi_timp, hmi_eimp, $
+filename = filnm
+    
+;make structure and save
+description = 'energies integrated over impulsive phase' 
+ipt = {description:description, tstart:t_start, tend:t_end}
+rhessi = {timp:rhessi_timp, Eimp:rhessi_eimp} 
+si_iv = {timp:si_timp, Eimp:si_eimp}
+mg_ii = {timp:mg_timp, Eimp:mg_eimp}
+balmer = {timp:balmer_timp, Eimp:balmer_eimp}
+mgw = {timp:mgw_timp, Eimp:mgw_eimp}         
+hmi = {timp:hmi_timp, Eimp:hmi_eimp}
+ipe = {rhessi:rhessi, si_iv:si_iv, mg_ii:mg_ii, balmer:balmer, mgw:mgw, hmi:hmi}
+integrated_energies = create_struct(ipt, ipe)
+filnm = '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-structure'+fdate+'.sav'
+save,integrated_energies, filename = filnm
+end

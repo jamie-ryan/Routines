@@ -48,7 +48,7 @@ tsi = map1400.time ;[]
 tmg = submg.time ;[]
 ;times = balmer
 tmgw = diff2832.time ;[]
-thmi = diff.time ;[]
+thmi = hmidiff.time ;[]
 
 
 ;quake position 

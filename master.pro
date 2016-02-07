@@ -12,9 +12,10 @@ balm_data, date_today
 ;mesa_cp, date_today
 iris_hmi_energy, date_today
 
-mes2ladder, date_today
+;mes2ladder, date_today
+mes2ladder_cp, date_today
 ribcord2oplot_cp, date_today
-intimpulse3, date_today
-plot_energy_dist, date_today
+intimpulse3_cp, date_today
+;plot_energy_dist, date_today
 end
 
