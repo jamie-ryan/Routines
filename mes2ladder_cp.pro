@@ -1,4 +1,4 @@
-pro mes2ladder, date
+pro mes2ladder, date, tables = tables
 
 ;date is a string 
 dir = '/unsafe/jsr2/'+date+'/'
@@ -173,6 +173,9 @@ for i = 0, npix-1 do begin
     device,/close
     set_plot,mydevice
 endfor
+
+
+if keyword_set(tables)
 ;;;;make latex tables
 ;dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 ;for k = 0, n_elements(dataset)-1 do begin
@@ -303,4 +306,5 @@ endfor
  ; endfor
 ;endfor
 ;free_lun, lun
+endif
 end

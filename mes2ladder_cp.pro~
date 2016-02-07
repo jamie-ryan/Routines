@@ -5,22 +5,6 @@ dir = '/unsafe/jsr2/'+date+'/'
 restore, dir+'29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 
 npix = 8
-
-
-dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
-for k = 0, n_elements(dataset)-1 do begin
-    flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords1.txt
-    openr, lun, flnm, /get_lun
-    nlin =  file_lines(flnm)
-    tmp = fltarr(2, nlin)
-    readf, lun, tmp
-    com = dataset[k]+'coords = tmp' ;readf,lun,hmg
-    exe = execute(com)
-    free_lun, lun
-endfor
-
-
-
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'
 flux = '[erg s!E-1!N cm!E-2!N '+angstrom+'!E-1!N sr!E-1!N]'
@@ -191,6 +175,19 @@ for i = 0, npix-1 do begin
 endfor
 
 
+if keyword_set(tables)
+;;;;make latex tables
+;dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+;for k = 0, n_elements(dataset)-1 do begin
+;    flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords1.txt
+;    openr, lun, flnm, /get_lun
+;    nlin =  file_lines(flnm)
+;    tmp = fltarr(2, nlin)
+;    readf, lun, tmp
+;    com = dataset[k]+'coords = tmp' ;readf,lun,hmg
+;    exe = execute(com)
+;    free_lun, lun
+;endfor
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;openw, lun, dir+'bk-energy-table.tex', /get_lun
@@ -309,4 +306,5 @@ endfor
  ; endfor
 ;endfor
 ;free_lun, lun
+endif
 end

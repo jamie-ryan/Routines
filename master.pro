@@ -14,7 +14,7 @@ iris_hmi_energy, date_today
 
 ;mes2ladder, date_today
 mes2ladder_cp, date_today
-ribcord2oplot_cp, date_today
+ribcord2oplot_cp, date_today;, /tables
 intimpulse3_cp, date_today
 ;plot_energy_dist, date_today
 end
