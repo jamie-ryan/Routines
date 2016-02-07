@@ -1,7 +1,7 @@
 pro balm_data, date
 ;determine background values based on slit position
 ;restore, '/unsafe/jsr2/sp2826-Jan15-2016.sav'
-restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
+restore, '/unsafe/jsr2/sp2826-Feb7-2016.sav'
 f = iris_files(path='/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(f)
 
