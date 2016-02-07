@@ -149,13 +149,20 @@ balmwidth = (3600. - 1400.)/0.1  ;in angstroms
 wav1 = wavelength[39]
 wav2 = wavelength[44]
 for j = 0 , 7 do begin 
-iris_radiometric_calibration, balmdat[j,*]*balmwidth, wave=[wav1,wav2], n_pixels=1, f, e, f_err, e_err, /sg
+
+;convert DN to energy [erg]
+iris_radiometric_calibration, $
+balmdat[j,*]*balmwidth, $
+wave=[wav1,wav2], $
+n_pixels=1, $
+f, e, f_err, e_err, $
+/sg, slitpos = j
+
+;fill array with energies
 balmerdata[2, j, *] = f
 balmerdata[3, j, *] = e
 endfor
 
-d1 = strcompress(strmid(systime(),4,7),/remove_all)
-d2 = strcompress(strmid(systime(),20),/remove_all)
 filnm = strcompress('/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav', /remove_all)
 
 ;save,balmdat, times, iris_x_pos, iris_y_pos, iris_y_pix, filename = filnm
