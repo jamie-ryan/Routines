@@ -3,7 +3,7 @@ detect_wl = detect_wl, $
 process = process, $
 restore_sav = restore_sav, $
 sav_date, $ 
-calc_energy = calc_energy
+
 
 files = findfile('/disk/solar4/sz2/SDO/20140329/Ic/hmi.Ic_45s.20140329_17*')
 files2 = findfile('/disk/solar4/sz2/SDO/20140329/Ic/hmi.Ic_45s.20140329_18*')
