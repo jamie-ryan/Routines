@@ -38,7 +38,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-Si_IV-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 plot_map, ssi[498],  /log
-oplot_ribbon_coords, sicoords2, iradius, /box, /set_2
+oplot_ribbon_coords, sicoords, iradius, /box, /set_2
 device,/close
 set_plot,mydevice
 
@@ -49,7 +49,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-MG_II-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 plot_map, smg[666], /log
-oplot_ribbon_coords, mgcoords2, iradius, /box, /set_2
+oplot_ribbon_coords, mgcoords, iradius, /box, /set_2
 device,/close
 set_plot,mydevice
 
@@ -60,7 +60,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-MG_IIw-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 plot_map, smgw[167], dmin = 0, dmax = 3000
-oplot_ribbon_coords, mgwcoords2, iradius, /box, /set_2
+oplot_ribbon_coords, mgwcoords, iradius, /box, /set_2
 device,/close
 set_plot,mydevice
 
@@ -72,7 +72,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-HMI-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 plot_map, shmi[63], dmin = 0, dmax = 2000
-oplot_ribbon_coords, hmicoords2, sradius, /box, /set_2
+oplot_ribbon_coords, hmicoords, sradius, /box, /set_2
 device,/close
 set_plot,mydevice
 end

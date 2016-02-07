@@ -90,11 +90,11 @@ mgwdata = fltarr(columns, slitpos, n_elements(tmgw))
 hmidata = fltarr(columns, slitpos, n_elements(thmi))
 
 ;;;arrays to contain errors associated with corresponding data 
-sierr = fltarr(fande, npt, n_elements(tsi))
-mgerr = fltarr(fande, npt, n_elements(tmg))
-balmererr = fltarr(fande, npt, n_elements(tagarr))
-mgwerr = fltarr(fande, npt, n_elements(tmgw))
-hmierr = fltarr(fande, npt, n_elements(thmi))
+sierr = fltarr(fande, slitpos, n_elements(tsi))
+mgerr = fltarr(fande, slitpos, n_elements(tmg))
+balmererr = fltarr(fande, slitpos, n_elements(tagarr))
+mgwerr = fltarr(fande, slitpos, n_elements(tmgw))
+hmierr = fltarr(fande, slitpos, n_elements(thmi))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;calculate pixel location from given arcsec coords
