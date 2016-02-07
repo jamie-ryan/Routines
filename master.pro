@@ -10,7 +10,7 @@ spawn, 'mkdir /unsafe/jsr2/'+date_today
 ;balm_bk, date_today
 balm_data, date_today
 ;mesa_cp, date_today
-correlate_data_sets, date_today
+iris_hmi_energy, date_today
 mes2ladder, date_today
 ribcord2oplot_cp, date_today
 intimpulse3, date_today
