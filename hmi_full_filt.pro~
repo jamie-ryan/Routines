@@ -83,7 +83,7 @@ endif
 if keyword_set(restore_sav) then restore, '/unsafe/jsr2/'+date_today+'/hmifullfilt-'+sav_date+'.sav'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;WL pixel detection from filtered data
-if keyword_set(detect_wl) then being
+if keyword_set(detect_wl) then begin
 nx = n_elements(diffdat[*,0,0])
 ny = n_elements(diffdat[0,*,0])
 nt = n_elements(diffdat[0,0,*])
