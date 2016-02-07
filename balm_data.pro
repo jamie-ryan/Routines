@@ -156,7 +156,8 @@ endfor
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
-filnm = strcompress('/unsafe/jsr2/'+date+'/balmdat-bk subtracted-area-summed-'+date+'.sav', /remove_all)
+filnm = strcompress('/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav', /remove_all)
 
-save,balmdat, times, iris_x_pos, iris_y_pos, iris_y_pix, filename = filnm
+;save,balmdat, times, iris_x_pos, iris_y_pos, iris_y_pix, filename = filnm
+save, /variables, filename = filnm
 end
