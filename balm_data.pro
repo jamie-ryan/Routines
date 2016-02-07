@@ -128,7 +128,8 @@ a = 0
 a = find_iris_slit_pos_new(iris_x_pos[*,i], iris_x_pos[*,i])
 iris_x_pix[*,i] = a
 endfor
-coords = [269., 272., 271., 261., 264., 264., 264.7, 264.6]
+
+coords = [270, 271.6, 261., 264., 262.25, 263.9, 264, 262.9]
 iris_y_pix = find_iris_slit_pos_new(coords, iris_y_pos)
 
 balmerdata[0, *, *] = iris_x_pix[*, *]

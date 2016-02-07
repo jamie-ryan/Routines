@@ -1,4 +1,4 @@
-pro correlate_data_sets, date
+pro iris_hmi_energy, date
 
 
 ;tmp = total(map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]], $
