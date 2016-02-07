@@ -28,7 +28,7 @@ nset = n_elements(dataset)
 for k = 0, nset -1 do begin  
     print, k  
 
-    for i = 0, npt - 1 do begin
+    for i = 0, nrb - 1 do begin
 
         ;select dataset
         if (k eq 0) then begin
@@ -91,13 +91,13 @@ for k = 0, nset -1 do begin
         
         ;integrate energy
         e = int_tabulated(ti, d[t1[t1ind]:t2[t2ind]])
-        eimp[j,i] = e
+        eimp[i] = e
     endfor
 
     ;make dataset specific arrays
     com = dataset[k]+'_timp = deltt'
     exe = execute(com)
-    com = dataset[k]+'_eimp = fltarr(npt)'
+    com = dataset[k]+'_eimp = fltarr(nrb)'
     exe = execute(com)
     com = dataset[k]+'_eimp = eimp'
     exe = execute(com)
