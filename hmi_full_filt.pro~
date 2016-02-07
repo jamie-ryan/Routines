@@ -3,14 +3,22 @@ detect_wl = detect_wl, $
 process = process, $
 restore_sav = restore_sav, $
 sav_date, $ 
+calc_energy = calc_energy
 
+;make date string for sav files
+d1 = strcompress(strmid(systime(),4,7),/remove_all)
+d2 = strcompress(strmid(systime(),20),/remove_all)
+date_today = d1+'-'+d2
 
+if keyword_set(process) then begin
+;read in fits file names
 files = findfile('/disk/solar4/sz2/SDO/20140329/Ic/hmi.Ic_45s.20140329_17*')
 files2 = findfile('/disk/solar4/sz2/SDO/20140329/Ic/hmi.Ic_45s.20140329_18*')
 files = [files,files2]
 
-if keyword_set(process) then begin
+;process sdo hmi data
 aia_prep, files,-1, hmiindex, hmidata, /despike
+
 ;;;kerr & fletcher 2014 data processing
 ;log unsharp filter (ri) 
 nx = n_elements(hmidata[*,0,0])
@@ -70,9 +78,9 @@ map2index, hmidiff, diffind, diffdat
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
 date_today = d1+'-'+d2
-save, hmidiff, filename = '/unsafe/jsr2/red/hmifullfilt-'+date_today+'.sav'
+save, hmidiff, filename = '/unsafe/jsr2/'+date_today+'/hmifullfilt-'+date_today+'.sav'
 endif
-if keyword_set(restore_sav) then restore, '/unsafe/jsr2/red/hmifullfilt-'+sav_date+'.sav'
+if keyword_set(restore_sav) then restore, '/unsafe/jsr2/'+date_today+'/hmifullfilt-'+sav_date+'.sav'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;WL pixel detection from filtered data
 if keyword_set(detect_wl) then being
@@ -94,7 +102,7 @@ ind = array_indices(tmp, wl)
 
 ;make .sav
 save,hmidiff, hmidat, hmiind , $
-filename = '/unsafe/jsr2/red/hmifullfiltWLdetection-'+date_today+'.sav'
+filename = '/unsafe/jsr2/'+date_today+'/hmifullfiltWLdetection-'+date_today+'.sav'
 endif
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 if keyword_set(calc_energy) then begin
