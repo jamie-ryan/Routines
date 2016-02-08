@@ -184,7 +184,7 @@ hmidata, $
 hmierr, $
 tsi, $
 tmg, $
-tbalm, $
+times, $
 tmgw, $
 thmi, $
 filename = '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
