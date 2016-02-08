@@ -13,11 +13,12 @@ f = iris_files(path='/unsafe/jsr2/IRIS/old/')
 nnn = n_elements(f)
 tagarr = strarr(nnn)
 dataarr = strarr(nnn)
-
-
+last_fit = 179
+first_fit = last_fit - nnn + 1
 for i = 0, nnn-1, 1 do begin
 ii = string(i, Format='(I0)')
-tagarr[i] =  'tag0'+ii+'
+iifit = string(first_fit + i, Format='(I0)')
+tagarr[i] =  'tag0'+iifit+'
 ;tagarr[i] = "'"+tagarr[i]+"'"
 dataarr[i] = 't'+ii+'[*,*,*]'
 com = 't'+ii+' = iris_getwindata(f['+ii+'],'+lambda+')'
@@ -57,7 +58,10 @@ exe = execute(comstructstr)
 endif
 
 endfor
-sp0tmp = {tag00:t0[*,*,*]}
+fit1 = string(first_fit, format = '(I0)')
+tg = 'tag0'+fit1
+com = 'sp0tmp = {'+tg+':t0[*,*,*]}'
+exe = execute(com)
 com = 'sp'+lambda+'= create_struct(sp0tmp, s1)'
 exe = execute(com)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

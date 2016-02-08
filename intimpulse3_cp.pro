@@ -22,7 +22,7 @@ rhessi_timp = 60.
 
 
 ;array to contain dataset specific impulsive phase 
-eimp = fltarr(npt)
+eimp = fltarr(nrb)
 rhessi_eimp = 1.0e29 ;needs verifying
 nset = n_elements(dataset)
 for k = 0, nset -1 do begin  

@@ -10,6 +10,17 @@ qkxa = 518.5 ;Donea et al 2014
 qkya = 264.0 ;Donea et al 2014
 iradius = 4.;iris qk radius in pixels
 
+dataset = ['balmer']
+for k = 0, n_elements(dataset)-1 do begin
+    flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords1.txt
+    openr, lun, flnm, /get_lun
+    nlin =  file_lines(flnm)
+    tmp = fltarr(2, nlin)
+    readf, lun, tmp
+    com = dataset[k]+'coords = tmp' ;readf,lun,hmg
+    exe = execute(com)
+    free_lun, lun
+endfor
 
 ;find x and y slit positions in arcsec and times
 ;these arrays will be passed to mesa_cp as coordinates for other data
@@ -23,6 +34,9 @@ for i = 0, nfiles -1 do begin
     times[*, i] = d->ti2utc()
     obj_destroy, d
 endfor
+
+common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos)
+
 
 ;;read in data
 ;;;find the numbers needed to create alldata array
@@ -128,7 +142,8 @@ a = 0
 a = find_iris_slit_pos_new(iris_x_pos[*,i], iris_x_pos[*,i])
 iris_x_pix[*,i] = a
 endfor
-coords = [269., 270.6, 271., 261., 264., 264., 264.7, 264.6]
+
+coords = [270, 271.6, 261., 264., 262.25, 263.9, 264, 262.9]
 iris_y_pix = find_iris_slit_pos_new(coords, iris_y_pos)
 
 balmerdata[0, *, *] = iris_x_pix[*, *]
@@ -140,7 +155,8 @@ alldat[where(alldat lt 0., /null)] = 0
 for j = 0, 7 do begin 
     for i = 0, nfiles -1 do begin
         ;fill array with intensity summed over an area equal to sunquake area
-        balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
+        balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], common_x_pix[i], iris_y_pix[j, i], iradius, /sg)        
+        ;balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
     endfor
 endfor
 

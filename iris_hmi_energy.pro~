@@ -19,10 +19,11 @@ tic
 
 ;;;restore data sav files
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
-restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
+;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
+restore, '/unsafe/jsr2/Feb7-2016/hmifullfilt-Feb7-2016.sav'
 restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
-restore, '/unsafe/jsr2/sp2826-Feb7-2016.sav'
+restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 ;;;iris spectra fits
 ;fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
 fsp = findfile('/unsafe/jsr2/IRIS/old/')
@@ -133,7 +134,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     sidata[3, i, *] = e
     sierr[0,i,*] = f_err
     sierr[1,i,*] = e_err
-
+    tmp = 0
     ;;;iris 2796\AA\ section
     dnbkmg = total(submg[661].data[bkmgp[0,*], bkmgp[1,*]])/n_elements(bkmgp[0,*]) ;mg
     mgdata[0, i, *] = convert_coord_iris(mgcoords[0, i], sji_2796_hdr[661], /x, /a2p)
@@ -144,7 +145,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     mgdata[3, i, *] = e
     mgerr[0,i,*] = f_err
     mgerr[1,i,*] = e_err
-    
+    tmp = 0
     ;;;iris 2832 \AA\ section
     mgwdata[0, i, *] = convert_coord_iris(mgwcoords[0, i], sji_2832_hdr[166], /x, /a2p)
     mgwdata[1, i, *] = convert_coord_iris(mgwcoords[1, i], sji_2832_hdr[166], /y, /a2p)
@@ -154,7 +155,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     mgwdata[3, i, *] = e
     mgwerr[0,i,*] = f_err ;*visiblewidth 
     mgwerr[1,i,*] = e_err ;*visiblewidth
-
+    tmp = 0
     ;;;SDO HMI continuum section
     hmidata[0, i, *] = convert_coord_hmi(hmicoords[0, i], diffind[62],  /x, /a2p)
     hmidata[1, i, *] = convert_coord_hmi(hmicoords[1, i], diffind[62],  /y, /a2p)
@@ -164,6 +165,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     hmidata[3, i, *] = e
     hmierr[0,i,*] = f_err
     hmierr[1,i,*] = e_err
+    tmp = 0
 endfor
 
 ;spawn, 'mkdir /unsafe/jsr2/'+date......this is now done in master.pro
@@ -184,7 +186,7 @@ hmidata, $
 hmierr, $
 tsi, $
 tmg, $
-tbalm, $
+times, $
 tmgw, $
 thmi, $
 filename = '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'

@@ -7,6 +7,8 @@ spawn, 'mkdir /unsafe/jsr2/'+date_today
 
 ;date_today = 'Jan20-2016'
 
+;iris_remap
+;hmi_full_filt, /process
 ;balm_bk, date_today
 balm_data, date_today
 ;mesa_cp, date_today

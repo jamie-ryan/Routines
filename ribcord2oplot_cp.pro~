@@ -3,7 +3,8 @@ pro ribcord2oplot_cp, date
 ;plots multicoloured crosses over ribbon coords
 
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
-restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
+;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
+restore, '/unsafe/jsr2/Feb7-2016/hmifullfilt-Feb7-2016.sav'
 dir = '/unsafe/jsr2/'+date+'/'
 
 nrb = 8 ; number ribbon coords
@@ -15,11 +16,11 @@ sradius = 1. * 0.505;sdo qk radius in arcseconds
 sub_map, map1400, ssi, xrange = [460., 560.], yrange = [220., 320.]
 sub_map, submg, smg, xrange = [460., 560.], yrange = [220., 320.]
 sub_map, diff2832, smgw, xrange = [470., 560.], yrange = [220., 310.]
-sub_map, diff, shmi, xrange = [490., 540.], yrange = [240., 290.]
+sub_map, hmidiff, shmi, xrange = [490., 540.], yrange = [240., 290.]
 
 
 
-dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
+dataset = ['si', 'mg', 'mgw', 'hmi']
 for k = 0, n_elements(dataset)-1 do begin
     flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords1.txt
     openr, lun, flnm, /get_lun
@@ -38,7 +39,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-Si_IV-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 plot_map, ssi[498],  /log
-oplot_ribbon_coords, sicoords2, iradius, /box, /set_2
+oplot_ribbon_coords, sicoords, iradius, /box;, /set_2
 device,/close
 set_plot,mydevice
 
@@ -49,7 +50,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-MG_II-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 plot_map, smg[666], /log
-oplot_ribbon_coords, mgcoords2, iradius, /box, /set_2
+oplot_ribbon_coords, mgcoords, iradius, /box;, /set_2
 device,/close
 set_plot,mydevice
 
@@ -60,7 +61,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-MG_IIw-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 plot_map, smgw[167], dmin = 0, dmax = 3000
-oplot_ribbon_coords, mgwcoords2, iradius, /box, /set_2
+oplot_ribbon_coords, mgwcoords, iradius, /box;, /set_2
 device,/close
 set_plot,mydevice
 
@@ -72,7 +73,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-HMI-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 plot_map, shmi[63], dmin = 0, dmax = 2000
-oplot_ribbon_coords, hmicoords2, sradius, /box, /set_2
+oplot_ribbon_coords, hmicoords, sradius, /box;, /set_2
 device,/close
 set_plot,mydevice
 end

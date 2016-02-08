@@ -21,9 +21,6 @@ for i = 0, npix-1 do begin
 ;        jj = string(j+1, format = '(I0)')
     ii = string(i+1, format = '(I0)')
 
-    ;used hmi coords as reference point
-    if (j eq 0) then ii = string(i+1, format = '(I0)') else $
-    ii = string(i+11, format = '(I0)')
 
     ;used hmi coords as reference point
     fff = dir+'29-Mar-14-Ribbon-Area-'+ii+'-Energy-Ladder.eps'
@@ -36,13 +33,13 @@ for i = 0, npix-1 do begin
     
     o = 4
     xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
-    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
     title = titl
     ytitl = energy
     linecolors
-    utplot, tsi[447:*], sidata[3, i, 447:*], $ ;sidata[time_frame, e, coord, t]
+    utplot, tsi[*], sidata[3, i, *], $ ;sidata[time_frame, e, coord, t]
     base, $
-    timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+    timerange = '29-Mar-14 '+['17:30:00','17:55:00'], $
 ;        psym = -2, $ 
     linestyle = 0, $
     ycharsize = 0.55, $
@@ -60,16 +57,16 @@ for i = 0, npix-1 do begin
     loadct,3
     vert_line,sec,1, color = 2
     loadct,0
-    xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 1400 '+angstrom+' Coord:'+ii, /norm
+    xyouts, xyx, xyy, charsize = 0.5, 'IRIS SJ 1400 '+angstrom+' Coord:'+ii, /norm
 
     o = 3
     xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
-    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
     ytitl = energy
     linecolors
-    utplot, tmg[595:*], mgdata[3, i, 595:*], $ ;583
-    timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+    utplot, tmg[*], mgdata[3, i, *], $ ;583
+    timerange = '29-Mar-14 '+['17:30:00','17:55:00'], $
     linestyle = 0, $
     ycharsize = 0.55 , $
     xcharsize = 0.65, $
@@ -87,20 +84,20 @@ for i = 0, npix-1 do begin
     loadct,3
     vert_line,sec,1, color = 2
     loadct,0
-    xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2796 '+angstrom+' Coord:'+ii, /norm
+    xyouts, xyx, xyy, charsize = 0.5, 'IRIS SJ 2796 '+angstrom+' Coord:'+ii, /norm
 
     o = 2
-    mn = 0.8*min(balmerdata[3, i, *])
-    mx = 1.5*max(balmerdata[3, i, *])
+    ;mn = 0.8*min(balmerdata[3, i, *])
+    ;mx = 1.5*max(balmerdata[3, i, *])
     xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
-    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
     ytitl = energy
     linecolors
-    utplot, tbalm[j, i, *], balmerdata[3, i, *], $ ;tbalm[1, i, j]
-    yrange = [mn, mx], $
+    utplot, times[i, *], balmerdata[3, i, *], $ ;tbalm[1, i, j]
+;    yrange = [mn, mx], $
     /yst, $
-    timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+    timerange = '29-Mar-14 '+['17:30:00','17:55:00'], $
     linestyle = 0, $
     ycharsize = 0.55 , $
     xcharsize = 0.65, $
@@ -117,16 +114,16 @@ for i = 0, npix-1 do begin
     loadct,3
     vert_line,sec,1, color = 2
     loadct,0
-    xyouts, xyx, xyy, charsize = 0.7, 'IRIS SG Balmer '+angstrom+' Coord:'+ii, /norm
+    xyouts, xyx, xyy, charsize = 0.5, 'IRIS SG Balmer '+angstrom+' Coord:'+ii, /norm
 
     o = 1
     xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
-    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
     ytitl = energy
     linecolors        
-    utplot, tmgw[150:*], mgwdata[3, i, 150:*], $
-    timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+    utplot, tmgw[*], mgwdata[3, i, *], $
+    timerange = '29-Mar-14 '+['17:30:00','17:55:00'], $
     linestyle = 0, $
     ycharsize = 0.55 , $
     xcharsize = 0.65, $
@@ -144,16 +141,16 @@ for i = 0, npix-1 do begin
     loadct,3
     vert_line,sec,1, color = 2
     loadct,0
-    xyouts, xyx, xyy, charsize = 0.7, 'IRIS SJ 2832 '+angstrom+' Coord:'+ii, /norm
+    xyouts, xyx, xyy, charsize = 0.5, 'IRIS SJ 2832 '+angstrom+' Coord:'+ii, /norm
 
     o = 0
-    xyx = xpos[0] + 0.2*((xpos[1] - xpos[0])/2) ;middle of xrange
-    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
     ytitl = energy
     linecolors
-    utplot, thmi[36:78], hmidata[3, i, 36:78], $
-    timerange = '29-Mar-14 '+['17:26:00','17:55:00'], $
+    utplot, thmi[*], hmidata[3, i, *], $
+    timerange = '29-Mar-14 '+['17:30:00','17:55:00'], $
     linestyle = 0, $
     ycharsize = 0.55 , $
     xcharsize = 0.65, $
@@ -169,13 +166,13 @@ for i = 0, npix-1 do begin
     loadct,3
     vert_line,sec,1, color = 2
     loadct,0
-    xyouts, 0.92*xyx, xyy, charsize = 0.7, 'SDO HMI Continuum Coord:'+ii, /norm
+    xyouts, 0.92*xyx, xyy, charsize = 0.5, 'SDO HMI Continuum Coord:'+ii, /norm
     device,/close
     set_plot,mydevice
 endfor
 
 
-if keyword_set(tables)
+if keyword_set(tables) then begin
 ;;;;make latex tables
 ;dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 ;for k = 0, n_elements(dataset)-1 do begin

@@ -19,10 +19,11 @@ tic
 
 ;;;restore data sav files
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
-restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
+;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
+restore, '/unsafe/jsr2/Feb7-2016/hmifullfilt-Feb7-2016.sav'
 restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
-restore, '/unsafe/jsr2/sp2826-Feb7-2016.sav'
+restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 ;;;iris spectra fits
 ;fsp = findfile('/disk/solar3/jsr2/Data/IRIS/*raster*.fits')
 fsp = findfile('/unsafe/jsr2/IRIS/old/')
@@ -124,8 +125,8 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
 
     ;;;iris 1400 \AA\ section
     dnbksi = total(map1400[495].data[bksip[0,*], bksip[1,*]])/n_elements(bksip[0,*]) ;si
-    sidata[0, i, *] = convert_coord_iris(sicoords[0, i], sji_1400_hdr[495], /x, /a2p)
-    sidata[1, i, *] = convert_coord_iris(sicoords[1, i], sji_1400_hdr[495], /y, /a2p)
+    sidata[0, i, *] = convert_coord_iris(sicoords[0, i], sji_1400_hdr[498], /x, /a2p)
+    sidata[1, i, *] = convert_coord_iris(sicoords[1, i], sji_1400_hdr[498], /y, /a2p)
 ;    tmp = map1400.data[sidata[0, 0, i, 0], sidata[0, 1, i, 0]] - dnbksi
     tmp = sumarea(map1400.data - dnbksi, sidata[0, i, 0], sidata[1, i, 0], iradius)
     iris_radiometric_calibration, tmp, sji_1400_hdr, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
@@ -133,18 +134,18 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     sidata[3, i, *] = e
     sierr[0,i,*] = f_err
     sierr[1,i,*] = e_err
-
+    tmp = 0
     ;;;iris 2796\AA\ section
     dnbkmg = total(submg[661].data[bkmgp[0,*], bkmgp[1,*]])/n_elements(bkmgp[0,*]) ;mg
-    mgdata[0, i, *] = convert_coord_iris(mgcoords[0, i], sji_2796_hdr[661], /x, /a2p)
-    mgdata[1, i, *] = convert_coord_iris(mgcoords[1, i], sji_2796_hdr[661], /y, /a2p) 
+    mgdata[0, i, *] = convert_coord_iris(mgcoords[0, i], sji_2796_hdr[664], /x, /a2p)
+    mgdata[1, i, *] = convert_coord_iris(mgcoords[1, i], sji_2796_hdr[664], /y, /a2p) 
     tmp = sumarea(submg.data - dnbkmg, mgdata[0, i, 0], mgdata[1, i, 0], iradius)
     iris_radiometric_calibration, tmp, sji_2796_hdr, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
     mgdata[2, i, *] = f
     mgdata[3, i, *] = e
     mgerr[0,i,*] = f_err
     mgerr[1,i,*] = e_err
-    
+    tmp = 0
     ;;;iris 2832 \AA\ section
     mgwdata[0, i, *] = convert_coord_iris(mgwcoords[0, i], sji_2832_hdr[166], /x, /a2p)
     mgwdata[1, i, *] = convert_coord_iris(mgwcoords[1, i], sji_2832_hdr[166], /y, /a2p)
@@ -154,16 +155,17 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     mgwdata[3, i, *] = e
     mgwerr[0,i,*] = f_err ;*visiblewidth 
     mgwerr[1,i,*] = e_err ;*visiblewidth
-
+    tmp = 0
     ;;;SDO HMI continuum section
-    hmidata[0, i, *] = convert_coord_hmi(hmicoords[0, i], diffind[62],  /x, /a2p)
-    hmidata[1, i, *] = convert_coord_hmi(hmicoords[1, i], diffind[62],  /y, /a2p)
+    hmidata[0, i, *] = convert_coord_hmi(hmicoords[0, i], diffind[63],  /x, /a2p)
+    hmidata[1, i, *] = convert_coord_hmi(hmicoords[1, i], diffind[63],  /y, /a2p)
     tmp = sumarea(hmidiff.data, hmidata[0, i, 0], hmidata[1, i, 0], sradius)
     hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
     hmidata[2, i, *] = f
     hmidata[3, i, *] = e
     hmierr[0,i,*] = f_err
     hmierr[1,i,*] = e_err
+    tmp = 0
 endfor
 
 ;spawn, 'mkdir /unsafe/jsr2/'+date......this is now done in master.pro
