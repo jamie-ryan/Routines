@@ -1,4 +1,4 @@
-pro intimpulse3, fdate
+pro intimpulse3_cp, fdate
 
 restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'.sav'
 

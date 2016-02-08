@@ -1,4 +1,4 @@
-pro mes2ladder, date, tables = tables
+pro mes2ladder_cp, date, tables = tables
 
 ;date is a string 
 dir = '/unsafe/jsr2/'+date+'/'
