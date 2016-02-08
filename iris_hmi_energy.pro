@@ -160,10 +160,10 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     hmidata[1, i, *] = convert_coord_hmi(hmicoords[1, i], diffind[62],  /y, /a2p)
     tmp = sumarea(hmidiff.data, hmidata[0, i, 0], hmidata[1, i, 0], sradius)
     hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
-    hmidata[0, 2, i, *] = f
-    hmidata[0, 3, i, *] = e
-    hmierr[0,0,i,*] = f_err
-    hmierr[0,1,i,*] = e_err
+    hmidata[2, i, *] = f
+    hmidata[3, i, *] = e
+    hmierr[0,i,*] = f_err
+    hmierr[1,i,*] = e_err
 endfor
 
 ;spawn, 'mkdir /unsafe/jsr2/'+date......this is now done in master.pro
