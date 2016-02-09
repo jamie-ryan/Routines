@@ -26,12 +26,13 @@ endfor
 ;these arrays will be passed to mesa_cp as coordinates for other data
 iris_x_pos = fltarr(8, nfiles)
 iris_y_pos = fltarr(1093, nfiles)
+t_x_pos = strarr(8, nfiles)
 times = strarr(8, nfiles)
 for i = 0, nfiles -1 do begin
     d = iris_obj(f[i])
     iris_x_pos[*, i] = d->getxpos()
     iris_y_pos[*, i] = d->getypos()
-    times[*, i] = d->ti2utc()
+    t_x_pos[*, i] = d->ti2utc()
     obj_destroy, d
 endfor
 
@@ -155,6 +156,7 @@ balmerdata[1, *, *] = iris_y_pix[*, *]
 alldat[where(alldat lt 0., /null)] = 0 
 for j = 0, 7 do begin 
     for i = 0, nfiles -1 do begin
+	times[j,i] =  t_x_pos[common_x_pix[i]], i]
         ;fill array with intensity summed over an area equal to sunquake area
         balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], common_x_pix[i], iris_y_pix[j, i], iradius, /sg)        
         ;balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
@@ -183,6 +185,6 @@ endfor
 
 filnm = strcompress('/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav', /remove_all)
 
-;save,balmdat, times, iris_x_pos, iris_y_pos, iris_y_pix, filename = filnm
+;save,balmdat, times, t_x_pos, iris_x_pos, iris_y_pos, iris_y_pix, filename = filnm
 save, /variables, filename = filnm
 end
