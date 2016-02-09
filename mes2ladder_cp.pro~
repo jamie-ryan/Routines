@@ -29,11 +29,11 @@ for i = 0, npix-1 do begin
     mydevice=!d.name
     set_plot,'ps'
     ;device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1  , bits=8, bits = 8
-    device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1, bits = 8, yoffset = -1.5
+    device,filename=fff,/portrait,/encapsulated, decomposed=0,color = 1, bits = 8
     
     o = 4
     xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
-    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
     title = titl
     ytitl = energy
     linecolors
@@ -61,7 +61,7 @@ for i = 0, npix-1 do begin
 
     o = 3
     xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
-    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
     ytitl = energy
     linecolors
@@ -90,7 +90,7 @@ for i = 0, npix-1 do begin
     ;mn = 0.8*min(balmerdata[3, i, *])
     ;mx = 1.5*max(balmerdata[3, i, *])
     xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
-    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
     ytitl = energy
     linecolors
@@ -118,7 +118,7 @@ for i = 0, npix-1 do begin
 
     o = 1
     xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
-    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
     ytitl = energy
     linecolors        
@@ -145,7 +145,7 @@ for i = 0, npix-1 do begin
 
     o = 0
     xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
-    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.85) ;y0 plus 90% of yrange
+    xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
     ytitl = energy
     linecolors

@@ -175,4 +175,14 @@ loadct,3
 vert_line,sec,1, color = 2
 loadct,0
 xyouts, xyx, xyy, charsize = 0.5, 'SDO HMI Coord: 4', /norm
+IF KEYWORD_SET(ps) THEN BEGIN
+ device,/close
+ set_plot,'x'
+ !p.font=-1 			;go back to default (Vector Hershey fonts)
+ENDIF
+
+	;go back to default greyscale color table
+
 endfor
+loadct,0 		
+

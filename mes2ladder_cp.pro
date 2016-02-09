@@ -12,7 +12,7 @@ energy = '[erg]'
 
 ;;;make plots
 plot_pos_calc, n_plots = 5, xpos, ypos
-base = '29-Mar-14 17:26:00'
+base = '29-Mar-14 17:30:00'
 sec = 19.*60. ;location in seconds for vertical line...17:45 - 17:26 = 19 mins...19mins*60secs
 
 for i = 0, npix-1 do begin

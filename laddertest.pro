@@ -23,9 +23,9 @@ ENDELSE
 ;-------
 ;make lines thick
 ;-------
-!p.thick=4 ;data
-!x.thick=3 ;x axis
-!y.thick=3 ;y axis
+!p.thick=2 ;data
+!x.thick=1 ;x axis
+!y.thick=1 ;y axis
 for i = 0, 7 do begin
 window, i & slitp = i
 
