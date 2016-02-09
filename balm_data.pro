@@ -1,7 +1,8 @@
-pro balm_data, date
+pro balm_data, date, /process, /energy
 ;determine background values based on slit position
 ;restore, '/unsafe/jsr2/sp2826-Jan15-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
+
 f = iris_files(path='/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(f)
 
@@ -172,11 +173,11 @@ for j = 0 , 7 do begin
 ;convert DN to energy [erg]
 iris_radiometric_calibration, $
 balmdat[j,*]*balmwidth, $
-sp2826, $
+;sp2826, $
 wave=[wav1,wav2], $
 n_pixels=1, $
 f, e, f_err, e_err, $
-/sg, slitpos = j
+/sg ;, slitpos = j
 
 ;fill array with energies
 balmerdata[2, j, *] = f

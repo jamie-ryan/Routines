@@ -32,7 +32,7 @@
 ;       Written 03/06/15 by Jamie Ryan
 pro iris_radiometric_calibration, $
 array, $
-struct, $
+;struct, $
 wave = wave, $
 n_pixels = n_pixels, $
 fout, $
@@ -40,7 +40,7 @@ eout, $
 f_err, $
 e_err, $
 sg = sg, $
-slitpos = slitpos, $
+;slitpos = slitpos, $
 sji = sji
 
 
@@ -49,26 +49,26 @@ narr = n_elements(array)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;Grab iris response
 iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
-tagarr = tag_names(struct)
+;tagarr = tag_names(struct)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN] / [texp] = DN/s
-texp = fltarr(narr)
-for i = 0, narr - 1 do begin
-    for j = 0, 8 do begin
-        if keyword_set(sg) then begin
-            com = 'texp[i] = struct.'+tagarr[i]+'.exposure_time[slitpos]'
-            exe = execute(com)
-            array[i] = array[i]/texp[i]
-        endif
+;texp = fltarr(narr)
+;for i = 0, narr - 1 do begin
+;    for j = 0, 8 do begin
+;        if keyword_set(sg) then begin
+;            com = 'texp[i] = struct.'+tagarr[i]+'.exposure_time[slitpos]'
+;            exe = execute(com)
+;            array[i] = array[i]/texp[i]
+;        endif
 
-        if keyword_set(sji) then begin
-            texp[i] = struct[i].exptimes
-            array[i] = array[i]/texp[i]
-        endif
-    endfor
-endfor
-
-
+;        if keyword_set(sji) then begin
+;            texp[i] = struct[i].exptimes
+;            array[i] = array[i]/texp[i]
+;        endif
+;    endfor
+;endfor
+texp = 8.0000496
+array = array/texp
 
 
 dt = 5.0e-8 ;uncertainty associated with texp
