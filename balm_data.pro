@@ -157,7 +157,7 @@ balmerdata[1, *, *] = iris_y_pix[*, *]
 alldat[where(alldat lt 0., /null)] = 0 
 for j = 0, 7 do begin 
     for i = 0, nfiles -1 do begin
-	times[j,i] =  t_x_pos[common_x_pix[i], i]
+	    times[j,i] =  t_x_pos[common_x_pix[i], i]
         ;fill array with intensity summed over an area equal to sunquake area
         balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], common_x_pix[i], iris_y_pix[j, i], iradius, /sg)        
         ;balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
