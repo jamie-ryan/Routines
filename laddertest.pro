@@ -78,7 +78,7 @@ outplot, tsi[458:*], sidata[3, slitp, 458:*], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 1400 Coord: 4', /norm
+xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 1400 Coord: '+ii, /norm
 
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -107,7 +107,7 @@ outplot, tmg[611:*], mgdata[3, slitp, 611:*], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 2796 Coord: 4', /norm
+xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 2796 Coord: '+ii, /norm
 
 o = 2
 ;mn = 0.8*min(balmerdata[3, i, *])
@@ -139,7 +139,7 @@ outplot, times[slitp, 10:*], balmerdata[3, slitp, 10:*], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, 2.1*xyx, xyy*1.01, charsize = 0.3, 'IRIS SG Balm Coord: 4', /norm
+xyouts, 2.1*xyx, xyy*1.01, charsize = 0.3, 'IRIS SG Balm Coord: '+ii, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -168,7 +168,7 @@ outplot, tmgw[153:*], mgwdata[3, slitp, 153:*], color = col
 ;loadct,34
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 2832 Coord: 4', /norm
+xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 2832 Coord: '+ii, /norm
 
 o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -195,7 +195,7 @@ outplot, thmi[41:74], hmidata[3, slitp, 41:74], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'SDO HMI Coord: 4', /norm
+xyouts, xyx, xyy*1.01, charsize = 0.3, 'SDO HMI Coord: '+ii, /norm
 device,/close
 set_plot,'x'
 !p.font=-1 			;go back to default (Vector Hershey fonts)
