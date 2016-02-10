@@ -89,79 +89,43 @@ for i = 0, nfiles - 1 do begin
     obj_destroy, d
 endfor
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;read in data
 ;;;find the numbers needed to create alldata array
-d = iris_obj(f[0])
-dat = d->getvar(6, /load)
-wavelength = d->getlam(6)
+;d = iris_obj(f[0])
+;dat = d->getvar(6, /load)
+;wavelength = d->getlam(6)
 fitnum_max = 179 ;specific to event, used in allhdr tag naming
 fitnum_min = (fitnum_max - nfiles) + 1
-nwav = n_elements(wavelength[39:44]) ;wavelength range for balmer
-ypix =  n_elements(dat[0,*,0]) ;y pixels
-xpix =  n_elements(dat[0,0,*]) ;slit position
+;nwav = n_elements(wavelength[39:44]) ;wavelength range for balmer
+;ypix =  n_elements(dat[0,*,0]) ;y pixels
+;xpix =  n_elements(dat[0,0,*]) ;slit position
 
 
 
-alldat = fltarr(xpix, ypix, nfiles) ;data array
+;alldat = fltarr(xpix, ypix, nfiles) ;data array
 balmdat = fltarr(8, nfiles)
  
-obj_destroy, d
-hdr = 0
-dat = 0
+;obj_destroy, d
+;hdr = 0
+;dat = 0
 ;fill data and time arrays
-for i = 0, nfiles - 1 do begin
+;for i = 0, nfiles - 1 do begin
 
     ;load data and put into data array
-    d = iris_obj(f[i])
-    dat = d->getvar(6, /load)
+;    d = iris_obj(f[i])
+;    dat = d->getvar(6, /load)
     
     ;sum across Balmer continuum range 2825.7 to 2825.8 angstroms
-    a = 0
-    for l = 39, 44 do begin 
-    a = a + dat[l, *, *]
-    endfor
-    alldat[*,*, i] = a
+;    a = 0
+;    for l = 39, 44 do begin 
+;    a = a + dat[l, *, *]
+;    endfor
+;    alldat[*,*, i] = a
 
     ;clean up 
-    obj_destroy, d
-endfor
+;    obj_destroy, d
+;endfor
 
 
 
@@ -253,8 +217,8 @@ endfor
 
 ;calculate energy
 balmwidth = (3600. - 1400.)/0.1  ;in angstroms
-wav1 = wavelength[39]
-wav2 = wavelength[44]
+wav1 = wave[39]
+wav2 = wave[44]
 for j = 0 , 7 do begin 
 
 ;convert DN to energy [erg]
