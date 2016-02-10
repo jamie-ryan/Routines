@@ -1,4 +1,4 @@
-pro balm_data, date, /process, /energy
+pro balm_data, date
 ;determine background values based on slit position
 ;restore, '/unsafe/jsr2/sp2826-Jan15-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
