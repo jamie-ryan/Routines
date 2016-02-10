@@ -38,7 +38,7 @@ for i = 0, 7 do begin
     flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Ribbon-Area-'+ii+'-Energy-Ladder.eps'
     !p.font=0			;use postscript fonts
     set_plot, 'ps'
-    @symbols_ps_kc		;load string symbols and greek letters for Postscript
+;    @symbols_ps_kc		;load string symbols and greek letters for Postscript
     device, filename= flnm, encapsulated=eps, $
     /helvetica,/isolatin1, landscape=0, color=1
     ;device, xsize=8.89, ysize=8.89		;SQUARE one panel, one column figure 

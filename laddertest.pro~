@@ -50,7 +50,7 @@ for i = 0, 7 do begin
 ;window, i
 slitp = i
 ;slitp = 3
-col = 4
+col = 2 ;dark red
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
