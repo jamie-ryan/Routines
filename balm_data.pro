@@ -39,43 +39,93 @@ endfor
 
 common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos)
 
-
-;;read in data
-;;;find the numbers needed to create alldata array
+spec_line = 8;d->show_lines
 d = iris_obj(f[0])
-dat = d->getvar(6, /load)
-wavelength = d->getlam(6)
-fitnum_max = 179 ;specific to event, used in allhdr tag naming
-fitnum_min = (fitnum_max - nfiles) + 1
-nwav = n_elements(wavelength[39:44]) ;wavelength range for balmer
+dat = d->getvar(spec_line, /load)
+wave = d->getlam(spec_line)
+;nwav = n_elements(wave[39:44]) ;wavelength range for balmer
+nwav = n_elements(wave)
 ypix =  n_elements(dat[0,*,0]) ;y pixels
 xpix =  n_elements(dat[0,0,*]) ;slit position
 
-
-
-alldat = fltarr(xpix, ypix, nfiles) ;data array
-balmdat = fltarr(8, nfiles)
- 
+rawdat = fltarr(nfiles, nwav, ypix, xpix) ;raw data array
+corrdat = fltarr(nfiles, nwav,  ypix, xpix) ;corrected data array
 obj_destroy, d
 hdr = 0
 dat = 0
-;fill data and time arrays
-for i = 0, nfiles - 1 do begin
 
+;fill raw and wavelength corrected data arrays
+for i = 0, nfiles - 1 do begin
     ;load data and put into data array
     d = iris_obj(f[i])
-    dat = d->getvar(6, /load)
-    
+    dat = d->getvar(spec_line, /load)    
+    rawdat[i, *,*, *] = dat
+endfor
+
+for t = 0, nfiles - 1 do begin
+    for i = 0, xpix - 1 do begin
+        for j = 0, ypix -1 do begin
+            ;;;corrected for fuv wavelengths 
+            ;corrdat[*, j, i] = interpol(rawdat[*, j, i], wave + wavecorr.corr_fuv[i], wave)
+            
+            ;;;corrected for nuv wavelengths
+            corrdat[t, *, j, i] = interpol(rawdat[t, *, j, i], wave + wavecorr.corr_nuv[i], wave)
+        endfor
+        ;clean up 
+        obj_destroy, d
+        dat = 0
+    endfor
+endfor
+alldat = fltarr(xpix, ypix, nfiles)
+for i = 0, nfiles - 1 do begin
     ;sum across Balmer continuum range 2825.7 to 2825.8 angstroms
     a = 0
     for l = 39, 44 do begin 
-    a = a + dat[l, *, *]
+    a = a + corrdat[i,l, *, *]
     endfor
-    alldat[*,*, i] = a
+    alldat[*,*, i] = rotate(reform(a), 1)
 
     ;clean up 
     obj_destroy, d
 endfor
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;read in data
+;;;find the numbers needed to create alldata array
+;d = iris_obj(f[0])
+;dat = d->getvar(6, /load)
+;wavelength = d->getlam(6)
+fitnum_max = 179 ;specific to event, used in allhdr tag naming
+fitnum_min = (fitnum_max - nfiles) + 1
+;nwav = n_elements(wavelength[39:44]) ;wavelength range for balmer
+;ypix =  n_elements(dat[0,*,0]) ;y pixels
+;xpix =  n_elements(dat[0,0,*]) ;slit position
+
+
+
+;alldat = fltarr(xpix, ypix, nfiles) ;data array
+balmdat = fltarr(8, nfiles)
+ 
+;obj_destroy, d
+;hdr = 0
+;dat = 0
+;fill data and time arrays
+;for i = 0, nfiles - 1 do begin
+
+    ;load data and put into data array
+;    d = iris_obj(f[i])
+;    dat = d->getvar(6, /load)
+    
+    ;sum across Balmer continuum range 2825.7 to 2825.8 angstroms
+;    a = 0
+;    for l = 39, 44 do begin 
+;    a = a + dat[l, *, *]
+;    endfor
+;    alldat[*,*, i] = a
+
+    ;clean up 
+;    obj_destroy, d
+;endfor
 
 
 
@@ -167,8 +217,8 @@ endfor
 
 ;calculate energy
 balmwidth = (3600. - 1400.)/0.1  ;in angstroms
-wav1 = wavelength[39]
-wav2 = wavelength[44]
+wav1 = wave[39]
+wav2 = wave[44]
 for j = 0 , 7 do begin 
 
 ;convert DN to energy [erg]

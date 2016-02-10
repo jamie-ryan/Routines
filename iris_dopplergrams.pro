@@ -54,6 +54,31 @@ for t = 0, nfiles - 1 do begin
         dat = 0
     endfor
 endfor
+alldat = fltarr(xpix, ypix, nfiles)
+for i = 0, nfiles - 1 do begin
+    ;sum across Balmer continuum range 2825.7 to 2825.8 angstroms
+    a = 0
+    for l = 39, 44 do begin 
+    a = a + corrdat[i,l, *, *]
+    endfor
+    alldat[*,*, i] = rotate(reform(a), 1)
+
+    ;clean up 
+    obj_destroy, d
+endfor
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;DOPPLERGRAMS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;We can use this calibrated data for example to calculate dopplergrams. 
@@ -80,20 +105,20 @@ endfor
 
 ;;make a magnified array for imaging spcetra and dopplergrams
 ;basically stretching the x axis
-xmag = 240 ;a multiple of number of slit positions, i.e, 8                                                      
-magdopp = fltarr(nfiles, xmag,1093)
-magraw = fltarr(2, nfiles, xmag,1093)
-magcorr = fltarr(2, nfiles, xmag,1093)
-for i = 0, nfiles - 1 do begin
-    ;magnified spectra images
-    magraw[0,i, *, *] = congrid(rotate(reform(rawdat[i, i50p, *,*]),1), 240, 1093, /interp)
-    magcorr[0,i, *, *] = congrid(rotate(reform(corrdat[i, i50p, *,*]),1), 240, 1093, /interp)
-    magraw[1,i, *, *] = congrid(rotate(reform(rawdat[i, i50m, *,*]),1), 240, 1093, /interp)
-    magcorr[1,i, *, *] = congrid(rotate(reform(corrdat[i, i50m, *,*]),1), 240, 1093, /interp)
+;xmag = 240 ;a multiple of number of slit positions, i.e, 8                                                      
+;magdopp = fltarr(nfiles, xmag,1093)
+;magraw = fltarr(2, nfiles, xmag,1093)
+;magcorr = fltarr(2, nfiles, xmag,1093)
+;for i = 0, nfiles - 1 do begin
+;    ;magnified spectra images
+;    magraw[0,i, *, *] = congrid(rotate(reform(rawdat[i, i50p, *,*]),1), 240, 1093, /interp)
+;    magcorr[0,i, *, *] = congrid(rotate(reform(corrdat[i, i50p, *,*]),1), 240, 1093, /interp)
+;    magraw[1,i, *, *] = congrid(rotate(reform(rawdat[i, i50m, *,*]),1), 240, 1093, /interp)
+;    magcorr[1,i, *, *] = congrid(rotate(reform(corrdat[i, i50m, *,*]),1), 240, 1093, /interp)
 
     ;magnified dopplergrams
-    magdopp[i, *, *] = congrid(reform(doppgr[i,*,*]), 240, 1093, /interp)
-endfor                                                           
+;    magdopp[i, *, *] = congrid(reform(doppgr[i,*,*]), 240, 1093, /interp)
+;endfor                                                           
           
 ;pih, magdopp[27,*,*], min=-100, max=100, scale=[0.35, 0.1667] 
 ;pih, magraw[0, 27,*,*], min=-100, max=100, scale=[0.35, 0.1667] 
@@ -121,12 +146,13 @@ for t = 0, nfiles - 1 do begin
     nlines = n_elements(balmerdata[0,*,t])
     linecolors
     for i = 0, nlines - 1 do begin
-        oplot, [-50,800], [balmerdata[1, i, 0],balmerdata[1, i, 29]], linestyle = i, color = 2*i
-        oplot, [balmerdata[0, i, 0],balmerdata[0, i, 29]], [balmerdata[1, i, 0],balmerdata[1, i, 29]], linestyle = i, color = 1*i
+        ;oplot, [-50,800], [balmerdata[1, i, 0],balmerdata[1, i, 29]], linestyle = i, color = 2*i
+        oplot, [balmerdata[0, i, 0]*100,balmerdata[0, i, 29]*100], $
+        [balmerdata[1, i, 0],balmerdata[1, i, 29]], linestyle = i, color = 1*i
     endfor
 endfor
 
-
+plot, doppgr[*, balmerdata[0,3,*], balmerdata[1,3,*]
 
 
 end
