@@ -142,7 +142,7 @@ iris_x_pix = fltarr(8, nfiles)
 for i = 0 , nfiles-1 do begin
 a = 0
 ;a = find_iris_slit_pos_new(iris_x_pos[*,i], iris_x_pos[*,i])
-a = find_iris_slit_pos_new(balmercoords0[0,*], iris_x_pos[*,i])
+a = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos[*,i])
 iris_x_pix[*,i] = a
 endfor
 
