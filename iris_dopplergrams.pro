@@ -1,7 +1,7 @@
 pro iris_dopplergrams
 f = iris_files(path='/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(f)
-
+restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 ;calculate wavelength shifts from the orbital velocity and thermal drifts
 wavecorr = iris_prep_wavecorr_l2(f)
 
@@ -67,18 +67,6 @@ for i = 0, nfiles - 1 do begin
     obj_destroy, d
 endfor
 
-
-
-
-
-
-
-
-
-
-
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;DOPPLERGRAMS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;We can use this calibrated data for example to calculate dopplergrams. 
@@ -92,8 +80,8 @@ endfor
 k3_centre = 2796.32 ;mean Mg II k3 position
 velocity = (k3_centre - wave) * 3e5 / k3_centre
 ;;find index of -50 and 50 km/s
-tmp = min(abs(velocity - 50), i50p)  
-tmp = min(abs(velocity + 50), i50m)
+tmp = min(abs(velocity - 100), i50p)  
+tmp = min(abs(velocity + 100), i50m)
 
 doppgr = fltarr(nfiles, xpix, ypix)
 for t = 0, nfiles - 1 do begin

@@ -54,6 +54,19 @@ for t = 0, nfiles - 1 do begin
         dat = 0
     endfor
 endfor
+alldat = fltarr(xpix, ypix, nfiles)
+for i = 0, nfiles - 1 do begin
+    ;sum across Balmer continuum range 2825.7 to 2825.8 angstroms
+    a = 0
+    for l = 39, 44 do begin 
+    a = a + corrdat[i,l, *, *]
+    endfor
+    alldat[*,*, i] = rotate(reform(a), 1)
+
+    ;clean up 
+    obj_destroy, d
+endfor
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;DOPPLERGRAMS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;We can use this calibrated data for example to calculate dopplergrams. 
@@ -67,8 +80,8 @@ endfor
 k3_centre = 2796.32 ;mean Mg II k3 position
 velocity = (k3_centre - wave) * 3e5 / k3_centre
 ;;find index of -50 and 50 km/s
-tmp = min(abs(velocity - 50), i50p)  
-tmp = min(abs(velocity + 50), i50m)
+tmp = min(abs(velocity - 100), i50p)  
+tmp = min(abs(velocity + 100), i50m)
 
 doppgr = fltarr(nfiles, xpix, ypix)
 for t = 0, nfiles - 1 do begin

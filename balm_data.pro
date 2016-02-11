@@ -235,6 +235,33 @@ balmerdata[2, j, *] = f
 balmerdata[3, j, *] = e
 endfor
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;DOPPLERGRAMS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;We can use this calibrated data for example to calculate dopplergrams. 
+;A dopplergram is the difference between the intensities at two wavelength positions, 
+;at the same (and opposite) distance from the line core. 
+;For example, at +/- 50 km/s from the Mg II k3 core... 
+;To do this,
+;#1)let us first calculate a velocity scale for the h line
+;#2) then find the indices of the -50 and +50 km/s velocity positions
+;;setup line centre selection based on spec_line choice.
+k3_centre = 2796.32 ;mean Mg II k3 position
+velocity = (k3_centre - wave) * 3e5 / k3_centre
+;;find index of -50 and 50 km/s
+tmp = min(abs(velocity - 100), i50p)  
+tmp = min(abs(velocity + 100), i50m)
+
+doppgr = fltarr(nfiles, xpix, ypix)
+for t = 0, nfiles - 1 do begin
+    ;;get the dopplergram using indices from above
+    doppgr[t, *, *] = rotate(reform(corrdat[t, i50m, *, *] - corrdat[t, i50p, *, *]), 1)
+endfor
+
+
+
+
+
 filnm = strcompress('/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav', /remove_all)
 
 ;save,balmdat, times, t_x_pos, iris_x_pos, iris_y_pos, iris_y_pix, filename = filnm
