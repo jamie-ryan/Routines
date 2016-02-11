@@ -7,8 +7,10 @@ f = iris_files(path='/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(f)
 wavecorr = iris_prep_wavecorr_l2(f)
 ;quake position 
-qkxa = 518.5 ;Donea et al 2014
-qkya = 264.0 ;Donea et al 2014
+qkxa = 519.0 ;Matthews et al 2015
+qkya = 262.0 ;Matthews et al 2015
+;qkxa = 518.5 ;Donea et al 2014
+;qkya = 264.0 ;Donea et al 2014
 iradius = 4.;iris qk radius in pixels
 
 dataset = ['balmer']

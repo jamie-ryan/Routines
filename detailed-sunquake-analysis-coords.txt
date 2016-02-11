@@ -1,0 +1,7 @@
+;;;detailed sunquake region analysis coordinates
+;based on the ribbon location closest to the sunquake.
+
+
+
+
+ 
