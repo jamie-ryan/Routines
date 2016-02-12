@@ -1,4 +1,4 @@
-pro sunquake_context_plots, qksource1 = qksource1, qksource2 = qksource2, no = no, 1x = 1x, 2x = 2x
+pro sunquake_context_plots, date, qksource1 = qksource1, qksource2 = qksource2, no = no, 1x = 1x, 2x = 2x
 
 ;no = default map size in sav file
 ;1x = 1X zoom

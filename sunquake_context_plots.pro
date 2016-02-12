@@ -154,7 +154,7 @@ if keyword_set(qksource1) then begin
         plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 10, thick = 1 
         plot_map, hmap[0], /over, /drot, color = 15, thick = 1 ;soft xray 20-25keV 
         plot_map, hmap50[0], /over, /drot, color = 12, thick = 1 ;hard xray 50-100keV 
-        ;xyouts, , , charsize = 0.3, 'SDO HMI Fe ??', /norm
+        ;xyouts, , , charsize = 0.3, 'SDO HMI Fe I', /norm
         ;oplot a cross over sunquake location
         ;oplot, [521.5,516.5], [259.5, 264.5], color =3, thick = 2
         ;oplot, [516.5,521.5], [259.5, 264.5], color =3, thick = 2
