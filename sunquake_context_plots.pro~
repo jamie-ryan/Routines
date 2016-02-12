@@ -1,8 +1,8 @@
-pro sunquake_context_plots, date, qksource1 = qksource1, qksource2 = qksource2, no = no, 1x = 1x, 2x = 2x
+pro sunquake_context_plots, date, qksource1 = qksource1, qksource2 = qksource2, no = no, x = x, xx = xx
 
 ;no = default map size in sav file
-;1x = 1X zoom
-;2x = 2x zoom 
+;x = 1x zoom
+;xx = 2x zoom 
 
 ;detailed sunquake context plots including sunquake egression and hxr
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -87,7 +87,7 @@ if keyword_set(qksource1) then begin
     endif
 
     ;--------------------------------------------------------------
-    if keyword_set(1x) then begin
+    if keyword_set(x) then begin
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
         ;;;;;;;;;;;;ZOOMED (same as sarah's paper);;;;;;;;;;
         ;;;make sub map of sunquake region;;;;;
@@ -102,7 +102,7 @@ if keyword_set(qksource1) then begin
         !y.thick=2 ;y axis
         !p.multi = [0,2,2] ;plot 4 maps on same page
         !p.font=0			;use postscript fonts
-        flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Sunquake-Context-Plots-2X-Zoom.eps'
+        flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Sunquake-Context-Plots-xx-Zoom.eps'
         set_plot, 'ps'
         device, filename= flnm, encapsulated=eps, $
         /helvetica,/isolatin1, landscape=0, color=1
@@ -172,7 +172,7 @@ if keyword_set(qksource1) then begin
 
 
 
-    if keyword_set(2x) then begin
+    if keyword_set(xx) then begin
         ;;;;;;;;;;;;SUPER ZOOMED;;;;;;;;;;
         ;;;make sub map of sunquake region;;;;;
         sub_map, map1400, ssi, xrange = [514., 524.], yrange = [257.,267.]
@@ -323,7 +323,7 @@ if keyword_set(qksource2) then begin
     endif
 
     ;--------------------------------------------------------------
-    if keyword_set(1x) then begin
+    if keyword_set(x) then begin
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
         ;;;;;;;;;;;;ZOOMED (same as sarah's paper);;;;;;;;;;
         ;;;make sub map of sunquake region;;;;;
@@ -338,7 +338,7 @@ if keyword_set(qksource2) then begin
         !y.thick=2 ;y axis
         !p.multi = [0,2,2] ;plot 4 maps on same page
         !p.font=0			;use postscript fonts
-        flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Sunquake-Context-Plots-2X-Zoom.eps'
+        flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Sunquake-Context-Plots-xx-Zoom.eps'
         set_plot, 'ps'
         device, filename= flnm, encapsulated=eps, $
         /helvetica,/isolatin1, landscape=0, color=1
@@ -409,7 +409,7 @@ if keyword_set(qksource2) then begin
 
 
 
-    if keyword_set(2x) then begin
+    if keyword_set(xx) then begin
         ;;;;;;;;;;;;SUPER ZOOMED;;;;;;;;;;
         ;;;make sub map of sunquake region;;;;;
         sub_map, map1400, ssi, xrange = [514., 524.], yrange = [257.,267.]
