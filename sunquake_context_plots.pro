@@ -9,7 +9,7 @@ pro sunquake_context_plots, date, qksource1 = qksource1, qksource2 = qksource2, 
 ;;;;restore save files;;;;;;;;;;;;;;;;;;
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
-restore, '/unsafe/jsr2/Feb11-2016/hmifullfilt-Feb11-2016.sav'
+restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
 date = 'Feb10-2016'
 restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 restore, '/disk/solar8/sam/29mar14/egmap6_arcsec_masked_lev1.sav'

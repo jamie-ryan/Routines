@@ -19,6 +19,7 @@ iris_hmi_energy, date_today
 laddertest, date_today
 ribcord2oplot_cp, date_today;, /tables
 intimpulse3_cp, date_today
+;sunquake_context_plots, /qksource1, /no, /xzoom, /xxzoom
 ;plot_energy_dist, date_today
 end
 

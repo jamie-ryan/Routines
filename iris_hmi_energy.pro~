@@ -55,8 +55,8 @@ thmi = hmidiff.time ;[]
 ;quake position 
 hmiqkxa = 518.5 ;Donea et al 2014
 hmiqkya = 264.0 ;Donea et al 2014
-qkxa = 517.5 
-qkya = 265.0 
+qkxa = 519.0 
+qkya = 262.0 
 
 ;;;background pixel locations for si and mg and balmer
 bksia = fltarr(2,3)

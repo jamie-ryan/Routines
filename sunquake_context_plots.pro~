@@ -1,4 +1,4 @@
-pro sunquake_context_plots, date, qksource1 = qksource1, qksource2 = qksource2, no = no, x = x, xx = xx
+pro sunquake_context_plots, date, qksource1 = qksource1, qksource2 = qksource2, no = no, xzoom = xzoom, xxzoom = xxzoom
 
 ;no = default map size in sav file
 ;x = 1x zoom
@@ -87,7 +87,7 @@ if keyword_set(qksource1) then begin
     endif
 
     ;--------------------------------------------------------------
-    if keyword_set(x) then begin
+    if keyword_set(xzoom) then begin
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
         ;;;;;;;;;;;;ZOOMED (same as sarah's paper);;;;;;;;;;
         ;;;make sub map of sunquake region;;;;;
@@ -172,7 +172,7 @@ if keyword_set(qksource1) then begin
 
 
 
-    if keyword_set(xx) then begin
+    if keyword_set(xxzoom) then begin
         ;;;;;;;;;;;;SUPER ZOOMED;;;;;;;;;;
         ;;;make sub map of sunquake region;;;;;
         sub_map, map1400, ssi, xrange = [514., 524.], yrange = [257.,267.]
@@ -323,7 +323,7 @@ if keyword_set(qksource2) then begin
     endif
 
     ;--------------------------------------------------------------
-    if keyword_set(x) then begin
+    if keyword_set(xzoom) then begin
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
         ;;;;;;;;;;;;ZOOMED (same as sarah's paper);;;;;;;;;;
         ;;;make sub map of sunquake region;;;;;
@@ -409,7 +409,7 @@ if keyword_set(qksource2) then begin
 
 
 
-    if keyword_set(xx) then begin
+    if keyword_set(xxzoom) then begin
         ;;;;;;;;;;;;SUPER ZOOMED;;;;;;;;;;
         ;;;make sub map of sunquake region;;;;;
         sub_map, map1400, ssi, xrange = [514., 524.], yrange = [257.,267.]
