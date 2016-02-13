@@ -229,12 +229,12 @@ balmdat[j,*]*balmwidth, $
 ;sp2826, $
 wave=[wav1,wav2], $
 n_pixels=1, $
-f, e, f_err, e_err, $
+flux, energy, f_err, e_err, $
 /sg ;, slitpos = j
 
 ;fill array with energies
-balmerdata[2, j, *] = f
-balmerdata[3, j, *] = e
+balmerdata[2, j, *] = flux
+balmerdata[3, j, *] = energy
 endfor
 
 
