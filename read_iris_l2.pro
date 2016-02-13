@@ -57,12 +57,12 @@ pro read_iris_l2_cp, l2files, index, data, _extra=_extra, keep_null=keep_null, a
 loud=1-keyword_set(silent)
 nf=n_elements(l2files)
 
-;fex=where(file_exist(l2files),ecnt)
+fex=where(file_exist(l2files),ecnt)
 
-;if nf eq 0 or ecnt eq 0 then begin 
-;   box_message,'at least one file not found, bailing..
-;   return
-;endif
+if nf eq 0 or ecnt eq 0 then begin 
+   box_message,'at least one file not found, bailing..
+   return
+endif
 
 f2=l2files[fex]
 
