@@ -207,7 +207,7 @@ balmerdata[1, *, *] = iris_y_pix[*, *]
 
 
 ;;;fill array with intensity summed over an area equal to sunquake area 
-alldat[where(alldat lt 0., /null)] = 0 
+;alldat[where(alldat lt 0., /null)] = 0 
 for j = 0, 7 do begin 
     for i = 0, nfiles -1 do begin
 	    times[j,i] =  t_x_pos[common_x_pix[i], i]
