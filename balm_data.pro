@@ -1,4 +1,4 @@
-pro balm_data, date
+pro balm_data, date, single_pixel = single_pixel, area_pixel = area_pixel
 ;determine background values based on slit position
 ;restore, '/unsafe/jsr2/sp2826-Jan15-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
@@ -7,8 +7,8 @@ f = iris_files(path='/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(f)
 wavecorr = iris_prep_wavecorr_l2(f)
 ;quake position 
-qkxa = 519.0 ;Matthews et al 2015
-qkya = 262.0 ;Matthews et al 2015
+;qkxa = 519.0 ;Matthews et al 2015
+;qkya = 262.0 ;Matthews et al 2015
 ;qkxa = 518.5 ;Donea et al 2014
 ;qkya = 264.0 ;Donea et al 2014
 iradius = 4.;iris qk radius in pixels
@@ -106,7 +106,7 @@ fitnum_min = (fitnum_max - nfiles) + 1
 
 
 ;alldat = fltarr(xpix, ypix, nfiles) ;data array
-balmdat = fltarr(8, nfiles)
+
  
 ;obj_destroy, d
 ;hdr = 0
@@ -186,11 +186,12 @@ endfor
 ;        iris_y_pix[j, *, i] = rind[1,y0:yf]            
 ;    endfor
 ;endfor
-
-
-balmerdata = fltarr(4, 8, nfiles)
+ncoords = n_elements(balmercoords[0,*])
+balmdat = fltarr(ncoords, nfiles)
+balmerdata = fltarr(4, ncoords, nfiles)
 ;;;array to contain y pixel locations corresponding to each slit position
-iris_x_pix = fltarr(8, nfiles)
+
+iris_x_pix = fltarr(ncoords, nfiles)
 for i = 0 , nfiles-1 do begin
 a = 0
 ;a = find_iris_slit_pos_new(iris_x_pos[*,i], iris_x_pos[*,i])
@@ -205,10 +206,12 @@ iris_y_pix = find_iris_slit_pos_new(coords, iris_y_pos)
 balmerdata[0, *, *] = iris_x_pix[*, *]
 balmerdata[1, *, *] = iris_y_pix[*, *]
 
-
+;;;;;;;;;;;;;;;;;area pix;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+if keyword_set(area_pixel) then begin
 ;;;fill array with intensity summed over an area equal to sunquake area 
 ;alldat[where(alldat lt 0., /null)] = 0 
-for j = 0, 7 do begin 
+for j = 0, ncoords - 1 do begin 
     for i = 0, nfiles -1 do begin
 	    times[j,i] =  t_x_pos[common_x_pix[i], i]
         ;fill array with intensity summed over an area equal to sunquake area
@@ -216,12 +219,26 @@ for j = 0, 7 do begin
         ;balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
     endfor
 endfor
+endif
+
+;;;;;;;;;;;;;;;;;single pix;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+if keyword_set(single_pixel) then begin
+for j = 0,  ncoords - 1 do begin 
+    for i = 0, nfiles -1 do begin
+	    times[j,i] =  t_x_pos[common_x_pix[i], i]
+        ;fill array with intensity summed over an area equal to sunquake area
+        balmdat[j, i] = balmdat_bk_subtracted[common_x_pix[i], iris_y_pix[j, i] ,i]
+        ;balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
+    endfor
+endfor
+endif
 
 ;calculate energy
 balmwidth = (3600. - 1400.)/0.1  ;in angstroms
 wav1 = wave[39]
 wav2 = wave[44]
-for j = 0 , 7 do begin 
+for j = 0 , ncoords - 1 do begin 
 
 ;convert DN to energy [erg]
 iris_radiometric_calibration, $

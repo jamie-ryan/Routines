@@ -10,9 +10,9 @@ spawn, 'mkdir /unsafe/jsr2/'+date_today
 ;iris_remap
 ;hmi_full_filt, /process
 ;balm_bk, date_today
-balm_data, date_today
+balm_data, date_today, /single_pixel
 ;mesa_cp, date_today
-iris_hmi_energy, date_today
+iris_hmi_energy, date_today, /single_pixel
 
 ;mes2ladder, date_today
 ;mes2ladder_cp, date_today

@@ -7,7 +7,7 @@ restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 restore, '/unsafe/jsr2/Feb7-2016/hmifullfilt-Feb7-2016.sav'
 dir = '/unsafe/jsr2/'+date+'/'
 
-nrb = 8 ; number ribbon coords
+nrb = 6 ; number ribbon coords
 
 ;instrument specific radius (not including central pixel)
 iradius = 4.* 0.167;iris qk radius in arcseconds 
@@ -39,7 +39,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-Si_IV-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 ;plot_map, ssi[498],  /log
-plot_map, ssi[500],  /log
+plot_map, ssi[497],  /log
 oplot_ribbon_coords, sicoords, iradius, /box;, /set_2
 device,/close
 set_plot,mydevice
@@ -50,7 +50,7 @@ mydevice=!d.name
 set_plot,'ps'
 device,filename=dir+'29-Mar-14-MG_II-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
-plot_map, smg[666], /log
+plot_map, smg[662], /log
 oplot_ribbon_coords, mgcoords, iradius, /box;, /set_2
 device,/close
 set_plot,mydevice
@@ -61,7 +61,7 @@ mydevice=!d.name
 set_plot,'ps'
 device,filename=dir+'29-Mar-14-MG_IIw-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
-plot_map, smgw[167], dmin = 0, dmax = 3000
+plot_map, smgw[166], dmin = 0, dmax = 3000
 oplot_ribbon_coords, mgwcoords, iradius, /box;, /set_2
 device,/close
 set_plot,mydevice
@@ -74,7 +74,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-HMI-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 ;plot_map, shmi[63], dmin = 0, dmax = 2000
-plot_map, shmi[64], dmin = 0, dmax = 2000
+plot_map, shmi[62], dmin = 0, dmax = 2000
 oplot_ribbon_coords, hmicoords, sradius, /box;, /set_2
 device,/close
 set_plot,mydevice

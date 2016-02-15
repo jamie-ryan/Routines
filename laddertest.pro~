@@ -3,7 +3,7 @@ pro laddertest, date
 dir = '/unsafe/jsr2/'+date+'/'
 restore, dir+'29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 
-npix = 8
+npix = 6
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'
 flux = '[erg s!E-1!N cm!E-2!N '+angstrom+'!E-1!N sr!E-1!N]'
@@ -30,7 +30,7 @@ plot_pos_calc, n_plots = 5, xpos, ypos
 !p.thick=3 ;data
 !x.thick=2 ;x axis
 !y.thick=2 ;y axis
-for i = 0, 7 do begin
+for i = 0, n_elements(sidata[3, *, 458]) do begin
 ;-------
 ;setup for postscript or eps output
 ;-------
@@ -78,7 +78,7 @@ outplot, tsi[458:*], sidata[3, slitp, 458:*], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 1400 Coord: 4', /norm
+xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 1400 Coord: '+ii, /norm
 
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -107,7 +107,7 @@ outplot, tmg[611:*], mgdata[3, slitp, 611:*], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 2796 Coord: 4', /norm
+xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 2796 Coord: '+ii, /norm
 
 o = 2
 ;mn = 0.8*min(balmerdata[3, i, *])
@@ -139,7 +139,7 @@ outplot, times[slitp, 10:*], balmerdata[3, slitp, 10:*], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, 2.1*xyx, xyy*1.01, charsize = 0.3, 'IRIS SG Balm Coord: 4', /norm
+xyouts, 2.1*xyx, xyy*1.01, charsize = 0.3, 'IRIS SG Balm Coord: '+ii, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -168,7 +168,7 @@ outplot, tmgw[153:*], mgwdata[3, slitp, 153:*], color = col
 ;loadct,34
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 2832 Coord: 4', /norm
+xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 2832 Coord: '+ii, /norm
 
 o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -195,7 +195,7 @@ outplot, thmi[41:74], hmidata[3, slitp, 41:74], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'SDO HMI Coord: 4', /norm
+xyouts, xyx, xyy*1.01, charsize = 0.3, 'SDO HMI Coord: '+ii, /norm
 device,/close
 set_plot,'x'
 !p.font=-1 			;go back to default (Vector Hershey fonts)

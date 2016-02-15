@@ -67,6 +67,12 @@ if keyword_set(qksource1) then begin
         loadct, 0
 
         ;HMI;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;loadct, 0
+;plot_map, shmi[62]
+;linecolors ;activate coloured lines in oplot
+;plot_map, shmi[62], /over, /percent, levels = [40, 50, 60, 70, 80]
+;plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 10, thick = 1 
+;loadct, 0
         plot_map, hmidiff[63] ;17:46:16  directly over quake in egmap6
         linecolors ;activate coloured lines in oplot
         plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 10, thick = 1 

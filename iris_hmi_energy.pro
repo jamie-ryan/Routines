@@ -1,4 +1,4 @@
-pro iris_hmi_energy, date
+pro iris_hmi_energy, date, single_pixel = single_pixel
 
 
 ;tmp = total(map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]], $
@@ -30,7 +30,7 @@ fsp = findfile('/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(fsp)
 
 ;;;some variables for loops, arrays element definition and header info 
-slitpos = 8
+slitpos = 6
 columns = 4 ;x,y,E,F
 fande = 2 ;columns for error arrays containing f and e
 
@@ -128,9 +128,11 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     sidata[0, i, *] = convert_coord_iris(sicoords[0, i], sji_1400_hdr[500], /x, /a2p)
     sidata[1, i, *] = convert_coord_iris(sicoords[1, i], sji_1400_hdr[500], /y, /a2p)
 ;    tmp = map1400.data[sidata[0, 0, i, 0], sidata[0, 1, i, 0]] - dnbksi
+    if keyword_set(single_pixel) then tmp = map1400.data[sidata[0, i, 0], sidata[1, i, 0]] - dnbksi else $
     tmp = sumarea(map1400.data - dnbksi, sidata[0, i, 0], sidata[1, i, 0], iradius)
 ;    iris_radiometric_calibration, tmp, sji_1400_hdr, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
     iris_radiometric_calibration, tmp, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
+    si_int = tmp
     sidata[2, i, *] = f
     sidata[3, i, *] = e
     sierr[0,i,*] = f_err
@@ -140,9 +142,11 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     dnbkmg = total(submg[661].data[bkmgp[0,*], bkmgp[1,*]])/n_elements(bkmgp[0,*]) ;mg
     mgdata[0, i, *] = convert_coord_iris(mgcoords[0, i], sji_2796_hdr[666], /x, /a2p)
     mgdata[1, i, *] = convert_coord_iris(mgcoords[1, i], sji_2796_hdr[666], /y, /a2p) 
+    if keyword_set(single_pixel) then tmp = submg.data[mgdata[0, i, 0], mgdata[1, i, 0]]- dnbkmg else $ 
     tmp = sumarea(submg.data - dnbkmg, mgdata[0, i, 0], mgdata[1, i, 0], iradius)
 ;    iris_radiometric_calibration, tmp, sji_2796_hdr, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
     iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
+    mg_tmp = tmp
     mgdata[2, i, *] = f
     mgdata[3, i, *] = e
     mgerr[0,i,*] = f_err
@@ -151,9 +155,11 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     ;;;iris 2832 \AA\ section
     mgwdata[0, i, *] = convert_coord_iris(mgwcoords[0, i], sji_2832_hdr[167], /x, /a2p)
     mgwdata[1, i, *] = convert_coord_iris(mgwcoords[1, i], sji_2832_hdr[167], /y, /a2p)
+    if keyword_set(single_pixel) then tmp = diff2832.data[mgwdata[0, i, 0], mgwdata[1, i, 0]] else $
     tmp = sumarea(diff2832.data, mgwdata[0, i, 0], mgwdata[1, i, 0], iradius)
 ;    iris_radiometric_calibration, tmp, sji_2832_hdr, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
     iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
+    mgw_tmp = tmp
     mgwdata[2, i, *] = f
     mgwdata[3, i, *] = e
     mgwerr[0,i,*] = f_err ;*visiblewidth 
@@ -162,8 +168,10 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     ;;;SDO HMI continuum section
     hmidata[0, i, *] = convert_coord_hmi(hmicoords[0, i], diffind[64],  /x, /a2p)
     hmidata[1, i, *] = convert_coord_hmi(hmicoords[1, i], diffind[64],  /y, /a2p)
+    if keyword_set(single_pixel) then tmp = hmidiff.data[hmidata[0, i, 0], hmidata[1, i, 0]] else $
     tmp = sumarea(hmidiff.data, hmidata[0, i, 0], hmidata[1, i, 0], sradius)
     hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
+    hmi_tmp = tmp
     hmidata[2, i, *] = f
     hmidata[3, i, *] = e
     hmierr[0,i,*] = f_err
@@ -177,16 +185,20 @@ save, $
 ;quake area
 sidata, $
 sierr, $
+si_tmp, $
 dnbksi, $
 mgdata, $
 mgerr, $
+mg_tmp, $
 dnbkmg, $
 balmerdata, $
 balmererr, $
 mgwdata, $
 mgwerr, $
+mgwtmp, $
 hmidata, $
 hmierr, $
+hmi_tmp, $
 tsi, $
 tmg, $
 times, $
