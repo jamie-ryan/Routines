@@ -21,7 +21,7 @@ tic
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
 restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
-restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
+restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 ;;;iris spectra fits
@@ -90,6 +90,11 @@ mgdata = fltarr(columns, slitpos, n_elements(tmg))
 mgwdata = fltarr(columns, slitpos, n_elements(tmgw))
 hmidata = fltarr(columns, slitpos, n_elements(thmi))
 
+si_tmp = fltarr(slitpos, n_elements(tsi))
+mg_tmp = fltarr(slitpos, n_elements(tmg))
+mgw_tmp = fltarr(slitpos, n_elements(tmgw))
+hmi_tmp = fltarr(slitpos, n_elements(thmi))
+
 ;;;arrays to contain errors associated with corresponding data 
 sierr = fltarr(fande, slitpos, n_elements(tsi))
 mgerr = fltarr(fande, slitpos, n_elements(tmg))
@@ -132,7 +137,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     tmp = sumarea(map1400.data - dnbksi, sidata[0, i, 0], sidata[1, i, 0], iradius)
 ;    iris_radiometric_calibration, tmp, sji_1400_hdr, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
     iris_radiometric_calibration, tmp, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
-    si_int = tmp
+    si_tmp[i,*] = tmp
     sidata[2, i, *] = f
     sidata[3, i, *] = e
     sierr[0,i,*] = f_err
@@ -146,7 +151,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     tmp = sumarea(submg.data - dnbkmg, mgdata[0, i, 0], mgdata[1, i, 0], iradius)
 ;    iris_radiometric_calibration, tmp, sji_2796_hdr, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
     iris_radiometric_calibration, tmp, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
-    mg_tmp = tmp
+    mg_tmp[i,*] = tmp
     mgdata[2, i, *] = f
     mgdata[3, i, *] = e
     mgerr[0,i,*] = f_err
@@ -159,7 +164,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     tmp = sumarea(diff2832.data, mgwdata[0, i, 0], mgwdata[1, i, 0], iradius)
 ;    iris_radiometric_calibration, tmp, sji_2832_hdr, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
     iris_radiometric_calibration, tmp, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
-    mgw_tmp = tmp
+    mgw_tmp[i,*] = tmp
     mgwdata[2, i, *] = f
     mgwdata[3, i, *] = e
     mgwerr[0,i,*] = f_err ;*visiblewidth 
@@ -171,7 +176,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     if keyword_set(single_pixel) then tmp = hmidiff.data[hmidata[0, i, 0], hmidata[1, i, 0]] else $
     tmp = sumarea(hmidiff.data, hmidata[0, i, 0], hmidata[1, i, 0], sradius)
     hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
-    hmi_tmp = tmp
+    hmi_tmp[i,*] = tmp
     hmidata[2, i, *] = f
     hmidata[3, i, *] = e
     hmierr[0,i,*] = f_err
@@ -193,9 +198,10 @@ mg_tmp, $
 dnbkmg, $
 balmerdata, $
 balmererr, $
+balmdat, $
 mgwdata, $
 mgwerr, $
-mgwtmp, $
+mgw_tmp, $
 hmidata, $
 hmierr, $
 hmi_tmp, $
