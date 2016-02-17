@@ -33,6 +33,7 @@ t_x_pos = strarr(8, nfiles)
 times = strarr(8, nfiles)
 for i = 0, nfiles -1 do begin
     d = iris_obj(f[i])
+    
     iris_x_pos[*, i] = d->getxpos()
     iris_y_pos[*, i] = d->getypos()
     t_x_pos[*, i] = d->ti2utc()
@@ -41,7 +42,7 @@ endfor
 
 common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos)
 
-spec_line = 8;d->show_lines
+spec_line = 6;d->show_lines
 d = iris_obj(f[0])
 dat = d->getvar(spec_line, /load)
 wave = d->getlam(spec_line)
@@ -52,6 +53,7 @@ xpix =  n_elements(dat[0,0,*]) ;slit position
 
 rawdat = fltarr(nfiles, nwav, ypix, xpix) ;raw data array
 corrdat = fltarr(nfiles, nwav,  ypix, xpix) ;corrected data array
+exp = dblarr(xpix, nfiles)
 obj_destroy, d
 hdr = 0
 dat = 0
@@ -62,6 +64,8 @@ for i = 0, nfiles - 1 do begin
     d = iris_obj(f[i])
     dat = d->getvar(spec_line, /load)    
     rawdat[i, *,*, *] = dat
+    exp[*,i] = d->getexp(iexp,iwin=spec_line)
+    obj_destroy, d
 endfor
 
 for t = 0, nfiles - 1 do begin
@@ -233,6 +237,33 @@ for j = 0,  ncoords - 1 do begin
     endfor
 endfor
 endif
+
+;;;Check raster cadence (times) against summed exposure times
+tags = tag_names(sp2826)
+for i = 0, nfiles - 1 do begin
+    for j = 0, xpix - 1 do begin
+	com = 'tmp = sp2826.'+tags[i]+'.exposure_times[j]'
+	exe = execute(com)	
+
+	;remove excess time
+        if (exp[j,i] lt tmp) then begin 
+	
+	endif
+
+	;add excess time
+        if (exp[j,i] gt tmp) then 
+
+	endif
+
+    endfor
+endfor
+
+
+
+
+
+
+
 
 ;calculate energy
 balmwidth = (3600. - 1400.)/0.1  ;in angstroms

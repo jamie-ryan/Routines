@@ -1,5 +1,5 @@
-pro irisl2struct, lambda
-
+pro irisl2struct,f, lambda
+;f = array of file strings
 ;lambda = 2832, 2826, 2814, 2796
 ;lambda = 2832
 lambda = string(lambda, format ='(I0)' )
@@ -9,7 +9,7 @@ lambda = string(lambda, format ='(I0)' )
 
 ;f = iris_files('../IRIS/*raster*.fits')
 ;f = iris_files(path='/unsafe/jsr2/IRIS/iris/level2/2014/03/30/20140330_140236_3860258481/')
-f = iris_files(path='/unsafe/jsr2/IRIS/old/')
+;f = iris_files(path='/unsafe/jsr2/IRIS/old/')
 nnn = n_elements(f)
 tagarr = strarr(nnn)
 dataarr = strarr(nnn)
