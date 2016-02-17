@@ -237,35 +237,17 @@ for j = 0,  ncoords - 1 do begin
     endfor
 endfor
 endif
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;Check raster cadence (times) against summed exposure times
-tags = tag_names(sp2826)
-for i = 0, nfiles - 1 do begin
-    for j = 0, xpix - 1 do begin
-	com = 'tmp = sp2826.'+tags[i]+'.exposure_times[j]'
-	exe = execute(com)	
-
-	;remove excess time
-        if (exp[j,i] lt tmp) then begin 
-	
-	endif
-
-	;add excess time
-        if (exp[j,i] gt tmp) then 
-
-	endif
-
-    endfor
-endfor
+;;;;;;fix raster times based on corrected exposure times;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+iris_times_correct, times, times_corrected
 
 
 
 
-
-
-
-
-;calculate energy
+;;;;;;;;;;;;;;;;;calculate energy;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 balmwidth = (3600. - 1400.)/0.1  ;in angstroms
 wav1 = wave[39]
 wav2 = wave[44]
