@@ -88,10 +88,12 @@ for i = 0, nfiles - 1 do begin
                 endif
             endif
 	    endif
-    sec_actual = fix(sec_actual)
-    millsecs = fix((sec_actual - fix(sec_actual))*1000)
+    sec_act = fix(sec_actual)
+    millsecs = fix((sec_actual - sec_act)*1000)
+
     utcstruct = {year:yr, month:mth, day:day,hour:hr_actual, minute:min_actual, second:sec_actual,millisecond:millsecs}
     times_out[j,i] = utc2str(utcstruct)
+
     endfor
 endfor
 return, times_out
