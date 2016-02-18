@@ -241,9 +241,8 @@ endif
 
 ;;;;;;fix raster times based on corrected exposure times;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-iris_times_correct, times, times_corrected
-
-
+;function iris_time_correct,new_data = new_data, times_out
+times_corrected = iris_time_correct()
 
 
 ;;;;;;;;;;;;;;;;;calculate energy;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
