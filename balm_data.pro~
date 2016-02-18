@@ -241,8 +241,10 @@ endif
 
 ;;;;;;fix raster times based on corrected exposure times;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;function iris_time_correct,times_in, new_data = new_data, times_out
-times_corrected = iris_time_correct()
+;function iris_time_correct,new_data = new_data, times_out
+
+t0 = sp2826.tagoo.time_ccsds[0]
+times_corrected = iris_time_correct(f, t0)
 
 
 ;;;;;;;;;;;;;;;;;calculate energy;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

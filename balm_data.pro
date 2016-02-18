@@ -242,7 +242,11 @@ endif
 ;;;;;;fix raster times based on corrected exposure times;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;function iris_time_correct,new_data = new_data, times_out
-times_corrected = iris_time_correct()
+f1 = iris_files(path='/unsafe/jsr2/IRIS/preflare/')
+f2 = iris_files(path='/unsafe/jsr2/IRIS/old/')
+f3 = [f1,f2]
+t0 = sp2826.tagoo.time_ccsds[0]
+times_corrected = iris_time_correct(f3, t0)
 
 
 ;;;;;;;;;;;;;;;;;calculate energy;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
