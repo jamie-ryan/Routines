@@ -6,6 +6,7 @@ restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 f = iris_files(path='/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(f)
 wavecorr = iris_prep_wavecorr_l2(f)
+
 ;quake position 
 ;qkxa = 519.0 ;Matthews et al 2015
 ;qkya = 262.0 ;Matthews et al 2015
@@ -39,8 +40,18 @@ for i = 0, nfiles -1 do begin
     t_x_pos[*, i] = d->ti2utc()
     obj_destroy, d
 endfor
-
 common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos)
+
+
+;;;;;;fix raster times based on corrected exposure times;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;function iris_time_correct,new_data = new_data, times_out
+f1 = iris_files(path='/unsafe/jsr2/IRIS/preflare/')
+f2 = iris_files(path='/unsafe/jsr2/IRIS/old/')
+f3 = [f1,f2]
+;t0 = sp2826.tag00.time_ccsds[0]
+times_corrected = iris_time_correct_PH(f3)
+
 
 spec_line = 6;d->show_lines
 d = iris_obj(f[0])
@@ -210,6 +221,7 @@ iris_y_pix = find_iris_slit_pos_new(coords, iris_y_pos)
 balmerdata[0, *, *] = iris_x_pix[*, *]
 balmerdata[1, *, *] = iris_y_pix[*, *]
 
+
 ;;;;;;;;;;;;;;;;;area pix;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 if keyword_set(area_pixel) then begin
@@ -238,15 +250,6 @@ for j = 0,  ncoords - 1 do begin
 endfor
 endif
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;fix raster times based on corrected exposure times;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;function iris_time_correct,new_data = new_data, times_out
-f1 = iris_files(path='/unsafe/jsr2/IRIS/preflare/')
-f2 = iris_files(path='/unsafe/jsr2/IRIS/old/')
-f3 = [f1,f2]
-t0 = sp2826.tagoo.time_ccsds[0]
-times_corrected = iris_time_correct(f3, t0)
 
 
 ;;;;;;;;;;;;;;;;;calculate energy;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
