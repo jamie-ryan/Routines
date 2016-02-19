@@ -19,9 +19,8 @@ nwav = n_elements(wave)
 ypix =  n_elements(dat[0,*,0]) ;y pixels
 xpix =  n_elements(dat[0,0,*]) ;slit position
 exp = dblarr(xpix, nfiles)
-tcorr = dblarr(xpix, nfiles)
 times_out = strarr(xpix, nfiles) ;times_out[j,i]
-t0 = d->ti2utc(f[0]) ;times for first raster 
+t0 = d->ti2utc() ;times for first raster 
 
 obj_destroy, d
 
@@ -55,12 +54,12 @@ for i = 0, nfiles - 1 do begin
         yrstr = string(yr, format = '(I0)')
         mthstr = string(mth, format = '(I0)')
         daystr = string(day, format = '(I0)')
-        yrstr = string(hr_new, format = '(I0)')
+        hrstr = string(hr_new, format = '(I0)')
         minstr = string(min_new, format = '(I0)')
         secstr = string(sec_new)
 
         ;make time string in format 2014-03-29T14:09:39.000       
-        tstr = yrstr+'-'+mthstr+'-'+daystr+'T'+hrtsr+':'+minstr+':'+secstr
+        tstr = yrstr+'-'+mthstr+'-'+daystr+'T'+hrstr+':'+minstr+':'+secstr
 
         ;for the first iteration, set time string to t0[0]
         if (i = 0) and (j = 0) then times_out[j,i] = t0[0] else times_out[j,i] = tstr
