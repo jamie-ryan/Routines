@@ -46,7 +46,7 @@ for i = 0, nfiles - 1 do begin
     for j = 0, xpix - 1 do begin
 
         ;calculate the corrected time for each slit position
-        t_new = hrs2sec + min2sec + sec + exp[j,i]
+        t_new = hrs2sec + mins2sec + sec + exp[j,i]
         hr_new = t_new/60./60.
         min_new = (hr_new - fix(hr_new))*60.
         sec_new = (min_new - fix(min_new))*60.
