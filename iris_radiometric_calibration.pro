@@ -32,7 +32,7 @@
 ;       Written 03/06/15 by Jamie Ryan
 pro iris_radiometric_calibration, $
 array, $
-;struct, $
+;texp, $
 wave = wave, $
 n_pixels = n_pixels, $
 fout, $
@@ -67,7 +67,7 @@ iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
 ;        endif
 ;    endfor
 ;endfor
-texp = 8.0000496
+texp = 8.0000
 array = array/texp
 
 

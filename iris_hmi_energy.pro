@@ -21,7 +21,8 @@ tic
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
 restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
-restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
+;restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
+restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 ;;;iris spectra fits

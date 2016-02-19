@@ -1,4 +1,4 @@
-function iris_time_correct,f, times_out
+function iris_time_correct,f, lambda, times_out
 ;new_data = new_data,
 ;times_in is the time string arrays for each raster (see balm_data)
 ;/new_data will generate a new sp2826 structure, otherwise the code defaults to a pre-existing .sav
@@ -7,7 +7,7 @@ function iris_time_correct,f, times_out
 
 ;if keyword_set(new_data) then begin
 ;irisl2struct,f, 2826 else 
-restore, '/unsafe/jsr2/sp2826-Feb17-2016.sav'
+;restore, '/unsafe/jsr2/sp2826-Feb17-2016.sav'
 
 
 ;if not keyword_set(new_data) then begin
@@ -38,18 +38,13 @@ endfor
 
 ;;;Check raster cadence (times) against summed exposure times
 ;need to ammend each raster time 
-tags = tag_names(sp2826)
 for i = 0, nfiles - 1 do begin
+    spec = iris_getwindata(f[i],lambda)
     for j = 0, xpix - 1 do begin
-	    com = 'wrong_exp = sp2826.'+tags[i]+'.exposure_time[j]'
-	    exe = execute(com)	
-	    com = 'wrong_time = sp2826.'+tags[i]+'.time[j]'
-	    exe = execute(com)	
-
-
+	    wrong_exp = spec.exposure_time[j]
+        wrong_time = spec.time[j]
 ;        tstr = sp2826.tag00.time_ccsds[0]+'Z'
-        com = 'tstr = sp2826.'+tags[i]+'.time_ccsds[j]'
-        exe = execute(com)
+        tstr = spec.time_ccsds[j]
         tstr = tstr+'Z'
         timestamptovalues,tstr, year=yr,month=mth,day=day,hour=hr,minute=min,second=sec,offset=0
 

@@ -30,9 +30,9 @@
 ;       
 ; MODIFICATION HISTORY:
 ;       Written 03/06/15 by Jamie Ryan
-pro iris_radiometric_calibration, $
+pro iris_radiometric_calibration_texp, $
 array, $
-;texp, $
+texp, $
 wave = wave, $
 n_pixels = n_pixels, $
 fout, $
@@ -67,9 +67,16 @@ iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
 ;        endif
 ;    endfor
 ;endfor
-texp = 8.0000496
-array = array/texp
 
+if keyword_set(sji) then begin
+array = array/texp
+endif
+
+if keyword_set(sg) then begin
+    for i = 0, n_elements(array) - 1 do begin
+        array[i] = array[i] / texp[i]
+    endfor
+endif
 
 dt = 5.0e-8 ;uncertainty associated with texp
 
@@ -167,7 +174,20 @@ array = array/effective_solid_angle ; erg/s.cm^2.sr
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
 fout = array/pixlambda ; = erg/s.cm^2.sr.Å					
-eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda
+
+if keyword_set(sji) then begin
+    eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda
+endif
+
+
+if keyword_set(sg) then begin
+    eout = fltarr(n_elements(array))
+    for i = 0, n_elements(array) -1 do begin
+        eout[i] = fout[i]*texp[i]*n_pixels*area_on_sun*effective_solid_angle*pixlambda
+    endfor
+endif
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;ERRORS;;;;;;;;;;;;;;;;;;;;;;;;;;;

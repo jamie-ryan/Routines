@@ -13,7 +13,20 @@ wavecorr = iris_prep_wavecorr_l2(f)
 ;qkxa = 518.5 ;Donea et al 2014
 ;qkya = 264.0 ;Donea et al 2014
 iradius = 4.;iris qk radius in pixels
+spec_line = 6;d->show_lines
+d = iris_obj(f[0])
+dat = d->getvar(spec_line, /load)
+wave = d->getlam(spec_line)
+;nwav = n_elements(wave[39:44]) ;wavelength range for balmer
+nwav = n_elements(wave)
+ypix =  n_elements(dat[0,*,0]) ;y pixels
+xpix =  n_elements(dat[0,0,*]) ;slit position
 
+rawdat = fltarr(nfiles, nwav, ypix, xpix) ;raw data array
+corrdat = fltarr(nfiles, nwav, ypix, xpix) ;corrected data array
+obj_destroy, d
+hdr = 0
+dat = 0
 dataset = ['balmer']
 for k = 0, n_elements(dataset)-1 do begin
     flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords1.txt
@@ -28,10 +41,12 @@ endfor
 
 ;find x and y slit positions in arcsec and times
 ;these arrays will be passed to mesa_cp as coordinates for other data
-iris_x_pos = fltarr(8, nfiles)
-iris_y_pos = fltarr(1093, nfiles)
-wrong_times = strarr(8, nfiles)
-times = strarr(8, nfiles)
+iris_x_pos = fltarr(xpix, nfiles)
+iris_y_pos = fltarr(ypix, nfiles)
+wrong_times = strarr(xpix, nfiles)
+times = strarr(6, nfiles)
+texp = dblarr(6, nfiles)
+exp1 = dblarr(xpix, nfiles)
 for i = 0, nfiles -1 do begin
     d = iris_obj(f[i])
     
@@ -40,6 +55,7 @@ for i = 0, nfiles -1 do begin
 
     ;grab wrong times for comparison
     wrong_times[*, i] = d->ti2utc()
+    exp1[*,i] = d->getexp(iexp,iwin=spec_line)
     obj_destroy, d
 endfor
 common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos)
@@ -52,24 +68,11 @@ f1 = iris_files(path='/unsafe/jsr2/IRIS/preflare/')
 f2 = iris_files(path='/unsafe/jsr2/IRIS/old/')
 f3 = [f1,f2]
 ;t0 = sp2826.tag00.time_ccsds[0]
-times_corrected = iris_time_correct(f3)
+times_correct_all_data = iris_time_correct(f3, 2826)
+times_corrected = times_correct_all_data[*,150:179]
 
 
-spec_line = 6;d->show_lines
-d = iris_obj(f[0])
-dat = d->getvar(spec_line, /load)
-wave = d->getlam(spec_line)
-;nwav = n_elements(wave[39:44]) ;wavelength range for balmer
-nwav = n_elements(wave)
-ypix =  n_elements(dat[0,*,0]) ;y pixels
-xpix =  n_elements(dat[0,0,*]) ;slit position
 
-rawdat = fltarr(nfiles, nwav, ypix, xpix) ;raw data array
-corrdat = fltarr(nfiles, nwav,  ypix, xpix) ;corrected data array
-exp = dblarr(xpix, nfiles)
-obj_destroy, d
-hdr = 0
-dat = 0
 
 ;fill raw and wavelength corrected data arrays
 for i = 0, nfiles - 1 do begin
@@ -77,7 +80,7 @@ for i = 0, nfiles - 1 do begin
     d = iris_obj(f[i])
     dat = d->getvar(spec_line, /load)    
     rawdat[i, *,*, *] = dat
-    exp[*,i] = d->getexp(iexp,iwin=spec_line)
+    exp1[*,i] = d->getexp(iexp,iwin=spec_line)
     obj_destroy, d
 endfor
 
@@ -247,6 +250,7 @@ for j = 0,  ncoords - 1 do begin
     for i = 0, nfiles -1 do begin
 ;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
 	    times[j,i] =  times_corrected[common_x_pix[i], i]
+        texp[j,i]  = exp1[common_x_pix[i], i]
         ;fill array with intensity summed over an area equal to sunquake area
         balmdat[j, i] = balmdat_bk_subtracted[common_x_pix[i], iris_y_pix[j, i] ,i]
         ;balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
@@ -264,9 +268,9 @@ wav2 = wave[44]
 for j = 0 , ncoords - 1 do begin 
 
 ;convert DN to energy [erg]
-iris_radiometric_calibration, $
+iris_radiometric_calibration_texp, $
 balmdat[j,*]*balmwidth, $
-;sp2826, $
+reform(texp[j, *]), $
 wave=[wav1,wav2], $
 n_pixels=1, $
 flux, energy, f_err, e_err, $
