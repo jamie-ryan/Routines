@@ -1,5 +1,5 @@
-function iris_time_correct,new_data = new_data, times_out
-
+function iris_time_correct, times_out
+;new_data = new_data,
 ;times_in is the time string arrays for each raster (see balm_data)
 ;/new_data will generate a new sp2826 structure, otherwise the code defaults to a pre-existing .sav
 ;times_out is an array containig corrected raster step time strings and is returned by the function
@@ -9,11 +9,12 @@ f2 = iris_files(path='/unsafe/jsr2/IRIS/old/')
 f = [f1,f2]
 
 ;if keyword_set(new_data) then begin
-;    irisl2struct,f, 2826
-;endif
+;irisl2struct,f, 2826 else 
+restore, '/unsafe/jsr2/sp2826-Feb17-2016.sav'
+
 
 ;if not keyword_set(new_data) then begin
-restore, '/unsafe/jsr2/sp2826-Feb17-2016.sav'
+
 ;endif
 nfiles = n_elements(f)
 spec_line = 6;d->show_lines
@@ -93,29 +94,6 @@ for i = 0, nfiles - 1 do begin
 
     utcstruct = {year:yr, month:mth, day:day,hour:hr_actual, minute:min_actual, second:sec_actual,millisecond:millsecs}
     times_out[j,i] = utc2str(utcstruct)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;easier method;;;;;;;;;;;;;;;
-tags = tag_names(sp2826)
-for i = 0, nfiles - 1 do begin
-    for j = 0, xpix - 1 do begin
-	    com = 'wrong_exp = sp2826.'+tags[i]+'.exposure_time[j]'
-	    exe = execute(com)	
-	    com = 'wrong_time = sp2826.'+tags[i]+'.time[j]'
-	    exe = execute(com)	
-
-
-;        tstr = sp2826.tag00.time_ccsds[0]+'Z'
-        com = 'tstr = sp2826.'+tags[i]+'.time_ccsds[j]'
-        exe = execute(com)
-        tstr = tstr+'Z'
-        timestamptovalues,tstr, year=yr,month=mth,day=day,hour=hr,minute=mins,second=sec,offset=0
-
-        ;25-DEC-2006 06:25 UT
-        juldate, [yr, mth, day, hr, mins], jd 
-
-        utcstruct = {year:yr, month:mth, day:day,hour:hr_actual, minute:min_actual, second:sec_actual,millisecond:millsecs}
-        times_out[j,i] = utc2str(utcstruct)
 
     endfor
 endfor

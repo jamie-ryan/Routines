@@ -30,14 +30,16 @@ endfor
 ;these arrays will be passed to mesa_cp as coordinates for other data
 iris_x_pos = fltarr(8, nfiles)
 iris_y_pos = fltarr(1093, nfiles)
-t_x_pos = strarr(8, nfiles)
+wrong_times = strarr(8, nfiles)
 times = strarr(8, nfiles)
 for i = 0, nfiles -1 do begin
     d = iris_obj(f[i])
     
     iris_x_pos[*, i] = d->getxpos()
     iris_y_pos[*, i] = d->getypos()
-    t_x_pos[*, i] = d->ti2utc()
+
+    ;grab wrong times for comparison
+    wrong_times[*, i] = d->ti2utc()
     obj_destroy, d
 endfor
 common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos)
@@ -50,7 +52,7 @@ f1 = iris_files(path='/unsafe/jsr2/IRIS/preflare/')
 f2 = iris_files(path='/unsafe/jsr2/IRIS/old/')
 f3 = [f1,f2]
 ;t0 = sp2826.tag00.time_ccsds[0]
-times_corrected = iris_time_correct_PH(f3)
+times_corrected = iris_time_correct(f3)
 
 
 spec_line = 6;d->show_lines
@@ -229,7 +231,8 @@ if keyword_set(area_pixel) then begin
 ;alldat[where(alldat lt 0., /null)] = 0 
 for j = 0, ncoords - 1 do begin 
     for i = 0, nfiles -1 do begin
-	    times[j,i] =  t_x_pos[common_x_pix[i], i]
+;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
+        times[j,i] = times_corrected[common_x_pix[i], i]
         ;fill array with intensity summed over an area equal to sunquake area
         balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], common_x_pix[i], iris_y_pix[j, i], iradius, /sg)        
         ;balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
@@ -242,7 +245,8 @@ endif
 if keyword_set(single_pixel) then begin
 for j = 0,  ncoords - 1 do begin 
     for i = 0, nfiles -1 do begin
-	    times[j,i] =  t_x_pos[common_x_pix[i], i]
+;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
+	    times[j,i] =  times_corrected[common_x_pix[i], i]
         ;fill array with intensity summed over an area equal to sunquake area
         balmdat[j, i] = balmdat_bk_subtracted[common_x_pix[i], iris_y_pix[j, i] ,i]
         ;balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)

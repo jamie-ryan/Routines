@@ -1,19 +1,17 @@
-function iris_time_correct,new_data = new_data, times_out
-
+function iris_time_correct,f, times_out
+;new_data = new_data,
 ;times_in is the time string arrays for each raster (see balm_data)
 ;/new_data will generate a new sp2826 structure, otherwise the code defaults to a pre-existing .sav
 ;times_out is an array containig corrected raster step time strings and is returned by the function
 
-f1 = iris_files(path='/unsafe/jsr2/IRIS/preflare/')
-f2 = iris_files(path='/unsafe/jsr2/IRIS/old/')
-f = [f1,f2]
 
 ;if keyword_set(new_data) then begin
-;    irisl2struct,f, 2826
-;endif
+;irisl2struct,f, 2826 else 
+restore, '/unsafe/jsr2/sp2826-Feb17-2016.sav'
+
 
 ;if not keyword_set(new_data) then begin
-restore, '/unsafe/jsr2/sp2826-Feb17-2016.sav'
+
 ;endif
 nfiles = n_elements(f)
 spec_line = 6;d->show_lines
