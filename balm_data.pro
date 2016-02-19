@@ -52,8 +52,8 @@ f1 = iris_files(path='/unsafe/jsr2/IRIS/preflare/')
 f2 = iris_files(path='/unsafe/jsr2/IRIS/old/')
 f3 = [f1,f2]
 ;t0 = sp2826.tag00.time_ccsds[0]
-times_corrected = iris_time_correct(f3)
-
+times_correct_all_data = iris_time_correct(f3)
+times_corrected = times_correct_all_data[*,150:179]
 
 spec_line = 6;d->show_lines
 d = iris_obj(f[0])
