@@ -22,11 +22,12 @@ exp = dblarr(xpix, nfiles)
 tcorr = dblarr(xpix, nfiles)
 times_out = strarr(xpix, nfiles) ;times_out[j,i]
 t0 = d->ti2utc(f[0]) ;times for first raster 
-times_out[0,0] = t0[0] ;set time zero
+
 obj_destroy, d
 
 ;convert time string into floats
-timestamptovalues,t0, year=yr,month=mth,day=day,hour=hr,minute=mins,second=sec,offset=0
+t0z = t0[0]+'Z'
+timestamptovalues,t0z, year=yr,month=mth,day=day,hour=hr,minute=mins,second=sec,offset=0
 
 ;convert hrs, mins into seconds
 hrs2sec = hr*60.*60.
