@@ -171,7 +171,8 @@ for j = 0, xpix - 1 do begin
     for k = 0, ypix - 1 do begin
         bkstart = 17 ;17:40
         bkend = 21 ;17:44
-        if (j = 4) then begin
+        if (j eq 4) then begin ;there's an earlier peak in the usual bk time zone
+            
             bkstart = 8 ;17:30
             bkend = 12 ;17:32
         endif
