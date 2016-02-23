@@ -58,6 +58,8 @@ for i = 0, nfiles -1 do begin
     exp1[*,i] = d->getexp(iexp,iwin=spec_line)
     obj_destroy, d
 endfor
+
+;common pix will contain the pixel locations of the x coords in balmercoords.txt
 common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos)
 
 
@@ -100,17 +102,31 @@ for t = 0, nfiles - 1 do begin
 endfor
 alldat = fltarr(xpix, ypix, nfiles)
 for i = 0, nfiles - 1 do begin
-    ;sum across Balmer continuum range 2825.7 to 2825.8 angstroms
-    a = 0
-    for l = 39, 44 do begin 
-    a = a + corrdat[i,l, *, *]
+print, 'i =', i    ;sum across Balmer continuum range 2825.7 to 2825.8 angstroms
+;    a = 0
+;    for l = 39, 44 do begin 
+;    a = a + corrdat[i,l, *, *]
+;    endfor
+ ;   alldat[*,*, i] = rotate(reform(a), 1)
+    for j = 0, xpix - 1 do begin
+    print, 'j =', j 
+        for k = 0, ypix - 1 do begin
+        print, 'k =', k 
+            ;Below based on sarah's method bint66_433=total(wd166h.int(41:44,3,438),1)
+            alldat[j,k,i] = total(corrdat[i, 41:44, k, j])
+        endfor
     endfor
-    alldat[*,*, i] = rotate(reform(a), 1)
-
-    ;clean up 
-    obj_destroy, d
 endfor
 
+;;;exposure time: correct dn data
+exp_normalised = exp1/max(exp1)
+exp_weight = max(exp1)/exp1
+alldat_exp_weighted = dblarr(xpix,ypix,nfiles)
+for i = 0, nfiles - 1 do begin
+    for j = 0, xpix - 1 do begin
+        alldat_exp_weighted[j, *, i] = exp_weight[j,i]*alldat[j, *, i]
+    endfor
+endfor
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;read in data
 ;;;find the numbers needed to create alldata array
@@ -157,7 +173,8 @@ bkstart = 0 ;17:40
 bkend = 4 ;17:44
 for j = 0, xpix - 1 do begin
     for k = 0, ypix - 1 do begin
-        balmbk[j, k] = avg(alldat[j, k, bkstart:bkend])
+        balmbk[j, k] = avg(alldat_exp_weighted[j, k, bkstart:bkend])
+;        balmbk[j, k] = avg(alldat[j, k, bkstart:bkend])
     endfor
 endfor
 
@@ -167,14 +184,17 @@ bk[i] = avg(balmbk[i, *])
 endfor
 
 ;fill array with bk subtracted data
-balmdat_bk_subtracted = fltarr(xpix, ypix, nfiles)
+dat_bk_subtract_exp_weighted = fltarr(xpix, ypix, nfiles)
 for i = 0, nfiles - 1 do begin
     for j = 0, xpix - 1 do begin
         for k = 0, ypix - 1 do begin
-            balmdat_bk_subtracted[j,k,i] = alldat[j,k,i] - bk[j]
+            dat_bk_subtract_exp_weighted[j,k,i] = alldat_exp_weighted[j,k,i] - bk[j]
+;            dat_bk_subtract_exp_weighted[j,k,i] = alldat[j,k,i] - bk[j]
         endfor
     endfor
 endfor
+
+
 
 ;y0 = 415 ;259" 
 ;yf = 499 ;273"
@@ -223,8 +243,12 @@ coords = balmercoords[1, *]
 ;coords = [270, 271.6, 261., 264., 262.25, 263.9, 264, 262.9]
 iris_y_pix = find_iris_slit_pos_new(coords, iris_y_pos)
 
-balmerdata[0, *, *] = iris_x_pix[*, *]
-balmerdata[1, *, *] = iris_y_pix[*, *]
+;balmerdata[0, *, *] = iris_x_pix[*, *]
+;balmerdata[1, *, *] = iris_y_pix[*, *]
+balmerdata[0, *, *] = iris_x_pix[*, 0] ;think this will give a constant x y pix? check
+balmerdata[1, *, *] = iris_y_pix[*, 0]
+
+
 
 
 ;;;;;;;;;;;;;;;;;area pix;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -237,9 +261,9 @@ for j = 0, ncoords - 1 do begin
 ;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
         times[j,i] = times_corrected[common_x_pix[i], i]
         ;fill array with intensity summed over an area equal to sunquake area
-        texp[j,i]  = exp1[common_x_pix[i], i]
-        balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], common_x_pix[i], iris_y_pix[j, i], iradius, /sg)        
-        ;balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
+        texp[j,i]  = exp1[common_x_pix[i], i] 
+        balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], common_x_pix[i], iris_y_pix[j, i], iradius, /sg)        
+        ;balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
     endfor
 endfor
 endif
@@ -252,9 +276,10 @@ for j = 0,  ncoords - 1 do begin
 ;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
 	    times[j,i] =  times_corrected[common_x_pix[i], i]
         texp[j,i]  = exp1[common_x_pix[i], i]
+
         ;fill array with intensity summed over an area equal to sunquake area
-        balmdat[j, i] = balmdat_bk_subtracted[common_x_pix[i], iris_y_pix[j, i] ,i]
-        ;balmdat[j, i] = sumarea(balmdat_bk_subtracted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
+        balmdat[j, i] = dat_bk_subtract_exp_weighted[common_x_pix[i], iris_y_pix[j, i] ,i]
+        ;balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
     endfor
 endfor
 endif
