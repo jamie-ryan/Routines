@@ -262,7 +262,7 @@ for j = 0, ncoords - 1 do begin
         times[j,i] = times_corrected[common_x_pix[i], i]
         ;fill array with intensity summed over an area equal to sunquake area
         texp[j,i]  = exp1[common_x_pix[i], i] 
-        balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], common_x_pix[i], iris_y_pix[j, i], iradius, /sg)        
+        balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], common_x_pix[i], iris_y_pix[j], iradius, /sg)        
         ;balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
     endfor
 endfor
@@ -278,7 +278,7 @@ for j = 0,  ncoords - 1 do begin
         texp[j,i]  = exp1[common_x_pix[i], i]
 
         ;fill array with intensity summed over an area equal to sunquake area
-        balmdat[j, i] = dat_bk_subtract_exp_weighted[common_x_pix[i], iris_y_pix[j, i] ,i]
+        balmdat[j, i] = dat_bk_subtract_exp_weighted[common_x_pix[i], iris_y_pix[j] ,i]
         ;balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
     endfor
 endfor
