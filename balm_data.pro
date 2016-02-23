@@ -60,9 +60,9 @@ for i = 0, nfiles -1 do begin
 endfor
 
 ;common pix will contain the pixel locations of the x coords in balmercoords.txt
-common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos)
-
-
+;common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos)
+common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos[*,23])
+iris_y_pix = find_iris_slit_pos_new(balmercoords[1, *], iris_y_pos[*,23])
 ;;;;;;fix raster times based on corrected exposure times;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;function iris_time_correct,new_data = new_data, times_out
@@ -102,16 +102,14 @@ for t = 0, nfiles - 1 do begin
 endfor
 alldat = fltarr(xpix, ypix, nfiles)
 for i = 0, nfiles - 1 do begin
-print, 'i =', i    ;sum across Balmer continuum range 2825.7 to 2825.8 angstroms
+;sum across Balmer continuum range 2825.7 to 2825.8 angstroms
 ;    a = 0
 ;    for l = 39, 44 do begin 
 ;    a = a + corrdat[i,l, *, *]
 ;    endfor
  ;   alldat[*,*, i] = rotate(reform(a), 1)
     for j = 0, xpix - 1 do begin
-    print, 'j =', j 
         for k = 0, ypix - 1 do begin
-        print, 'k =', k 
             ;Below based on sarah's method bint66_433=total(wd166h.int(41:44,3,438),1)
             alldat[j,k,i] = total(corrdat[i, 41:44, k, j])
         endfor
@@ -231,23 +229,25 @@ balmdat = fltarr(ncoords, nfiles)
 balmerdata = fltarr(4, ncoords, nfiles)
 ;;;array to contain y pixel locations corresponding to each slit position
 
-iris_x_pix = fltarr(ncoords, nfiles)
-for i = 0 , nfiles-1 do begin
-a = 0
+;iris_x_pix = fltarr(ncoords, nfiles)
+;for i = 0 , nfiles-1 do begin
+;a = 0
 ;a = find_iris_slit_pos_new(iris_x_pos[*,i], iris_x_pos[*,i])
-a = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos[*,i])
-iris_x_pix[*,i] = a
-endfor
+;a = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos[*,i])
+;iris_x_pix[*,i] = a
+;endfor
+;iris_x_pix = [3,4,5,5,6,7]
 
-coords = balmercoords[1, *]
+
 ;coords = [270, 271.6, 261., 264., 262.25, 263.9, 264, 262.9]
-iris_y_pix = find_iris_slit_pos_new(coords, iris_y_pos)
+;iris_y_pix = find_iris_slit_pos_new(coords, iris_y_pos)
 
 ;balmerdata[0, *, *] = iris_x_pix[*, *]
 ;balmerdata[1, *, *] = iris_y_pix[*, *]
-balmerdata[0, *, *] = iris_x_pix[*, 0] ;think this will give a constant x y pix? check
-balmerdata[1, *, *] = iris_y_pix[*, 0]
-
+for i = 0, n_elements(balmerdata[0,0,*]) - 1 do begin 
+balmerdata[0, *, i] = common_x_pix[*] ;think this will give a constant x y pix? check
+balmerdata[1, *, i] = iris_y_pix[*]
+endfor
 
 
 
