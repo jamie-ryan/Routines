@@ -167,8 +167,8 @@ fitnum_min = (fitnum_max - nfiles) + 1
 
 ;fill array with back 
 balmbk = fltarr(xpix,ypix)
-bkstart = 0 ;17:40
-bkend = 4 ;17:44
+bkstart = 18 ;17:40
+bkend = 22 ;17:44
 for j = 0, xpix - 1 do begin
     for k = 0, ypix - 1 do begin
         balmbk[j, k] = avg(alldat_exp_weighted[j, k, bkstart:bkend])

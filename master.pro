@@ -1,4 +1,5 @@
 pro master
+tic
 ;mesa
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
@@ -21,5 +22,6 @@ ribcord2oplot_cp, date_today;, /tables
 intimpulse3_cp, date_today
 ;sunquake_context_plots, /qksource1, /no, /xzoom, /xxzoom
 ;plot_energy_dist, date_today
+toc
 end
 

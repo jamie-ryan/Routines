@@ -167,8 +167,8 @@ fitnum_min = (fitnum_max - nfiles) + 1
 
 ;fill array with back 
 balmbk = fltarr(xpix,ypix)
-bkstart = 0 ;17:40
-bkend = 4 ;17:44
+bkstart = 18 ;17:40
+bkend = 22 ;17:44
 for j = 0, xpix - 1 do begin
     for k = 0, ypix - 1 do begin
         balmbk[j, k] = avg(alldat_exp_weighted[j, k, bkstart:bkend])
@@ -259,10 +259,10 @@ if keyword_set(area_pixel) then begin
 for j = 0, ncoords - 1 do begin 
     for i = 0, nfiles -1 do begin
 ;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
-        times[j,i] = times_corrected[common_x_pix[i], i]
+        times[j,i] = times_corrected[common_x_pix[j], i]
         ;fill array with intensity summed over an area equal to sunquake area
-        texp[j,i]  = exp1[common_x_pix[i], i] 
-        balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], common_x_pix[i], iris_y_pix[j], iradius, /sg)        
+        texp[j,i]  = exp1[common_x_pix[j], i] 
+        balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], common_x_pix[j], iris_y_pix[j], iradius, /sg)        
         ;balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
     endfor
 endfor
@@ -274,11 +274,11 @@ if keyword_set(single_pixel) then begin
 for j = 0,  ncoords - 1 do begin 
     for i = 0, nfiles -1 do begin
 ;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
-	    times[j,i] =  times_corrected[common_x_pix[i], i]
-        texp[j,i]  = exp1[common_x_pix[i], i]
+	    times[j,i] =  times_corrected[common_x_pix[j], i]
+        texp[j,i]  = exp1[common_x_pix[j], i]
 
         ;fill array with intensity summed over an area equal to sunquake area
-        balmdat[j, i] = dat_bk_subtract_exp_weighted[common_x_pix[i], iris_y_pix[j] ,i]
+        balmdat[j, i] = dat_bk_subtract_exp_weighted[common_x_pix[j], iris_y_pix[j] ,i]
         ;balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
     endfor
 endfor
