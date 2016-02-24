@@ -10,20 +10,23 @@ restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 sub_map, submg, smgbig, xrange = [490., 530.], yrange = [250.,290.]
 sub_map, submg, smgsmall, xrange = [515., 527.], yrange = [259.,271.]
 
+;oplot_ribbon_coords
+
 iradius = 1
-ctload, 3, /reverse
-!p.thick=1 ;data
-!x.thick=1 ;x axis
-!y.thick=1 ;y axis
-!p.font=0
+
+;!p.thick=1 ;data
+;!x.thick=1 ;x axis
+;!y.thick=1 ;y axis
+;!p.font=0
 !p.multi = [0,2,1]			;use postscript fonts
-;flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-MGII-Sunquake-Context-Plots-xx-Zoom.eps'
-;set_plot, 'ps'
-;device, filename= flnm, encapsulated=eps, $
-;/helvetica,/isolatin1, landscape=0, color=1
-;cs=1 	;charcter size
+flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-MGII-Sunquake-Context-Plots-xx-Zoom.eps'
+set_plot, 'ps'
+device, filename= flnm, encapsulated=eps, $
+landscape=0, decomposed=0, color=1, bits=8
+cs=1 	;charcter size
 
-
+plot_map, smgbig[663], /nodata
+ctload, 3, /reverse
 ;PLOT 1) SMGBIG
 plot_map, smgbig[663], dmin = 0 , dmax = 17000  ;;17:46:04  directly over quake in egmap6
 linecolors ;activate coloured lines in oplot
@@ -56,6 +59,7 @@ ctload, 3, /reverse
 plot_map, smgsmall[663], dmin = 0 , dmax = 17000;;17:46:04  directly over quake in egmap6
 linecolors ;activate coloured lines in oplot
 plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 9 ;cyan sunquake
+XYouts, 520.2, 261.9, 'SQ', COLOR=FSC_Color('red'), ALIGN=0.5, CHARSIZE=0.65
 ;plot_map, hmap[0], /over, /drot, color = 4 ;orange hard xray 20-25keV 
 ;plot_map, hmap50[0], /over, /drot, color = 2 ;red hard xray 50-100keV 
 oplot_ribbon_coords, balmercoords, iradius, /cross
