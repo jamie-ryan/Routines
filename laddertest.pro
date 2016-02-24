@@ -9,6 +9,24 @@ angstrom = '!3' +ang+ '!x'
 flux = '[erg s!E-1!N cm!E-2!N '+angstrom+'!E-1!N sr!E-1!N]'
 energy = '[erg]'
 
+
+;;make coordinate strings
+dataset = ['balmer']
+for k = 0, n_elements(dataset)-1 do begin
+    flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords1.txt
+    openr, lun, flnm, /get_lun
+    nlin =  file_lines(flnm)
+    tmp = fltarr(2, nlin)
+    readf, lun, tmp
+    com = dataset[k]+'coords = tmp' ;readf,lun,hmg
+    exe = execute(com)
+    free_lun, lun
+endfor
+
+
+
+
+
 ;;;make plots
 plot_pos_calc, n_plots = 5, xpos, ypos
 
@@ -45,6 +63,12 @@ for i = 0, n_elements(sidata[3, *, 458]) - 1 do begin
    ;device, xsize=18.6267, ysize=8.89		;RECTANGLE two column figure
     cs=1 	;charcter size
 
+;heliocentric coordinate srings
+
+xx = string(balmercoords[0,i], format='(f0.2)')
+yy = string(balmercoords[0,i], format='(f0.2)')
+
+
 ;i = 3
 col = 2 ;dark red
 o = 4
@@ -74,7 +98,8 @@ outplot, tsi[458:*], sidata[3, i, 458:*], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 1400 Coord: '+ii, /norm
+xyouts, xyx, xyy*0.98, charsize = 0.5, 'Si IV Coord: '+ii, /norm
+xyouts, xyx, xyy*1.03, charsize = 0.7, 'Energy Curves From Coords '+xx+'",'+yy+'"', /norm
 
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -103,7 +128,7 @@ outplot, tmg[611:*], mgdata[3, i, 611:*], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 2796 Coord: '+ii, /norm
+xyouts, xyx, xyy*1.01, charsize = 0.5, 'Mg II Coord: '+ii, /norm
 
 o = 2
 ;mn = 0.8*min(balmerdata[3, i, *])
@@ -135,7 +160,7 @@ outplot, times[i, 10:*], balmerdata[3, i, 10:*], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, 2.1*xyx, xyy*1.01, charsize = 0.3, 'IRIS SG Balm Coord: '+ii, /norm
+xyouts, xyx, xyy*1.01, charsize = 0.5, 'Balmer Coord: '+ii, /norm
 
 o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -164,7 +189,7 @@ outplot, tmgw[153:*], mgwdata[3, i, 153:*], color = col
 ;loadct,34
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'IRIS SJ 2832 Coord: '+ii, /norm
+xyouts, xyx, xyy*1.01, charsize = 0.5, 'Mg II wing Coord: '+ii, /norm
 
 o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -191,7 +216,7 @@ outplot, thmi[41:74], hmidata[3, i, 41:74], color = col
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.3, 'SDO HMI Coord: '+ii, /norm
+xyouts, xyx, xyy*1.01, charsize = 0.5, 'Fe I Coord: '+ii, /norm
 device,/close
 set_plot,'x'
 !p.font=-1 			;go back to default (Vector Hershey fonts)
