@@ -99,7 +99,7 @@ outplot, tsi[458:*], sidata[3, i, 458:*], color = col
 ;vert_line,sec,1, color = 2
 loadct,0
 xyouts, xyx, xyy*0.98, charsize = 0.5, 'Si IV Coord: '+ii, /norm
-xyouts, xyx, xyy*1.03, charsize = 0.7, 'Energy Curves From Coords '+xx+'",'+yy+'"', /norm
+xyouts, xyx, xyy*1.03, charsize = 0.5, 'Energy Curves From Coords '+xx+'",'+yy+'"', /norm
 
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
