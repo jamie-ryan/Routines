@@ -26,6 +26,21 @@ cs=1 	;charcter size
 ;PLOT 1) SMGBIG
 plot_map, smgbig[663], dmin = 0 , dmax = 17000  ;;17:46:04  directly over quake in egmap6
 linecolors ;activate coloured lines in oplot
+; INDEX NUMBER   COLOR PRODUCED (if use default colors)
+; 	0		black
+;	1		maroon
+;	2               red
+;	3		pink
+;	4		orange
+;	5		yellow
+;	6		olive
+;	7		green
+;	8		dark green
+;	9		cyan
+;	10		blue
+;	11		dark blue
+;	12              magenta
+;	13              purple
 plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 10 ;, thick = 1 
 plot_map, hmap[0], /over, /drot, color = 3 ;, thick = 1 ;soft xray 20-25keV 
 plot_map, hmap50[0], /over, /drot, color = 2 ;, thick = 1 ;hard xray 50-100keV 

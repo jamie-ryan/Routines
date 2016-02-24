@@ -16,11 +16,11 @@ ctload, 3, /reverse
 !y.thick=2 ;y axis
 !p.font=0
 !p.multi = [0,2,1]			;use postscript fonts
-;flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-MGII-Sunquake-Context-Plots-xx-Zoom.eps'
-;set_plot, 'ps'
-;device, filename= flnm, encapsulated=eps, $
-;/helvetica,/isolatin1, landscape=0, color=1
-;cs=1 	;charcter size
+flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-MGII-Sunquake-Context-Plots-xx-Zoom.eps'
+set_plot, 'ps'
+device, filename= flnm, encapsulated=eps, $
+/helvetica,/isolatin1, landscape=0, color=1
+cs=1 	;charcter size
 
 
 ;PLOT 1) SMGBIG
