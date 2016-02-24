@@ -66,7 +66,7 @@ for i = 0, n_elements(sidata[3, *, 458]) - 1 do begin
 ;heliocentric coordinate srings
 
 xx = string(balmercoords[0,i], format='(f0.2)')
-yy = string(balmercoords[0,i], format='(f0.2)')
+yy = string(balmercoords[1,i], format='(f0.2)')
 
 
 ;i = 3
