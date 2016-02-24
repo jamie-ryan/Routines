@@ -81,6 +81,8 @@ for i = 0, nfiles - 1 do begin
                 endif
             endif
 	    endif
+
+    ;;;convert milliseconds after decimal into an integer (required by utc2str)
     sec_act = fix(sec_actual)
     millsecs = fix((sec_actual - sec_act)*1000)
 

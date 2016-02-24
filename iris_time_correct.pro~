@@ -38,7 +38,6 @@ endfor
 
 ;;;Check raster cadence (times) against summed exposure times
 ;need to ammend each raster time 
-;tags = tag_names(sp2826)
 for i = 0, nfiles - 1 do begin
     spec = iris_getwindata(f[i],lambda)
     for j = 0, xpix - 1 do begin
