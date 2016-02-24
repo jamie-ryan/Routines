@@ -5,22 +5,23 @@ restore, '/disk/solar3/jsr2/Data/SDO/hmap50.sav'
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
 restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 
-iradius = 0
+
 ;sub_map, submg, smgb, xrange = [450., 590.], yrange = [240.,340.]
 sub_map, submg, smgbig, xrange = [490., 530.], yrange = [250.,290.]
 sub_map, submg, smgsmall, xrange = [515., 527.], yrange = [259.,271.]
 
+iradius = 1
 ctload, 3, /reverse
 !p.thick=1 ;data
-!x.thick=2 ;x axis
-!y.thick=2 ;y axis
+!x.thick=1 ;x axis
+!y.thick=1 ;y axis
 !p.font=0
 !p.multi = [0,2,1]			;use postscript fonts
-flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-MGII-Sunquake-Context-Plots-xx-Zoom.eps'
-set_plot, 'ps'
-device, filename= flnm, encapsulated=eps, $
-/helvetica,/isolatin1, landscape=0, color=1
-cs=1 	;charcter size
+;flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-MGII-Sunquake-Context-Plots-xx-Zoom.eps'
+;set_plot, 'ps'
+;device, filename= flnm, encapsulated=eps, $
+;/helvetica,/isolatin1, landscape=0, color=1
+;cs=1 	;charcter size
 
 
 ;PLOT 1) SMGBIG
@@ -41,22 +42,22 @@ linecolors ;activate coloured lines in oplot
 ;	11		dark blue
 ;	12              magenta
 ;	13              purple
-plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 10 ;, thick = 1 
-plot_map, hmap[0], /over, /drot, color = 3 ;, thick = 1 ;soft xray 20-25keV 
-plot_map, hmap50[0], /over, /drot, color = 2 ;, thick = 1 ;hard xray 50-100keV 
+plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 9 ;cyan sunquake
+plot_map, hmap[0], /over, /drot, color = 7 ;green hard xray 20-25keV
+plot_map, hmap50[0], /over, /drot, color = 2 ;blue hard xray 50-100keV
 ;this box relates to smgsmall
-oplot, [515., 527.], [259., 259.], color = 5
-oplot, [515., 515.], [259., 271.], color = 5
-oplot, [515., 527.], [271., 271.], color = 5
-oplot, [527., 527.], [259., 271.], color = 5
-
+oplot, [515., 527.], [259., 259.], color = 11
+oplot, [515., 515.], [259., 271.], color = 11
+oplot, [515., 527.], [271., 271.], color = 11
+oplot, [527., 527.], [259., 271.], color = 11
+;inverse colour table :D
 ctload, 3, /reverse
 ;PLOT 2) SMGSMALL
 plot_map, smgsmall[663], dmin = 0 , dmax = 17000;;17:46:04  directly over quake in egmap6
 linecolors ;activate coloured lines in oplot
-plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 10 ;, thick = 1 
-plot_map, hmap[0], /over, /drot, color = 3 ;, thick = 11 ;soft xray 20-25keV 
-plot_map, hmap50[0], /over, /drot, color = 2 ;, thick = 12 ;hard xray 50-100keV 
+plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 9 ;cyan sunquake
+;plot_map, hmap[0], /over, /drot, color = 4 ;orange hard xray 20-25keV 
+;plot_map, hmap50[0], /over, /drot, color = 2 ;red hard xray 50-100keV 
 oplot_ribbon_coords, balmercoords, iradius, /cross
 loadct, 0
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
