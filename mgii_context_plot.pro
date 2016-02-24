@@ -56,6 +56,7 @@ ctload, 3, /reverse
 plot_map, smgsmall[663], dmin = 0 , dmax = 17000;;17:46:04  directly over quake in egmap6
 linecolors ;activate coloured lines in oplot
 plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 9 ;cyan sunquake
+
 ;plot_map, hmap[0], /over, /drot, color = 4 ;orange hard xray 20-25keV 
 ;plot_map, hmap50[0], /over, /drot, color = 2 ;red hard xray 50-100keV 
 oplot_ribbon_coords, balmercoords, iradius, /cross

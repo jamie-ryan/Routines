@@ -5,11 +5,12 @@ restore, '/disk/solar3/jsr2/Data/SDO/hmap50.sav'
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
 restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 
-iradius = 1
+
 ;sub_map, submg, smgb, xrange = [450., 590.], yrange = [240.,340.]
 sub_map, submg, smgbig, xrange = [490., 530.], yrange = [250.,290.]
 sub_map, submg, smgsmall, xrange = [515., 527.], yrange = [259.,271.]
 
+iradius = 1
 ctload, 3, /reverse
 !p.thick=1 ;data
 !x.thick=1 ;x axis
