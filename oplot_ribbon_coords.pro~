@@ -22,7 +22,7 @@ for i = 0 ,nrb-1 do begin
         oplot, [x0, xf], [y0, y0], color = 125 ;bottom
     endif
     if keyword_set(set_2) then ii = string(i+11, format = '(I0)') else ii = string(i+1, format = '(I0)')
-    XYouts, central_coord_x, 0.99998*central_coord_y, ii, COLOR=FSC_Color('white'), ALIGN=0.5, CHARSIZE=0.45
+    XYouts, central_coord_x, 0.99998*central_coord_y, ii, COLOR=FSC_Color('White'), ALIGN=0.5, CHARSIZE=0.45
 endfor
 ;qkxa = 518.5
 ;qkya = 264.0

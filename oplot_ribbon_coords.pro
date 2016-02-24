@@ -10,8 +10,8 @@ for i = 0 ,nrb-1 do begin
     yf = central_coord_y + box_size
     loadct,6
     if keyword_set(cross) then begin
-        oplot, [x0, xf], [y0, yf], color = 125 ;r 240 ;190 ;bottom left to top right
-        oplot, [x0, xf], [yf, y0], color = 125 ;r 240 ;190 ;top
+        ;oplot, [x0, xf], [y0, yf], color = 125 ;r 240 ;190 ;bottom left to top right
+        ;oplot, [x0, xf], [yf, y0], color = 125 ;r 240 ;190 ;top
         oplot, [central_coord_x, central_coord_x], [y0, yf], color = 125 ;right side
         oplot, [x0, xf], [central_coord_y, central_coord_y], color = 125 ;bottom
     endif
