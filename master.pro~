@@ -1,4 +1,5 @@
 pro master
+tic
 ;mesa
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
@@ -18,8 +19,10 @@ iris_hmi_energy, date_today, /single_pixel
 ;mes2ladder_cp, date_today
 laddertest, date_today
 ribcord2oplot_cp, date_today;, /tables
+mgii-context-plot, date_today
 intimpulse3_cp, date_today
 ;sunquake_context_plots, /qksource1, /no, /xzoom, /xxzoom
 ;plot_energy_dist, date_today
+toc
 end
 
