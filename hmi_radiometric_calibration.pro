@@ -46,7 +46,6 @@ h = 6.63e-27  ; planck's constant erg.s
 c = 3.e10; speed of light cm/s
 lambda = 6173.e-10*1.e2 ;wavelength in cm if wave is in angstroms
 dlam = 5.0e-11
-wav = wave/10.
 pixlambda = 76.e-3 ;equivalent width [in Å]  of 6173Å continuum
 ap_radius = 14. ;telescope aperture radius in cm
 aperture_width = 2.*ap_radius 
