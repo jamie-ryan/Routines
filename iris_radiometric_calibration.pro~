@@ -67,7 +67,7 @@ iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
 ;        endif
 ;    endfor
 ;endfor
-texp = 8.0000496
+texp = 8.0000
 array = array/texp
 
 
@@ -167,7 +167,8 @@ array = array/effective_solid_angle ; erg/s.cm^2.sr
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
 fout = array/pixlambda ; = erg/s.cm^2.sr.Å					
-eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda
+ecm = fout*texp*effective_solid_angle*pixlambda ;erg/cm^2
+eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda ; = erg
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;ERRORS;;;;;;;;;;;;;;;;;;;;;;;;;;;
