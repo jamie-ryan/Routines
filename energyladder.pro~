@@ -1,4 +1,4 @@
-pro laddertest, date
+pro energyladder, date
 
 dir = '/unsafe/jsr2/'+date+'/'
 restore, dir+'29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'

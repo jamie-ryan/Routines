@@ -1,4 +1,4 @@
-pro laddertest, date
+pro energyladder, date
 
 dir = '/unsafe/jsr2/'+date+'/'
 restore, dir+'29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
@@ -77,7 +77,7 @@ o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 title = 'Energy Curves'
-ytitl = energy
+;ytitl = energy
 linecolors
 utplot, tsi[458:*], sidata[3, i, 458:*], /nodata, $ 
 ;base, $
@@ -116,7 +116,7 @@ linestyle = 0, $
 ycharsize = 0.70 , $
 xcharsize = 0.75, $
 xstyle = 8, $
-ytitle = ytitl, $
+;ytitle = ytitl, $
 /nolabel, $
 ytickname=[' '], $
 yticks = 2, $
@@ -177,7 +177,7 @@ linestyle = 0, $
 ycharsize = 0.70 , $
 xcharsize = 0.75, $
 xstyle = 8, $
-ytitle = ytitl, $
+;ytitle = ytitl, $
 /nolabel, $
 yticks = 2, $
 ytickname=[' '], $
@@ -208,7 +208,7 @@ xcharsize = 0.75, $
 xstyle = 8, $
 yticks = 2, $
 ytickname=[' '], $
-ytitle = ytitl, $
+;ytitle = ytitl, $
 /ynozero, $
 ;/ylog, $
 xmargin = [12,3], $
