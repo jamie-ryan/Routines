@@ -133,6 +133,14 @@ if keyword_set(sg) then begin
 				E_photon = total(E_phot)/n_elements(E_phot)
 			end
 		endcase
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
+fout = fltarr(n_elements(array))
+eout = fltarr(n_elements(array))
+for i = 0, n_elements(array) - 1 do begin
+    fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
+    eout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]) ;erg/s.cm^2
+endfor
 endif
 
 ;slit jaw
@@ -146,16 +154,11 @@ if keyword_set(sji) then begin
 	dn2ph = iresp.DN2PHOT_SJI[n]
 	dn2photon = dn2ph[0]
     E_photon = (h*c)/lambda
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
+    fout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
+    eout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp) ;erg/s.cm^2
 endif
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
-fout = fltarr(n_elements(array))
-eout = fltarr(n_elements(array))
-for i = 0, n_elements(array) - 1 do begin
-    fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
-    eout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]) ;erg/s.cm^2
-endfor
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;ERRORS;;;;;;;;;;;;;;;;;;;;;;;;;;;
