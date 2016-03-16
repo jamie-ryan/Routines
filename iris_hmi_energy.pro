@@ -126,13 +126,13 @@ for k = 0, n_elements(dataset)-1 do begin
 endfor
 
 nsji = n_elements(fsji) ;3
-exp_times = dblarr(nsji)
+exp_time = dblarr(nsji)
 for i = 0, nsji - 1 do begin
     ;load data and put into data array
     d = iris_obj(f[i])
     if (i eq 0) then spec_line = 4 else $ ;1400
     if (i eq 1) then spec_line = 8 else spec_line = 5 ;2796 else 2832
-    exp_times[i] = avg(d->getexp(iexp,iwin=spec_line))
+    exp_time[i] = avg(d->getexp(iexp,iwin=spec_line))
 endfor
 
 ;;;;use tmp, e and f arrays to save memory

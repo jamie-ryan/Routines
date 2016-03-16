@@ -31,7 +31,7 @@ fsp = findfile('/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(fsp)
 
 fsji = findfile('/unsafe/jsr2/IRIS/sji/')
-;nsjfiles = n_elements(fsji)
+;nsji = n_elements(fsji)
 
 ;;;some variables for loops, arrays element definition and header info 
 slitpos = 6
