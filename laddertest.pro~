@@ -7,7 +7,7 @@ npix = 6
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'
 flux = '[erg s!E-1!N cm!E-2!N '+angstrom+'!E-1!N sr!E-1!N]'
-energy = '[erg]'
+energy = '[erg cm!E-2!N]'
 
 
 ;;make coordinate strings
@@ -66,7 +66,7 @@ for i = 0, n_elements(sidata[3, *, 458]) - 1 do begin
 ;heliocentric coordinate srings
 
 xx = string(balmercoords[0,i], format='(f0.2)')
-yy = string(balmercoords[0,i], format='(f0.2)')
+yy = string(balmercoords[1,i], format='(f0.2)')
 
 
 ;i = 3
