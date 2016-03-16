@@ -299,17 +299,17 @@ wav2 = wave[44]
 for j = 0 , ncoords - 1 do begin 
 
 ;convert DN to energy [erg]
-iris_radiometric_calibration_texp, $
+;iris_radiometric_calibration_texp, $
+iris_radiometric_calibration, $
 balmdat[j,*]*balmwidth, $
-reform(texp[j, *]), $
 wave=[wav1,wav2], $
 n_pixels=1, $
-flux, energy, f_err, e_err, $
+fout, eout, f_err, e_err, $
 /sg ;, slitpos = j
 
 ;fill array with energies
-balmerdata[2, j, *] = flux
-balmerdata[3, j, *] = energy
+balmerdata[2, j, *] = fout
+balmerdata[3, j, *] = eout
 endfor
 
 
