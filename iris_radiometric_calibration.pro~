@@ -167,7 +167,7 @@ array = array/effective_solid_angle ; erg/s.cm^2.sr
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
 fout = array/pixlambda ; = erg/s.cm^2.sr.Å					
-eout = fout*texp*effective_solid_angle*pixlambda ;erg/cm^2
+eout = fout*texp*n_pixels*effective_solid_angle*pixlambda ;erg/cm^2
 ;eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda ; = erg
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

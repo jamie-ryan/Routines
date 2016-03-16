@@ -12,7 +12,7 @@ sub_map, submg, smgsmall, xrange = [515., 527.], yrange = [259.,271.]
 
 ;oplot_ribbon_coords
 
-iradius = 1
+iradius = 2
 
 ;!p.thick=1 ;data
 ;!x.thick=1 ;x axis
@@ -46,8 +46,8 @@ linecolors ;activate coloured lines in oplot
 ;	12              magenta
 ;	13              purple
 plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 9 ;cyan sunquake
-plot_map, hmap[0], /over, /drot, color = 7 ;green hard xray 20-25keV
-plot_map, hmap50[0], /over, /drot, color = 2 ;blue hard xray 50-100keV
+plot_map, hmap[0], /over, /drot, color = 7, levels = [0.8], /percent ;green hard xray 20-25keV
+plot_map, hmap50[0], /over, /drot, color = 2, levels = [0.8], /percent ;blue hard xray 50-100keV
 ;this box relates to smgsmall
 oplot, [515., 527.], [259., 259.], color = 11
 oplot, [515., 515.], [259., 271.], color = 11

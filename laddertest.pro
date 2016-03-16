@@ -7,7 +7,7 @@ npix = 6
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'
 flux = '[erg s!E-1!N cm!E-2!N '+angstrom+'!E-1!N sr!E-1!N]'
-energy = '[erg cm!E-2!N]'
+energy = '[erg s!E-1!N cm!E-2!N]'
 ;energy = '[erg]'
 
 
