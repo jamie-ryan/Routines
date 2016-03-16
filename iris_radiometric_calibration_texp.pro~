@@ -73,7 +73,7 @@ array = array/texp
 endif
 
 if keyword_set(sg) then begin
-    for 0, n_elements(array) - 1 do begin
+    for i = 0, n_elements(array) - 1 do begin
         array[i] = array[i] / texp[i]
     endfor
 endif
