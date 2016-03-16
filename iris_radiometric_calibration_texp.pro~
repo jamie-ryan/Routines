@@ -154,15 +154,15 @@ if keyword_set(sji) then begin
 	dn2photon = dn2ph[0]
 endif
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;[DN/s.cm^2] to photon/s.cm^2
+array = array*dn2photon; = photon/s.cm^2
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[photon/s.cm^2] / [photon/erg] = erg/s.cm^2
 array = array/n_photon ; = erg/s.cm^2
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;[DN/s.cm^2] to photon/s.cm^2
-array = array*dn2photon; = photon/s.cm^2
 
+eout = array
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2] / [effective_solid_angle] = erg/s.cm^2.sr
 D = 1.49e13 ; 1AU in cm 
@@ -175,17 +175,17 @@ array = array/effective_solid_angle ; erg/s.cm^2.sr
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
 fout = array/pixlambda ; = erg/s.cm^2.sr.Å					
 
-if keyword_set(sji) then begin
-    eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda
-endif
+;if keyword_set(sji) then begin
+;    eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda
+;endif
 
 
-if keyword_set(sg) then begin
-    eout = fltarr(n_elements(array))
-    for i = 0, n_elements(array) -1 do begin
-        eout[i] = fout[i]*texp[i]*n_pixels*area_on_sun*effective_solid_angle*pixlambda
-    endfor
-endif
+;if keyword_set(sg) then begin
+;    eout = fltarr(n_elements(array))
+;    for i = 0, n_elements(array) -1 do begin
+;        eout[i] = fout[i]*texp[i]*n_pixels*area_on_sun*effective_solid_angle*pixlambda
+;    endfor
+;endif
 
 
 

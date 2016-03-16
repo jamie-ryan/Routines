@@ -149,12 +149,12 @@ endif
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;[DN/s.cm^2] to photon/s.cm^2
+array = array*dn2photon; = photon/s.cm^2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[photon/s.cm^2] / [photon/erg] = erg/s.cm^2
 array = array/n_photon ; = erg/s.cm^2
+eout = array ; = erg/s.cm^2
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;[DN/s.cm^2] to photon/s.cm^2
-array = array*dn2photon; = photon/s.cm^2
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2] / [effective_solid_angle] = erg/s.cm^2.sr
@@ -168,7 +168,7 @@ array = array/effective_solid_angle ; erg/s.cm^2.sr
 ;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
 fout = array/pixlambda ; = erg/s.cm^2.sr.Å					
 ;eout = fout*n_pixels*effective_solid_angle*pixlambda ;erg/s.cm^2
-eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda ; = erg
+;eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*pixlambda ; = erg
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;ERRORS;;;;;;;;;;;;;;;;;;;;;;;;;;;

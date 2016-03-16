@@ -154,15 +154,13 @@ if keyword_set(sji) then begin
 	dn2photon = dn2ph[0]
 endif
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;[photon/s.cm^2] / [photon/erg] = erg/s.cm^2
-array = array/n_photon ; = erg/s.cm^2
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN/s.cm^2] to photon/s.cm^2
 array = array*dn2photon; = photon/s.cm^2
-eout = array
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;[photon/s.cm^2] / [photon/erg] = erg/s.cm^2
+array = array/n_photon ; = erg/s.cm^2
+eout = array; = erg/s.cm^2
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[erg/s.cm^2] / [effective_solid_angle] = erg/s.cm^2.sr
 D = 1.49e13 ; 1AU in cm 

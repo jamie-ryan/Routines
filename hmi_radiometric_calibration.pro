@@ -73,7 +73,7 @@ erg = 1.e-7 ; erg in joules
 E_photon = (h*c)/lambda ; photon energy at 6173 angstroms
 n_photon = E_photon/erg ; = photon/erg
 array = array/n_photon ; = erg/s.cm^2    					
-
+eout = array ; = erg/s.cm^2    					
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -96,7 +96,7 @@ band_pass = 76.e-3 ;equivalent width [in Å]  of 6173Å continuum
 dbp = 5.0e-4 ;uncertainty in band_pass [in Å]
 fout = array/band_pass ; = erg/s.cm^2.sr.Å					
 ;eout = fout*n_pixels*effective_solid_angle*band_pass ; = erg/s.cm^2
-eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass ; = erg
+;eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass ; = erg
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;ERRORS;;;;;;;;;;;;;;;;;;;;;;;;;;;
