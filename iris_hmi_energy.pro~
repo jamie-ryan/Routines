@@ -21,7 +21,8 @@ tic
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
 restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
-restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
+;restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
+restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 ;;;iris spectra fits
@@ -35,8 +36,8 @@ columns = 4 ;x,y,E,F
 fande = 2 ;columns for error arrays containing f and e
 
 ;instrument specific radius (not including central pixel)
-iradius = 4.;iris qk radius in pixels
-sradius = 1.;sdo qk radius in pixels
+iradius = 2.;iris qk radius relating to sdo pixel size [in pixels]
+sradius = 0.;sdo qk radius [in pixels]
 inp = (iradius + 1)*(iradius + 1) ;npixels for iris radiometric calibration
 snp = (sradius + 1)*(sradius + 1) ;npixels for sdo radiometric calibration
 

@@ -36,11 +36,12 @@ columns = 4 ;x,y,E,F
 fande = 2 ;columns for error arrays containing f and e
 
 ;instrument specific radius (not including central pixel)
-iradius = 4.;iris qk radius in pixels
-sradius = 1.;sdo qk radius in pixels
+iradius = 2.;iris qk radius relating to sdo pixel size [in pixels]
+sradius = 0.;sdo qk radius [in pixels]
 inp = (iradius + 1)*(iradius + 1) ;npixels for iris radiometric calibration
 snp = (sradius + 1)*(sradius + 1) ;npixels for sdo radiometric calibration
 
+;continuum scaling factors
 balmwidth = (3600. - 1400.)/0.1  ;in angstroms
 visiblewidth = (7500. - 3800.)/76.e-3 ;in angstroms
 
