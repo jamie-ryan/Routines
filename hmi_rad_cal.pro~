@@ -41,7 +41,11 @@ dt = 0.005 ;uncertainty in t
 ;;;[DN.s^-1] / [area_on_sun] = DN/s.cm^2
 pixel_length = 0.505
 dpl = 0.0005 ;uncertainty in pixel length
+arccm = 7.25e7 ;arcseconds to cm (1" = arccm at 1AU)
 dacm = 5.0e4 ;uncertainty in arcseconds to cm
+area_on_sun =  (pixel_length*arccm)^2 ;at 1AU, 1" = 7.25e5m...result is in cm^2
+array = array/area_on_sun ; = DN/s.cm^2   					;;;;;;1.5e-11
+
 h = 6.63e-27  ; planck's constant erg.s
 c = 3.e10; speed of light cm/s
 lambda = 6173.e-10*1.e2 ;wavelength in cm if wave is in angstroms
@@ -49,7 +53,7 @@ dlam = 5.0e-11
 wav = wave/10.
 pixlambda = 76.e-3 ;equivalent width [in Å]  of 6173Å continuum
 ap_radius = 14. ;telescope aperture radius in cm
-aperture_width = 2.*ap_radius 
+aperture_width = 2.*ap_radius.  
 w = (aperture_width*pixel_length)*((725.)^2/(1.49e8)^2) ;solid angle=slitwidth*pixel_length*(km/arcsec at 1AU)^2/(1AU in km)^2
 E_photon = (h*c)/lambda ; photon energy at 6173 angstroms
 
@@ -82,8 +86,8 @@ A_eff = area*(transmittance_med/100.) ;area multiplied by relative transmittance
 
 
 
-fout = (array*dn2photon*E_photon)/(A_eff*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
-eout = (array*dn2photon*E_photon)/(A_eff*texp) ;erg/s.cm^2
+fout = array*dn2photon*E_photon*(1/A_eff*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
+eout = array*dn2photon*E_photon*(1/A_eff*texp) ;erg/s.cm^2
 
 
 

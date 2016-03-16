@@ -32,7 +32,7 @@
 ;       Written 03/06/15 by Jamie Ryan
 pro iris_radiometric_calibration, $
 array, $
-;texp, $
+texp, $
 wave = wave, $
 n_pixels = n_pixels, $
 fout, $
@@ -72,6 +72,15 @@ iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
 
 
 dt = 5.0e-8 ;uncertainty associated with texp
+if keyword_set(sji) then begin
+array = array/texp
+endif
+
+if keyword_set(sg) then begin
+    for i = 0, n_elements(texp) - 1 do begin
+        array[i] = array[i] / texp[i]
+    endfor
+endif
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -85,11 +94,10 @@ c = 3.e10; speed of light cm/s
 lambda = (wave*1.e-10)*1.e2 ;wavelength in cm if wave is in angstroms
 dlam = 5.0e-11
 wav = wave/10.
-d = 0.0254 ;dispersion in Å/pixel
-w = 0.33*pixel_length*((725.)^2/(1.49e8)^2) ;solid angle=slitwidth*pixel_length*(km/arcsec at 1AU)^2/(1AU in km)^2
+w = (0.33*pixel_length)*(((725.)^2)/((1.49e8)^2)) ;solid angle=slitwidth*pixel_length*(km/arcsec at 1AU)^2/(1AU in km)^2
 
 
-;spectral scale pixel in angstroms....nuv = 2796, 2832.....fuv = 1330, 1400
+;dispersion in Å/pixel....nuv = 2796, 2832.....fuv = 1330, 1400
 pixfuv = 12.8e-3
 pixnuv = 25.6e-3
 dpxlam = 5.0e-5
@@ -142,9 +150,12 @@ endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
-fout = array*dn2photon*E_photon*(1/A_float*d*w) ;erg/s.cm^2.sr.Å
-eout = array*dn2photon*E_photon*(1/A_float) ;erg/s.cm^2
-
+fout = fltarr(n_elements(array))
+eout = fltarr(n_elements(array))
+for i = 0, n_elements(array) - 1 do begin
+    fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
+    eout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]) ;erg/s.cm^2
+endfor
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;ERRORS;;;;;;;;;;;;;;;;;;;;;;;;;;;

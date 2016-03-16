@@ -34,58 +34,69 @@ dDN = 1.
 ;;;[DN] / [texp] = DN/s
 texp = 0.12 ; exposure time in seconds
 dt = 0.005 ;uncertainty in t
-
+array = array/texp ; = DN/s   							;;;;2e4
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN.s^-1] / [area_on_sun] = DN/s.cm^2
 pixel_length = 0.505
 dpl = 0.0005 ;uncertainty in pixel length
+arccm = 7.25e7 ;arcseconds to cm (1" = arccm at 1AU)
 dacm = 5.0e4 ;uncertainty in arcseconds to cm
-h = 6.63e-27  ; planck's constant erg.s
-c = 3.e10; speed of light cm/s
-lambda = 6173.e-10*1.e2 ;wavelength in cm if wave is in angstroms
-dlam = 5.0e-11
-wav = wave/10.
-pixlambda = 76.e-3 ;equivalent width [in Å]  of 6173Å continuum
-ap_radius = 14. ;telescope aperture radius in cm
-aperture_width = 2.*ap_radius 
-w = (aperture_width*pixel_length)*((725.)^2/(1.49e8)^2) ;solid angle=slitwidth*pixel_length*(km/arcsec at 1AU)^2/(1AU in km)^2
-E_photon = (h*c)/lambda ; photon energy at 6173 angstroms
+area_on_sun =  (pixel_length*arccm)^2 ;at 1AU, 1" = 7.25e5m...result is in cm^2
+array = array/area_on_sun ; = DN/s.cm^2   					;;;;;;1.5e-11
 
 
-
-;;;;;;;;;;;;;;;;;DN2PHOTONS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN/s.cm^2] / [(DN/e-)*(e-/photon)] = photon/s.cm^2
 ;aia_gain =  1./17.7. ;(DN/e-) set by ADC....see pg 19, table 6 Initial Calibration of the Atmospheric Imaging 
 		     ;Assembly(AIA) on the Solar Dynamics Observatory (SDO)
 ;hmi_gain_side_cam = [16.10,16.93,15.83,16.27] ;from top left to bottom right, shows the gain of each quadrant of the side camera ccd
+
 hmi_gain_front_cam = [16.27,15.45,15.91,15.91] ;from top left to bottom right, shows the gain of each quadrant of the front camera ccd
+
 quantum_efficiency = 0.75;(e-/photon) property of the ccd material taken from ccd product data sheet
 dqe = 0.005 ;uncertainty in quantum_efficiency
+
 gain = avg(hmi_gain_front_cam)
 dgain = 0.005 ;uncertainty in gain
-dn2photon = gain*quantum_efficiency      			
+array = array/(gain*quantum_efficiency) ; = photon/s.cm^2     			
 
 
-
-;;;;;;;;;;;;;;EFFECTIVE AREA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;[photon/s.cm^2] / [photon/erg] = erg/s.cm^2
+h = !const.h  ; planck's constant
+c = !const.c; speed of light m/s
+lambda = 6173.e-10 ;wavelength in metres
+dlam = 5.0e-11 ;uncertainty in pixel lambda
+erg = 1.e-7 ; erg in joules
+E_photon = (h*c)/lambda ; photon energy at 6173 angstroms
+n_photon = E_photon/erg ; = photon/erg
+array = array/n_photon ; = erg/s.cm^2    					
+eout = array ; = erg/s.cm^2    					
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;[erg/s.cm^2] / [effective_solid_angle] = erg/s.cm^2.sr
 transmittance_low = 1.15 ;% low estimate from couvidat instrument paper
 transmittance_med = 1.35 ;% med estimate from couvidat instrument paper...this is the figure quoted in the conclusion
 transmittance_high = 2. ;% high estimate from couvidat instrument paper
 transmittance_avg = (transmittance_low + transmittance_med + transmittance_high)/3 ;average transmittance
 dtrans = 0.005 ;uncertainty in transmittance_med
-area = !pi*ap_radius^2 ;cm^2...14cm = r = telescope aperture radius
-A_eff = area*(transmittance_med/100.) ;area multiplied by relative transmittance gives effective area???
+area = !pi*14.^2 ;cm^2...14cm = r = telescope aperture radius
+effective_area = area*(transmittance_med/100.) ;area multiplied by relative transmittance gives effective area???
+D = 1.49e13 ; 1AU in cm 
+effective_solid_angle = effective_area/D^2 ; steradians
+array = array/effective_solid_angle ; erg/s.cm^2.sr   				
 
 
-
-fout = (array*dn2photon*E_photon)/(A_eff*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
-eout = (array*dn2photon*E_photon)/(A_eff*texp) ;erg/s.cm^2
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;[erg/s.cm^2.sr] / [band pass of instrument] = erg/s.cm^2.sr.Å
+band_pass = 76.e-3 ;equivalent width [in Å]  of 6173Å continuum
+dbp = 5.0e-4 ;uncertainty in band_pass [in Å]
+fout = array/band_pass ; = erg/s.cm^2.sr.Å					
+;eout = fout*n_pixels*effective_solid_angle*band_pass ; = erg/s.cm^2
+;eout = fout*texp*n_pixels*area_on_sun*effective_solid_angle*band_pass ; = erg
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;ERRORS;;;;;;;;;;;;;;;;;;;;;;;;;;;
