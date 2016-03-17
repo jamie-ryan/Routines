@@ -1,9 +1,7 @@
 pro impulsive_phase_latex_table, fdate
 
 restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-'+fdate+'.sav'
-a = tag_names(integrated_energies)
-;assuming tag names are DESCRIPTION TSTART TEND RHESSI SI_IV MG_II BALMER MGW HMI
-nset = n_elements(a) - 3 ;i.e, RHESSI SI_IV MG_II BALMER MGW HMI
+
 ncoords = n_elements(si_eimp)
 
 A_sqk = 2.6e16 ;cm^2
