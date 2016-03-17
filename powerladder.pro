@@ -139,7 +139,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors
-utplot, times[i, 10:*], balmerdata[3, 0, 10:*]*A_sqk, $
+utplot, times[0, 10:*], balmerdata[3, 0, 10:*]*A_sqk, $
 /nodata, $
 ;    yrange = [mn, mx], $
 /yst, $

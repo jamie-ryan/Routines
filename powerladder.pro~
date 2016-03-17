@@ -93,7 +93,7 @@ ii = string(i+1, format = '(I0)')
 xx = string(balmercoords[0,i], format='(f0.2)')
 yy = string(balmercoords[1,i], format='(f0.2)')
 for i = 0, n_elements(sidata[3, *, 458]) - 1 do begin
-outplot, tsi[458:*], sidata[3, i, 458:*]*A_sqk, color = col
+outplot, tsi[458:*], sidata[3, i, 458:*]*A_sqk, color = col + i, linestyle = i
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -124,7 +124,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[3, *, 458]) - 1 do begin
-outplot, tmg[611:*], mgdata[3, i, 611:*]*A_sqk, color = col
+outplot, tmg[611:*], mgdata[3, i, 611:*]*A_sqk, color = col + i, linestyle = i
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -158,7 +158,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[3, *, 458]) - 1 do begin
-outplot, times[i, 10:*], balmerdata[3, i, 10:*]*A_sqk, color = col
+outplot, times[i, 10:*], balmerdata[3, i, 10:*]*A_sqk, color = col + i, linestyle = i
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -189,7 +189,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $ 
 /NoErase
 for i = 0, n_elements(sidata[3, *, 458]) - 1 do begin
-outplot, tmgw[153:*], mgwdata[3, 0, 153:*]*A_sqk, color = col
+outplot, tmgw[153:*], mgwdata[3, 0, 153:*]*A_sqk, color = col + i, linestyle = i
 endfor
 ;loadct,34
 ;vert_line,sec,1, color = 2
@@ -218,7 +218,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[3, *, 458]) - 1 do begin
-outplot, thmi[41:74], hmidata[3, i, 41:74]*A_sqk, color = col, linestyle = i
+outplot, thmi[41:74], hmidata[3, i, 41:74]*A_sqk, color = col + i, linestyle = i
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
