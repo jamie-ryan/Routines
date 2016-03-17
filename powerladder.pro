@@ -254,7 +254,7 @@ device, filename= flnm, encapsulated=eps, $
 cs=1 	;charcter size
 col = 2 ;dark red
 
-o = 0
+o = 1
 ;mn = 0.8*min(balmerdata[3, i, *])
 ;mx = 1.5*max(balmerdata[3, i, *])
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -290,7 +290,7 @@ xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Power Radiated From Region Comparable
 xyouts, xyx, xyy*1.01, charsize = 0.5, 'Balmer Continuum', /norm
 
 
-o = 1
+o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
