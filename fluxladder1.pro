@@ -66,7 +66,7 @@ hmimaxi = array_indices(hmidata[2, *, *], hmimx)
 ;setup for postscript or eps output
 ;-------
 
-    flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder.eps'
+    flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Flux-Ladder.eps'
     !p.font=0			;use postscript fonts
     set_plot, 'ps'
 ;    @symbols_ps_kc		;load string symbols and greek letters for Postscript
@@ -243,7 +243,7 @@ loadct,0 			;go back to default greyscale color table
 
 
 plot_pos_calc, n_plots = 2, xpos, ypos
-flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder-Balm-HMI-Only.eps'
+flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Flux-Ladder-Balm-HMI-Only.eps'
 !p.font=0			;use postscript fonts
 set_plot, 'ps'
 ;    @symbols_ps_kc		;load string symbols and greek letters for Postscript
