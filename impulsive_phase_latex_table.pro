@@ -48,10 +48,11 @@ for i = 0, ncoords-1 do begin
     mgw = string(mgw_eimp[i]*A_sqk, format = '(E0.2)')
 
     printf, lun, sixy+' & '+si+' & '+mg+' & '+balm+' & '+mgw+' & '+hmi+'\\'
-
+    if (i eq ncoords -1) then begin
     printf, lun, '\end{tabular}'
     printf, lun, '\caption{Energies integrated over the flare impulsive phase, 17:44 to 17:48 for ribbon sample locations 1 to 6 (see table \ref{}). Energies are calculated by multiplying time integrated flux by the sunquake impact area.}\label{ribenergytab}'
     printf, lun, '\end{sidewaystable}'
+    endif
 endfor
 free_lun, lun
 end
