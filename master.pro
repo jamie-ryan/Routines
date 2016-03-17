@@ -20,9 +20,11 @@ iris_hmi_energy, date_today, /single_pixel
 ;laddertest, date_today
 energyladder, date_today
 fluxladder, date_today
+sqkarealadders, date_today
 ribcord2oplot_cp, date_today;, /tables
 mgii_context_plot, date_today
 intimpulse3_cp, date_today
+impulsive_phase_latex_table, fdate
 ;sunquake_context_plots, /qksource1, /no, /xzoom, /xxzoom
 ;plot_energy_dist, date_today
 toc
