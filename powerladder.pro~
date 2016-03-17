@@ -283,6 +283,7 @@ endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
+xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Power Radiated From Region Comparable to Sunquake Area', /norm
 xyouts, xyx, xyy*1.01, charsize = 0.5, 'Balmer Continuum', /norm
 
 

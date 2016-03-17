@@ -39,6 +39,13 @@ mgwmax = max(mgwdata[3, *, *], mgwmx)
 mgwmaxi = array_indices(mgwdata[3, *, *], mgwmx)
 hmimax = max(hmidata[3, *, *],hmimx)
 hmimaxi = array_indices(hmidata[3, *, *], hmimx)
+
+
+;heliocentric coordinate srings
+;ii = string(i+1, format = '(I0)')
+;xx = string(balmercoords[0,i], format='(f0.2)')
+;yy = string(balmercoords[1,i], format='(f0.2)')
+
 ;-------
 ;set up for display to screen
 ;-------
@@ -96,10 +103,6 @@ XTICKFORMAT="(A1)", $
 ;/ylog, $
 xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
-;heliocentric coordinate srings
-ii = string(i+1, format = '(I0)')
-xx = string(balmercoords[0,i], format='(f0.2)')
-yy = string(balmercoords[1,i], format='(f0.2)')
 for i = 0, n_elements(sidata[3, *, 458]) - 1 do begin
 outplot, tsi[458:*], sidata[3, i, 458:*]*A_sqk, color = col + 2*i, linestyle = i
 endfor
