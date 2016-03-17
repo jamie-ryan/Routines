@@ -29,8 +29,16 @@ endfor
 plot_pos_calc, n_plots = 5, xpos, ypos
 
 
-
-
+simax = max(sidata[3, *, *], simx)
+simaxi = array_indices(sidata[3, *, *], simx)
+mgmax = max(mgdata[3, *, *], mgmx)
+mgmaxi = array_indices(mgdata[3, *, *], mgmx)
+balmermax = max(balmerdata[3, *, *], balmermx)
+balmermaxi = array_indices(balmerdata[3, *, *], balmermx)
+mgwmax = max(mgwdata[3, *, *], mgwmx)
+mgwmaxi = array_indices(mgwdata[3, *, *], mgwmx)
+hmimax = max(hmidata[3, *, *],hmimx)
+hmimaxi = array_indices(hmidata[3, *, *], hmimx)
 ;-------
 ;set up for display to screen
 ;-------
@@ -71,7 +79,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 title = 'Power Curves'
 ;ytitl = power
 linecolors
-utplot, tsi[458:*], sidata[3, 0, 458:*]*A_sqk, /nodata, $ 
+utplot, tsi[458:*], sidata[3, simaxi[1], 458:*]*A_sqk, /nodata, $ 
 ;base, $
 ;timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 ;        psym = -2, $ 
@@ -106,7 +114,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors
-utplot, tmg[611:*], mgdata[3, 0, 611:*]*A_sqk, $
+utplot, tmg[611:*], mgdata[3, mgmaxi[1], 611:*]*A_sqk, $
 /nodata, $
 ;timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
@@ -139,7 +147,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors
-utplot, times[0, 10:*], balmerdata[3, 0, 10:*]*A_sqk, $
+utplot, times[0, 10:*], balmerdata[3, balmermaxi[1], 10:*]*A_sqk, $
 /nodata, $
 ;    yrange = [mn, mx], $
 /yst, $
@@ -171,7 +179,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors        
-utplot, tmgw[153:*], mgwdata[3, 0, 153:*]*A_sqk, $
+utplot, tmgw[153:*], mgwdata[3, mgwmaxi[1], 153:*]*A_sqk, $
 /nodata, $
 timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
@@ -189,7 +197,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $ 
 /NoErase
 for i = 0, n_elements(sidata[3, *, 458]) - 1 do begin
-outplot, tmgw[153:*], mgwdata[3, 0, 153:*]*A_sqk, color = 2*col + i, linestyle = i
+outplot, tmgw[153:*], mgwdata[3, i, 153:*]*A_sqk, color = 2*col + i, linestyle = i
 endfor
 ;loadct,34
 ;vert_line,sec,1, color = 2
@@ -202,7 +210,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors
-utplot, thmi[41:74], hmidata[3, 0, 41:74]*A_sqk, $
+utplot, thmi[41:74], hmidata[3, hmimaxi[1], 41:74]*A_sqk, $
 /nodata, $
 timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
