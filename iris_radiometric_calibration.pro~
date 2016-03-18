@@ -160,8 +160,8 @@ if keyword_set(sji) then begin
     ;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
 ;    fout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
 ;    eout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp) ;erg/s.cm^2
-    fout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
-    eout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp) ;erg/s.cm^2
+    fout = array*n_pixels*dn2photon*E_photon/A_float*texp*pixlambda*w ;erg/s.cm^2.sr.Å
+    eout = array*n_pixels*dn2photon*E_photon/A_float*texp ;erg/s.cm^2
 endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
