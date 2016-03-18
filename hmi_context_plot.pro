@@ -8,7 +8,7 @@ restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
 sub_map, hmidiff, hmibig, xrange = [490., 530.], yrange = [250.,290.]
 sub_map, hmidiff, hmismall, xrange = [512., 532.], yrange = [250.,270.]
 
-iradius = 1
+
 dataset = ['hmi']
 for k = 0, n_elements(dataset)-1 do begin
     flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords.txt
@@ -58,6 +58,7 @@ XYouts, 517.3, 260.0, 'HXR', COLOR=FSC_Color('yellow'), ALIGN=0.5, CHARSIZE=1.1
 loadct,0
 ctload, 3, /reverse
 plot_map, hmismall[63], dmin = 0 , dmax = 5000, color = 255   ;;17:46:04  directly over quake in egmap6
+iradius = 1.
 oplot_ribbon_coords, hmicoords, iradius, /cross
 device,/close
 set_plot,'x'
