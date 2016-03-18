@@ -6,7 +6,73 @@ restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
 
 ;sub_map, submg, smgb, xrange = [450., 590.], yrange = [240.,340.]
 sub_map, hmidiff, hmibig, xrange = [490., 530.], yrange = [250.,290.]
-sub_map, hmidiff, hmismall, xrange = [515., 527.], yrange = [259.,271.]
+sub_map, hmidiff, hmismall, xrange = [512., 532.], yrange = [250.,270.]
+
+iradius = 1
+dataset = ['hmi']
+for k = 0, n_elements(dataset)-1 do begin
+    flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords.txt
+    openr, lun, flnm, /get_lun
+    nlin =  file_lines(flnm)
+    tmp = fltarr(2, nlin)
+    readf, lun, tmp
+    com = dataset[k]+'coords = tmp' ;readf,lun,hmg
+    exe = execute(com)
+    free_lun, lun
+endfor
+
+
+!p.multi = [0,2,1]	
+flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-HMI-Sunquake-Context-Plot.eps'
+set_plot, 'ps'
+device, filename= flnm, encapsulated=eps, $
+landscape=0, decomposed=0, color=1, bits=8
+cs=1 	;charcter size
+
+loadct,0
+ctload, 3, /reverse
+plot_map, hmismall[63], dmin = 0 , dmax = 5000, color = 255   ;;17:46:04  directly over quake in egmap6
+loadct, 0
+linecolors ;activate coloured lines in oplot
+; INDEX NUMBER   COLOR PRODUCED (if use default colors)
+; 	0		black
+;	1		maroon
+;	2               red
+;	3		pink
+;	4		orange
+;	5		yellow
+;	6		olive
+;	7		green
+;	8		dark green
+;	9		cyan
+;	10		blue
+;	11		dark blue
+;	12              magenta
+;	13              purple
+plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 9 ;cyan sunquake
+;plot_map, hmap[0], /over, /drot, color = 7, levels = [0.8], /percent ;green hard xray 20-25keV
+plot_map, hmap50[5], /over, /drot, color = 5, levels = [80, 90, 92, 94, 96, 98], /percent ;blue hard xray 50-100keV
+XYouts, 519.0, 261.0, 'SQ', COLOR=FSC_Color('cyan'), ALIGN=0.5, CHARSIZE=1.1
+XYouts, 517.3, 260.0, 'HXR', COLOR=FSC_Color('yellow'), ALIGN=0.5, CHARSIZE=1.1
+
+loadct,0
+ctload, 3, /reverse
+plot_map, hmismall[63], dmin = 0 , dmax = 5000, color = 255   ;;17:46:04  directly over quake in egmap6
+oplot_ribbon_coords, hmicoords, iradius, /cross
+device,/close
+set_plot,'x'
+!p.font=-1 			;go back to default (Vector Hershey fonts)
+
+
+
+
+
+
+
+
+
+
+
 
 ;oplot_ribbon_coords
 
@@ -24,9 +90,11 @@ landscape=0, decomposed=0, color=1, bits=8
 cs=1 	;charcter size
 
 
-ctload, 3, /reverse
+
 ;PLOT 1) SMGBIG
-plot_map, hmibig[663], dmin = 0 , dmax = 17000  ;;17:46:04  directly over quake in egmap6
+ctload, 3, /reverse
+plot_map, hmibig[63], dmin = 0 , dmax = 5000, color = 255   ;;17:46:04  directly over quake in egmap6
+loadct, 0
 linecolors ;activate coloured lines in oplot
 ; INDEX NUMBER   COLOR PRODUCED (if use default colors)
 ; 	0		black
