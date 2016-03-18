@@ -140,7 +140,7 @@ eout = fltarr(n_elements(array))
 for i = 0, n_elements(array) - 1 do begin
 ;    fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
 ;    eout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]) ;erg/s.cm^2
-    fout[i] = array[i]*n_pixels*dn2photon*E_photon)/A_float*texp[i]*pixlambda*w ;erg/s.cm^2.sr.Å
+    fout[i] = array[i]*n_pixels*dn2photon*E_photon/A_float*texp[i]*pixlambda*w ;erg/s.cm^2.sr.Å
     eout[i] = array[i]*n_pixels*dn2photon*E_photon/A_float*texp[i] ;erg/s.cm^2
 endfor
 endif

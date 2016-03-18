@@ -21,6 +21,7 @@ iris_hmi_energy, date_today, /single_pixel
 energyladder, date_today
 fluxladder, date_today
 sqkarealadders, date_today
+powerladder, date_today
 ribcord2oplot_cp, date_today;, /tables
 mgii_context_plot, date_today
 intimpulse3_cp, date_today

@@ -81,10 +81,10 @@ A_eff = area*(transmittance_med/100.) ;area multiplied by relative transmittance
 
 
 
-;fout = (array*dn2photon*E_photon)/(A_eff*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
-;eout = (array*dn2photon*E_photon)/(A_eff*texp) ;erg/s.cm^2
-fout = array*dn2photon*E_photon/A_eff*texp*pixlambda*w ;erg/s.cm^2.sr.Å
-eout = array*dn2photon*E_photon/A_eff*texp ;erg/s.cm^2
+fout = (array*dn2photon*E_photon)/(A_eff*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
+eout = (array*dn2photon*E_photon)/(A_eff*texp) ;erg/s.cm^2
+;fout = array*dn2photon*E_photon/A_eff*texp*pixlambda*w ;erg/s.cm^2.sr.Å
+;eout = array*dn2photon*E_photon/A_eff*texp ;erg/s.cm^2
 
 
 
