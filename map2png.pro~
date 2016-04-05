@@ -24,38 +24,38 @@ for i = 0, n_elements(map) - 1 do begin
     if (i + 1 lt 10) then filename = '/unsafe/jsr2/png/'+date+'/'+file_string+'_0' else $
     filename = '/unsafe/jsr2/png/'+date+'/'+file_string+'_'
 
-if (n_elements(thresh) eq 0) then begin
-    set_plot,'z'
-        fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
-        plot_map, map[i]
-        image = tvread(TRUE=3)
-        image = transpose(image, [2,0,1])
-        write_png, fileplot, image
-        ;		print, qkspectra[0,(inc)*i:inc*(i+1)-1], qkspectra[1,(inc)*i:inc*(i+1)-1]
-    set_plot,'x'
-endif
+    if (n_elements(thresh) eq 0) then begin
+        set_plot,'z'
+            fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
+            plot_map, map[i]
+            image = tvread(TRUE=3)
+            image = transpose(image, [2,0,1])
+            write_png, fileplot, image
+            ;		print, qkspectra[0,(inc)*i:inc*(i+1)-1], qkspectra[1,(inc)*i:inc*(i+1)-1]
+        set_plot,'x'
+    endif
 
-if (n_elements(thresh) gt 1) then begin
-    set_plot,'z'
-        fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
-        plot_map, map[i], dmin = thresh[0] , dmax = thresh[1]
-        image = tvread(TRUE=3)
-        image = transpose(image, [2,0,1])
-        write_png, fileplot, image
-        ;		print, qkspectra[0,(inc)*i:inc*(i+1)-1], qkspectra[1,(inc)*i:inc*(i+1)-1]
-    set_plot,'x'
-endif
+    if (n_elements(thresh) gt 1) then begin
+        set_plot,'z'
+            fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
+            plot_map, map[i], dmin = thresh[0] , dmax = thresh[1]
+            image = tvread(TRUE=3)
+            image = transpose(image, [2,0,1])
+            write_png, fileplot, image
+            ;		print, qkspectra[0,(inc)*i:inc*(i+1)-1], qkspectra[1,(inc)*i:inc*(i+1)-1]
+        set_plot,'x'
+    endif
 
-if keyword_set(log) then begin
-    set_plot,'z'
-        fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
-        plot_map, map[i], \log
-        image = tvread(TRUE=3)
-        image = transpose(image, [2,0,1])
-        write_png, fileplot, image
-        ;		print, qkspectra[0,(inc)*i:inc*(i+1)-1], qkspectra[1,(inc)*i:inc*(i+1)-1]
-    set_plot,'x'
-endif
+    if keyword_set(log) then begin
+        set_plot,'z'
+            fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
+            plot_map, map[i], \log
+            image = tvread(TRUE=3)
+            image = transpose(image, [2,0,1])
+            write_png, fileplot, image
+            ;		print, qkspectra[0,(inc)*i:inc*(i+1)-1], qkspectra[1,(inc)*i:inc*(i+1)-1]
+        set_plot,'x'
+    endif
 endfor
 loadct, 0
 

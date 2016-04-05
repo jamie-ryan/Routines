@@ -49,7 +49,7 @@ for i = 0, n_elements(map) - 1 do begin
     if keyword_set(log) then begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
-            plot_map, map[i], \log
+            plot_map, map[i], /log
             image = tvread(TRUE=3)
             image = transpose(image, [2,0,1])
             write_png, fileplot, image
