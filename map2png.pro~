@@ -16,6 +16,7 @@ pro map2png, file_string, map, colour, thresh = thresh, log = log
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
 date = d1+'-'+d2
+spawn, 'mkdir /unsafe/jsr2/'+date
 
 
 loadct, colour
