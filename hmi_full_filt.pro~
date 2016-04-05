@@ -32,16 +32,16 @@ smthdat = hmidata - SMOOTH(hmidata,10)
 index2map, hmiindex, smthdat, hmimap
 
 ;;;wider crop, probably better for seeing everything
-xp0 = 2856
-xpf = 2995
-yp0 = 2406
-ypf = 2545
+;xp0 = 2856
+;xpf = 2995
+;yp0 = 2406
+;ypf = 2545
 
 ;;;convert pixels to arcsecs
-xa0 = (xp0-hmiindex[0].crpix1+1)*hmiindex[0].cdelt1
-xaf = (xpf-hmiindex[0].crpix1+1)*hmiindex[0].cdelt1
-ya0 = (yp0-hmiindex[0].crpix2+1)*hmiindex[0].cdelt2
-yaf = (ypf-hmiindex[0].crpix2+1)*hmiindex[0].cdelt2
+;xa0 = (xp0-hmiindex[0].crpix1+1)*hmiindex[0].cdelt1
+;xaf = (xpf-hmiindex[0].crpix1+1)*hmiindex[0].cdelt1
+;ya0 = (yp0-hmiindex[0].crpix2+1)*hmiindex[0].cdelt2
+;yaf = (ypf-hmiindex[0].crpix2+1)*hmiindex[0].cdelt2
 
 ;these coords match sarah's maps
 ;xa0 = 420.713
@@ -50,7 +50,8 @@ yaf = (ypf-hmiindex[0].crpix2+1)*hmiindex[0].cdelt2
 ;yaf = 372.280
 
 ;;;make sub map
-sub_map, hmimap, xr=[xa0,xaf], yr=[ya0,yaf], sbhmimap
+;sub_map, hmimap, xr=[xa0,xaf], yr=[ya0,yaf], sbhmimap
+sub_map, hmimap, xr=[405,590], yr=[190,372], sbhmimap
 
 ;running difference (i-2) applied to unsharp filtered images
 rsub = coreg_map(sbhmimap,sbhmimap(40))
@@ -79,6 +80,7 @@ d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
 date_today = d1+'-'+d2
 save, hmidiff, diffind, diffdat, filename = '/unsafe/jsr2/'+date_today+'/hmifullfilt-'+date_today+'.sav'
+save, /variables, filename = '/unsafe/jsr2/hmifullfilt-all-arrays-'+date_today+'.sav'
 endif
 if keyword_set(restore_sav) then restore, '/unsafe/jsr2/'+date_today+'/hmifullfilt-'+sav_date+'.sav'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

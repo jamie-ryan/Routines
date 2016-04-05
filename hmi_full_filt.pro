@@ -80,6 +80,7 @@ d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
 date_today = d1+'-'+d2
 save, hmidiff, diffind, diffdat, filename = '/unsafe/jsr2/'+date_today+'/hmifullfilt-'+date_today+'.sav'
+
 endif
 if keyword_set(restore_sav) then restore, '/unsafe/jsr2/'+date_today+'/hmifullfilt-'+sav_date+'.sav'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
