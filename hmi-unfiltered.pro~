@@ -1,5 +1,4 @@
-pro hmi-unfiltered
-restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
+pro hmi-unfiltered, date_today
 files = findfile('/disk/solar4/sz2/SDO/20140329/Ic/hmi.Ic_45s.20140329_17*')
  f = files[47:71] ;17:35 - 1753
 aia_prep, f,-1, hmiindex, hmidata, /despike

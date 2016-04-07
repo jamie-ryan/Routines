@@ -11,6 +11,9 @@
 ;OUTPUT:
 ;png images named from 1 to x. 
 ;Stored in /unsafe/jsr2/png/"date"
+;
+;TO RUN:
+;eg, map2png, 'HMI_Cont', shmi, 3, thresh = [0,5000]
 pro map2png, file_string, map, colour, thresh = thresh, log = log
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
