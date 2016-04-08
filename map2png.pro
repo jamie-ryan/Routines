@@ -47,7 +47,7 @@ for i = 0, n_elements(map) - 1 do begin
                 plot_map, omap, /over, /drot, levels = [lvls], /percent
                 endif 
                 if (n_elements(element_range) gt 0) then begin
-                    if (i ge element_range[0]) && (i le max(element_range[0]) then begin
+                    if ((i ge element_range[0]) && (i le max(element_range[0])) then begin
                     loadct, ocolour
                     plot_map, omap[n0 + increment*(i-element_range[0])], /over, /drot, levels = [lvls], /percent
                     endif
@@ -70,7 +70,7 @@ for i = 0, n_elements(map) - 1 do begin
                 plot_map, omap, /over, /drot, levels = [lvls], /percent
                 endif 
                 if (n_elements(element_range) gt 0) then begin
-                    if (i ge element_range[0]) && (i le max(element_range[0]) then begin
+                    if ((i ge element_range[0]) && (i le max(element_range[0])) then begin
                     loadct, ocolour
                     plot_map, omap[n0 + increment*(i-element_range[0])], /over, /drot, levels = [lvls], /percent
                     endif
@@ -94,7 +94,7 @@ for i = 0, n_elements(map) - 1 do begin
                 plot_map, omap, /over, /drot, levels = [lvls], /percent
                 endif 
                 if (n_elements(element_range) gt 0) then begin
-                    if (i ge element_range[0]) && (i le max(element_range[0]) then begin
+                    if ((i ge element_range[0]) && (i le max(element_range[0])) then begin
                     loadct, ocolour
                     plot_map, omap[n0 + increment*(i-element_range[0])], /over, /drot, levels = [lvls], /percent
                     endif
