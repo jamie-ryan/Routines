@@ -45,14 +45,14 @@ for i = 0, n_elements(map) - 1 do begin
                 if (n_elements(element_range) eq 0) then begin
                 loadct, ocolour
                 plot_map, omap, /over, /drot, levels = [lvls], /percent
-                endif 
-                if (n_elements(element_range) gt 0) then begin
-                    if ((i ge element_range[0]) && (i le max(element_range[0])) then begin
+                endif else begin
+                    if (i ge element_range[0]) and (i le max(element_range[0]) then begin
                     loadct, ocolour
                     plot_map, omap[n0 + increment*(i-element_range[0])], /over, /drot, levels = [lvls], /percent
                     endif
-                endif
-            endif            image = tvread(TRUE=3)
+                endelse
+            endif      
+            image = tvread(TRUE=3)
             image = transpose(image, [2,0,1])
             write_png, fileplot, image
             ;		print, qkspectra[0,(inc)*i:inc*(i+1)-1], qkspectra[1,(inc)*i:inc*(i+1)-1]
@@ -68,14 +68,13 @@ for i = 0, n_elements(map) - 1 do begin
                 if (n_elements(element_range) eq 0) then begin
                 loadct, ocolour
                 plot_map, omap, /over, /drot, levels = [lvls], /percent
-                endif 
-                if (n_elements(element_range) gt 0) then begin
-                    if ((i ge element_range[0]) && (i le max(element_range[0])) then begin
+                endif else begin
+                    if (i ge element_range[0]) and (i le max(element_range[0]) then begin
                     loadct, ocolour
                     plot_map, omap[n0 + increment*(i-element_range[0])], /over, /drot, levels = [lvls], /percent
                     endif
-                endif
-            endif
+                endelse
+            endif      
             image = tvread(TRUE=3)
             image = transpose(image, [2,0,1])
             write_png, fileplot, image
