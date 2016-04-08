@@ -7,6 +7,8 @@
 ;colour = loadct color table number
 ;oplt = over plot contours i.e, plot_map, /over, levels = lvls
 ;omap = the map to be overplot
+;element_range = an array containing two value, the start and end elements for the plot_map, omap, /over contours
+;increment = the increment for omap, i.e., if you want to plot only elements that are a multiple of two then increment = 2
 ;ocolour = conout colours for overplot
 ;lvls = array containing levels in relative units, i.e, lvls = [0.8] is 80% contour
 ;thresh = an array conaining dmin and dmax values for plot_map
@@ -18,7 +20,7 @@
 ;
 ;TO RUN:
 ;eg, map2png, 'HMI_Cont', shmi, 3, thresh = [0,5000]
-pro map2png, file_string, map, colour, oplt = oplt, omap, ocolour, lvls, thresh = thresh, log = log
+pro map2png, file_string, map, colour, oplt = oplt, omap, element_range, increment ,ocolour, lvls, thresh = thresh, log = log
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
@@ -36,9 +38,19 @@ for i = 0, n_elements(map) - 1 do begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
             plot_map, map[i]
+            ;plot_map, /over
             if keyword_set(oplt) then begin
+                ;align map elements
+                if (n_element(element_range) eq 0) then begin
                 loadct, ocolour
                 plot_map, omap, /over, /drot, levels = [lvls], /percent
+                endif else begin
+                if (n_element(element_range) gt 0) then begin
+                    if (i eq element_range[0]) then begin
+                    loadct, ocolour
+                    plot_map, omap[n0 + increment*(i-element_range[0])], /over, /drot, levels = [lvls], /percent
+                    endif
+                endelse
             endif
             image = tvread(TRUE=3)
             image = transpose(image, [2,0,1])
