@@ -45,12 +45,12 @@ for i = 0, n_elements(map) - 1 do begin
                 if (n_elements(element_range) eq 0) then begin
                 loadct, 0
                 linecolors
-                plot_map, omap, /over, color = ocol, /drot, levels = [lvls], /percent
+                plot_map, omap, /over, color = ocol, /drot, levels = lvls, /percent
                 endif else begin
                     if (i ge element_range[0]) and (i le element_range[i]) then begin 
                     loadct, 0
                     linecolors
-                    plot_map, omap[n0 + increment*(i-element_range[0])], /over, color = ocol, /drot, levels = [lvls], /percent
+                    plot_map, omap[n0 + increment*(i-element_range[0])], /over, color = ocol, /drot, levels = lvls, /percent
                     endif
                 endelse
             endif      
@@ -70,12 +70,12 @@ for i = 0, n_elements(map) - 1 do begin
                 if (n_elements(element_range) eq 0) then begin
                 loadct, 0
                 linecolors
-                plot_map, omap, /over, color = ocol, /drot, levels = [lvls], /percent
+                plot_map, omap, /over, color = ocol, /drot, levels = lvls, /percent
                 endif else begin
                     if (i ge element_range[0]) and (i le element_range[i]) then begin
                     loadct, 0
                     linecolors
-                    plot_map, omap[n0 + increment*(i-element_range[0])], /over, color = ocol, /drot, levels = [lvls], /percent
+                    plot_map, omap[n0 + increment*(i-element_range[0])], /over, color = ocol, /drot, levels = lvls, /percent
                     endif
                 endelse
             endif      
@@ -95,12 +95,12 @@ for i = 0, n_elements(map) - 1 do begin
                 if (n_elements(element_range) eq 0) then begin
                 loadct, 0
                 linecolors
-                plot_map, omap, /over, color = ocol /drot, levels = [lvls], /percent
+                plot_map, omap, /over, color = ocol /drot, levels = lvls, /percent
                 endif else begin
                     if (i ge element_range[0]) and (i le element_range[i]) then begin
                         loadct, 0
                         linecolors
-                        plot_map, omap[n0 + increment*(i-element_range[0])], /over, color = ocol, /drot, levels = [lvls], /percent
+                        plot_map, omap[n0 + increment*(i-element_range[0])], /over, color = ocol, /drot, levels = lvls, /percent
                     endif
                 endelse
             endif      
