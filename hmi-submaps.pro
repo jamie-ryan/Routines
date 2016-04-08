@@ -1,5 +1,7 @@
 pro hmi-submaps
 
+restore, '/disk/solar3/jsr2/Data/SDO/hmap50.sav'
+
 restore, '/unsafe/jsr2/hmifullfilt-all-arrays-Apr5-2016.sav'
 ;shminf stands for sub hmi not filtered
 sub_map, hmimp, xr=[490,570], yr=[220,300], shminf 

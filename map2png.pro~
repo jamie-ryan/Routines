@@ -5,6 +5,10 @@
 ;file_string = a string identifying the data set to be used in the output png file name
 ;map = map structure to be converted to png
 ;colour = loadct color table number
+;oplt = over plot contours i.e, plot_map, /over, levels = lvls
+;omap = the map to be overplot
+;ocolour = conout colours for overplot
+;lvls = array containing levels in relative units, i.e, lvls = [0.8] is 80% contour
 ;thresh = an array conaining dmin and dmax values for plot_map
 ;log = include /log for plot_map, /log 
 ;
@@ -13,8 +17,8 @@
 ;Stored in /unsafe/jsr2/png/"date"
 ;
 ;TO RUN:
-;eg, map2png, 'HMI_Cont', hmimap, 3, thresh = [0,5000]
-pro map2png, file_string, map, colour, thresh = thresh, log = log
+;eg, map2png, 'HMI_Cont', shmi, 3, thresh = [0,5000]
+pro map2png, file_string, map, colour, oplt = oplt, omap, ocolour, lvls, thresh = thresh, log = log
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
@@ -32,6 +36,10 @@ for i = 0, n_elements(map) - 1 do begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
             plot_map, map[i]
+            if keyword_set(oplt) then begin
+                loadct, ocolour
+                plot_map, omap, /over, /drot, levels = [lvls], /percent
+            endif
             image = tvread(TRUE=3)
             image = transpose(image, [2,0,1])
             write_png, fileplot, image
@@ -43,6 +51,10 @@ for i = 0, n_elements(map) - 1 do begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
             plot_map, map[i], dmin = thresh[0] , dmax = thresh[1]
+            if keyword_set(oplt) then begin
+                loadct, ocolour
+                plot_map, omap, /over, /drot, levels = [lvls], /percent
+            endif
             image = tvread(TRUE=3)
             image = transpose(image, [2,0,1])
             write_png, fileplot, image
@@ -54,6 +66,10 @@ for i = 0, n_elements(map) - 1 do begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
             plot_map, map[i], /log
+            if keyword_set(oplt) then begin
+                loadct, ocolour
+                plot_map, omap, /over, /drot, levels = [lvls], /percent
+            endif
             image = tvread(TRUE=3)
             image = transpose(image, [2,0,1])
             write_png, fileplot, image
