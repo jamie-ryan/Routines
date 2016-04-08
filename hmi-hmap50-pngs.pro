@@ -45,7 +45,7 @@ el_rng = [27, 37]
 inc = 2
 col = 3
 ocol = 5
-lvls = [0.8, 90, 92, 94, 96, 98]
+lvls = [80, 90, 92, 94, 96, 98]
 map2png, 'HMI_Cont_RHESSI_Hmap50_Contours', shminf, col, /oplt, hmap50, n0, el_rng, inc, ocol, lvls 
 map2png, 'HMI_Cont_Diff_RHESSI_Hmap50_Contours', shmidf, col, /oplt, hmap50, n0, el_rng, inc, ocol, lvls 
 

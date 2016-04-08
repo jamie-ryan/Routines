@@ -29,7 +29,7 @@ date = d1+'-'+d2
 spawn, 'mkdir /unsafe/jsr2/png/'+date
 
 
-loadct, colour
+
 for i = 0, n_elements(map) - 1 do begin
 
     if (i + 1 lt 10) then filename = '/unsafe/jsr2/png/'+date+'/'+file_string+'_0' else $
@@ -38,6 +38,7 @@ for i = 0, n_elements(map) - 1 do begin
     if (n_elements(thresh) eq 0) then begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
+            loadct, colour
             plot_map, map[i]
             ;plot_map, /over
             if keyword_set(oplt) then begin
@@ -64,6 +65,7 @@ for i = 0, n_elements(map) - 1 do begin
     if (n_elements(thresh) gt 1) then begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
+            loadct, colour
             plot_map, map[i], dmin = thresh[0] , dmax = thresh[1]
             if keyword_set(oplt) then begin
                 ;align map elements
@@ -89,6 +91,7 @@ for i = 0, n_elements(map) - 1 do begin
     if keyword_set(log) then begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
+            loadct, colour
             plot_map, map[i], /log
             if keyword_set(oplt) then begin
                 ;align map elements
