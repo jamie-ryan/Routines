@@ -7,6 +7,7 @@
 ;colour = loadct color table number
 ;oplt = over plot contours i.e, plot_map, /over, levels = lvls
 ;omap = the map to be overplot
+;n0 = the starting element in omap
 ;element_range = an array containing two value, the start and end elements for the plot_map, omap, /over contours
 ;increment = the increment for omap, i.e., if you want to plot only elements that are a multiple of two then increment = 2
 ;ocolour = conout colours for overplot
@@ -20,7 +21,7 @@
 ;
 ;TO RUN:
 ;eg, map2png, 'HMI_Cont', shmi, 3, thresh = [0,5000]
-pro map2png, file_string, map, colour, oplt = oplt, omap, element_range, increment ,ocolour, lvls, thresh = thresh, log = log
+pro map2png, file_string, map, colour, oplt = oplt, omap, n0, element_range, increment ,ocolour, lvls, thresh = thresh, log = log
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)

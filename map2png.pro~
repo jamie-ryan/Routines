@@ -29,12 +29,12 @@ spawn, 'mkdir /unsafe/jsr2/png/'+date
 
 
 loadct, colour
-for i = 0, n_elementss(map) - 1 do begin
+for i = 0, n_elements(map) - 1 do begin
 
     if (i + 1 lt 10) then filename = '/unsafe/jsr2/png/'+date+'/'+file_string+'_0' else $
     filename = '/unsafe/jsr2/png/'+date+'/'+file_string+'_'
 
-    if (n_elementss(thresh) eq 0) then begin
+    if (n_elements(thresh) eq 0) then begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
             plot_map, map[i]
@@ -59,7 +59,7 @@ for i = 0, n_elementss(map) - 1 do begin
         set_plot,'x'
     endif
 
-    if (n_elementss(thresh) gt 1) then begin
+    if (n_elements(thresh) gt 1) then begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
             plot_map, map[i], dmin = thresh[0] , dmax = thresh[1]
