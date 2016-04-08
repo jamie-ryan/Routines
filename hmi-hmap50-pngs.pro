@@ -35,14 +35,33 @@ restore, '/disk/solar3/jsr2/Data/SDO/hmap50.sav'
 ;<Expression>    STRUCT    = -> <Anonymous> Array[23]
 
 ;so if n0 is the starting element (n0 = 1) for hmap50 then to align temporally with hmi.time we need hmap50[n0 + i*2].time
-n0 = 1
-for i = 0, n_elements() - 1 do begin
-
-hmap50[n0 + 1*2]
 
 
+;pro map2png, file_string, map, colour, oplt = oplt, omap, element_range, increment ,ocolour, lvls, thresh = thresh, log = log
 
-map2png, file_string, map, colour, oplt = oplt, omap, ocolour, lvls, thresh = thresh, log = log
 ;z stands for zoom
-map2png, 'HMI_Cont_z', shminf, 3, /oplt, hmap50, 0, lvls = [0.8, 90, 92, 94, 96, 98]
-map2png, 'HMI_Cont_Diff_z', shmidf, 3
+el_rng = [27, 37]
+inc = 2
+col = 3
+ocol = 0
+lvls = [0.8, 90, 92, 94, 96, 98]
+map2png, 'HMI_Cont_RHESSI_Hmap50_Contours', shminf, col, /oplt, hmap50, el_rng, inc, ocol, lvls 
+map2png, 'HMI_Cont_Diff_RHESSI_Hmap50_Contours', shmidf, col, /oplt, hmap50, el_rng, inc, ocol, lvls 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

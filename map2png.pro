@@ -29,23 +29,23 @@ spawn, 'mkdir /unsafe/jsr2/png/'+date
 
 
 loadct, colour
-for i = 0, n_elements(map) - 1 do begin
+for i = 0, n_elementss(map) - 1 do begin
 
     if (i + 1 lt 10) then filename = '/unsafe/jsr2/png/'+date+'/'+file_string+'_0' else $
     filename = '/unsafe/jsr2/png/'+date+'/'+file_string+'_'
 
-    if (n_elements(thresh) eq 0) then begin
+    if (n_elementss(thresh) eq 0) then begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
             plot_map, map[i]
             ;plot_map, /over
             if keyword_set(oplt) then begin
                 ;align map elements
-                if (n_element(element_range) eq 0) then begin
+                if (n_elements(element_range) eq 0) then begin
                 loadct, ocolour
                 plot_map, omap, /over, /drot, levels = [lvls], /percent
                 endif 
-                if (n_element(element_range) gt 0) && (i eq element_range[0]) then begin
+                if (n_elements(element_range) gt 0) && (i eq element_range[0]) then begin
                     while (i ge element_range[0]) && (i le max(element_range[0])) do begin
                     loadct, ocolour
                     plot_map, omap[n0 + increment*(i-element_range[0])], /over, /drot, levels = [lvls], /percent
@@ -59,13 +59,22 @@ for i = 0, n_elements(map) - 1 do begin
         set_plot,'x'
     endif
 
-    if (n_elements(thresh) gt 1) then begin
+    if (n_elementss(thresh) gt 1) then begin
         set_plot,'z'
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
             plot_map, map[i], dmin = thresh[0] , dmax = thresh[1]
             if keyword_set(oplt) then begin
+                ;align map elements
+                if (n_elements(element_range) eq 0) then begin
                 loadct, ocolour
                 plot_map, omap, /over, /drot, levels = [lvls], /percent
+                endif 
+                if (n_elements(element_range) gt 0) && (i eq element_range[0]) then begin
+                    while (i ge element_range[0]) && (i le max(element_range[0])) do begin
+                    loadct, ocolour
+                    plot_map, omap[n0 + increment*(i-element_range[0])], /over, /drot, levels = [lvls], /percent
+                    endwhile
+                endif
             endif
             image = tvread(TRUE=3)
             image = transpose(image, [2,0,1])
@@ -79,8 +88,17 @@ for i = 0, n_elements(map) - 1 do begin
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
             plot_map, map[i], /log
             if keyword_set(oplt) then begin
+                ;align map elements
+                if (n_elements(element_range) eq 0) then begin
                 loadct, ocolour
                 plot_map, omap, /over, /drot, levels = [lvls], /percent
+                endif 
+                if (n_elements(element_range) gt 0) && (i eq element_range[0]) then begin
+                    while (i ge element_range[0]) && (i le max(element_range[0])) do begin
+                    loadct, ocolour
+                    plot_map, omap[n0 + increment*(i-element_range[0])], /over, /drot, levels = [lvls], /percent
+                    endwhile
+                endif
             endif
             image = tvread(TRUE=3)
             image = transpose(image, [2,0,1])
