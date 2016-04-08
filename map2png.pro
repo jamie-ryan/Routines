@@ -44,13 +44,13 @@ for i = 0, n_elements(map) - 1 do begin
                 if (n_element(element_range) eq 0) then begin
                 loadct, ocolour
                 plot_map, omap, /over, /drot, levels = [lvls], /percent
-                endif else begin
-                if (n_element(element_range) gt 0) then begin
-                    if (i eq element_range[0]) then begin
+                endif 
+                if (n_element(element_range) gt 0) && (i eq element_range[0]) then begin
+                    while (i ge element_range[0]) && (i le max(element_range[0])) do begin
                     loadct, ocolour
                     plot_map, omap[n0 + increment*(i-element_range[0])], /over, /drot, levels = [lvls], /percent
-                    endif
-                endelse
+                    endwhile
+                endif
             endif
             image = tvread(TRUE=3)
             image = transpose(image, [2,0,1])
