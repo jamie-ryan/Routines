@@ -22,7 +22,6 @@ save, sgmap,'/unsafe/jsr2/Mar18-2016/29-mar-14-iris-sg-maps.sav'
 
 
 
-restore, '/unsafe/jsr2/Mar18-2016/29-mar-14-iris-sg-maps.sav'
-plot_map, sgmap, position=[0.1,0.1,0.9, 0.9]
+
 
 end
