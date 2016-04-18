@@ -14,6 +14,7 @@
 ;lvls = array containing levels in relative units, i.e, lvls = [0.8] is 80% contour
 ;thresh = an array conaining dmin and dmax values for plot_map
 ;log = include /log for plot_map, /log 
+;sg = spectrograph mode
 ;
 ;OUTPUT:
 ;png images named from 1 to x. 
@@ -21,7 +22,7 @@
 ;
 ;TO RUN:
 ;eg, map2png, 'HMI_Cont', shmi, 3, thresh = [0,5000]
-pro map2png, file_string, map, colour, oplt = oplt, omap, n0, element_range, increment ,ocolour, lvls, thresh = thresh, log = log
+pro map2png, file_string, map, colour, oplt = oplt, omap, n0, element_range, increment ,ocolour, lvls, thresh = thresh, log = log, sg = sg
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
@@ -44,12 +45,10 @@ for i = 0, n_elements(map) - 1 do begin
             if keyword_set(oplt) then begin
                 ;align map elements
                 if (n_elements(element_range) eq 0) then begin
-                loadct, 0
                 linecolors
                 plot_map, omap, /over, color = ocol, /drot, levels = lvls, /percent
                 endif else begin
                     if (i ge element_range[0]) and (i le element_range[1]) then begin 
-                    loadct, 0
                     linecolors
                     plot_map, omap[n0 + increment*(i-element_range[0])], /over, color = ocol, /drot, levels = lvls, /percent
                     endif
@@ -70,12 +69,10 @@ for i = 0, n_elements(map) - 1 do begin
             if keyword_set(oplt) then begin
                 ;align map elements
                 if (n_elements(element_range) eq 0) then begin
-                loadct, 0
                 linecolors
                 plot_map, omap, /over, color = ocol, /drot, levels = lvls, /percent
                 endif else begin
                     if (i ge element_range[0]) and (i le element_range[1]) then begin
-                    loadct, 0
                     linecolors
                     plot_map, omap[n0 + increment*(i-element_range[0])], /over, color = ocol, /drot, levels = lvls, /percent
                     endif
@@ -96,12 +93,10 @@ for i = 0, n_elements(map) - 1 do begin
             if keyword_set(oplt) then begin
                 ;align map elements
                 if (n_elements(element_range) eq 0) then begin
-                loadct, 0
                 linecolors
                 plot_map, omap, /over, color = ocol /drot, levels = lvls, /percent
                 endif else begin
                     if (i ge element_range[0]) and (i le element_range[1]) then begin
-                        loadct, 0
                         linecolors
                         plot_map, omap[n0 + increment*(i-element_range[0])], /over, color = ocol, /drot, levels = lvls, /percent
                     endif

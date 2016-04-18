@@ -14,6 +14,7 @@
 ;lvls = array containing levels in relative units, i.e, lvls = [0.8] is 80% contour
 ;thresh = an array conaining dmin and dmax values for plot_map
 ;log = include /log for plot_map, /log 
+;sg = spectrograph mode
 ;
 ;OUTPUT:
 ;png images named from 1 to x. 
@@ -21,7 +22,7 @@
 ;
 ;TO RUN:
 ;eg, map2png, 'HMI_Cont', shmi, 3, thresh = [0,5000]
-pro map2png, file_string, map, colour, oplt = oplt, omap, n0, element_range, increment ,ocolour, lvls, thresh = thresh, log = log
+pro map2png, file_string, map, colour, oplt = oplt, omap, n0, element_range, increment ,ocolour, lvls, thresh = thresh, log = log, sg = sg
 
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
@@ -89,6 +90,29 @@ for i = 0, n_elements(map) - 1 do begin
             fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
             loadct, colour
             plot_map, map[i], /log
+            if keyword_set(oplt) then begin
+                ;align map elements
+                if (n_elements(element_range) eq 0) then begin
+                linecolors
+                plot_map, omap, /over, color = ocol /drot, levels = lvls, /percent
+                endif else begin
+                    if (i ge element_range[0]) and (i le element_range[1]) then begin
+                        linecolors
+                        plot_map, omap[n0 + increment*(i-element_range[0])], /over, color = ocol, /drot, levels = lvls, /percent
+                    endif
+                endelse
+            endif      
+            image = tvread(TRUE=3)
+            image = transpose(image, [2,0,1])
+            write_png, fileplot, image
+            ;		print, qkspectra[0,(inc)*i:inc*(i+1)-1], qkspectra[1,(inc)*i:inc*(i+1)-1]
+        set_plot,'x'
+    endif
+    if keyword_set(sg) then begin
+        set_plot,'z'
+            fileplot = strcompress(filename + string(i + 1, format ='(I2)' ) + '.png', /remove_all)
+            loadct, colour
+            plot_map, map[i], position=[0.1,0.1,0.9, 0.9]
             if keyword_set(oplt) then begin
                 ;align map elements
                 if (n_elements(element_range) eq 0) then begin
