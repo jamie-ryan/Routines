@@ -1,0 +1,5 @@
+pro rgb-simghmi
+restore, '
+restore, '
+restore, '/unsafe/jsr2/hmi-submaps-for-movies.sav'
+end
