@@ -1,44 +1,45 @@
 pro rgbct, r=r, g=g, b=b
 
 steps = 200
+scaleFactor = FINDGEN(steps) / (steps - 1)
 
 if keyword_set(r) then begin
-red = 255 
-green = 0
-blue = 0
-redVector = REPLICATE(red, steps)
+;red goes from 0 to 255
+beginNum = 0
+endNum = 255
+redVector = beginNum + (endNum - beginNum) * scaleFactor
+;rest 0 to 0
+beginNum = 0
+endNum = 0
 greenVector = beginNum + (endNum - beginNum) * scaleFactor
 blueVector = beginNum + (endNum - beginNum) * scaleFactor  
 endif
 
 if keyword_set(g) then begin
-red = 0
-green = 255
-blue = 0
+;green 0 to 255
+beginNum = 0
+endNum = 255
+greenVector = beginNum + (endNum - beginNum) * scaleFactor 
+;rest 0 to 0 
+beginNum = 0
+endNum = 0
 redVector = beginNum + (endNum - beginNum) * scaleFactor  
-greenVector = REPLICATE(blue, steps)
 blueVector = beginNum + (endNum - beginNum) * scaleFactor  
 endif
 
 if keyword_set(b) then begin
-red = 0
-green = 0 
-blue = 255
-redVector = REPLICATE(red, steps)
+;blue 0 to 255
+beginNum = 0
+endNum = 255
+blueVector = beginNum + (endNum - beginNum) * scaleFactor
+;rest 0 to 0
+beginNum = 0
+endNum = 0
+redVector = beginNum + (endNum - beginNum) * scaleFactor
 greenVector = beginNum + (endNum - beginNum) * scaleFactor
 blueVector = REPLICATE(blue, steps)
 endif
 
-
-
-
-
-
-;
-
-scaleFactor = FINDGEN(steps) / (steps - 1)
-beginNum = green
-endNum = 0
 TVLCT, redVector, greenVector, blueVector
 
 end
