@@ -1,3 +1,4 @@
+;make black to r, g or blue colour table
 pro rgbct, r=r, g=g, b=b
 
 steps = 200

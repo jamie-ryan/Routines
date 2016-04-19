@@ -10,7 +10,7 @@ beginNum = 0
 endNum = 255
 redVector = beginNum + (endNum - beginNum) * scaleFactor
 ;rest 0 to 0
-beginNum = 0
+beginNum = 255
 endNum = 0
 greenVector = beginNum + (endNum - beginNum) * scaleFactor
 blueVector = beginNum + (endNum - beginNum) * scaleFactor  
@@ -22,7 +22,7 @@ beginNum = 0
 endNum = 255
 greenVector = beginNum + (endNum - beginNum) * scaleFactor 
 ;rest 0 to 0 
-beginNum = 0
+beginNum = 255
 endNum = 0
 redVector = beginNum + (endNum - beginNum) * scaleFactor  
 blueVector = beginNum + (endNum - beginNum) * scaleFactor  
@@ -34,7 +34,7 @@ beginNum = 0
 endNum = 255
 blueVector = beginNum + (endNum - beginNum) * scaleFactor
 ;rest 0 to 0
-beginNum = 0
+beginNum = 255
 endNum = 0
 redVector = beginNum + (endNum - beginNum) * scaleFactor
 greenVector = beginNum + (endNum - beginNum) * scaleFactor
