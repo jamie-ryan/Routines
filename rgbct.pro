@@ -17,11 +17,12 @@ blue = 255
 endif
 
 
-vector = beginNum + (endNum - beginNum) * scaleFactor
+
 beginNum = 10.0
 endNum = 20.0
 steps = 5
 scaleFactor = FINDGEN(steps) / (steps - 1)
+vector = beginNum + (endNum - beginNum) * scaleFactor
 
 steps = 200
 

@@ -17,19 +17,19 @@ blue = 255
 endif
 
 
-vector = beginNum + (endNum - beginNum) * scaleFactor
+
 beginNum = 10.0
 endNum = 20.0
 steps = 5
 scaleFactor = FINDGEN(steps) / (steps - 1)
-
+vector = beginNum + (endNum - beginNum) * scaleFactor
 steps = 200
 
-redVector = REPLICATE(255, steps)
-blueVector = REPLICATE(0, steps)
+redVector = REPLICATE(red, steps)
+blueVector = REPLICATE(blue, steps)
 
 scaleFactor = FINDGEN(steps) / (steps - 1)
-beginNum = 255
+beginNum = green
 endNum = 0
 greenVector = beginNum + (endNum - beginNum) * scaleFactor  
 TVLCT, redVector, greenVector, blueVector
