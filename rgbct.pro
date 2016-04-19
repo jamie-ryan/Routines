@@ -1,7 +1,7 @@
 ;make black to r, g or blue colour table
 pro rgbct, r=r, g=g, b=b
 
-steps = 200
+steps = 255
 scaleFactor = FINDGEN(steps) / (steps - 1)
 
 if keyword_set(r) then begin
