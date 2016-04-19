@@ -1,38 +1,37 @@
 pro rgbct, r=r, g=g, b=b
 
-if keyword_set(r) then begin
-red = 255 
-green = 0
-blue = 0
-endif
-if keyword_set(g) then begin
-red = 0
-green = 255
-blue = 0
-endif
-if keyword_set(b) then begin
-red = 0
-green = 0 
-blue = 255
-endif
-
-
-
-beginNum = 10.0
-endNum = 20.0
-steps = 5
-scaleFactor = FINDGEN(steps) / (steps - 1)
-vector = beginNum + (endNum - beginNum) * scaleFactor
-
 steps = 200
 
-redVector = REPLICATE(red, steps)
-blueVector = REPLICATE(blue, steps)
-
+if keyword_set(r) then begin
+red = 255 
 scaleFactor = FINDGEN(steps) / (steps - 1)
-beginNum = green
+beginNum = 0
 endNum = 0
-greenVector = beginNum + (endNum - beginNum) * scaleFactor  
+redVector = REPLICATE(red, steps)
+greenVector = beginNum + (endNum - beginNum) * scaleFactor
+blueVector = beginNum + (endNum - beginNum) * scaleFactor  
+endif
+
+if keyword_set(g) then begin
+green = 255
+scaleFactor = FINDGEN(steps) / (steps - 1)
+beginNum = 0
+endNum = 0
+redVector = beginNum + (endNum - beginNum) * scaleFactor  
+greenVector = REPLICATE(green, steps)
+blueVector = beginNum + (endNum - beginNum) * scaleFactor  
+endif
+
+if keyword_set(b) then begin
+blue = 255
+scaleFactor = FINDGEN(steps) / (steps - 1)
+beginNum = 0
+endNum = 0
+redVector = beginNum + (endNum - beginNum) * scaleFactor
+greenVector = beginNum + (endNum - beginNum) * scaleFactor
+blueVector = REPLICATE(blue, steps)
+endif
+
 TVLCT, redVector, greenVector, blueVector
 
 end
