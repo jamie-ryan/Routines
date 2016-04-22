@@ -77,10 +77,10 @@ transmittance_high = 2. ;% high estimate from couvidat instrument paper
 transmittance_avg = (transmittance_low + transmittance_med + transmittance_high)/3 ;average transmittance
 dtrans = 0.005 ;uncertainty in transmittance_med
 area = !pi*ap_radius^2 ;cm^2...14cm = r = telescope aperture radius
-A_eff = area*(transmittance_med/100.) ;area multiplied by relative transmittance gives effective area???
+A_eff = area*(transmittance_med/100.) ;area multiplied by relative transmittance gives effective area
 
-
-
+;;;;;;;;;;;;;;DNs to erg/s.cm^2.sr.Å....;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 fout = (array*dn2photon*E_photon)/(A_eff*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
 eout = (array*dn2photon*E_photon)/(A_eff*texp) ;erg/s.cm^2
 ;fout = array*dn2photon*E_photon/A_eff*texp*pixlambda*w ;erg/s.cm^2.sr.Å
