@@ -54,7 +54,8 @@ for k = 0, nset -1 do begin
 
         ;make 1D energy array
         d = 0
-        d = reform(dd[3,i,*])
+;        d = reform(dd[3,i,*]);energy
+        d = reform(dd[4,i,*]) ;power
 
         ;find time array indices for impulsive phase
         t1 = where(strmatch(t, t_start))
