@@ -26,7 +26,7 @@
 ; MODIFICATION HISTORY:
 ;       Written 13/08/15 by Jamie Ryan
 ;-
-pro hmi_radiometric_calibration, array, n_pixels = n_pixels, fout, eout, f_err, e_err
+pro hmi_radiometric_calibration, array, n_pixels = n_pixels, fout, eout, pout, f_err, e_err
 
 dDN = 1.
 
