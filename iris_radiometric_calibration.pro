@@ -30,7 +30,7 @@
 ;       
 ; MODIFICATION HISTORY:
 ;       Written 03/06/15 by Jamie Ryan
-pro iris_rad_cal, $
+pro iris_radiometric_calibration, $
 array, $
 texp, $
 wave = wave, $
