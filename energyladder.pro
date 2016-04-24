@@ -1,4 +1,4 @@
-pro powerladder, date
+pro energyladder, date
 
 restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 
