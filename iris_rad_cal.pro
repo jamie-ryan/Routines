@@ -30,7 +30,7 @@
 ;       
 ; MODIFICATION HISTORY:
 ;       Written 03/06/15 by Jamie Ryan
-pro iris_radiometric_calibration, $
+pro iris_rad_cal, $
 array, $
 texp, $
 wave = wave, $
@@ -95,7 +95,7 @@ lambda = (wave*1.e-10)*1.e2 ;wavelength in cm if wave is in angstroms
 dlam = 5.0e-11
 wav = wave/10.
 w = (0.33*pixel_length)*(((725.)^2)/((1.49e8)^2)) ;solid angle=slitwidth*pixel_length*(km/arcsec at 1AU)^2/(1AU in km)^2
-
+asqk = 2.6e16 ;cm^2
 
 ;dispersion in Å/pixel....nuv = 2796, 2832.....fuv = 1330, 1400
 pixfuv = 12.8e-3
@@ -121,7 +121,7 @@ if keyword_set(sg) then begin
 				E_photon = (h*c)/lambda ; photon energy 
 			end
 			2: begin ;wavelength range
-                pixlambda = wav[1] - wav[0] ;bandpass equlas wavelength range
+                pixlambda = wave[1] - wave[0] ;bandpass equlas wavelength range
 				find1 = min(abs(iresp.lambda[*] - wav[0]),ind1)
 				find2 = min(abs(iresp.lambda[*] - wav[1]),ind2)
 				ind1 = ind1*1.
@@ -139,7 +139,7 @@ fout = fltarr(n_elements(array))
 eout = fltarr(n_elements(array))
 for i = 0, n_elements(array) - 1 do begin
     fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
-    eout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]) ;erg/s.cm^2
+    eout[i] = fout[i]*asqk*pixlambda*texp[i] ;erg/s.cm^2
 ;    fout[i] = array[i]*n_pixels*dn2photon*E_photon/A_float*texp[i]*pixlambda*w ;erg/s.cm^2.sr.Å
 ;    eout[i] = array[i]*n_pixels*dn2photon*E_photon/A_float*texp[i] ;erg/s.cm^2
 endfor
@@ -159,7 +159,8 @@ if keyword_set(sji) then begin
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
     fout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
-    eout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp) ;erg/s.cm^2
+;    eout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp) ;erg/s.cm^2
+    eout = fout*asqk*pixlambda*texp ;erg/s.cm^2
 ;    fout = array*n_pixels*dn2photon*E_photon/A_float*texp*pixlambda*w ;erg/s.cm^2.sr.Å
 ;    eout = array*n_pixels*dn2photon*E_photon/A_float*texp ;erg/s.cm^2
 endif
