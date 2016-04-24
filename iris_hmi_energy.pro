@@ -225,7 +225,7 @@ f, e, pow, f_err , e_err, $
 ;fill array with energies
 balmerdata[2, j, *] = f
 balmerdata[3, j, *] = e
-balmerdata[4, i, *] = pow
+balmerdata[4, j, *] = pow
 endfor
 
 

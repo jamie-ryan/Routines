@@ -36,7 +36,7 @@ fsji = findfile('/unsafe/jsr2/IRIS/sji/')
 
 ;;;some variables for loops, arrays element definition and header info 
 slitpos = 6
-columns = 4 ;x,y,E,F
+columns = 5 ;x,y,F,E,P
 fande = 2 ;columns for error arrays containing f and e
 
 ;instrument specific radius (not including central pixel)
