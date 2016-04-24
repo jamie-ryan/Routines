@@ -51,7 +51,7 @@ ap_radius = 14. ;telescope aperture radius in cm
 aperture_width = 2.*ap_radius 
 w = (aperture_width*pixel_length)*(((725.)^2)/(1.49e8)^2) ;solid angle=slitwidth*pixel_length*(km/arcsec at 1AU)^2/(1AU in km)^2
 E_photon = (h*c)/lambda ; photon energy at 6173 angstroms
-
+asqk = 2.6e16 ;cm^2
 
 
 ;;;;;;;;;;;;;;;;;DN2PHOTONS;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
