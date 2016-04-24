@@ -28,7 +28,7 @@ endfor
 ;;;make plots
 plot_pos_calc, n_plots = 5, xpos, ypos
 
-
+;finds maximum coordinates. Needed to set y-axis size in utplot below
 simax = max(sidata[2, *, *], simx)
 simaxi = array_indices(sidata[2, *, *], simx)
 mgmax = max(mgdata[2, *, *], mgmx)
@@ -104,7 +104,7 @@ XTICKFORMAT="(A1)", $
 xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 for i = 0, n_elements(sidata[2, *, 458]) - 1 do begin
-outplot, tsi[458:*], sidata[2, i, 458:*], color = col + 2*i, linestyle = i
+outplot, tsi[458:*], sidata[2, i, 458:*], color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -135,7 +135,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[2, *, 458]) - 1 do begin
-outplot, tmg[611:*], mgdata[2, i, 611:*], color = col + 2*i, linestyle = i
+outplot, tmg[611:*], mgdata[2, i, 611:*], color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -169,7 +169,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[2, *, 458]) - 1 do begin
-outplot, times[i, 10:*], balmerdata[2, i, 10:*], color = col + 2*i, linestyle = i
+outplot, times[i, 10:*], balmerdata[2, i, 10:*], color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -200,7 +200,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $ 
 /NoErase
 for i = 0, n_elements(sidata[2, *, 458]) - 1 do begin
-outplot, tmgw[153:*], mgwdata[2, i, 153:*], color = col + 2*i, linestyle = i
+outplot, tmgw[153:*], mgwdata[2, i, 153:*], color = col + 2*i, linestyle = 0
 endfor
 ;loadct,34
 ;vert_line,sec,1, color = 2
@@ -229,7 +229,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[2, *, 458]) - 1 do begin
-outplot, thmi[41:74], hmidata[2, i, 41:74], color = col + 2*i, linestyle = i
+outplot, thmi[41:74], hmidata[2, i, 41:74], color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -281,7 +281,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[2, *, 458]) - 1 do begin
-outplot, times[i, 10:*], balmerdata[2, i, 10:*], color = col + 2*i, linestyle = i
+outplot, times[i, 10:*], balmerdata[2, i, 10:*], color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -312,7 +312,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[2, *, 458]) - 1 do begin
-outplot, thmi[41:74], hmidata[2, i, 41:74], color = col + 2*i, linestyle = i
+outplot, thmi[41:74], hmidata[2, i, 41:74], color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2

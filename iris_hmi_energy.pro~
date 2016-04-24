@@ -92,6 +92,9 @@ endfor
 ;eg: sidata[time_frame, xcoord, ycoord, time]....have to have seperate arrays due to different cadence
 sidata = fltarr(columns, slitpos, n_elements(tsi))
 mgdata = fltarr(columns, slitpos, n_elements(tmg))
+bdtmp0 = balmerdata[0,*,*]
+bdtmp1 = balmerdata[1,*,*]
+balmerdata = fltarr(columns, slitpos, n_elements(times[0,*]))
 ;balmerdata = fltarr(columns, slitpos, nfiles)
 mgwdata = fltarr(columns, slitpos, n_elements(tmgw))
 hmidata = fltarr(columns, slitpos, n_elements(thmi))
@@ -151,11 +154,12 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     tmp = sumarea(map1400.data - dnbksi, sidata[0, i, 0], sidata[1, i, 0], iradius)
 
 
-;    iris_radiometric_calibration, tmp, exp_time, sji_1400_hdr, wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
-    iris_radiometric_calibration, tmp, exp_time[0], wave = 1400., n_pixels = inp, f, e, f_err, e_err, /sji
+;    iris_radiometric_calibration, tmp, exp_time, sji_1400_hdr, wave = 1400., n_pixels = inp, f, e, pow, f_err , e_err, /sji
+    iris_radiometric_calibration, tmp, exp_time[0], wave = 1400., n_pixels = inp, f, e, pow, f_err , e_err, /sji
     si_tmp[i,*] = tmp
     sidata[2, i, *] = f
     sidata[3, i, *] = e
+    sidata[4, i, *] = pow
     sierr[0,i,*] = f_err
     sierr[1,i,*] = e_err
     tmp = 0
@@ -165,11 +169,12 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     mgdata[1, i, *] = convert_coord_iris(mgcoords[1, i], sji_2796_hdr[666], /y, /a2p) 
     if keyword_set(single_pixel) then tmp = submg.data[mgdata[0, i, 0], mgdata[1, i, 0]]- dnbkmg else $ 
     tmp = sumarea(submg.data - dnbkmg, mgdata[0, i, 0], mgdata[1, i, 0], iradius)
-;    iris_radiometric_calibration, tmp, exp_time, sji_2796_hdr, wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
-    iris_radiometric_calibration, tmp, exp_time[1], wave = 2796., n_pixels = inp, f, e, f_err, e_err, /sji
+;    iris_radiometric_calibration, tmp, exp_time, sji_2796_hdr, wave = 2796., n_pixels = inp, f, e, pow, f_err , e_err, /sji
+    iris_radiometric_calibration, tmp, exp_time[1], wave = 2796., n_pixels = inp, f, e, pow, f_err , e_err, /sji
     mg_tmp[i,*] = tmp
     mgdata[2, i, *] = f
     mgdata[3, i, *] = e
+    mgdata[4, i, *] = pow
     mgerr[0,i,*] = f_err
     mgerr[1,i,*] = e_err
     tmp = 0
@@ -178,11 +183,12 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     mgwdata[1, i, *] = convert_coord_iris(mgwcoords[1, i], sji_2832_hdr[167], /y, /a2p)
     if keyword_set(single_pixel) then tmp = diff2832.data[mgwdata[0, i, 0], mgwdata[1, i, 0]] else $
     tmp = sumarea(diff2832.data, mgwdata[0, i, 0], mgwdata[1, i, 0], iradius)
-;    iris_radiometric_calibration, tmp, exp_time, sji_2832_hdr, wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
-    iris_radiometric_calibration, tmp, exp_time[2], wave = 2832., n_pixels = inp, f, e, f_err, e_err, /sji
+;    iris_radiometric_calibration, tmp, exp_time, sji_2832_hdr, wave = 2832., n_pixels = inp, f, e, pow, f_err , e_err, /sji
+    iris_radiometric_calibration, tmp, exp_time[2], wave = 2832., n_pixels = inp, f, e, pow, f_err , e_err, /sji
     mgw_tmp[i,*] = tmp
     mgwdata[2, i, *] = f
     mgwdata[3, i, *] = e
+    mgwdata[4, i, *] = pow
     mgwerr[0,i,*] = f_err ;*visiblewidth 
     mgwerr[1,i,*] = e_err ;*visiblewidth
     tmp = 0
@@ -191,10 +197,11 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     hmidata[1, i, *] = convert_coord_hmi(hmicoords[1, i], diffind[64],  /y, /a2p)
     if keyword_set(single_pixel) then tmp = hmidiff.data[hmidata[0, i, 0], hmidata[1, i, 0]] else $
     tmp = sumarea(hmidiff.data, hmidata[0, i, 0], hmidata[1, i, 0], sradius)
-    hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, f_err, e_err
+    hmi_radiometric_calibration, tmp*visiblewidth, n_pixels = snp, f, e, pow, f_err , e_err
     hmi_tmp[i,*] = tmp
     hmidata[2, i, *] = f
     hmidata[3, i, *] = e
+    hmidata[4, i, *] = pow
     hmierr[0,i,*] = f_err
     hmierr[1,i,*] = e_err
     tmp = 0
@@ -212,12 +219,13 @@ balmdat[j,*]*balmwidth, $
 reform(texp[j,*]), $
 wave=[wav1,wav2], $
 n_pixels=1, $
-fout, eout, f_err, e_err, $
+f, e, pow, f_err , e_err, $
 /sg ;, slitpos = j
 
 ;fill array with energies
-balmerdata[2, j, *] = fout
-balmerdata[3, j, *] = eout
+balmerdata[2, j, *] = f
+balmerdata[3, j, *] = e
+balmerdata[4, i, *] = pow
 endfor
 
 

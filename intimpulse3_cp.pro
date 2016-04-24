@@ -11,11 +11,11 @@ nrb = 6
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;IMPULSIVE PHASE TIME FROM RHESSI 50 - 100 keV???;;;
 ;impulsive phase start time
-t_start = '*17:44:*'
-t1find = '*17:43:*'
+t_start = '*17:46:*'
+t1find = '*17:45:*'
 ;impulsive phase end time
-t_end = '*17:48:*'
-t2find = '*17:49:*'
+t_end = '*17:47:*'
+t2find = '*17:48:*'
 
 ;impulsive phase time in seconds
 rhessi_timp = 60. 

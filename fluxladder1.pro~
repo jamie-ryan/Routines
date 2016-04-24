@@ -28,7 +28,7 @@ endfor
 ;;;make plots
 plot_pos_calc, n_plots = 5, xpos, ypos
 
-
+;finds maximum coordinates. Needed to set y-axis size in utplot below
 simax = max(sidata[2, *, *], simx)
 simaxi = array_indices(sidata[2, *, *], simx)
 mgmax = max(mgdata[2, *, *], mgmx)
@@ -243,7 +243,7 @@ loadct,0 			;go back to default greyscale color table
 
 
 plot_pos_calc, n_plots = 2, xpos, ypos
-flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder-Balm-HMI-Only.eps'
+flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Flux-Ladder-Balm-HMI-Only.eps'
 !p.font=0			;use postscript fonts
 set_plot, 'ps'
 ;    @symbols_ps_kc		;load string symbols and greek letters for Postscript

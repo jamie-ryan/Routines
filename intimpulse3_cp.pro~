@@ -5,7 +5,7 @@ restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energie
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 cadence = [26., 19., 72., 75., 45. ] ;si, mg  , balmer  , mgw  , hmi 
 
-nrb = 8
+nrb = 6
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

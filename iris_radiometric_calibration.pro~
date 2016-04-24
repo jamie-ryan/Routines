@@ -30,7 +30,7 @@
 ;       
 ; MODIFICATION HISTORY:
 ;       Written 03/06/15 by Jamie Ryan
-pro iris_rad_cal, $
+pro iris_radiometric_calibration, $
 array, $
 texp, $
 wave = wave, $
@@ -160,7 +160,8 @@ if keyword_set(sji) then begin
     ;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
     fout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
 ;    eout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp) ;erg/s.cm^2
-    eout = fout*asqk*pixlambda*texp ;erg/s.cm^2
+    eout = fout*asqk*pixlambda*texp ;erg emitted over sunquake
+    pout = fout*asqk*pixlambda ;erg/s emitted over sunquake
 ;    fout = array*n_pixels*dn2photon*E_photon/A_float*texp*pixlambda*w ;erg/s.cm^2.sr.Å
 ;    eout = array*n_pixels*dn2photon*E_photon/A_float*texp ;erg/s.cm^2
 endif

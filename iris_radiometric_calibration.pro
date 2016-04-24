@@ -37,6 +37,7 @@ wave = wave, $
 n_pixels = n_pixels, $
 fout, $
 eout, $
+pout, $
 f_err, $
 e_err, $
 sg = sg, $
@@ -137,9 +138,11 @@ if keyword_set(sg) then begin
 ;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
 fout = fltarr(n_elements(array))
 eout = fltarr(n_elements(array))
+pout = fltarr(n_elements(array))
 for i = 0, n_elements(array) - 1 do begin
     fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
     eout[i] = fout[i]*asqk*pixlambda*texp[i] ;erg/s.cm^2
+    pout[i] = fout[i]*asqk*pixlambda ;erg/s emitted over sunquake
 ;    fout[i] = array[i]*n_pixels*dn2photon*E_photon/A_float*texp[i]*pixlambda*w ;erg/s.cm^2.sr.Å
 ;    eout[i] = array[i]*n_pixels*dn2photon*E_photon/A_float*texp[i] ;erg/s.cm^2
 endfor
@@ -160,7 +163,8 @@ if keyword_set(sji) then begin
     ;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
     fout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
 ;    eout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp) ;erg/s.cm^2
-    eout = fout*asqk*pixlambda*texp ;erg/s.cm^2
+    eout = fout*asqk*pixlambda*texp ;erg emitted over sunquake
+    pout = fout*asqk*pixlambda ;erg/s emitted over sunquake
 ;    fout = array*n_pixels*dn2photon*E_photon/A_float*texp*pixlambda*w ;erg/s.cm^2.sr.Å
 ;    eout = array*n_pixels*dn2photon*E_photon/A_float*texp ;erg/s.cm^2
 endif
