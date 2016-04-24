@@ -72,15 +72,15 @@ iresp = iris_get_response('2014-03-29T14:10:17.030',version='003')
 
 
 dt = 5.0e-8 ;uncertainty associated with texp
-if keyword_set(sji) then begin
-array = array/texp
-endif
+;if keyword_set(sji) then begin
+;array = array/texp
+;endif
 
-if keyword_set(sg) then begin
-    for i = 0, n_elements(texp) - 1 do begin
-        array[i] = array[i] / texp[i]
-    endfor
-endif
+;if keyword_set(sg) then begin
+;    for i = 0, n_elements(texp) - 1 do begin
+;        array[i] = array[i] / texp[i]
+;    endfor
+;endif
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -90,7 +90,7 @@ pixel_length = 0.16635000 ;iris pixel length in arcseconds
 dacm = 5.0e4 ;uncertainty in arcseconds to cm
 arccm = 7.25e7 ;at 1AU, 1" = 7.25e5m...result is in cm
 h = 6.63e-27  ; planck's constant erg.s
-c = 3.e10; speed of light cm/s
+c = 3.0e10; speed of light cm/s
 lambda = (wave*1.e-10)*1.e2 ;wavelength in cm if wave is in angstroms
 dlam = 5.0e-11
 wav = wave/10.
