@@ -95,6 +95,9 @@ endfor
 
 
 
+
+
+
 print, max(fout, indf)
 ;  1.41231e+06
 print, max(eout)
@@ -154,5 +157,23 @@ IDL> alpha = (dn2photon*E_photon)/(A_float*texp[indf])
 
 
 etest = fout*asqk*0.1*texp[indf]
+;FIXED!!!
 
 
+restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
+for j = 0 , ncoords - 1 do begin 
+
+;convert DN to energy [erg]
+;iris_radiometric_calibration_texp, $
+iris_rad_cal, $
+balmdat[j,*]*balmwidth, $
+reform(texp[j,*]), $
+wave=[wav1,wav2], $
+n_pixels=1, $
+fff, eee, f_err, e_err, $
+/sg ;, slitpos = j
+
+;fill array with energies
+balmerdata[2, j, *] = fff
+balmerdata[3, j, *] = eee
+endfor
