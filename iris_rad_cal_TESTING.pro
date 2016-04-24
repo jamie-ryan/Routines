@@ -165,7 +165,7 @@ for j = 0 , ncoords - 1 do begin
 
 ;convert DN to energy [erg]
 ;iris_radiometric_calibration_texp, $
-iris_rad_cal, $
+iris_radiometric_calibration, $
 balmdat[j,*]*balmwidth, $
 reform(texp[j,*]), $
 wave=[wav1,wav2], $

@@ -22,7 +22,8 @@ restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
 restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
 ;restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
-restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
+;restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
+restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 ;;;iris spectra fits
@@ -198,6 +199,27 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     hmierr[1,i,*] = e_err
     tmp = 0
 endfor
+
+balmwidth = (3600. - 1400.)/0.1  ;in angstroms
+wav1 = wave[39]
+wav2 = wave[44]
+for j = 0 , ncoords - 1 do begin 
+
+;convert DN to energy [erg]
+;iris_radiometric_calibration_texp, $
+iris_radiometric_calibration, $
+balmdat[j,*]*balmwidth, $
+reform(texp[j,*]), $
+wave=[wav1,wav2], $
+n_pixels=1, $
+fout, eout, f_err, e_err, $
+/sg ;, slitpos = j
+
+;fill array with energies
+balmerdata[2, j, *] = fout
+balmerdata[3, j, *] = eout
+endfor
+
 
 ;spawn, 'mkdir /unsafe/jsr2/'+date......this is now done in master.pro
 ;;;or maybe write individual sav files for each dataset?

@@ -200,6 +200,27 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     tmp = 0
 endfor
 
+balmwidth = (3600. - 1400.)/0.1  ;in angstroms
+wav1 = wave[39]
+wav2 = wave[44]
+for j = 0 , ncoords - 1 do begin 
+
+;convert DN to energy [erg]
+;iris_radiometric_calibration_texp, $
+iris_radiometric_calibration, $
+balmdat[j,*]*balmwidth, $
+reform(texp[j,*]), $
+wave=[wav1,wav2], $
+n_pixels=1, $
+f, e, f_err, e_err, $
+/sg ;, slitpos = j
+
+;fill array with energies
+balmerdata[2, j, *] = f
+balmerdata[3, j, *] = e
+endfor
+
+
 ;spawn, 'mkdir /unsafe/jsr2/'+date......this is now done in master.pro
 ;;;or maybe write individual sav files for each dataset?
 save, $
