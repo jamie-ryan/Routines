@@ -1,4 +1,4 @@
-pro iris_hmi_energy, datestring, single_pixel = single_pixel
+pro iris_hmi_energy, datestringstring, single_pixel = single_pixel
 
 
 ;tmp = total(map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]], $
@@ -19,10 +19,10 @@ tic
 
 ;;;restore data sav files
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
-;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
+;restore, '/unsafe/jsr2/'+datestring+'/hmifullfilt-'+datestring+'.sav'
 restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
 ;restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
-;restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
+;restore, '/unsafe/jsr2/'+datestring+'/balm_data-'+datestring+'.sav'
 restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
@@ -229,7 +229,7 @@ balmerdata[4, j, *] = pow
 endfor
 
 
-;spawn, 'mkdir /unsafe/jsr2/'+date......this is now done in master.pro
+;spawn, 'mkdir /unsafe/jsr2/'+datestring......this is now done in master.pro
 ;;;or maybe write individual sav files for each dataset?
 save, $
 ;quake area
@@ -255,6 +255,6 @@ tmg, $
 times, $
 tmgw, $
 thmi, $
-filename = '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
+filename = '/unsafe/jsr2/'+datestring+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+datestring+'.sav'
 toc
 end

@@ -1,4 +1,4 @@
-pro iris_hmi_energy, datestringstring, single_pixel = single_pixel
+pro iris_hmi_energy, datestring, single_pixel = single_pixel
 
 
 ;tmp = total(map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]], $
