@@ -24,7 +24,7 @@ powerladder, datstr
 
 intimpulse3_cp, datstr
 impulsive_phase_latex_table, datstr
-power-momenta, datstr 
+power_momenta, datstr 
 ;ribcord2oplot_cp, datstr;, /tables
 ;mgii_context_plot, datstr
 
