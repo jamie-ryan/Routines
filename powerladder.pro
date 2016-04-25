@@ -104,7 +104,7 @@ XTICKFORMAT="(A1)", $
 xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, tsi[458:*], sidata[4, i, 458:*],color = col + 2*i, linestyle = i
+outplot, tsi[458:*], sidata[4, i, 458:*],color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -135,7 +135,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, tmg[611:*], mgdata[4, i, 611:*],color = col + 2*i, linestyle = i
+outplot, tmg[611:*], mgdata[4, i, 611:*],color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -169,7 +169,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, times[i, 10:*], balmerdata[4, i, 10:*],color = col + 2*i, linestyle = i
+outplot, times[i, 10:*], balmerdata[4, i, 10:*],color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -200,7 +200,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $ 
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, tmgw[153:*], mgwdata[4, i, 153:*],color = col + 2*i, linestyle = i
+outplot, tmgw[153:*], mgwdata[4, i, 153:*],color = col + 2*i, linestyle = 0
 endfor
 ;loadct,34
 ;vert_line,sec,1, color = 2
@@ -229,7 +229,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, thmi[41:74], hmidata[4, i, 41:74],color = col + 2*i, linestyle = i
+outplot, thmi[41:74], hmidata[4, i, 41:74],color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -281,7 +281,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, times[i, 10:*], balmerdata[4, i, 10:*],color = col + 2*i, linestyle = i
+outplot, times[i, 10:*], balmerdata[4, i, 10:*],color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -312,7 +312,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, thmi[41:74], hmidata[4, i, 41:74],color = col + 2*i, linestyle = i
+outplot, thmi[41:74], hmidata[4, i, 41:74],color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2

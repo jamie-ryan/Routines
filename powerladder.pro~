@@ -86,7 +86,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 title = 'Power Curves'
 ;ytitl = power
 linecolors
-utplot, tsi[458:*], sidata[4, simaxi[1], 458:*]*A_sqk, /nodata, $ 
+utplot, tsi[458:*], sidata[4, simaxi[1], 458:*],/nodata, $ 
 ;base, $
 ;timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 ;        psym = -2, $ 
@@ -104,7 +104,7 @@ XTICKFORMAT="(A1)", $
 xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]]
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, tsi[458:*], sidata[4, i, 458:*]*A_sqk, color = col + 2*i, linestyle = i
+outplot, tsi[458:*], sidata[4, i, 458:*],color = col + 2*i, linestyle = i
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -117,7 +117,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors
-utplot, tmg[611:*], mgdata[4, mgmaxi[1], 611:*]*A_sqk, $
+utplot, tmg[611:*], mgdata[4, mgmaxi[1], 611:*], $
 /nodata, $
 ;timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
@@ -135,7 +135,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, tmg[611:*], mgdata[4, i, 611:*]*A_sqk, color = col + 2*i, linestyle = i
+outplot, tmg[611:*], mgdata[4, i, 611:*],color = col + 2*i, linestyle = i
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -150,7 +150,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors
-utplot, times[0, 10:*], balmerdata[4, balmermaxi[1], 10:*]*A_sqk, $
+utplot, times[0, 10:*], balmerdata[4, balmermaxi[1], 10:*], $
 /nodata, $
 ;    yrange = [mn, mx], $
 /yst, $
@@ -169,7 +169,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, times[i, 10:*], balmerdata[4, i, 10:*]*A_sqk, color = col + 2*i, linestyle = i
+outplot, times[i, 10:*], balmerdata[4, i, 10:*],color = col + 2*i, linestyle = i
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -182,7 +182,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors        
-utplot, tmgw[153:*], mgwdata[4, mgwmaxi[1], 153:*]*A_sqk, $
+utplot, tmgw[153:*], mgwdata[4, mgwmaxi[1], 153:*], $
 /nodata, $
 timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
@@ -200,7 +200,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $ 
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, tmgw[153:*], mgwdata[4, i, 153:*]*A_sqk, color = col + 2*i, linestyle = i
+outplot, tmgw[153:*], mgwdata[4, i, 153:*],color = col + 2*i, linestyle = i
 endfor
 ;loadct,34
 ;vert_line,sec,1, color = 2
@@ -213,7 +213,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors
-utplot, thmi[41:74], hmidata[4, hmimaxi[1], 41:74]*A_sqk, $
+utplot, thmi[41:74], hmidata[4, hmimaxi[1], 41:74], $
 /nodata, $
 timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
@@ -229,7 +229,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, thmi[41:74], hmidata[4, i, 41:74]*A_sqk, color = col + 2*i, linestyle = i
+outplot, thmi[41:74], hmidata[4, i, 41:74],color = col + 2*i, linestyle = i
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -262,7 +262,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors
-utplot, times[0, 10:*], balmerdata[4, balmermaxi[1], 10:*]*A_sqk, $
+utplot, times[0, 10:*], balmerdata[4, balmermaxi[1], 10:*], $
 /nodata, $
 ;    yrange = [mn, mx], $
 /yst, $
@@ -281,7 +281,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, times[i, 10:*], balmerdata[4, i, 10:*]*A_sqk, color = col + 2*i, linestyle = i
+outplot, times[i, 10:*], balmerdata[4, i, 10:*],color = col + 2*i, linestyle = i
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -296,7 +296,7 @@ xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
 ytitl = power
 linecolors
-utplot, thmi[41:74], hmidata[4, hmimaxi[1], 41:74]*A_sqk, $
+utplot, thmi[41:74], hmidata[4, hmimaxi[1], 41:74], $
 /nodata, $
 timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
@@ -312,7 +312,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, thmi[41:74], hmidata[4, i, 41:74]*A_sqk, color = col + 2*i, linestyle = i
+outplot, thmi[41:74], hmidata[4, i, 41:74],color = col + 2*i, linestyle = i
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2

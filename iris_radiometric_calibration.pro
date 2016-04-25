@@ -140,11 +140,12 @@ fout = fltarr(n_elements(array))
 eout = fltarr(n_elements(array))
 pout = fltarr(n_elements(array))
 for i = 0, n_elements(array) - 1 do begin
+    ;intensity
     fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
-    eout[i] = fout[i]*asqk*pixlambda*texp[i] ;erg/s.cm^2
+    ;energy (produces odd looking profile due to texp scaling done on blam_data....need to fix!)
+    eout[i] = fout[i]*asqk*pixlambda*texp[i] ;erg/s.cm^2 
+    ;power
     pout[i] = fout[i]*asqk*pixlambda ;erg/s emitted over sunquake
-;    fout[i] = array[i]*n_pixels*dn2photon*E_photon/A_float*texp[i]*pixlambda*w ;erg/s.cm^2.sr.Å
-;    eout[i] = array[i]*n_pixels*dn2photon*E_photon/A_float*texp[i] ;erg/s.cm^2
 endfor
 endif
 
@@ -161,12 +162,12 @@ if keyword_set(sji) then begin
     E_photon = (h*c)/lambda
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;intensity
     fout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
-;    eout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp) ;erg/s.cm^2
+    ;energy
     eout = fout*asqk*pixlambda*texp ;erg emitted over sunquake
+    ;power
     pout = fout*asqk*pixlambda ;erg/s emitted over sunquake
-;    fout = array*n_pixels*dn2photon*E_photon/A_float*texp*pixlambda*w ;erg/s.cm^2.sr.Å
-;    eout = array*n_pixels*dn2photon*E_photon/A_float*texp ;erg/s.cm^2
 endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

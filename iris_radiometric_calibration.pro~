@@ -37,6 +37,7 @@ wave = wave, $
 n_pixels = n_pixels, $
 fout, $
 eout, $
+pout, $
 f_err, $
 e_err, $
 sg = sg, $
@@ -137,11 +138,14 @@ if keyword_set(sg) then begin
 ;;;;;;;;;;;;;;;;;;;;;;;OUTPUTS;;;;;;;;;;;;;;;;;;;;;;;;;
 fout = fltarr(n_elements(array))
 eout = fltarr(n_elements(array))
+pout = fltarr(n_elements(array))
 for i = 0, n_elements(array) - 1 do begin
+    ;intensity
     fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
-    eout[i] = fout[i]*asqk*pixlambda*texp[i] ;erg/s.cm^2
-;    fout[i] = array[i]*n_pixels*dn2photon*E_photon/A_float*texp[i]*pixlambda*w ;erg/s.cm^2.sr.Å
-;    eout[i] = array[i]*n_pixels*dn2photon*E_photon/A_float*texp[i] ;erg/s.cm^2
+    ;energy (produces odd looking profile due to texp scaling done on blam_data....need to fix!)
+    eout[i] = fout[i]*asqk*pixlambda*texp[i] ;erg/s.cm^2 
+    ;power
+    pout[i] = fout[i]*asqk*pixlambda ;erg/s emitted over sunquake
 endfor
 endif
 
