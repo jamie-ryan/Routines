@@ -58,7 +58,7 @@ hmimaxi = array_indices(hmidata[2, *, *], hmimx)
 ;-------
 ;make lines thick
 ;-------
-!p.thick=1 ;data
+!p.thick=2 ;data
 !x.thick=2 ;x axis
 !y.thick=2 ;y axis
 
