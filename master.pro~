@@ -24,9 +24,9 @@ powerladder, datstr
 
 intimpulse3_cp, datstr
 impulsive_phase_latex_table, datstr
-
-ribcord2oplot_cp, datstr;, /tables
-mgii_context_plot, datstr
+power-momenta, datstr
+;ribcord2oplot_cp, datstr;, /tables
+;mgii_context_plot, datstr
 
 ;sunquake_context_plots, /qksource1, /no, /xzoom, /xxzoom
 ;plot_energy_dist, datstr
