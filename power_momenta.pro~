@@ -1,4 +1,4 @@
-pro power-momenta, fdate
+pro power_momenta, fdate
 ;fdate = 'Apr25-2016'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;SUNQUAKE;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
@@ -28,7 +28,7 @@ strmprot = string(momprot, format = '(F0.2)')
 ;;;;;;;;;;;;;;;;;;;;RADIATIVE BACKWARMING;;;;;;;;;;;;;;;;;;;;;;; 
 restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-'+fdate+'.sav'
 c = !const.c*1.e2
-E = balmerdata[]
+E = balmer_eimp[0]
 momrad = E/c
 strmrad = string(momrad, format = '(F0.2)')
 
