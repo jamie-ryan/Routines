@@ -294,7 +294,7 @@ o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = power
 linecolors
 utplot, thmi[41:74], hmidata[3, hmimaxi[1], 41:74], $
 /nodata, $
