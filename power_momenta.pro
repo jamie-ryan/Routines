@@ -66,7 +66,7 @@ printf, lun, 'Sunquake & '+strmsqk+' & '+strpsqk+'\\'
 printf, lun, 'Single Nonthermal Electron & '+strmelec+' & '+strpelec+'\\'
 printf, lun, 'Single Nonthermal Proton & '+strmprot+' & '+strpelec+'\\'
 printf, lun, 'Nonthermal Electron Beam & '+strmeb+' & '+strpelec+'\\'
-printf, lun, 'Nonthermal Proton Beam & '+strmpb+' & '+strpprot+'\\'
+printf, lun, 'Nonthermal Proton Beam & '+strmpb+' & '+strpelec+'\\'
 printf, lun, 'Radiative Backwarming & '+strmrad+' & '+strprad+'\\'
 
 
