@@ -4,7 +4,7 @@ restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies
 
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'
-power = '[erg s!E-1!N]'
+ytitl = '[erg s!E-1!N cm!E-2!N sr!E-1!N '+angstrom+'!E-1!N]'
 
 A_sqk = 2.6e16 ;cm^2
 
@@ -58,7 +58,7 @@ hmimaxi = array_indices(hmidata[2, *, *], hmimx)
 ;-------
 ;make lines thick
 ;-------
-!p.thick=1 ;data
+!p.thick=2 ;data
 !x.thick=2 ;x axis
 !y.thick=2 ;y axis
 
@@ -83,7 +83,7 @@ col = 2 ;dark red
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
-title = 'Power Curves'
+title = 'Intensity Curves'
 ;ytitl = power
 linecolors
 utplot, tsi[458:*], sidata[2, simaxi[1], 458:*], /nodata, $ 
@@ -94,7 +94,7 @@ linestyle = 0, $
 ycharsize = 0.70, $
 xcharsize = 0.75, $
 xstyle = 8, $
-ytitle = ytitl, $
+;ytitle = ytitl, $
 /nolabel, $
 ytickname=[' '], $
 yticks = 2, $
@@ -109,7 +109,7 @@ endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Power Radiated From Region Comparable to Sunquake Area', /norm
+xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Flux Radiated From a Unit Solid Angle', /norm
 xyouts, xyx, xyy*1.01, charsize = 0.5, 'Si IV', /norm
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -148,7 +148,7 @@ o = 2
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = power
 linecolors
 utplot, times[0, 10:*], balmerdata[2, balmermaxi[1], 10:*], $
 /nodata, $
@@ -180,7 +180,7 @@ o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = power
 linecolors        
 utplot, tmgw[153:*], mgwdata[2, mgwmaxi[1], 153:*], $
 /nodata, $
@@ -211,7 +211,7 @@ o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = power
 linecolors
 utplot, thmi[41:74], hmidata[2, hmimaxi[1], 41:74], $
 /nodata, $
@@ -260,7 +260,7 @@ o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+
 linecolors
 utplot, times[0, 10:*], balmerdata[2, balmermaxi[1], 10:*], $
 /nodata, $
@@ -286,7 +286,7 @@ endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Power Radiated From Region Comparable to Sunquake Area', /norm
+xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Flux Radiated From a Unit Solid Angle', /norm
 xyouts, xyx, xyy*1.01, charsize = 0.5, 'Balmer Continuum', /norm
 
 
@@ -294,7 +294,7 @@ o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = power
 linecolors
 utplot, thmi[41:74], hmidata[2, hmimaxi[1], 41:74], $
 /nodata, $
@@ -305,7 +305,7 @@ xcharsize = 0.75, $
 xstyle = 8, $
 yticks = 4, $
 ytickname=[' '], $
-;ytitle = ytitl, $
+ytitle = ytitl, $
 /ynozero, $
 ;/ylog, $
 xmargin = [12,3], $

@@ -4,7 +4,7 @@ restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies
 
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'
-power = '[erg s!E-1!N]'
+ytitl = 'erg'
 
 A_sqk = 2.6e16 ;cm^2
 
@@ -58,7 +58,7 @@ hmimaxi = array_indices(hmidata[3, *, *], hmimx)
 ;-------
 ;make lines thick
 ;-------
-!p.thick=1 ;data
+!p.thick=2 ;data
 !x.thick=2 ;x axis
 !y.thick=2 ;y axis
 
@@ -83,7 +83,7 @@ col = 2 ;dark red
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
-title = 'Power Curves'
+title = 'Energy Curves'
 ;ytitl = power
 linecolors
 utplot, tsi[458:*], sidata[3, simaxi[1], 458:*], /nodata, $ 
@@ -94,7 +94,7 @@ linestyle = 0, $
 ycharsize = 0.70, $
 xcharsize = 0.75, $
 xstyle = 8, $
-ytitle = ytitl, $
+;ytitle = ytitl, $
 /nolabel, $
 ytickname=[' '], $
 yticks = 2, $
@@ -115,7 +115,7 @@ o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = energy
 linecolors
 utplot, tmg[611:*], mgdata[3, mgmaxi[1], 611:*], $
 /nodata, $
@@ -148,7 +148,7 @@ o = 2
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = energy
 linecolors
 utplot, times[0, 10:*], balmerdata[3, balmermaxi[1], 10:*], $
 /nodata, $
@@ -180,7 +180,7 @@ o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = energy
 linecolors        
 utplot, tmgw[153:*], mgwdata[3, mgwmaxi[1], 153:*], $
 /nodata, $
@@ -211,7 +211,7 @@ o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = energy
 linecolors
 utplot, thmi[41:74], hmidata[3, hmimaxi[1], 41:74], $
 /nodata, $
@@ -260,7 +260,7 @@ o = 1
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = energy
 linecolors
 utplot, times[0, 10:*], balmerdata[3, balmermaxi[1], 10:*], $
 /nodata, $
@@ -305,7 +305,7 @@ xcharsize = 0.75, $
 xstyle = 8, $
 yticks = 4, $
 ytickname=[' '], $
-;ytitle = ytitl, $
+ytitle = ytitl, $
 /ynozero, $
 ;/ylog, $
 xmargin = [12,3], $

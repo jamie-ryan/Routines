@@ -11,7 +11,7 @@ nrb = 6
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;IMPULSIVE PHASE TIME FROM RHESSI 50 - 100 keV???;;;
 ;impulsive phase start time
-t_start = '*17:46:*'
+t_start = '*17:44:*'
 t1find = '*17:45:*'
 ;impulsive phase end time
 t_end = '*17:47:*'
@@ -23,7 +23,7 @@ rhessi_timp = 60.
 
 ;array to contain dataset specific impulsive phase 
 eimp = fltarr(nrb)
-rhessi_eimp = 1.0e29 ;needs verifying
+rhessi_eimp = 1.0e28 ;needs verifying
 nset = n_elements(dataset)
 for k = 0, nset -1 do begin  
     print, k  

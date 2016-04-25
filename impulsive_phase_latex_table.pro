@@ -4,7 +4,7 @@ restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-integrated-energies-'+fdate+'.sav'
 
 ncoords = n_elements(si_eimp)
 
-A_sqk = 2.6e16 ;cm^2
+
 dataset = ['si', 'hmi']
 for k = 0, n_elements(dataset)-1 do begin
     flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords1.txt
@@ -41,11 +41,11 @@ for i = 0, ncoords-1 do begin
     yy = string(hmicoords[1,i], format = '(F0.2)')
     xy = xx+', '+yy
 
-    si = string(si_eimp[i]*A_sqk, format = '(E0.2)')
-    mg = string(mg_eimp[i]*A_sqk, format = '(E0.2)')
-    balm = string(balmer_eimp[i]*A_sqk, format = '(E0.2)')
-    hmi = string(hmi_eimp[i]*A_sqk, format = '(E0.2)')
-    mgw = string(mgw_eimp[i]*A_sqk, format = '(E0.2)')
+    si = string(si_eimp[i], format = '(E0.2)')
+    mg = string(mg_eimp[i], format = '(E0.2)')
+    balm = string(balmer_eimp[i], format = '(E0.2)')
+    hmi = string(hmi_eimp[i], format = '(E0.2)')
+    mgw = string(mgw_eimp[i], format = '(E0.2)')
 
     printf, lun, sixy+' & '+si+' & '+mg+' & '+balm+' & '+mgw+' & '+hmi+'\\'
     if (i eq ncoords -1) then begin
