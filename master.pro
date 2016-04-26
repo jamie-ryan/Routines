@@ -21,10 +21,11 @@ datstr = d1+'-'+d2
 fluxladder1, datstr
 energyladder, datstr
 powerladder, datstr
-
+power_latex_table, fdate
 intimpulse3_cp, datstr
 impulsive_phase_latex_table, datstr
 power_momenta, datstr 
+
 ;ribcord2oplot_cp, datstr;, /tables
 ;mgii_context_plot, datstr
 

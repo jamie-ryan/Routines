@@ -33,8 +33,8 @@ momprot = momelec*sqrt(mp/me) ;g.cm/s
 ;strings
 strmelec = string(momelec, format = '(E0.2)')
 strmprot = string(momprot, format = '(E0.2)')
-strmeb = string(momebeam, format = '(E0.2)')
-strmpb = string(mompbeam, format = '(E0.2)')
+;strmeb = string(momebeam, format = '(E0.2)')
+;strmpb = string(mompbeam, format = '(E0.2)')
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;RADIATIVE BACKWARMING;;;;;;;;;;;;;;;;;;;;;;; 
