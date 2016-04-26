@@ -21,13 +21,15 @@ strpelec = string(powelec, format = '(E0.2)')
 me = !const.me*1.e3 ;g
 mp = !const.mp*1.e3 ;g
 n_e = 1.e35 ;n_e = n_p
+ve = 1.21e8 ;cm/s electron velocity
 strne = string(n_e, format = '(E0.2)')
 ;electron
-momelec = tau*sqrt(2*me)*powelec ;g.cm/s
-momebeam = n_e*momelec ;g.cm/s
+;momelec = tau*sqrt(2*me)*powelec ;g.cm/s 
+momelec = (powelec*tau)/(ve) ;g.cm/s
+;momebeam = n_e*momelec ;g.cm/s
 ;proton
 momprot = momelec*sqrt(mp/me) ;g.cm/s
-mompbeam = n_e*momprot ;g.cm/s
+;mompbeam = n_e*momprot ;g.cm/s
 ;strings
 strmelec = string(momelec, format = '(E0.2)')
 strmprot = string(momprot, format = '(E0.2)')
@@ -63,10 +65,10 @@ printf, lun, '\hline'
 
 ;    printf, lun, sixy+' & '+si+' & '+mg+' & '+balm+' & '+mgw+' & '+hmi+'\\'
 printf, lun, 'Sunquake & '+strmsqk+' & '+strpsqk+'\\'
-printf, lun, 'Single Nonthermal Electron & '+strmelec+' & '+strpelec+'\\'
-printf, lun, 'Single Nonthermal Proton & '+strmprot+' & '+strpelec+'\\'
-printf, lun, 'Nonthermal Electron Beam & '+strmeb+' & '+strpelec+'\\'
-printf, lun, 'Nonthermal Proton Beam & '+strmpb+' & '+strpprot+'\\'
+printf, lun, 'Nonthermal Electron Beam & '+strmelec+' & '+strpelec+'\\'
+printf, lun, 'Nonthermal Proton Beam & '+strmprot+' & '+strpelec+'\\'
+;printf, lun, 'Nonthermal Electron Beam & '+strmeb+' & '+strpelec+'\\'
+;printf, lun, 'Nonthermal Proton Beam & '+strmpb+' & '+strpelec+'\\'
 printf, lun, 'Radiative Backwarming & '+strmrad+' & '+strprad+'\\'
 
 
