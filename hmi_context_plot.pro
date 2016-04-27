@@ -123,14 +123,14 @@ oplot, [527., 527.], [259., 271.], color = 11
 ;inverse colour table :D
 ctload, 3, /reverse
 ;PLOT 2) SMGSMALL
-plot_map, hmismall[663], dmin = 0 , dmax = 17000;;17:46:04  directly over quake in egmap6
+plot_map, hmismall[63], dmin = 0 , dmax = 17000;;17:46:04  directly over quake in egmap6
 linecolors ;activate coloured lines in oplot
 plot_map, hmap50[0], /over, /drot, color = 2, levels = [0.8], /percent
 plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 9 ;cyan sunquake
 XYouts, 520.2, 261.9, 'SQ', COLOR=FSC_Color('red'), ALIGN=0.5, CHARSIZE=0.65
 ;plot_map, hmap[0], /over, /drot, color = 4 ;orange hard xray 20-25keV 
 ;plot_map, hmap50[0], /over, /drot, color = 2 ;red hard xray 50-100keV 
-oplot_ribbon_coords, balmercoords, iradius, /cross
+oplot_ribbon_coords, hmicoords, iradius, /cross
 loadct, 0
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 device,/close

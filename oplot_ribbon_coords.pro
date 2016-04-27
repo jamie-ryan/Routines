@@ -1,6 +1,6 @@
 pro oplot_ribbon_coords, coords, box_size, box = box, cross = cross, set_2 = set_2
 
-nrb = 5
+nrb = 6
 for i = 0 ,nrb-1 do begin
     central_coord_x = coords[0,i]
     central_coord_y = coords[1,i]

@@ -8,7 +8,7 @@ restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
 sub_map, hmidiff, hmibig, xrange = [490., 530.], yrange = [250.,290.]
 sub_map, hmidiff, hmismall, xrange = [512., 532.], yrange = [250.,270.]
 
-iradius = 1.
+
 dataset = ['hmi']
 for k = 0, n_elements(dataset)-1 do begin
     flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords.txt
@@ -58,6 +58,7 @@ XYouts, 517.3, 260.0, 'HXR', COLOR=FSC_Color('yellow'), ALIGN=0.5, CHARSIZE=1.1
 loadct,0
 ctload, 3, /reverse
 plot_map, hmismall[63], dmin = 0 , dmax = 5000, color = 255   ;;17:46:04  directly over quake in egmap6
+iradius = 1.
 oplot_ribbon_coords, hmicoords, iradius, /cross
 device,/close
 set_plot,'x'
@@ -122,7 +123,7 @@ oplot, [527., 527.], [259., 271.], color = 11
 ;inverse colour table :D
 ctload, 3, /reverse
 ;PLOT 2) SMGSMALL
-plot_map, hmismall[663], dmin = 0 , dmax = 17000;;17:46:04  directly over quake in egmap6
+plot_map, hmismall[63], dmin = 0 , dmax = 17000;;17:46:04  directly over quake in egmap6
 linecolors ;activate coloured lines in oplot
 plot_map, hmap50[0], /over, /drot, color = 2, levels = [0.8], /percent
 plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 9 ;cyan sunquake
