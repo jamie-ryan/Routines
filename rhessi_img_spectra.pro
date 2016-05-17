@@ -47,7 +47,7 @@ spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr
 outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'
 
 ;number of energy bands
-nenergy = max(energy_range)/increments
+nenergy = max(energy_range)/increment
 time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minend, secst, secend)
 
 ;energy increment loop
