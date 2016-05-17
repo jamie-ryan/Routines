@@ -18,11 +18,12 @@ algorithm
 ;hrend = ending hour. eg, 17
 ;minend = ending minute. eg, 52
 ;secend = ending second. eg, 30
-;nt = number of time intervals. eg 7          
+;nt = number of time intervals. eg 7  
+;algorithm = image construction algorithm. eg         
 ;OUTPUT:
  
 ;syntax
-;rhessi_img_spectra, energy_range = [10.,100.], 1., 17, 40, 0, 17, 54, 0, 7, 'CLEAN'
+;rhessi_img_spectra, energy_range = [10.,100.], 10., 17, 40, 0, 17, 54, 0, 7, 'CLEAN'
                               
 ;hsi image object                                                                                         
 ; For a complete list of control parameters look at the tables in                         
@@ -129,7 +130,7 @@ for i = 0, nenergy - 1 do begin
         com = mapstr+' = rhessimap0'
         exe = execute(com)
         fff = outdir+mapstr+'.sav'
-        com = 'save, '+mapstr+', filename = "'+fff+'"'
+        com = 'save, '+mapstr+', filename = fff'
         exe = execute(com)
         spawn, 'rm '+outdir+'tmp.fit'
         endif                                                                                       

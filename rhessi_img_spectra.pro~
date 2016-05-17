@@ -18,11 +18,12 @@ algorithm
 ;hrend = ending hour. eg, 17
 ;minend = ending minute. eg, 52
 ;secend = ending second. eg, 30
-;nt = number of time intervals. eg 7          
+;nt = number of time intervals. eg 7  
+;algorithm = image construction algorithm. eg 'CLEAN'        
 ;OUTPUT:
  
 ;syntax
-;rhessi_img_spectra, energy_range = [10.,100.], 1., 17, 40, 0, 17, 54, 0, 7, 'CLEAN'
+;rhessi_img_spectra, energy_range = [10.,100.], 10., 17, 40, 0, 17, 54, 0, 7, 'CLEAN'
                               
 ;hsi image object                                                                                         
 ; For a complete list of control parameters look at the tables in                         
@@ -46,8 +47,8 @@ e1 = string(energy_range[0], format = '(I0)')
 e2 = string(energy_range[1], format = '(I0)')
 estr = 'energy-'+e1+'-to-'+e2
 algo = strcompress(algorithm, /remove_all)
-spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+algorithm
-outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+algorithm+'/'
+spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+algo
+outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+algo+'/'
 
 ;number of energy bands
 nenergy = max(energy_range)/increment
