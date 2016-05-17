@@ -140,11 +140,11 @@ for i = 0, nenergy - 1 do begin
         fff = outdir+mapstr+'.sav'
         com = 'save, '+mapstr+', filename = fff'
         exe = execute(com)
-        spawn, 'rm '+outdir+'tmp.fit'
         endif                                                                                       
     endfor
 endfor
 fil = outdir+'rhessidata.sav'
 save, time_intervals, rhessiindex, rhessidata, filename = fil                         
 toc
+spawn, 'rm '+outdir+'tmp.fit'
 end
