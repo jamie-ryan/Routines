@@ -45,8 +45,8 @@ if (n_elements(energy_range) eq 1) then e1 = string(energy_range, format = '(I0)
 e1 = string(energy_range[0], format = '(I0)')
 e2 = string(energy_range[1], format = '(I0)')
 estr = 'energy-'+e1+'-to-'+e2
-spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr
-outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'
+spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+algorithm
+outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+algorithm+'/'
 
 ;number of energy bands
 nenergy = max(energy_range)/increment
@@ -138,4 +138,3 @@ fil = outdir+'rhessidata.sav'
 save, time_intervals, rhessiindex, rhessidata, filename = fil                         
 toc
 end
-
