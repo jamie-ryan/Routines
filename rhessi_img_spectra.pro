@@ -32,7 +32,8 @@ nt
 ; hsi_image object called obj that is set up as it was when you wrote the script.         
 ; You can proceed using obj from the command line or the hessi GUI.  To use               
 ; it in the GUI, type                                                                     
-;   hessi,obj                                                                             
+;   hessi,obj    
+tic                                                                         
 search_network, /enable   
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
@@ -132,5 +133,6 @@ print, 'energy loop = ',i
 endfor
 fil = outdir+'rhessidata.sav'
 save, time_intervals, rhessiindex, rhessidata, filename = fil                         
+toc
 end
 
