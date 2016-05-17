@@ -119,7 +119,7 @@ print, 'energy loop = ',i
         if (t eq 0) then rhessimap0 = rhessimap else $
         if (t gt 0) then rhessimap0 = str_concat(rhessimap0, rhessimap)
         if (t eq nenergy - 1) then begin
-        if (t eq 1) then begin
+;        if (t eq 1) then begin
         mapstr = 'hmap'+er1+'to'+er2
         com = mapstr+' = rhessimap0'
         exe = execute(com)
