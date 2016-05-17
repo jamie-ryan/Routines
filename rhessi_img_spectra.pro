@@ -1,5 +1,5 @@
 pro rhessi_img_spectra, $
-energy_range, $
+energy_range =  energy_range, $
 increment, $
 hrstart, $ 
 minstart, $
@@ -18,8 +18,11 @@ nt
 ;minend = ending minute. eg, 52
 ;secend = ending second. eg, 30
 ;nt = number of time intervals. eg 7          
-
-                               
+;OUTPUT:
+ 
+;syntax
+;rhessi_img_spectra, energy_range = [10.,100.], 1., 17, 40, 0, 17, 54, 0, 7
+                              
 ;hsi image object                                                                                         
 ; For a complete list of control parameters look at the tables in                         
 ; http://hesperia.gsfc.nasa.gov/ssw/hessi/doc/hsi_params_all.htm                          
