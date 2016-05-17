@@ -46,7 +46,7 @@ e1 = string(energy_range[0], format = '(I0)')
 e2 = string(energy_range[1], format = '(I0)')
 estr = 'energy-'+e1+'-to-'+e2
 spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+algorithm
-outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'algorithm+'/'
+outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+algorithm+'/'
 
 ;number of energy bands
 nenergy = max(energy_range)/increment
