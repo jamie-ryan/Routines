@@ -106,7 +106,8 @@ for i = 0, nenergy - 1 do begin
         ;;;create map structures for each energy increment
         ;;;then save 
         ;im2fits
-        ffit= outdir+'rhessi_img_ne_'+ii+'nt_'+tt+'_time_'+time_intervals[0,t]+'.fits'
+;        ffit= outdir+'rhessi_img_ne_'+ii+'nt_'+tt+'_time_'+time_intervals[0,t]+'.fits'
+        ffit = 'tmp.fit'
         obj-> set, im_out_fits_filename = ffit
         obj->fitswrite
         ;;;fits files to maps section

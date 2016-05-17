@@ -51,7 +51,8 @@ nenergy = max(energy_range)/increment
 time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minend, secst, secend)
 
 ;energy increment loop
-for i = 0, nenergy - 1 do begin               
+for i = 0, nenergy - 1 do begin   
+print, 'energy loop = ',i            
     iflt = i*1.0D                                           
     obj = hsi_image()                    
     ;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
@@ -61,6 +62,7 @@ for i = 0, nenergy - 1 do begin
     er2 = string(iflt*increment + increment, format = '(I0)')
     ;loop through each time interval
     for t = 0, nt-1 do begin
+    print, 'time loop = ',t
         ;choose time interval
         obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
 
