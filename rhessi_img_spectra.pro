@@ -86,7 +86,7 @@ for i = 0, nenergy - 1 do begin
         if (t eq 0) then rhessiindex =  obj->get( /summary_info) else begin$
         ind =  obj->get( /summary_info) ; retrieve index
         rhessiindex = str_concat(rhessiindex, ind)
-        endelse
+        endif
         if (i eq 0) and (t eq 0) then begin
         datdim = size(data)
 
