@@ -7,7 +7,8 @@ secst, $
 hrend, $
 minend, $
 secend, $ 
-nt
+nt, $
+algorithm
 ;INPUT:
 ;energy_range = either a single number, or a 2 element array. eg energy_range = [10.0D, 100.0D]
 ;increments = spectrum x-axis energy increment, in keV. eg increment = 1 is 1 kev  
@@ -21,7 +22,7 @@ nt
 ;OUTPUT:
  
 ;syntax
-;rhessi_img_spectra, energy_range = [10.,100.], 1., 17, 40, 0, 17, 54, 0, 7
+;rhessi_img_spectra, energy_range = [10.,100.], 1., 17, 40, 0, 17, 54, 0, 7, 'CLEAN'
                               
 ;hsi image object                                                                                         
 ; For a complete list of control parameters look at the tables in                         
@@ -69,8 +70,9 @@ for i = 0, nenergy - 1 do begin
         obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
 
         ;;;set image construction algorithm
+        obj-> set, image_algorithm= algorithm
         ;obj-> set, image_algorithm= 'Back Projection'
-        obj-> set, image_algorithm= 'CLEAN' 
+        ;obj-> set, image_algorithm= 'CLEAN' 
         ;obj-> set, image_algorithm= 'PIXON' 
         ;obj-> set, image_algorithm= 'MEM_NJIT' 
         ;obj-> set, image_algorithm= 'FORWARDFIT'

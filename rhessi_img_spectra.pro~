@@ -69,8 +69,8 @@ for i = 0, nenergy - 1 do begin
         obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
 
         ;;;set image construction algorithm
-        obj-> set, image_algorithm= 'Back Projection'
-        ;obj-> set, image_algorithm= 'CLEAN' 
+        ;obj-> set, image_algorithm= 'Back Projection'
+        obj-> set, image_algorithm= 'CLEAN' 
         ;obj-> set, image_algorithm= 'PIXON' 
         ;obj-> set, image_algorithm= 'MEM_NJIT' 
         ;obj-> set, image_algorithm= 'FORWARDFIT'
