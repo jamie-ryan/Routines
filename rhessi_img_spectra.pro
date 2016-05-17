@@ -85,8 +85,8 @@ for i = 0, nenergy - 1 do begin
         ;data = obj-> getdata(use_single=0)  ; retrieve all images in cube        
 
         if (t eq 0) then rhessiindex =  obj->get( /summary_info) else $
-        rhessiindex = str_concat(rhessiindex, ind)
-        endif
+        if (t gt 0) then rhessiindex = str_concat(rhessiindex, ind)
+
         if (i eq 0) and (t eq 0) then begin
         datdim = size(data)
 
