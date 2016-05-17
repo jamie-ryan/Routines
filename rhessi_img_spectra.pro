@@ -80,11 +80,11 @@ for i = 0, nenergy - 1 do begin
         ii = string(i, format = '(I0)')
         tt = string(t, format = '(I0)')
 
-                                                                                                          
+        ind =  obj->get( /summary_info) ; retrieve index                                                                     
         data = obj-> getdata()    ; retrieve the last image made                                 
         ;data = obj-> getdata(use_single=0)  ; retrieve all images in cube        
-        if (t eq 0) then rhessiindex =  obj->get( /summary_info) else begin$
-        ind =  obj->get( /summary_info) ; retrieve index
+
+        if (t eq 0) then rhessiindex =  obj->get( /summary_info) else $
         rhessiindex = str_concat(rhessiindex, ind)
         endif
         if (i eq 0) and (t eq 0) then begin
