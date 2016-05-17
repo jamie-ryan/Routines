@@ -32,7 +32,8 @@ nt
 ; hsi_image object called obj that is set up as it was when you wrote the script.         
 ; You can proceed using obj from the command line or the hessi GUI.  To use               
 ; it in the GUI, type                                                                     
-;   hessi,obj                                                                             
+;   hessi,obj    
+tic                                                                         
 search_network, /enable   
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
@@ -52,7 +53,7 @@ time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minen
 
 ;energy increment loop
 for i = 0, nenergy - 1 do begin   
-print, 'energy loop = ',i            
+         
     iflt = i*1.0D                                           
     obj = hsi_image()                    
     ;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
@@ -62,7 +63,8 @@ print, 'energy loop = ',i
     er2 = string(iflt*increment + increment, format = '(I0)')
     ;loop through each time interval
     for t = 0, nt-1 do begin
-    print, 'time loop = ',t
+        print, 'energy loop = ',i   
+        print, 'time loop = ',t
         ;choose time interval
         obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
 
@@ -132,5 +134,6 @@ print, 'energy loop = ',i
 endfor
 fil = outdir+'rhessidata.sav'
 save, time_intervals, rhessiindex, rhessidata, filename = fil                         
+toc
 end
 
