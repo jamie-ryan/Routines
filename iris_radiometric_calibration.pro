@@ -165,9 +165,9 @@ if keyword_set(sji) then begin
     ;intensity
     fout = (array*n_pixels*dn2photon*E_photon)/(A_float*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
     ;energy
-    eout = fout*asqk*pixlambda*texp ;erg emitted over sunquake
+    eout = fout*asqk*pixlambda*4*!pi*texp ;erg emitted over sunquake
     ;power
-    pout = fout*asqk*pixlambda ;erg/s emitted over sunquake
+    pout = fout*asqk*pixlambda*4*!pi ;erg/s emitted over sunquake
 endif
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
