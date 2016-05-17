@@ -67,11 +67,11 @@ print, 'energy loop = ',i
         obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
 
         ;;;set image construction algorithm
-        ;obj-> set, image_algorithm= 'Back Projection'
+        obj-> set, image_algorithm= 'Back Projection'
         ;obj-> set, image_algorithm= 'CLEAN' 
         ;obj-> set, image_algorithm= 'PIXON' 
         ;obj-> set, image_algorithm= 'MEM_NJIT' 
-        obj-> set, image_algorithm= 'FORWARDFIT'
+        ;obj-> set, image_algorithm= 'FORWARDFIT'
         ;obj-> set, image_algorithm= 'VIS_FWDFIT'              
 
         obj-> set, time_bin_def= [1.00000, 2.00000, 4.00000, 4.00000, 8.00000, 16.0000, 32.0000, $
@@ -109,21 +109,22 @@ print, 'energy loop = ',i
         ;;;then save 
         ;im2fits
 ;        ffit= outdir+'rhessi_img_ne_'+ii+'nt_'+tt+'_time_'+time_intervals[0,t]+'.fits'
-        ffit = 'tmp.fit'
+        ffit = outdir+'tmp.fit'
         obj-> set, im_out_fits_filename = ffit
         obj->fitswrite
         ;;;fits files to maps section
         ;fits2map, ffit
         obj-> set, im_input_fits = ffit
         hsi_fits2map, ffit, rhessimap
-        if (t eq 0) then hsi_fits2map, ffit, rhessimap0 else $
+        if (t eq 0) then rhessimap0 = rhessimap else $
         if (t gt 0) then rhessimap0 = str_concat(rhessimap0, rhessimap)
         if (t eq nenergy - 1) then begin
+        if (t eq 1) then begin
         mapstr = 'hmap'+er1+'to'+er2
         com = mapstr+' = rhessimap0'
         exe = execute(com)
         fff = outdir+mapstr+'.sav'
-        com = 'save, '+mapstr+', filename = '+outdir+''+mapstr+'.sav'
+        com = 'save, '+mapstr+', filename = "'+fff+'"'
         exe = execute(com)
         endif                                                                                       
     endfor
