@@ -112,9 +112,9 @@ for i = 0, nenergy - 1 do begin
         ;;;fits files to maps section
         ;fits2map, ffit
         obj-> set, im_input_fits = ffit
-        if (t eq 0) then hsi_fits2map, ffit, rhessimap0 else $
         hsi_fits2map, ffit, rhessimap
-        rhessimap0 = str_concat(rhessimap0, rhessimap)
+        if (t eq 0) then hsi_fits2map, ffit, rhessimap0 else $
+        if (t gt 0) then rhessimap0 = str_concat(rhessimap0, rhessimap)
         if (t eq nenergy - 1) then begin
         mapstr = 'hmap'+er1+'to'+er2
         com = mapstr+' = rhessimap0'
