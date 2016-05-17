@@ -1,6 +1,6 @@
-pro rhessi_img_spectra, 
-energy_range, 
-increment, 
+pro rhessi_img_spectra, $
+energy_range, $
+increment, $
 hrstart, $ 
 minstart, $
 secst, $
@@ -86,8 +86,16 @@ for i = 0, nenergy - 1 do begin
         
         if (i eq 0) and (t eq 0) then begin
         datdim = size(data)
+
+        ;PRINT, SIZE(FINDGEN(10, 20))
+        ;IDL prints:
+        ;   2   10   20   4   200
+        ;This IDL output indicates the array has 2 dimensions, equal to 10 and 20, 
+        ;a type code of 4, and 200 elements total. Similarly, to print only the 
+        ;number of dimensions of the same array:
+
         ;rhessidata[e,xpix,ypix,t]
-        rhessidata = fltarr(nenergy, datdim[],datdim[],n_elements(time_intervals[0,*]))
+        rhessidata = fltarr(nenergy, datdim[1],datdim[2],n_elements(time_intervals[0,*]))
         endif
 
         rhessidata[i,*,*,t] = data    
