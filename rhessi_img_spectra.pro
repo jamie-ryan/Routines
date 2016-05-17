@@ -19,11 +19,19 @@ algorithm
 ;minend = ending minute. eg, 52
 ;secend = ending second. eg, 30
 ;nt = number of time intervals. eg 7  
-;algorithm = image construction algorithm. eg         
+;algorithm = image construction algorithm. eg  'CLEAN'       
+        ;'Back Projection'
+        ;'CLEAN' 
+        ;'PIXON' 
+        ;'MEM_NJIT' 
+        ;'FORWARDFIT'
+        ;'VIS_FWDFIT' 
+
+
 ;OUTPUT:
  
 ;syntax
-;rhessi_img_spectra, energy_range = [10.,100.], 10., 17, 40, 0, 17, 54, 0, 7, 'CLEAN'
+;rhessi_img_spectra, energy_range = [10.,100.], 10., 17, 40, 0, 17, 54, 0, 7, 'Back Projection'
                               
 ;hsi image object                                                                                         
 ; For a complete list of control parameters look at the tables in                         
@@ -124,7 +132,7 @@ for i = 0, nenergy - 1 do begin
         hsi_fits2map, ffit, rhessimap
         if (t eq 0) then rhessimap0 = rhessimap else $
         if (t gt 0) then rhessimap0 = str_concat(rhessimap0, rhessimap)
-        if (t eq nenergy - 1) then begin
+        if (t eq nt - 1) then begin
 ;        if (t eq 1) then begin
         mapstr = 'hmap'+er1+'to'+er2
         com = mapstr+' = rhessimap0'
