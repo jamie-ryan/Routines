@@ -138,4 +138,3 @@ fil = outdir+'rhessidata.sav'
 save, time_intervals, rhessiindex, rhessidata, filename = fil                         
 toc
 end
-
