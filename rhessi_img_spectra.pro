@@ -126,6 +126,7 @@ print, 'energy loop = ',i
         fff = outdir+mapstr+'.sav'
         com = 'save, '+mapstr+', filename = "'+fff+'"'
         exe = execute(com)
+        spawn, 'rm '+outdir+'tmp.fit'
         endif                                                                                       
     endfor
 endfor
