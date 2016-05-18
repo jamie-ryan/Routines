@@ -1,4 +1,4 @@
-pro rhessi_img_spectra, $
+pro rhessi_img, $
 energy_range =  energy_range, $
 increment, $
 hrstart, $ 
