@@ -21,11 +21,8 @@ nhrsec = (((hrend - hrstart) * 60 * 60)) / nt
 
 nminsec = (((minend - minstart) * 60)) / nt
 
-ntotsec = nhrsec + nminsec + secst
-
 ;calculate number of seconds per iteration
-nsec = ntotsec / nt
-
+nsec = nhrsec + nminsec + secst
 
 for i = 0, nt - 1 do begin
 nhr = fix((nhrsec * i) / 60. / 60.)

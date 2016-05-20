@@ -53,10 +53,16 @@ if (n_elements(energy_range) eq 1) then e1 = string(energy_range, format = '(I0)
 e1 = string(energy_range[0], format = '(I0)')
 e2 = string(energy_range[1], format = '(I0)')
 estr = 'energy-'+e1+'-to-'+e2
-algo = strcompress(algorithm, /remove_all)
 spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr
-spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+algo
-outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+algo+'/'
+incst = string(increment, format = '(I0)')
+inc = 'increments-'+incst+'keV'
+spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+inc
+timst = string(timg, format = '(I0)')
+tim = 'timg-'+timst+'sec'
+spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim
+algo = strcompress(algorithm, /remove_all)
+spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim+'/'+algo
+outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim+'/'+algo+'/'
 
 ;number of energy bands
 nenergy = max(energy_range)/increment
