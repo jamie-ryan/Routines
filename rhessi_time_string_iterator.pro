@@ -29,8 +29,10 @@ nhr = fix((nhrsec * i) / 60. / 60.)
 nhr1 = fix((nhrsec * (i+1)) / 60. / 60.)
 nmin = fix((nminsec * i) / 60.)
 nmin1 = fix((nminsec * (i+1)) / 60.)
-nsecs = nsec + nsec * i
-nsecs1= nsec + nsec * (i + 1)
+;nsecs = nsec + nsec * i
+;nsecs1= nsec + nsec * (i + 1)
+nsecs = nsec * i
+nsecs1= nsec * (i + 1)
 
 ns = fix((nsecs )/60.)
 ns1 = fix((nsecs1 )/60.)
