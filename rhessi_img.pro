@@ -7,7 +7,7 @@ secst, $
 hrend, $
 minend, $
 secend, $ 
-nt, $
+timg, $
 algorithm
 ;INPUT:
 ;energy_range = either a single number, or a 2 element array. eg energy_range = [10.0D, 100.0D]
@@ -18,7 +18,7 @@ algorithm
 ;hrend = ending hour. eg, 17
 ;minend = ending minute. eg, 52
 ;secend = ending second. eg, 30
-;nt = number of time intervals. eg 7  
+;timg = secomds per time interval. eg 20 [sec]  
 ;algorithm = image construction algorithm. eg  'CLEAN'       
         ;'Back Projection'
         ;'CLEAN' 
@@ -27,11 +27,10 @@ algorithm
         ;'FORWARDFIT'
         ;'VIS_FWDFIT' 
 
-
 ;OUTPUT:
  
 ;syntax
-;rhessi_img, energy_range = [10.,100.], 10., 17, 40, 0, 17, 54, 0, 7, 'PIXON'
+;rhessi_img, energy_range = [10.,100.], 10., 17, 40, 0, 17, 54, 0, 20., 'PIXON'
                               
 ;hsi image object                                                                                         
 ; For a complete list of control parameters look at the tables in                         
@@ -55,11 +54,19 @@ e1 = string(energy_range[0], format = '(I0)')
 e2 = string(energy_range[1], format = '(I0)')
 estr = 'energy-'+e1+'-to-'+e2
 algo = strcompress(algorithm, /remove_all)
+spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr
 spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+algo
 outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+algo+'/'
 
 ;number of energy bands
 nenergy = max(energy_range)/increment
+
+hrsec = (hrend - hrstart)*60.*60.
+mindiff = (minend - minstart)*60.
+secdiff = (secend - secst)
+tsec = hrsec + mindiff + secdiff
+nt = tsec/timg
+
 time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minend, secst, secend)
 
 ;energy increment loop
