@@ -64,11 +64,12 @@ time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minen
 
 ;energy increment loop
 for i = 0, nenergy - 1 do begin   
-         
-    iflt = i*1.0D                                           
+    ;;;to force  energy bins to start from 1 keV rather than zero
+    if (i eq 0) then add = 1 else add = 0 = i*1.0D                                           
+
     obj = hsi_image()                    
     ;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
-    obj-> set, im_energy_binning = [iflt*increment, iflt*increment + increment]
+    obj-> set, im_energy_binning = [add + iflt*increment, iflt*increment + increment]
     
     er1 = string(iflt*increment, format = '(I0)')
     er2 = string(iflt*increment + increment, format = '(I0)')

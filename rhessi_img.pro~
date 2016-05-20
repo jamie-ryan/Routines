@@ -31,7 +31,7 @@ algorithm
 ;OUTPUT:
  
 ;syntax
-;rhessi_img_spectra, energy_range = [10.,100.], 10., 17, 40, 0, 17, 54, 0, 7, 'Back Projection'
+;rhessi_img, energy_range = [10.,100.], 10., 17, 40, 0, 17, 54, 0, 7, 'PIXON'
                               
 ;hsi image object                                                                                         
 ; For a complete list of control parameters look at the tables in                         
