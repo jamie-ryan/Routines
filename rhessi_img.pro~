@@ -57,6 +57,7 @@ spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr
 incst = string(increment, format = '(I0)')
 inc = 'increments-'+incst+'keV'
 spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+inc
+timst = string(timg, format = '(I0)')
 tim = 'timg-'+timst+'sec'
 spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim
 algo = strcompress(algorithm, /remove_all)
