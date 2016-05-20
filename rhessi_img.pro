@@ -115,8 +115,8 @@ for i = 0, nenergy - 1 do begin
         data = obj-> getdata()    ; retrieve the last image made                                 
         ;data = obj-> getdata(use_single=0)  ; retrieve all images in cube        
 
-        if (t eq 0) then rhessiindex =  obj->get( /summary_info) else $
-        if (t gt 0) then rhessiindex = str_concat(rhessiindex, ind)
+;        if (t eq 0) then rhessiindex =  ind else $
+;        if (t gt 0) then rhessiindex = str_concat(rhessiindex, ind)
 
         if (i eq 0) and (t eq 0) then begin
         datdim = size(data)
@@ -159,7 +159,8 @@ for i = 0, nenergy - 1 do begin
     endfor
 endfor
 fil = outdir+'rhessidata.sav'
-save, time_intervals, rhessiindex, rhessidata, filename = fil                         
+;save, time_intervals, rhessiindex, rhessidata, filename = fil                         
+save, time_intervals, rhessidata, filename = fil
 toc
 spawn, 'rm '+outdir+'tmp.fit'
 end
