@@ -82,11 +82,11 @@ for i = 0, nenergy - 1 do begin
         print, 'energy loop = ',i   
         print, 'time loop = ',t
         ;;;to force  energy bins to start from 1 keV rather than zero
-        if (i eq 0) then add = 1 else add = 0 
+        if (i eq 0) then add1 = 1 else add1 = 0 
         iflt = i*1.0D                                           
         obj = hsi_image()                    
         ;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
-        obj-> set, im_energy_binning = [add + iflt*increment, iflt*increment + increment]
+        obj-> set, im_energy_binning = [add1 + iflt*increment, iflt*increment + increment]
         
         er1 = string(iflt*increment, format = '(I0)')
         er2 = string(iflt*increment + increment, format = '(I0)')
@@ -95,6 +95,7 @@ for i = 0, nenergy - 1 do begin
         obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
 
         ;;;set image construction algorithm
+        ;obj-> set, /pixon_noplot
         obj-> set, image_algorithm= algorithm
         ;obj-> set, image_algorithm= 'Back Projection'
         ;obj-> set, image_algorithm= 'CLEAN' 

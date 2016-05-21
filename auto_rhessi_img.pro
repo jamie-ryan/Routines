@@ -1,5 +1,6 @@
 ;pro auto_rhessi_img
 
+;./Scripts/bsidl.sh Routines/auto_rhessi_img.pro auto_rhessi_img.log &
 
 ;change these values before running csh2idl.sh 
 e1 = 10.D ;keV
@@ -13,7 +14,8 @@ hrend = 17
 minend = 52
 secend = 0
 timg = 20.
-algo = 'PIXON'
+algo = 'CLEAN'
+;algo = 'PIXON'
 
 rhessi_img, energy_range = e_range, increment, hrst, minst, secst, hrend, minend, secend, timg, algo
 
