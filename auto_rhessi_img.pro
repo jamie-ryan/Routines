@@ -16,9 +16,9 @@ secend = 0
 timg = 20.
 
 ;algo = 'PIXON'
-algo = 'Back Projection'
+;algo = 'Back Projection'
 ;algo = 'CLEAN' 
-;algo = 'PIXON' 
+algo = 'PIXON' 
 ;algo = 'MEM_NJIT' 
 ;algo = 'FORWARDFIT'
 ;algo = 'VIS_FWDFIT' 

@@ -14,8 +14,14 @@ hrend = 17
 minend = 52
 secend = 0
 timg = 20.
-algo = 'CLEAN'
+
 ;algo = 'PIXON'
+algo = 'Back Projection'
+;algo = 'CLEAN' 
+;algo = 'PIXON' 
+;algo = 'MEM_NJIT' 
+;algo = 'FORWARDFIT'
+;algo = 'VIS_FWDFIT' 
 
 rhessi_img, energy_range = e_range, increment, hrst, minst, secst, hrend, minend, secend, timg, algo
 
