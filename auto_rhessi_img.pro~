@@ -14,7 +14,8 @@ hrend = 17
 minend = 52
 secend = 0
 timg = 20.
-algo = 'PIXON'
+algo = 'CLEAN'
+;algo = 'PIXON'
 
 rhessi_img, energy_range = e_range, increment, hrst, minst, secst, hrend, minend, secend, timg, algo
 
