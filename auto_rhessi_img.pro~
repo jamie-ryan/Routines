@@ -1,19 +1,19 @@
-pro auto_rhessi_img, inputargs
+pro auto_rhessi_img
 
 
-;inputargs are in string format due to -args
-e1 = float(inputargs[1])
-e2 = float(inputargs[2])
+;change these values before running csh2idl.sh 
+e1 = 10.D ;keV
+e2 = 100.D
 e_range = [e1, e2]
-increment = float(inputargs[3])
-hrst = float(inputargs[4])
-minst = float(inputargs[5])
-secst = float(inputargs[6])
-hrend = float(inputargs[7])
-minend = float(inputargs[8])
-secend = float(inputargs[9])
-timg = float(inputargs[10]    )
-algo = inputargs[11] ;leave as string
+increment = 10. ;keV
+hrst = 17
+minst = 44
+secst = 0
+hrend = 17
+minend = 52
+secend = 0
+timg = 20.
+algo = 'PIXON'
 
 rhessi_img, energy_range = e_range, increment, hrst, minst, secst, hrend, minend, secend, timg, algo
 

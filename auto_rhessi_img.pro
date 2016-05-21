@@ -1,4 +1,4 @@
-pro auto_rhessi_img
+;pro auto_rhessi_img
 
 
 ;change these values before running csh2idl.sh 
@@ -17,4 +17,4 @@ algo = 'PIXON'
 
 rhessi_img, energy_range = e_range, increment, hrst, minst, secst, hrend, minend, secend, timg, algo
 
-end
+;end
