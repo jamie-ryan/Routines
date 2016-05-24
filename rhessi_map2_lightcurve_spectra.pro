@@ -1,4 +1,6 @@
 outdir = '/unsafe/jsr2/rhessi-spectra-May23-2016/energy-10-to-100/increments-10keV/timg-20sec/PIXON/'
+restore, outdir+'rhessidata.sav'
+
 restore, outdir+'hmap0to10.sav'  
 restore, outdir+'hmap10to20.sav'
 restore, outdir+'hmap20to30.sav'
@@ -9,7 +11,7 @@ restore, outdir+'hmap60to70.sav'
 restore, outdir+'hmap70to80.sav'
 restore, outdir+'hmap80to90.sav'
 restore, outdir+'hmap90to100.sav'
-restore, outdir+'rhessidata.sav'
+
 
 
 
@@ -43,13 +45,13 @@ sig = string(sigma_thresh, format = '(I0)')
 ;locate high intensity pixels that are common across each energy range
 for i = 0, nt -1 do begin
 for j = 0, nenergy - 1 do begin
-array = reform(rhessidata[j,*,*,i]
+array = reform(rhessidata[j,*,*,i])
 ii = string(i, format = '(I0)')
 jj = string(j, format = '(I0)')
 ;returns pixel coordinates containing values
 ;above the standard deviation threshold set by the user
 fil = outdir+'rhessidata['+jj+'-x-y-'+ii+']-'+sig+'sigma-pixel-locations.dat'
-pix = sigma_thresh(array, sigma_thresh, \ptf, outfile = fil)
+pix = sigma_thresh(array, sigma_thresh, /ptf, outfile = fil)
 endfor
 endfor
 

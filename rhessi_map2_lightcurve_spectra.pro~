@@ -1,4 +1,6 @@
 outdir = '/unsafe/jsr2/rhessi-spectra-May23-2016/energy-10-to-100/increments-10keV/timg-20sec/PIXON/'
+restore, outdir+'rhessidata.sav'
+
 restore, outdir+'hmap0to10.sav'  
 restore, outdir+'hmap10to20.sav'
 restore, outdir+'hmap20to30.sav'
@@ -9,7 +11,7 @@ restore, outdir+'hmap60to70.sav'
 restore, outdir+'hmap70to80.sav'
 restore, outdir+'hmap80to90.sav'
 restore, outdir+'hmap90to100.sav'
-restore, outdir+'rhessidata.sav'
+
 
 
 
@@ -48,12 +50,12 @@ ii = string(i, format = '(I0)')
 jj = string(j, format = '(I0)')
 ;returns pixel coordinates containing values
 ;above the standard deviation threshold set by the user
-fil = outdir+'rhessidata['+jj+'-x-y-'+ii+']-'+sig+'sigma-pixel-locations'
+fil = outdir+'rhessidata['+jj+'-x-y-'+ii+']-'+sig+'sigma-pixel-locations.dat'
 pix = sigma_thresh(array, sigma_thresh, \ptf, outfile = fil)
 endfor
 endfor
 
-
+;then use: sort rhessidata[*-x-y-constant]....dat | uniq -d >> tmp.dat in bash or csh to cross check files
 
 
 ;plot hxr spectra through time

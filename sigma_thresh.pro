@@ -12,7 +12,7 @@ flagged_pixel_locations = array_indices(array, thresh)
 
 ;print to file
 if keyword_set(pft)
-openw, filename = outfile, /get_lun
+openw, lun, outfile, /get_lun
 printf, lun, flagged_pixel_locations
 free_lun, lun
 endif
