@@ -1,0 +1,11 @@
+;returns pixel coordinates containing values
+;above the standard deviation threshold set by the user
+function sigma_thresh, $
+array, $
+sigma_thresh
+
+sigma = stddev(array)
+thresh = where(array gt sigma_thresh*sigma, tmp)
+flagged_pixel_locations = array_indices(array, thresh)
+return, flagged_pixel_locations
+end

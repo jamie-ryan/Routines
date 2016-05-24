@@ -4,6 +4,8 @@ increment, $
 outdir
 ;syntax: rhessi_map2spectra, energy_range =  [10.D, 100.D], 10., '/unsafe/jsr2/rhessi-spectra-May18-2016/energy-10-to-100/PIXON/'
 
+outdir = '/unsafe/jsr2/rhessi-spectra-May23-2016/energy-10-to-100/increments-10keV/timg-20sec/PIXON/'
+
 nenergy = energy_range[1]/increment
 
 
