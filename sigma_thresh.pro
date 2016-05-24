@@ -15,8 +15,7 @@ stmax = max(array)/sigma
 if (sigma_thresh gt stmax) then begin
 ust = string(sigma_thresh, format = '(I0)') 
 stm = string(stmax, format = '(I0)')
-print, 'Your sigma threshold value of '+ust+' is too large, maximum signal is '+stm+' times the standard deviation.'
-return, print, 'exiting function' 
+message, 'Your sigma threshold value of '+ust+' is too large, maximum signal is '+stm+' times the standard deviation.'
 endif
 
 thresh = where(array gt sigma_thresh*sigma, tmp)
