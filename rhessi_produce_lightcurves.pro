@@ -22,8 +22,8 @@ timgst = string(timg, format = '(I0)')
 t1 = time_intervals[0,0]
 t2 = strmid(time_intervals[1,-1],12)
 tt = t1+' to '+t2
-tit = 'RHESSI 10 - 100 keV Lightcurve '+tt+'
-ytit = 'Log Counts collected over '+timgst+' sec interval. log(DN)'
+tit = 'RHESSI 10 - 100 keV Lightcurve
+ytit = 'Summed 10 - 100 keV Counts DN'
 
 ;read in balmercoords from file
 dataset = ['balmer']
