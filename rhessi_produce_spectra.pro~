@@ -26,7 +26,7 @@ sigma_thresh = 4.
 sig = string(sigma_thresh, format = '(I0)')
 nt = n_elements(rhessidata[0,0,0,*]) ; = n_elements(time_intervals[0,*])
 timgst = string(timg, format = '(I0)')
-xtit = 'Energy (keV)'
+xtit = 'Energy keV'
 ytit = 'Log Counts collected over '+timgst+' sec interval. log(DN)'
 sumpix = fltarr(nenergy)
 
