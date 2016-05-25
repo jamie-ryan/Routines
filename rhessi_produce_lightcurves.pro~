@@ -44,7 +44,7 @@ lightcurves = fltarr(n_elements(balmcoords[0,*]), nt)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;PLOTTING;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-for k = 0, n_elements(pix[0,*]) - 1 do begin    
+for k = 0, nlin - 1 do begin    
     for i = 0, nt - 1 do begin
         ;convert balmercoords into rhessi pixel locations
         pix = convert_coord_rhessi(hmap0to10[i], balmcoords, /a2p)

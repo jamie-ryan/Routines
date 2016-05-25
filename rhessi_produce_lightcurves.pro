@@ -67,7 +67,6 @@ fsav = outdir+'plots/lightcurves/rhessi_balmer_coords_lightcurves.sav'
 save, lightcurves, pix, $
 nenergy, $
 energy_range, $
-increment, $
 timg, $
 nt, $
 ytit, $
