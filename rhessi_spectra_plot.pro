@@ -1,4 +1,4 @@
-rhessi_spectra_plot, countsarray, energyrange, titl = titl, xtitl = xtitl, ytitl = ytitl, plotstr = plotstr outfile = outfile
+rhessi_spectra_plot, countsarray, energyrange, titl = titl, xtitl = xtitl, ytitl = ytitl, plotstr = plotstr, outfile = outfile
 
 
 ;Plot spectra from summed pixel array
