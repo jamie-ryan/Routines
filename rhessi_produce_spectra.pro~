@@ -1,4 +1,4 @@
-pro rhessi_map2_lightcurve_spectra, $
+pro rhessi_produce_spectra, $
 sigma_thresh_pix = sigma_thresh_pix, $
 sumcoords = sumcoords, $
 balmercoords = balmercoords
