@@ -60,12 +60,6 @@ for k = 0, n_elements(pix[0,*]) - 1 do begin
     rhessi_lightcurve_plot, lightcurves[k,*], time_intervals[0,*], $
     titl = tit, ytitl = ytit, plotstr = plotst, outfile = flnm
 endfor
-
-
-
-
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;SAVE FILE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
