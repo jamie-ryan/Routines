@@ -2,7 +2,7 @@ pro rhessi_produce_spectra, $
 sigma_thresh_pix = sigma_thresh_pix, $
 sumcoords = sumcoords, $
 balmercoords = balmercoords
-.r sigma_thresh
+
 outdir = '/unsafe/jsr2/rhessi-spectra-May23-2016/energy-10-to-100/increments-10keV/timg-20sec/PIXON/'
 restore, outdir+'rhessidata.sav'
 restore, outdir+'hmap0to10.sav'  
