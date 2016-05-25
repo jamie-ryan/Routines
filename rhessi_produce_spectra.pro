@@ -75,6 +75,7 @@ if keyword_set(balmercoords) then begin
             for j = 0, nenergy - 1 do begin
                 sumpix[j] = rhessidata[j, pix[0, k], pix[1, k], i]
             endfor
+            ii = string(i, format = '(I0)')
             bc = string(k, format = '(I0)')
             hcx = string(balmcoords[0, k], format = '(F0.2)')
             hcy = string(balmcoords[1, k], format = '(F0.2)')

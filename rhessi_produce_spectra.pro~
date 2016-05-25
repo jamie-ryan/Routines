@@ -28,7 +28,7 @@ nt = n_elements(rhessidata[0,0,0,*]) ; = n_elements(time_intervals[0,*])
 timgst = string(timg, format = '(I0)')
 xtit = 'Energy (keV)'
 ytit = 'Counts collected over '+timgst+' sec interval (DN)'
-
+sumpix = fltarr(nenergy)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;SIGMA THRESHOLD HXR PIXEL DETECTION;;;;;;;;;;;;;;;;;;;;;;;
@@ -92,7 +92,6 @@ if keyword_set(balmercoords) then begin
 endif
 
 if keyword_set(sumcoords) then begin
-    sumpix = fltarr(nenergy)
     spectra = fltarr(nenergy, nt)
     ;plot hxr spectra 
     for i = 0, nt - 1 do begin
