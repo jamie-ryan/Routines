@@ -38,7 +38,7 @@ ytitle = ytitl, $
 ;/ynozero, $
 ;/ylog, $
 xmargin = [12,3]
-xyouts, 0.2, 0.9, charsize = 0.5, plotstr, /norm
+xyouts, 0.2, 0.9, charsize = 1.5, plotstr, /norm
 device,/close
 set_plot,'x'
 !p.font=-1 			;go back to default (Vector Hershey fonts)
