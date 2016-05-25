@@ -68,7 +68,7 @@ if keyword_set(balmercoords) then begin
         readf, lun, balmcoords
         free_lun, lun
     endfor
-    spectra = fltarr(n_elements(balmcoords[0,*]), nenrgy, nt)
+    spectra = fltarr(n_elements(balmcoords[0,*]), nenergy, nt)
     for i = 0, nt - 1 do begin
         pix = convert_coord_rhessi(hmap0to10[i], balmcoords, /a2p)
         for k = 0, n_elements(pix[0,*]) - 1 do begin    
