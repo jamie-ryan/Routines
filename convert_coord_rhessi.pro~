@@ -1,10 +1,4 @@
-function convert_coord_rhessi, map, coord
-
-;how many coord to convert
-nc = n_elements(coord[0,*])
-pix = fltarr(2,n_elements(coord[0,*]))
-
-for i = 0, nc - 1 do begin
+function convert_coord_rhessi, map, coord, a2p = a2p, p2a = p2a
 
 ;get map properties
 xcc = map.xc
@@ -22,10 +16,28 @@ y0 = ycc - (dyy*(ny/2.))
 yf = ycc + (dyy*(ny/2.))
 
 
-;calculate pixel positions
-pix[0,i] = (coord[0, i] - x0)/dxx
-pix[1,i] = (coord[1, i] - y0)/dyy
-endfor
+;how many coord to convert
+nc = n_elements(coord[0,*])
 
-return, pix
+;
+;pix = fltarr(2,n_elements(coord[0,*]))
+result = fltarr(2,n_elements(coord[0,*]))
+
+if keyword_set(a2p) then begin
+    for i = 0, nc - 1 do begin
+        ;calculate pixel positions from arcsec coords
+        result[0,i] = (coord[0, i] - x0)/dxx
+        result[1,i] = (coord[1, i] - y0)/dyy
+    endfor
+endif
+if keyword_set(p2a) then begin
+    for i = 0, nc - 1 do begin
+        ;calculate arcsec positions from pixel coords
+        result[0,i] = (coord[0, i]*dxx) + x0
+        result[1,i] = (coord[1, i]*dyy) + y0
+    endfor
+endif
+
+
+return, result
 end

@@ -1,7 +1,13 @@
+pro rhessi_map2_lightcurve_spectra, $
+sigma_thresh_pix = sigma_thresh_pix, $
+sumcoords = sumcoords, $
+balmercoords = balmercoords
+
 outdir = '/unsafe/jsr2/rhessi-spectra-May23-2016/energy-10-to-100/increments-10keV/timg-20sec/PIXON/'
 restore, outdir+'rhessidata.sav'
-
-
+restore, outdir+'hmap0to10.sav'  
+spawn, 'mkdir '+outdir+'dat'
+spawn, 'mkdir '+outdir+'plots'
 
 ;make spectra from rhessidata.sav, which contains
 ;time_intervals, $
@@ -14,75 +20,124 @@ restore, outdir+'rhessidata.sav'
 nenergy = n_elements(rhessidata[*,0,0,0])
 energy_range = [10.D, 100.D]
 increment = 10.
+timg = 20.
 erng = energy_range[0] + findgen(energy_range[1]/increment)*10
 sigma_thresh = 4.
 sig = string(sigma_thresh, format = '(I0)')
 nt = n_elements(rhessidata[0,0,0,*]) ; = n_elements(time_intervals[0,*])
+timgst = string(timg, format = '(I0)')
+xtit = 'Energy (keV)'
+ytit = 'Counts collected over '+timgst+' sec interval (DN)'
 
-;locate high intensity pixels that are common across each energy range
-for i = 0, nt -1 do begin
-    for j = 0, nenergy - 1 do begin
-        print, 'energy:', j, 'time:',i 
-        ;array = reform(rhessidata[j,*,*,i])
-        ii = string(i, format = '(I0)')
-        jj = string(j, format = '(I0)')
-        ;returns pixel coordinates containing values
-        ;above the standard deviation threshold set by the user
-        fil = outdir+'dat/rhessidata-e-'+jj+'-t-'+ii+'-'+sig+'sigma-pixel-locations.dat'
-        pix = sigma_thresh(reform(rhessidata[j,*,*,i]), sigma_thresh, outfile = fil)
-        pix = 0
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;SIGMA THRESHOLD HXR PIXEL DETECTION;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+if keyword_set(sigma_thresh_pix) then begin
+    ;locate high intensity pixels that are common across each energy range
+    for i = 0, nt -1 do begin
+        for j = 0, nenergy - 1 do begin
+            print, 'energy:', j, 'time:',i 
+            ;array = reform(rhessidata[j,*,*,i])
+            ii = string(i, format = '(I0)')
+            jj = string(j, format = '(I0)')
+            spawn, 'mkdir '+outdir+'dat/t'+ii
+            outdat = outdir+'dat/t'+ii
+            fil = outdat+'/rhessidata-e-'+jj+'-t-'+ii+'-'+sig+'sigma-pixel-locations.dat'
+
+            ;returns pixel coordinates containing values
+            ;above the standard deviation threshold set by the user
+            pix = sigma_thresh(reform(rhessidata[j,*,*,i]), sigma_thresh, outfile = fil)
+            pix = 0
+        endfor
     endfor
-endfor
-
-;then use: rhessi-organise-and-pixel-sort.sh 
-
-;by visual inspection of hmap90to100 I know the 7th time step has activity
-flnm = outdir+'dat/t7/out.dat'
-openr, lun, flnm, /get_lun
-nlin =  file_lines(flnm)
-pix = fltarr(2, nlin)
-readf, lun, pix
-free_lun, lun
+;then use: rhessi-organise-and-pixel-sort.sh to collect common pixels across each energy increment
+endif
 
 
-
-;plot hxr spectra 
-for i = 0, nlin - 1 do begin
-    plot, erng, alog10(rhessidata[*, pix[0, i], pix[1, i], 7])
-endfor
-
-
-for j = 0, nenergy - 1 do begin
-    for i = 0, nlin - 1 do begin
-        ;lightcurves using rhessidata
-        utplot, time_intervals[0,*], rhessidata[j, pix[0, i], pix[1, i], *]
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;PLOTTING;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+if keyword_set(balmercoords) then begin
+    dataset = ['balmer']
+    for k = 0, n_elements(dataset)-1 do begin
+        flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords.txt
+        openr, lun, flnm, /get_lun
+        nlin =  file_lines(flnm)
+        balmcoords = fltarr(2, nlin)
+        readf, lun, balmcoords
+        free_lun, lun
     endfor
-endfor
+    spectra = fltarr(n_elements(pix[0,*]), nenrgy, nt)
+    for i = 0, nt - 1 do begin
+        pix = convert_coord_rhessi(hmap0to10[i], balmcoords, /a2p)
+        for k = 0, n_elements(pix[0,*]) - 1 do begin    
+            for j = 0, nenergy - 1 do begin
+                sumpix[j] = rhessidata[j, pix[0, k], pix[1, k], i]
+            endfor
+            bc = string(k, format = '(I0)')
+            hcx = string(balmcoords[0, k], format = '(F0.2)')
+            hcy = string(balmcoords[1, k], format = '(F0.2)')
+            tt = time_intervals[0,i]
+            tit = 'RHESSI Image Spectrum '+tt+'
+            plotst = 'Coords = '+hcx+',' +hcy+'
+            flnm = outdir+'plots/rhessi-t'+ii+'-balmer-coord-'+bc+'-spectrum.eps'
+            rhessi_spectra_plot, sumpix, erng, titl = tit, xtitl = xtit, ytitl = ytit, plotstr = plotst, outfile = flnm
+            spectra[k,*,i] = sumpix
+            outcp = outdir+'dat/t'+ii
+            spawn, 'cp '+flnm+' '+outcp
+        endfor
+    endfor
+    fsav = outdir+'plots/rhessi_balmer_coords_spectra.sav'
+endif
 
+if keyword_set(sumcoords) then begin
+    sumpix = fltarr(nenergy)
+    spectra = fltarr(nenergy, nt)
+    ;plot hxr spectra 
+    for i = 0, nt - 1 do begin
+    ii = string(i, format = '(I0)')
 
+        ;read in file containing pixel locations for high intensity hxr activity.
+        ;by visual inspection of hmap90to100 I know the 7th time step has activity
+        flnm = outdir+'dat/t'+ii+'/out.dat'
+        openr, lun, flnm, /get_lun
+        nlin =  file_lines(flnm)
+        pix = fltarr(2, nlin)
+        readf, lun, pix
+        free_lun, lun
+        pixcoords = convert_coord_rhessi(hmap0to10[i], pix, /p2a)
+        ;sum pixels shared across each energy increment at a fixed time.
+        for j = 0, nenergy - 1 do begin 
+            sumpix[j] = total(rhessidata[j, pix[0, *], pix[1, *], i])
+        endfor
+        hcx = string(avg(pixcoords[0, *]), format = '(F0.2)')
+        hcy = string(avg(pixcoords[1, *]), format = '(F0.2)')
+        tt = time_intervals[0,i]
+        tit = 'RHESSI Image Spectrum '+tt+'
+        plotst = 'Central Coords of Summed Region = '+hcx+',' +hcy+'
+        flnm = outdir+'plots/rhessi-t'+ii+'-summed-common-coords-spectrum.eps'
+        rhessi_spectra_plot, sumpix, erng, titl = tit, xtitl = xtit, ytitl = ytit, plotstr = plotst, outfile = flnm
+        spectra[*, i] = sumpix
+        outcp = outdir+'dat/t'+ii
+        spawn, 'cp '+flnm+' '+outcp
+    endfor
+    fsav = outdir+'plots/rhessi_summed_common_coords_spectra.sav'
+endif
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;SAVE FILE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+save, spectra, pix, $
+nenergy, $
+energy_range, $
+increment, $
+timg, $
+erng, $
+sigma_thresh, $
+nt, $
+xtit, $
+ytit, $
+filename = fsav
 
-
-
-;;lightcurves using maps
-restore, outdir+'hmap0to10.sav'  
-restore, outdir+'hmap10to20.sav'
-restore, outdir+'hmap20to30.sav'
-restore, outdir+'hmap30to40.sav'
-restore, outdir+'hmap40to50.sav'
-restore, outdir+'hmap50to60.sav'
-restore, outdir+'hmap60to70.sav'
-restore, outdir+'hmap70to80.sav'
-restore, outdir+'hmap80to90.sav'
-restore, outdir+'hmap90to100.sav'
-
-;manually looked for higest intensity pixel in the 90 to 100 keV maps
-cursor, x, y & print, x, y
-;       521.49398       259.59312
-x = 521.49398
-y = 259.59312
-coords = [x,y]
-pix = convert_coord_rhessi(hmap90to100[7], coords) 
-;plot lightcurve
-utplot, hmap90to100.time, hmap90to100.data[pix[0], pix[1]]
-
+end
