@@ -96,7 +96,7 @@ endfor
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;SAVE FILE;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-fsav = outdir+'plots/lightcurves/rhessi_balmer_coords_lightcurves.sav'
+fsav = outdir+'plots/lightcurves/rhessi_lightcurves.sav'
 save, $
 lightcurves, $
 sumlightcurves, $
