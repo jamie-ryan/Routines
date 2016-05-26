@@ -75,8 +75,8 @@ for j = 0, n_elements(rhessidata[*,0,0,0]) - 1 do begin
             endif
         endfor
         ;plot lightcurve
-        tit = 'RHESSI '+titerngst+' keV Lightcurve'
-        ytit = 'Summed '+titerngst+' keV Counts [DN]'
+        tit = 'RHESSI '+titerngst[j]+' keV Lightcurve'
+        ytit = 'Summed '+titerngst[j]+' keV Counts [DN]'
         bc = string(k, format = '(I0)')
         hcx = string(balmcoords[0, k], format = '(F0.2)')
         hcy = string(balmcoords[1, k], format = '(F0.2)')
@@ -87,7 +87,7 @@ for j = 0, n_elements(rhessidata[*,0,0,0]) - 1 do begin
         if (j eq 0) then begin
         tit = 'RHESSI '+titallest+' keV Lightcurve'
         ytit = 'Summed '+titallest+' keV Counts [DN]'
-        flnm = outdir+'/plots/lightcurves/rhessi-'+allerng+'-balmer-coord-'+bc+'-lightcurve.eps'
+        flnm = outdir+'plots/lightcurves/rhessi-'+allerng+'-balmer-coord-'+bc+'-lightcurve.eps'
         rhessi_lightcurve_plot, sumlightcurves[ k,*], time_intervals[0,*], $
         titl = tit, ytitl = ytit, plotstr = plotst, outfile = flnm
         endif
