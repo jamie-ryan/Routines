@@ -28,7 +28,7 @@ ycharsize = 0.70, $
 xcharsize = 0.75, $
 xstyle = 8, $
 title = titl, $
-xtitle = xtitl, $
+;xtitle = xtitl, $
 ytitle = ytitl, $
 ;/nolabel, $
 ;ytickname=[' '], $
