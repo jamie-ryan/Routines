@@ -65,7 +65,7 @@ spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim+'/'+algo
 outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim+'/'+algo+'/'
 
 ;number of energy bands
-nenergy = (max(energy_range)-min(e_range))/increment
+nenergy = (max(energy_range)-min(energy_range))/increment
 
 hrsec = (hrend - hrstart)*60.*60.
 mindiff = (minend - minstart)*60.
@@ -131,10 +131,11 @@ for i = 0, nenergy - 1 do begin
 
         ;rhessidata[e,xpix,ypix,t]
         rhessidata = fltarr(nenergy, datdim[1],datdim[2],n_elements(time_intervals[0,*]))
+;        rhessierror = fltarr(nenergy, datdim[1],datdim[2],n_elements(time_intervals[0,*]))
         endif
 
         rhessidata[i,*,*,t] = data    
-
+;        rhessierror[i,*,*,t]=hsi_calc_image_error(data,obj)
         ;;;create map structures for each energy increment
         ;;;then save 
         ;im2fits
@@ -161,7 +162,7 @@ for i = 0, nenergy - 1 do begin
 endfor
 fil = outdir+'rhessidata.sav'
 ;save, time_intervals, rhessiindex, rhessidata, filename = fil                         
-save, time_intervals, rhessidata, $ 
+save, time_intervals, rhessidata, rhessierror, $ 
 energy_range, $
 increment, $
 timg, $
