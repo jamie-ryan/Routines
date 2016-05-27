@@ -65,7 +65,7 @@ spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim+'/'+algo
 outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim+'/'+algo+'/'
 
 ;number of energy bands
-nenergy = max(energy_range)/increment
+nenergy = (max(energy_range)-min(e_range))/increment
 
 hrsec = (hrend - hrstart)*60.*60.
 mindiff = (minend - minstart)*60.
@@ -74,7 +74,7 @@ tsec = hrsec + mindiff + secdiff
 nt = tsec/timg
 
 time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minend, secst, secend)
-
+add1 = min(energy_range)
 ;energy increment loop
 for i = 0, nenergy - 1 do begin   
     ;loop through each time interval
@@ -82,11 +82,11 @@ for i = 0, nenergy - 1 do begin
         print, 'energy loop = ',i   
         print, 'time loop = ',t
         ;;;to force  energy bins to start from 1 keV rather than zero
-        if (i eq 0) then add1 = 1 else add1 = 0 
+;        if (i eq 0) then add1 = min(e_range) else add1 = 0 
         iflt = i*1.0D                                           
         obj = hsi_image()                    
         ;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
-        obj-> set, im_energy_binning = [add1 + iflt*increment, iflt*increment + increment]
+        obj-> set, im_energy_binning = [add1 + iflt*increment, add1 + iflt*increment + increment]
         
         er1 = string(iflt*increment, format = '(I0)')
         er2 = string(iflt*increment + increment, format = '(I0)')

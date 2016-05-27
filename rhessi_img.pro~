@@ -65,7 +65,7 @@ spawn, 'mkdir /unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim+'/'+algo
 outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim+'/'+algo+'/'
 
 ;number of energy bands
-nenergy = max(energy_range)/increment
+nenergy = (max(energy_range)-min(e_range))/increment
 
 hrsec = (hrend - hrstart)*60.*60.
 mindiff = (minend - minstart)*60.
@@ -183,5 +183,5 @@ tsec = string(tsec, format = '(F0.2)')
 print, 'Time elapsed: '+thr+' hours, '+tmin+' minutes and '+tsec+' seconds.
 
 ;delete last instance of tmp.fit
-spawn, 'rm '+outdir+'tmp.fit'
+;spawn, 'rm '+outdir+'tmp.fit'
 end
