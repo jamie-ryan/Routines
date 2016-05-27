@@ -157,7 +157,8 @@ for i = 0, nenergy - 1 do begin
         fff = outdir+mapstr+'.sav'
         com = 'save, '+mapstr+', filename = fff'
         exe = execute(com)
-        endif                                                                                       
+        endif   
+        while (!d.window gt -1) do wdelete                                      
     endfor
 endfor
 fil = outdir+'rhessidata.sav'

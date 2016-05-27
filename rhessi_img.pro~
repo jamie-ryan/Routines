@@ -131,11 +131,11 @@ for i = 0, nenergy - 1 do begin
 
         ;rhessidata[e,xpix,ypix,t]
         rhessidata = fltarr(nenergy, datdim[1],datdim[2],n_elements(time_intervals[0,*]))
-        rhessierror = fltarr(nenergy, datdim[1],datdim[2],n_elements(time_intervals[0,*]))
+;        rhessierror = fltarr(nenergy, datdim[1],datdim[2],n_elements(time_intervals[0,*]))
         endif
 
         rhessidata[i,*,*,t] = data    
-        rhessierror[i,*,*,t]=hsi_calc_image_error(data,obj)
+;        rhessierror[i,*,*,t]=hsi_calc_image_error(data,obj)
         ;;;create map structures for each energy increment
         ;;;then save 
         ;im2fits
@@ -157,7 +157,8 @@ for i = 0, nenergy - 1 do begin
         fff = outdir+mapstr+'.sav'
         com = 'save, '+mapstr+', filename = fff'
         exe = execute(com)
-        endif                                                                                       
+        endif   
+        while (!d.window gt -1) do wdelete                                      
     endfor
 endfor
 fil = outdir+'rhessidata.sav'
