@@ -183,5 +183,5 @@ tsec = string(tsec, format = '(F0.2)')
 print, 'Time elapsed: '+thr+' hours, '+tmin+' minutes and '+tsec+' seconds.
 
 ;delete last instance of tmp.fit
-spawn, 'rm '+outdir+'tmp.fit'
+;spawn, 'rm '+outdir+'tmp.fit'
 end

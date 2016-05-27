@@ -161,7 +161,12 @@ for i = 0, nenergy - 1 do begin
 endfor
 fil = outdir+'rhessidata.sav'
 ;save, time_intervals, rhessiindex, rhessidata, filename = fil                         
-save, time_intervals, rhessidata, filename = fil
+save, time_intervals, rhessidata, $ 
+energy_range, $
+increment, $
+timg, $
+algorithm, $
+filename = fil
 
 ;Time elapsed
 tsec_total = toc()
