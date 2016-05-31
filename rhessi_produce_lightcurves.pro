@@ -24,14 +24,19 @@ exe = execute(com)
 
 ;set a bunch of parameters and strings
 nenergy = n_elements(rhessidata[*,0,0,0])
-erng = energy_range[0] + findgen(energy_range[1]/increment)*10
+
+
+;erng = energy_range[0] + findgen(energy_range[1]-energy_range[0]+increment)*increment
+erng = energy_range[0] + findgen(nenergy+1)*increment
 erngst = strarr(n_elements(erng))
 titerngst = strarr(n_elements(erng))
-for i = 0, n_elements(erng) - 1 do begin
-if (i eq 0) then e1 = '1' else e1 = string(erng[i-1],format='(I0)')
-e2 = string(erng[i],format='(I0)')
-erngst[i] = e1+'to'+e2
-titerngst[i] = e1+' to '+e2
+for i = 0, nenergy - 1 do begin
+    if (i lt n_elements(erng) - 1) then begin
+        e1 = string(erng[i],format='(I0)')
+        e2 = string(erng[i+1],format='(I0)')
+        erngst[i] = e1+'to'+e2
+        titerngst[i] = e1+' to '+e2
+    endif
 endfor
 e1 = 0
 e2 = 0
@@ -81,13 +86,13 @@ for j = 0, nenergy - 1 do begin
         hcx = string(coords[0, k], format = '(F0.2)')
         hcy = string(coords[1, k], format = '(F0.2)')
         plotst = 'Coords = '+hcx+',' +hcy+'
-        flnm = indir+'plots/lightcurves/rhessi-'+erngst[j]+'-balmer-coord-'+bc+'-lightcurve.eps'
+        flnm = indir+'plots/lightcurves/rhessi-'+erngst[j]+'-coord-'+bc+'-lightcurve.eps'
         rhessi_lightcurve_plot, lightcurves[j, k,*], time_intervals[0,*], $
         titl = tit, ytitl = ytit, plotstr = plotst, outfile = flnm
         if (j eq 0) then begin
         tit = 'RHESSI '+titallest+' keV Lightcurve'
         ytit = 'Summed '+titallest+' keV Counts [DN]'
-        flnm = indir+'plots/lightcurves/rhessi-'+allerng+'-balmer-coord-'+bc+'-lightcurve.eps'
+        flnm = indir+'plots/lightcurves/rhessi-'+allerng+'-coord-'+bc+'-lightcurve.eps'
         rhessi_lightcurve_plot, sumlightcurves[ k,*], time_intervals[0,*], $
         titl = tit, ytitl = ytit, plotstr = plotst, outfile = flnm
         endif
