@@ -88,8 +88,8 @@ for i = 0, nenergy - 1 do begin
         ;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
         obj-> set, im_energy_binning = [add1 + iflt*increment, add1 + iflt*increment + increment]
         
-        er1 = string(iflt*increment, format = '(I0)')
-        er2 = string(iflt*increment + increment, format = '(I0)')
+        er1 = string(add1 + iflt*increment, format = '(I0)')
+        er2 = string(add1 + iflt*increment + increment, format = '(I0)')
 
         ;choose time interval
         obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
