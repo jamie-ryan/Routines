@@ -73,7 +73,28 @@ secdiff = (secend - secst)
 tsec = hrsec + mindiff + secdiff
 nt = tsec/timg
 
+
+;make time intervals array and ammend to omit attenuator state changes
 time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minend, secst, secend)
+time_intervals_secjan1979 = anytim(time_intervals)
+
+;find attenuator state changes...will be in same units as time_intervals_secjan1979
+tfull = [time_intervals[0, 0],time_intervals[1,-1]]
+;t='21-apr-2002 ' + ['00:00','02:00']
+obs=hsi_obs_summary(obs_time=tfull)
+changes = obs->changes()
+atten = changes.attenuator_state
+
+find_att_st = where(time_intervasl_secjan1979) 
+find_att_ed = 
+ 
+;converts to string... i.e, human readable
+;atten_start_str = anytim(atten.start_times ,/yoh)
+;atten_end_str = anytim(atten.end_times ,/yoh)
+
+
+
+
 add1 = min(energy_range)
 ;energy increment loop
 for i = 0, nenergy - 1 do begin   
@@ -92,7 +113,8 @@ for i = 0, nenergy - 1 do begin
         er2 = string(add1 + iflt*increment + increment, format = '(I0)')
 
         ;choose time interval
-        obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
+;        obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
+        obj-> set, im_time_interval= [ time_intervals ]
 
         ;;;set image construction algorithm
         ;obj-> set, /pixon_noplot

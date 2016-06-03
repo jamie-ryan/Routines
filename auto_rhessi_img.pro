@@ -15,7 +15,7 @@ minend = 52
 secend = 0
 timg = 20.
 
-;algo = 'PIXON'
+algo = 'PIXON'
 ;algo = 'Back Projection'
 ;algo = 'CLEAN' 
 ;algo = 'PIXON' 
@@ -26,19 +26,19 @@ timg = 20.
 ;rhessi_img, energy_range = e_range, increment, hrst, minst, secst, hrend, minend, secend, timg, algo
 
 
-;e1 = 20.D ;keV
-;e2 = 60.D
-;e_range = [e1, e2]
-;increment = 3. ;keV
-;hrst = 17
-;minst = 44
-;secst = 0
-;hrend = 17
-;minend = 52
-;secend = 0
-;timg = 20.
+e1 = 20.D ;keV
+e2 = 60.D
+e_range = [e1, e2]
+increment = 3. ;keV
+hrst = 17
+minst = 44
+secst = 0
+hrend = 17
+minend = 52
+secend = 0
+timg = 20.
 
-;algo = 'PIXON'
+algo = 'PIXON'
 ;algo = 'Back Projection'
 ;algo = 'CLEAN' 
 ;algo = 'PIXON' 
