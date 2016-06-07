@@ -1,6 +1,12 @@
 pro rhessi_img, $
 energy_range =  energy_range, $
 increment, $
+;dayst, $
+;monthst, $
+;yearst, $
+;dayend, $
+;monthend, $
+;yearend, $
 hrstart, $ 
 minstart, $
 secst, $
@@ -12,6 +18,12 @@ algorithm
 ;INPUT:
 ;energy_range = either a single number, or a 2 element array. eg energy_range = [10.0D, 100.0D]
 ;increments = spectrum x-axis energy increment, in keV. eg increment = 1 is 1 kev  
+;dayst
+;monthst = month in 3 character string format, i.e, 'Mar'
+;yearst
+;dayend
+;monthend
+;yearend
 ;hrstart = starting hour of observation. In number format eg 17 
 ;minstart = starting minute. eg, 44
 ;secst = starting second. eg, 0
@@ -66,17 +78,34 @@ outdir = '/unsafe/jsr2/'+datstr+'/'+estr+'/'+inc+'/'+tim+'/'+algo+'/'
 
 ;number of energy bands
 nenergy = (max(energy_range)-min(energy_range))/increment
+erng = energy_range[0] + findgen(nenergy+1)*increment
 
+;time start
+;dayststr = string(dayst, format = '(I0)')
+;mthststr = string(monthst, format = '(I0)')
+;yrststr = string(yearst, format = '(I0)')
+;hrststr = string(hrstart, format = '(I0)')
+;minststr = string(minstart, format = '(I0)')
+;secststr = string(secst, format = '(I0)')
+
+;time end
+;dayedstr = string(dayend, format = '(I0)')
+;mthedstr = string(monthend, format = '(I0)')
+;yredstr = string(yearend, format = '(I0)')
+;hredstr = string(hrend, format = '(I0)')
+;minedstr = string(minend, format = '(I0)')
+;secedstr = string(secend, format = '(I0)')
+
+
+;convert in to seconds for rhessi time iterator
 hrsec = (hrend - hrstart)*60.*60.
 mindiff = (minend - minstart)*60.
 secdiff = (secend - secst)
 tsec = hrsec + mindiff + secdiff
 nt = tsec/timg
 
-
 ;make time intervals array and ammend to omit attenuator state changes
 time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minend, secst, secend)
-time_intervals_secjan1979 = anytim(time_intervals)
 
 ;find attenuator state changes...will be in same units as time_intervals_secjan1979
 tfull = [time_intervals[0, 0],time_intervals[1,-1]]
@@ -85,107 +114,123 @@ obs=hsi_obs_summary(obs_time=tfull)
 changes = obs->changes()
 atten = changes.attenuator_state
 
-find_att_st = where(time_intervasl_secjan1979[0,*]) 
-find_att_ed = where(time_intervasl_secjan1979[1,*])
- 
-;converts to string... i.e, human readable
-;atten_start_str = anytim(atten.start_times ,/yoh)
-;atten_end_str = anytim(atten.end_times ,/yoh)
 
+;convert time_intervals into jultime ref time is 1st of jan 1979
+ti_1st_jan_1979 = anytim(time_intervals)
 
+;normalise
+zero = atten.start_times[0]
+attend0 = atten.end_times - zero
+ti0 = ti_1st_jan_1979 - zero  
+maxt = ti0[*, -1]
 
+;time list
+;tlist = list()
+;tlist.add, item [,index] [,/extract] [,/no_copy] 
+;tlist.add, ti_1st_jan_1979 - zero
+;tlist = list(ti_1st_jan_1979[0,*] - zero, ti_1st_jan_1979[1,*] - zero)
+;maxt = tlist[*, -1]
 
-add1 = min(energy_range)
-;energy increment loop
-for i = 0, nenergy - 1 do begin   
-    ;loop through each time interval
-    for t = 0, nt-1 do begin
-        print, 'energy loop = ',i   
-        print, 'time loop = ',t
-        ;;;to force  energy bins to start from 1 keV rather than zero
-;        if (i eq 0) then add1 = min(e_range) else add1 = 0 
-        iflt = i*1.0D                                           
-        obj = hsi_image()                    
-        ;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
-        obj-> set, im_energy_binning = [add1 + iflt*increment, add1 + iflt*increment + increment]
-        
-        er1 = string(add1 + iflt*increment, format = '(I0)')
-        er2 = string(add1 + iflt*increment + increment, format = '(I0)')
+;ammend time intervals to isolate attenuator state changes
+for i = 0, n_elements(attend0) -1 do begin
+;for i = 0, 3 do begin
+    print, i
+    ws = where(ti0[0,*] lt attend0[i], ind)
+    wws = array_indices(ti0[0,*], ws)
 
-        ;choose time interval
-;        obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
-        obj-> set, im_time_interval= [ time_intervals ]
+    ;last element in wws is closest to attenuator change
+    ;a = ti0[0,wws[1,-1]]
 
-        ;;;set image construction algorithm
-        ;obj-> set, /pixon_noplot
-        obj-> set, image_algorithm= algorithm
-        ;obj-> set, image_algorithm= 'Back Projection'
-        ;obj-> set, image_algorithm= 'CLEAN' 
-        ;obj-> set, image_algorithm= 'PIXON' 
-        ;obj-> set, image_algorithm= 'MEM_NJIT' 
-        ;obj-> set, image_algorithm= 'FORWARDFIT'
-        ;obj-> set, image_algorithm= 'VIS_FWDFIT'              
+    we = where(ti0[1,*] gt attend0[i], ind)
+    wwe = array_indices(ti0[1,*], we)
 
-        obj-> set, time_bin_def= [1.00000, 2.00000, 4.00000, 4.00000, 8.00000, 16.0000, 32.0000, $
-         64.0000, 64.0000]                                                                        
-        obj-> set, time_bin_min= 512L                                                             
+    ;first element in wwe is closest to attenuator change
+    ;b = ti0[1,wwe[1,0]]
 
-
-        ii = string(i, format = '(I0)')
-        tt = string(t, format = '(I0)')
-
-        ind =  obj->get( /summary_info) ; retrieve index                                                                     
-        data = obj-> getdata()    ; retrieve the last image made                                 
-        ;data = obj-> getdata(use_single=0)  ; retrieve all images in cube        
-
-;        if (t eq 0) then rhessiindex =  ind else $
-;        if (t gt 0) then rhessiindex = str_concat(rhessiindex, ind)
-
-        if (i eq 0) and (t eq 0) then begin
-        datdim = size(data)
-
-        ;PRINT, SIZE(FINDGEN(10, 20))
-        ;IDL prints:
-        ;   2   10   20   4   200
-        ;This IDL output indicates the array has 2 dimensions, equal to 10 and 20, 
-        ;a type code of 4, and 200 elements total. Similarly, to print only the 
-        ;number of dimensions of the same array:
-
-        ;rhessidata[e,xpix,ypix,t]
-        rhessidata = fltarr(nenergy, datdim[1],datdim[2],n_elements(time_intervals[0,*]))
-;        rhessierror = fltarr(nenergy, datdim[1],datdim[2],n_elements(time_intervals[0,*]))
+    timebuff = 3.
+    ti0[1,wwe[1,0]] = attend0[i] - timebuff
+    ti0[0,wwe[1,0] + 1] = ti0[1,wwe[1,0]]
+    ti0[1,wwe[1,0] + 1] = ti0[1,wwe[1,0]] + 2*timebuff 
+    ti0[*, wwe[1,0] + 2 : -1] =  ti0[*, wwe[1,0]+ 2 : -1] - (ti0[0,wwe[1,0] + 2] - ti0[1,wwe[1,0] + 1]) 
+;    arrayextra = ceil(abs(maxt[1, -1] - max(ti0[1,*]))/increment) - n_elements(ti0[0,*])
+    arrayextra = ceil(abs(maxt[1, -1] - max(ti0[1,*]))/timg)
+        if (arrayextra gt 0.) then begin   
+            if (ti0[1,-1] gt  max(attend0) - timg) and (ti0[1,-1] lt  max(attend0) + timg) then arrayextra = arrayextra + 1 
+            tmp = fltarr(2, n_elements(ti0[0,*]) + arrayextra)
+            tmp[0, 0:n_elements(ti0[0,*])-1] = ti0[0,*]
+            tmp[1, 0:n_elements(ti0[0,*])-1] = ti0[1,*]
+            for j = 0, arrayextra - 1 do begin
+                print, n_elements(ti0[0,*]) - 1 + j
+                tmp[0, n_elements(ti0[0,*]) + j] = tmp[1,n_elements(ti0[0,*]) - 1 + j]
+                tmp[1, n_elements(ti0[0,*]) + j] = tmp[1,n_elements(ti0[1,*]) - 1 + j] +timg
+            endfor
+            ti0 = tmp
+            tmp = 0
         endif
-
-        rhessidata[i,*,*,t] = data    
-;        rhessierror[i,*,*,t]=hsi_calc_image_error(data,obj)
-        ;;;create map structures for each energy increment
-        ;;;then save 
-        ;im2fits
-;        ffit= outdir+'rhessi_img_ne_'+ii+'nt_'+tt+'_time_'+time_intervals[0,t]+'.fits'
-        ffit = outdir+'tmp.fit'
-        obj-> set, im_out_fits_filename = ffit
-        obj->fitswrite
-        ;;;fits files to maps section
-        ;fits2map, ffit
-        obj-> set, im_input_fits = ffit
-        hsi_fits2map, ffit, rhessimap
-        if (t eq 0) then rhessimap0 = rhessimap else $
-        if (t gt 0) then rhessimap0 = str_concat(rhessimap0, rhessimap)
-        if (t eq nt - 1) then begin
-;        if (t eq 1) then begin
-        mapstr = 'hmap'+er1+'to'+er2
-        com = mapstr+' = rhessimap0'
-        exe = execute(com)
-        fff = outdir+mapstr+'.sav'
-        com = 'save, '+mapstr+', filename = fff'
-        exe = execute(com)
-        endif   
-        while (!d.window gt -1) do wdelete                                      
-    endfor
 endfor
+
+;convert ti0 to string
+time_intervals = 0
+time_intervals = anytim(ti0 + zero, /yoh)
+
+;;;Image Construction                           
+obj = hsi_image()                    
+;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
+obj-> set, im_energy_binning = [erng]
+
+
+;choose time interval
+;        obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
+obj-> set, im_time_interval= time_intervals
+
+;;;set image construction algorithm
+;obj-> set, /pixon_noplot
+obj-> set, image_algorithm= algorithm
+;obj-> set, image_algorithm= 'Back Projection'
+;obj-> set, image_algorithm= 'CLEAN' 
+;obj-> set, image_algorithm= 'PIXON' 
+;obj-> set, image_algorithm= 'MEM_NJIT' 
+;obj-> set, image_algorithm= 'FORWARDFIT'
+;obj-> set, image_algorithm= 'VIS_FWDFIT'              
+
+obj-> set, time_bin_def= [1.00000, 2.00000, 4.00000, 4.00000, 8.00000, 16.0000, 32.0000, $
+ 64.0000, 64.0000]                                                                        
+obj-> set, time_bin_min= 512L                                                             
+
+;retrieve index                           
+obj-> set, use_single_return_mode = 0 ; retrieve all images in cube  
+while (!d.window gt -1) do wdelete
+data = obj-> getdata()
+
+
+
+;time string for fits file name
+flaredate = strcompress(strmid(time_intervals[0,0],0,9), /remove_all)
+hrs = string(hrstart, format = '(I0)')
+hre = string(hrend, format = '(I0)')
+mns = string(minstart, format = '(I0)')
+mne = string(minend, format = '(I0)')
+t1 = hrs+''+mns
+t2 = hre+''+mne
+tt = flaredate+'-'+t1+'to'+t2
+
+;im2fits
+ffit= outdir+'rhessi-imgs-'+estr+'-time-'+tt+'.fits'
+;        ffit = outdir+'tmp.fit'
+obj-> set, im_out_fits_filename = ffit
+obj->fitswrite
+
+
+
+;;;;;;;;;;;;;;;;;make sav variables just incase you need them
+rhessidata = data                                      
 fil = outdir+'rhessidata.sav'
+
+;make errors array
+;rhessierror = fltarr()
+
 ;save, time_intervals, rhessiindex, rhessidata, filename = fil                         
-save, time_intervals, rhessidata, rhessierror, $ 
+save, time_intervals, rhessidata, $ 
 energy_range, $
 increment, $
 timg, $

@@ -1,0 +1,222 @@
+
+;+
+
+function rhessi_img_error, iobj, image0, sigma, pixonmap=pixonmap, $
+                          poisson=poisson,smpattwritedir=smpattwritedir, $
+                          pixon_sizes=inpixon_sizes,alg_used=alg_used, $\
+                          algunit = algunit, bobj=bobj, gradient=gradient, $
+                          verbose=verbose, timg
+
+;NAME:
+;     HSI_IMAGE_ERROR
+;PURPOSE:
+;     Computes the one sigma error bars for an HXT image
+;CATEGORY:
+;CALLING SEQUENCE:
+;     err = hsi_image_error(iobj,image,sigma,pixonmap=pixonmap)
+;INPUTS:
+;     iobj = data used to reconstruct the image.   This is the 
+;            data actually used to compute image. fltarr(ndata,nimages).
+;     image = the reconstructied image.  fltarr(nx,ny).  In annsec space.
+;             See restrictions, below.
+;OPTIONAL INPUT PARAMETERS:
+;     sigma = one sigma HESSI data error, fltarr(ndata).
+;             sqrt(data) is the default if you don't have anything better.
+;KEYWORD PARAMETERS
+;     pixonmap = pixon map.  Use only if the pixon code was used to 
+;                compute the HESSI images.  fltarr(nx,ny)
+;     pixon_sizes = list of pixon sizes.  If not present derived from the 
+;                   pixon map.  If the pixon map is not present then uses [1.].
+;     /poisson = use poisson statistics.  Strongly reccommended.
+;     /verbose = plot residuals, etc.
+;OUTPUTS:
+;     error = the one sigma error, fltarr(nx,ny) 
+;COMMON BLOCKS:
+;SIDE EFFECTS:
+;RESTRICTIONS:
+;     The image is assumed to have units of counts/coll/sec (or
+;     whatever is currently in use in hsi_pixon_residuls.pro and
+;     hsi_pixon_bproj.pro).  If this is not the case, the error estimate will
+;     be meaningless.  This routine should be called through
+;     hsi_calc_image_error.pro.
+;PROCEDURE:
+;MODIFICATION HISTORY:
+;     T. Metcalf 1996-08-09
+;     T. Metcalf 1996-10-01 Fixed a few problems.  First version on-line.
+;     T. Metcalf 1996-10-02 Added IDL version check since the transpose
+;                           function changed between version 3 and 4.
+;     T. Metcalf 1996-10-14 Added a kludge to get around the transpose version
+;                           problem.
+;     T. Metcalf 2000-02-25 Converted HXT code for HESSI use.
+;     T. Metcalf 2002-07-01 Added call to hsi_annsec2xy and iobj->alg_unit()
+;     T. Metcalf 2003-05-08 Made the result float rather than double.
+;                           changed the dGOF used in the error calc.
+;     T. Metcalf 2003-12-18 Added calibration factors to get a better
+;                           error estimate.  This is a pretty big
+;                           change. 
+;     T. Metcalf 2004-01-05 Fixed dof factor again.  Added /verbose keyword.
+;     T. Metcalf 2004-01-06 Added call to hsi_sigma_clean_beam to do
+;                           the dof factor rather than compute it in
+;                           this routine.
+;-
+
+;common hsi_pixon_bproj_private,units,smoothed_patterns,save_pixon_sizes,npixons
+
+if keyword_set(poisson) then usepoisson = 1 else usepoisson=0
+
+; If the data is byte type, assume that the image was byte scaled after
+; the reconstruction. If so, the error estimate will be incorrect.  Hence,
+; print a warning if the data is byte type.
+
+szimage = size(image0)
+if szimage[n_elements(szimage)-2] EQ 1 then begin
+   message,/info,' *** WARNING: Image is byte type.'
+   image = float(image0)
+endif else image = image0
+if szimage[0] LE 1 then message,'Error: image must be two dimensional'
+if szimage[0] GT 2 then message,'Error: Can only do one image at a time: image should have two dimensions'
+
+dobj = hsi_pixon_get_data(iobj,bobj=bobjgd, $
+                          a2dindex=a2d, $
+                          harmonics=harmonics, $
+                          dflat=data,sigma=dsigma,/nounits)
+if NOT keyword_set(bobj) then bobj = bobjgd
+
+;image_dim = iobj->Get(/image_dim)
+nx = szimage[1]
+ny = szimage[2]
+nxy = nx*ny
+nd = n_elements(data)
+
+if n_elements(pixonmap) LE 0 then pixonmap = make_array(nx,ny,value=1,/int)
+if n_elements(pixonmap(*,0)) NE nx OR $
+   n_elements(pixonmap(0,*)) NE ny then $
+   message,'pixon map dimensions are incompatible with data/patterns'
+
+if n_elements(sigma) LE 0 then sigma = dsigma
+if n_elements(sigma) NE nd then $
+   message,'data and sigma are incompatible'
+
+;error = dblarr(nx,ny)  ; make space for the answer
+error = fltarr(nx,ny)  ; make space for the answer
+
+; Do the calculation of the errors
+
+   if n_elements(inpixon_sizes) LE 0 then $
+      pixon_sizes = squeeze(pixonmap(*,*)) $
+   else pixon_sizes = inpixon_sizes
+   npixon_sizes = n_elements(pixon_sizes)
+
+   snr_sigma2 = 1.0/(sigma^2)
+
+   ; Get pixon shape functions
+
+   junk = hsi_pixon_local_smooth(image,pixonmap,pixon_sizes,psf, $
+                                 sdels,xcen,ycen,fft=1,/recompute,/quiet)
+   npsf = n_elements(psf(0,0,*)) 
+
+   totpsf = dblarr(npsf)         ; Get integral of re-normalized PSF's
+   for i=0L,npsf-1L do begin
+      totpsf(i)=total(double(psf[*,*,i])/max(psf[*,*,i]))
+   endfor
+   pfraction = dblarr(nx,ny)
+   for i=0,n_elements(pixon_sizes)-1 do begin
+      junk = min(abs(sdels*2-pixon_sizes[i]),ipsf)
+      ss = where(abs(pixonmap-pixon_sizes[i]) LE 0.1,nss)
+      if nss GT 0 then pfraction[ss] = 1.0/totpsf[ipsf]
+   endfor
+   ndof = total(pfraction) ; number of degrees of freedom
+
+   ;grid_param = HSI_Grid_Parameters()
+   ;coll_fwhm = grid_param.pitch /2.
+   ;det_index = iobj->get(/det_index_mask)
+   pix_size = iobj->get(/pixel_size)
+
+   ; Correct the number of degrees of freedom for the grid resolution
+   ; beam size for finest res detector alone
+   ;col_size = min(coll_fwhm[where(det_index)])
+   ;cfactor = 0.45 * col_size / pix_size ; beam size 
+   ; beam size for all the detectors used
+   cfactor = hsi_sigma_clean_beam(iobj)/pix_size ; beam size 
+   if n_elements(cfactor) GT 1 then cfactor = sqrt(cfactor[0]*cfactor[1])
+   ndof = ndof / (!pi*(cfactor[0]^2)/4.0)  ; divide by beam area
+
+   if npixon_sizes GT 1 or max(pixon_sizes) GT 1. then $
+      use_smoothed_patterns = 1 $
+   else $
+      use_smoothed_patterns = 0
+
+   ; hsi_pixon_residuals and hsi_pixon_gof_calc assume a positive image
+   ; so check this.  If not, the errors will not be so good.
+
+   neg = where(image LT 0.,nneg)
+   if nneg GT 0 then begin
+      pos = where(image GE 0.,npos)
+      if npos GT 0 then begin
+         if -total(image[neg]) GT total(image[pos])/1.5 then $
+            message,/info,'WARNING: negative pixels in image: errors are uncertain'
+      endif else $
+         message,'All pixels are negative in image, cannot continue'
+   endif
+
+   ; Compute magnitude (not sign) of error from dGOF wrt image
+
+   if n_elements(gradient) NE nxy then begin ; Need to compute gradient?
+
+
+
+      residuals = rhessi_pixon_residuals(reform(image,nxy),dobj,iobj, $
+                                      a2d,harmonics,modprofile=recon_data, $
+                                      /setunits,nounits=0,background=bobj, time_bin_sec =timg)
+      if keyword_set(verbose) then begin
+         hsi_pixon_plot_residuals, recon_data, dobj, residuals, $
+                                   snr_sigma2, a2d, harmonics, $
+                                   poisson=usepoisson,bobj=bobj
+      endif
+      gof = hsi_pixon_gof_calc(data,recon_data,residuals,snr_sigma2,r2s, $
+                                     poisson=usepoisson)
+      if gof LT 0 then $
+         message,'Too many negative pixels in image, cannot continue'
+
+      ; The /useunits keyword assumes that the image has units from pixon alg
+      gradient = reform(hsi_pixon_bproj(r2s,dobj,iobj,a2d,harmonics,/vanilla, $
+                                       /useunits,/setunits,/nonorm, $
+                                       pixonmap=pixonmap, $
+                                       pixon_sizes=pixon_sizes, $
+                                       smoothpatts=use_smoothed_patterns, $
+                                       /no_spatial_freq, $
+                                       smpattwritedir=smpattwritedir),nx,ny)
+   endif
+
+   ; Now compute the error for each pixel using the gradient of GOF wrt image.
+   ; The expected 1 sigma change in GOF (chi^2) is sqrt(2*m) where m is
+   ; the mean of the distribution since the variance of the chi^2
+   ; distribution is sqrt(2*m).  For Poisson this is sqrt(m).  Here,
+   ; I set m to be gof with a correction for the number of degrees of freedom.
+
+   gradient = sqrt(float(nxy)/ndof) * gradient
+
+   if keyword_set(usepoisson) then $
+      error(*,*) = f_div(sqrt(gof),abs(gradient)) $
+   else $
+      error(*,*) = f_div(sqrt(2.0*gof),abs(gradient))
+
+; Now the error has to be converted to the same units as the final
+; image and converted to xy coordinates if necessary
+
+; copied from hsi_image__define::getdata()
+
+if NOT keyword_set(alg_used) then alg_used = iobj->get(/algorithm_used) 
+annsecalg=['HSI_BPROJ','HSI_CLEAN','HSI_PIXON','HSI_MEM_SATO','HSI_FORWARDFIT']
+use_annsec2xy = grep(alg_used, annsecalg) eq alg_used
+
+if NOT keyword_set(algunit) then algunit = iobj->get(/alg_unit)
+
+IF use_annsec2xy then $
+   error = HSI_Annsec2XY( error, iobj )/ algunit $
+ELSE $
+   error = error / algunit
+
+return,abs(error)
+
+end
