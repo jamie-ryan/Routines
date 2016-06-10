@@ -199,7 +199,7 @@ obj-> set, time_bin_min= 512L
 
 ;retrieve index                           
 obj-> set, use_single_return_mode = 0 ; retrieve all images in cube  
-while (!d.window gt -1) do wdelete
+;while (!d.window gt -1) do wdelete
 data = obj-> getdata()
 
 

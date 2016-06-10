@@ -23,10 +23,11 @@ exe = execute(com)
 ;algorithm, $
 
 ;set a bunch of parameters and strings
-nenergy = n_elements(rhessidata[*,0,0,0])
+nenergy = n_elements(rhessidata[0,0,*,0])
 
 
-erng = energy_range[0] + findgen(energy_range[1]-energy_range[0]+increment)*increment
+;erng = energy_range[0] + findgen(energy_range[1]-energy_range[0]+increment)*increment
+erng = energy_range[0] + findgen(nenergy+1)*increment
 erngst = strarr(n_elements(erng))
 titerngst = strarr(n_elements(erng))
 for i = 0, nenergy - 1 do begin
@@ -72,10 +73,11 @@ for j = 0, nenergy - 1 do begin
             ;convert balmercoords into rhessi pixel locations
             pix = convert_coord_rhessi(map[i], coords, /a2p)
             ;fill lightcurve array with each energy bin
-            lightcurves[j, k, i] = rhessidata[j, pix[0, k], pix[1, k], i]
+;            lightcurves[j, k, i] = rhessidata[j, pix[0, k], pix[1, k], i]
+            lightcurves[j, k, i] = rhessidata[pix[0, k], pix[1, k],j, i]
             if (j eq 0) then begin
             ;fill lightcurve array with the summ of the entire hxr energy range
-            sumlightcurves[k, i] = total(rhessidata[1:*, pix[0, k], pix[1, k], i])
+            sumlightcurves[k, i] = total(rhessidata[pix[0, k], pix[1, k],1:*, i])
             endif
         endfor
         ;plot lightcurve
