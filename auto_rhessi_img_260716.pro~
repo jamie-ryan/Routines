@@ -1,4 +1,4 @@
-;./Scripts/bsidl.sh Routines/auto_rhessi_img.pro auto_rhessi_img.log &
+;bsidl.sh Routines/auto_rhessi_img_260716.pro auto_rhessi_img_260716.log &
 
 ;change these values before running csh2idl.sh 
 e1 = 3.D ;keV
