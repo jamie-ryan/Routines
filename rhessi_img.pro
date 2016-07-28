@@ -112,6 +112,7 @@ tfull = [time_intervals[0, 0],time_intervals[1,-1]]
 ;t='21-apr-2002 ' + ['00:00','02:00']
 obs=hsi_obs_summary(obs_time=tfull)
 changes = obs->changes()
+
 atten = changes.attenuator_state
 
 
@@ -120,59 +121,63 @@ ti_1st_jan_1979 = anytim(time_intervals)
 
 ;normalise
 zero = atten.start_times[0]
-attend0 = atten.end_times - zero
-ti0 = ti_1st_jan_1979 - zero  
-maxt = ti0[*, -1]
 
-;time list
-;tlist = list()
-;tlist.add, item [,index] [,/extract] [,/no_copy] 
-;tlist.add, ti_1st_jan_1979 - zero
-;tlist = list(ti_1st_jan_1979[0,*] - zero, ti_1st_jan_1979[1,*] - zero)
-;maxt = tlist[*, -1]
+;if therer is an attenuator change at any point between start and finish time
+;ammend time_intervals to isolate bad data
+if (zero gt -1) then begin
+    attend0 = atten.end_times - zero
+    ti0 = ti_1st_jan_1979 - zero  
+    maxt = ti0[*, -1]
 
-;ammend time intervals to isolate attenuator state changes
-for i = 0, n_elements(attend0) -1 do begin
-;for i = 0, 3 do begin
-    print, i
-    ws = where(ti0[0,*] lt attend0[i], ind)
-    wws = array_indices(ti0[0,*], ws)
+    ;time list
+    ;tlist = list()
+    ;tlist.add, item [,index] [,/extract] [,/no_copy] 
+    ;tlist.add, ti_1st_jan_1979 - zero
+    ;tlist = list(ti_1st_jan_1979[0,*] - zero, ti_1st_jan_1979[1,*] - zero)
+    ;maxt = tlist[*, -1]
 
-    ;last element in wws is closest to attenuator change
-    ;a = ti0[0,wws[1,-1]]
+    ;ammend time intervals to isolate attenuator state changes
+    for i = 0, n_elements(attend0) -1 do begin
+    ;for i = 0, 3 do begin
+        print, 'FINDING ATTENUATOR CHANGES'
+        ws = where(ti0[0,*] lt attend0[i], ind)
+        wws = array_indices(ti0[0,*], ws)
 
-    we = where(ti0[1,*] gt attend0[i], ind)
-    wwe = array_indices(ti0[1,*], we)
+        ;last element in wws is closest to attenuator change
+        ;a = ti0[0,wws[1,-1]]
 
-    ;first element in wwe is closest to attenuator change
-    ;b = ti0[1,wwe[1,0]]
+        we = where(ti0[1,*] gt attend0[i], ind)
+        wwe = array_indices(ti0[1,*], we)
 
-    timebuff = 3.
-    ti0[1,wwe[1,0]] = attend0[i] - timebuff
-    ti0[0,wwe[1,0] + 1] = ti0[1,wwe[1,0]]
-    ti0[1,wwe[1,0] + 1] = ti0[1,wwe[1,0]] + 2*timebuff 
-    ti0[*, wwe[1,0] + 2 : -1] =  ti0[*, wwe[1,0]+ 2 : -1] - (ti0[0,wwe[1,0] + 2] - ti0[1,wwe[1,0] + 1]) 
-;    arrayextra = ceil(abs(maxt[1, -1] - max(ti0[1,*]))/increment) - n_elements(ti0[0,*])
-    arrayextra = ceil(abs(maxt[1, -1] - max(ti0[1,*]))/timg)
-        if (arrayextra gt 0.) then begin   
-            if (ti0[1,-1] gt  max(attend0) - timg) and (ti0[1,-1] lt  max(attend0) + timg) then arrayextra = arrayextra + 1 
-            tmp = fltarr(2, n_elements(ti0[0,*]) + arrayextra)
-            tmp[0, 0:n_elements(ti0[0,*])-1] = ti0[0,*]
-            tmp[1, 0:n_elements(ti0[0,*])-1] = ti0[1,*]
-            for j = 0, arrayextra - 1 do begin
-                print, n_elements(ti0[0,*]) - 1 + j
-                tmp[0, n_elements(ti0[0,*]) + j] = tmp[1,n_elements(ti0[0,*]) - 1 + j]
-                tmp[1, n_elements(ti0[0,*]) + j] = tmp[1,n_elements(ti0[1,*]) - 1 + j] +timg
-            endfor
-            ti0 = tmp
-            tmp = 0
-        endif
-endfor
+        ;first element in wwe is closest to attenuator change
+        ;b = ti0[1,wwe[1,0]]
 
-;convert ti0 to string
-time_intervals = 0
-time_intervals = anytim(ti0 + zero, /yoh)
+        timebuff = 3.
+        ti0[1,wwe[1,0]] = attend0[i] - timebuff
+        ti0[0,wwe[1,0] + 1] = ti0[1,wwe[1,0]]
+        ti0[1,wwe[1,0] + 1] = ti0[1,wwe[1,0]] + 2*timebuff 
+        ti0[*, wwe[1,0] + 2 : -1] =  ti0[*, wwe[1,0]+ 2 : -1] - (ti0[0,wwe[1,0] + 2] - ti0[1,wwe[1,0] + 1]) 
+    ;    arrayextra = ceil(abs(maxt[1, -1] - max(ti0[1,*]))/increment) - n_elements(ti0[0,*])
+        arrayextra = ceil(abs(maxt[1, -1] - max(ti0[1,*]))/timg)
+            if (arrayextra gt 0.) then begin   
+                if (ti0[1,-1] gt  max(attend0) - timg) and (ti0[1,-1] lt  max(attend0) + timg) then arrayextra = arrayextra + 1 
+                tmp = fltarr(2, n_elements(ti0[0,*]) + arrayextra)
+                tmp[0, 0:n_elements(ti0[0,*])-1] = ti0[0,*]
+                tmp[1, 0:n_elements(ti0[0,*])-1] = ti0[1,*]
+                for j = 0, arrayextra - 1 do begin
+                    print, n_elements(ti0[0,*]) - 1 + j
+                    tmp[0, n_elements(ti0[0,*]) + j] = tmp[1,n_elements(ti0[0,*]) - 1 + j]
+                    tmp[1, n_elements(ti0[0,*]) + j] = tmp[1,n_elements(ti0[1,*]) - 1 + j] +timg
+                endfor
+                ti0 = tmp
+                tmp = 0
+            endif
+    endfor
 
+    ;convert ti0 to string
+    time_intervals = 0
+    time_intervals = anytim(ti0 + zero, /yoh)
+endif
 ;;;Image Construction                           
 obj = hsi_image()                    
 ;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
