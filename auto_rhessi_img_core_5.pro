@@ -10,7 +10,7 @@ secst = 50
 hrend = 17
 minend = 48
 secend = 50
-timg = 4.
+timg = 16.
 
 
 ;algorithm = 'Back Projection'

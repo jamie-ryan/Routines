@@ -152,7 +152,7 @@ if (zero gt -1) then begin
         ;first element in wwe is closest to attenuator change
         ;b = ti0[1,wwe[1,0]]
 
-        timebuff = 3.
+        timebuff = 1.5
         ti0[1,wwe[1,0]] = attend0[i] - timebuff
         ti0[0,wwe[1,0] + 1] = ti0[1,wwe[1,0]]
         ti0[1,wwe[1,0] + 1] = ti0[1,wwe[1,0]] + 2*timebuff 
