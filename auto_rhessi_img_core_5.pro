@@ -1,10 +1,9 @@
-;bsidl.sh Routines/auto_rhessi_img_core_4.pro auto_rhessi_img_core_4.log
+;bsidl.sh Routines/auto_rhessi_img_core_5.pro auto_rhessi_img_core_5.log
 
-
-e1 = 40.D ;keV
-e2 = 70.D
+e1 = 70.D ;keV
+e2 = 90.D
 energy_range = [e1, e2]
-increment = 3. ;keV
+increment = 5. ;keV
 hrstart = 17
 minstart = 45
 secst = 50
@@ -12,6 +11,7 @@ hrend = 17
 minend = 48
 secend = 50
 timg = 4.
+
 
 ;algorithm = 'Back Projection'
 ;algorithm = 'CLEAN' 

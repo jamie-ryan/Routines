@@ -183,8 +183,8 @@ obj = hsi_image()
 ;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    
 obj-> set, im_energy_binning = [erng]
 
-;set use detectors 3,4,5,6,8 [0 = off, 1 = on]
-obj-> set, det_index_mask= [0, 0, 1, 1, 1, 1, 0, 1, 0]  
+;set use detectors 1,2,3,4,5,6,7,8 [0 = off, 1 = on]
+obj-> set, det_index_mask= [0, 0, 0, 1, 0, 0, 0, 0, 0]  
 
 ;choose time interval
 ;        obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]
