@@ -4,7 +4,7 @@
 e1 = 30.D ;keV
 e2 = 40.D
 energy_range = [e1, e2]
-increment = 2. ;keV
+increment = 5. ;keV
 hrstart = 17
 minstart = 45
 secst = 50

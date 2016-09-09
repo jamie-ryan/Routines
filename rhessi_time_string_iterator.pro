@@ -8,7 +8,7 @@ function rhessi_time_string_iterator, nt, hrstart, hrend, minstart, minend, secs
 ;minend = end min, eg 00 ...in integer format
 
 ;OUTPUT:
-;tout = time interval string array used by hsi_im2map.pro
+;tout = time interval string array used by hsi_im2map.pro and rhessi_img etc
 
 tout = strarr(2,nt)
 ;in the format
@@ -18,11 +18,11 @@ tout = strarr(2,nt)
 ;['29-Mar-2014 17:47:00.000', '29-Mar-2014 17:47:30.000']] 
 
 nhrsec = (((hrend - hrstart) * 60 * 60)) / nt
-
 nminsec = (((minend - minstart) * 60)) / nt
+nsec = (secend - secst)/nt 
+;nsec = nhrsec + nminsec + secst
+sec_per_iter = nhrsec + nminsec + nsec
 
-;calculate number of seconds per iteration
-nsec = nhrsec + nminsec + secst
 
 for i = 0, nt - 1 do begin
 nhr = fix((nhrsec * i) / 60. / 60.)
@@ -31,8 +31,10 @@ nmin = fix((nminsec * i) / 60.)
 nmin1 = fix((nminsec * (i+1)) / 60.)
 ;nsecs = nsec + nsec * i
 ;nsecs1= nsec + nsec * (i + 1)
-nsecs = nsec * i
-nsecs1= nsec * (i + 1)
+;nsecs = secst + nsec * i
+;nsecs1= secst + nsec * (i + 1)
+nsecs = secst + sec_per_iter * i
+nsecs1= secst + sec_per_iter * (i + 1)
 
 ns = fix((nsecs )/60.)
 ns1 = fix((nsecs1 )/60.)
