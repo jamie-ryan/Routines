@@ -98,14 +98,15 @@ erng = energy_range[0] + findgen(nenergy+1)*increment
 
 
 ;convert in to seconds for rhessi time iterator
-hrsec = (hrend - hrstart)*60.*60.
-mindiff = (minend - minstart)*60.
-secdiff = (secend - secst)
-tsec = hrsec + mindiff + secdiff
-nt = tsec/timg
+;hrsec = (hrend - hrstart)*60.*60.
+;mindiff = (minend - minstart)*60.
+;secdiff = (secend - secst)
+;tsec = hrsec + mindiff + secdiff
+;nt = tsec/timg
 
 ;make time intervals array and ammend to omit attenuator state changes
-time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minend, secst, secend)
+;time_intervals = rhessi_time_string_iterator(nt, hrstart, hrend, minstart, minend, secst, secend)
+time_intervals = rhessi_time_intervals(timg, yrst, yrend, mthst, mthend, dyst, dyend, hrstart, hrend, minstart, minend, secst, secend, tout)
 
 ;find attenuator state changes...will be in same units as time_intervals_secjan1979
 tfull = [time_intervals[0, 0],time_intervals[1,-1]]
@@ -140,8 +141,8 @@ if (zero gt -1) then begin
     for i = 0, n_elements(attend0) -1 do begin
     ;for i = 0, 3 do begin
         print, 'FINDING ATTENUATOR CHANGES'
-        ws = where(ti0[0,*] lt attend0[i], ind)
-        wws = array_indices(ti0[0,*], ws)
+        ;ws = where(ti0[0,*] lt attend0[i], ind)
+        ;wws = array_indices(ti0[0,*], ws)
 
         ;last element in wws is closest to attenuator change
         ;a = ti0[0,wws[1,-1]]
@@ -151,7 +152,12 @@ if (zero gt -1) then begin
 
         ;first element in wwe is closest to attenuator change
         ;b = ti0[1,wwe[1,0]]
-
+        if (wwe[1,0] eq n_elements(ti0[0,*]) -1 ) then begin
+            ti00 = fltarr(2, n_elements(ti0[0,*]) + 2)
+            ti00[0, 0:n_elements(ti0[0,*]) -1] = ti0[0,*]
+            ti00[1, 0:n_elements(ti0[0,*]) -1] = ti0[1,*]
+            ti0 = ti00
+        endif         
         timebuff = 2.
         ti0[1,wwe[1,0]] = attend0[i] - timebuff
         ti0[0,wwe[1,0] + 1] = ti0[1,wwe[1,0]]
@@ -175,9 +181,12 @@ if (zero gt -1) then begin
     endfor
 
     ;convert ti0 to string
-    time_intervals = 0
-    time_intervals = anytim(ti0 + zero, /yoh)
+    time_ints = anytim(ti0 + zero, /yoh)
 endif
+
+
+
+
 ;;;Image Construction                           
 obj = hsi_image()                    
 ;obj-> set, im_energy_binning= [10.000000D, 100.00000D]                                    

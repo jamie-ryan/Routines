@@ -1,4 +1,4 @@
-function rhessi_time_string_iterator_cp, nt, hrstart, hrend, minstart, minend, secst, secend, tout
+function rhessi_time_string_iterator, nt, hrstart, hrend, minstart, minend, secst, secend, tout
 
 ;INPUTS:
 ;nt = number of time intervals

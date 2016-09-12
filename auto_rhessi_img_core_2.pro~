@@ -4,7 +4,13 @@
 e1 = 10.D ;keV
 e2 = 30.D
 energy_range = [e1, e2]
-increment = 1. ;keV
+increment = 3. ;keV
+yrst = 2014
+yrend = 2014
+mthst = 'Mar'
+mthend = 'Mar'
+dyst = 29
+dyend = 29
 hrstart = 17
 minstart = 45
 secst = 50
