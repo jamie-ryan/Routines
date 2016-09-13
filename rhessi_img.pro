@@ -129,7 +129,7 @@ if (zero gt -1) then begin
     attend0 = atten.end_times - zero
     ti0 = ti_1st_jan_1979 - zero  
     maxt = ti0[*, -1]
-
+    
     ;time list
     ;tlist = list()
     ;tlist.add, item [,index] [,/extract] [,/no_copy] 
@@ -157,6 +157,7 @@ if (zero gt -1) then begin
             ti00[0, 0:n_elements(ti0[0,*]) -1] = ti0[0,*]
             ti00[1, 0:n_elements(ti0[0,*]) -1] = ti0[1,*]
             ti0 = ti00
+            ti00 = 0
         endif         
         timebuff = 2.
         ti0[1,wwe[1,0]] = attend0[i] - timebuff
@@ -165,26 +166,42 @@ if (zero gt -1) then begin
         ti0[*, wwe[1,0] + 2 : -1] =  ti0[*, wwe[1,0]+ 2 : -1] - (ti0[0,wwe[1,0] + 2] - ti0[1,wwe[1,0] + 1]) 
     ;    arrayextra = ceil(abs(maxt[1, -1] - max(ti0[1,*]))/increment) - n_elements(ti0[0,*])
         arrayextra = ceil(abs(maxt[1, -1] - max(ti0[1,*]))/timg)
+;;;;;;;up to here is fine at i = 0!!!!!
+
             if (arrayextra gt 0.) then begin   
                 if (ti0[1,-1] gt  max(attend0) - timg) and (ti0[1,-1] lt  max(attend0) + timg) then arrayextra = arrayextra + 1 
                 tmp = fltarr(2, n_elements(ti0[0,*]) + arrayextra)
                 tmp[0, 0:n_elements(ti0[0,*])-1] = ti0[0,*]
-                tmp[1, 0:n_elements(ti0[0,*])-1] = ti0[1,*]
+                tmp[1, 0:n_elements(ti0[1,*])-1] = ti0[1,*]
                 for j = 0, arrayextra - 1 do begin
                     print, n_elements(ti0[0,*]) - 1 + j
-                    tmp[0, n_elements(ti0[0,*]) + j] = tmp[1,n_elements(ti0[0,*]) - 1 + j]
-                    tmp[1, n_elements(ti0[0,*]) + j] = tmp[1,n_elements(ti0[1,*]) - 1 + j] +timg
+                    tmp[0, n_elements(ti0[0,*]) + j] = tmp[0,n_elements(ti0[0,*]) - 1 + j] +timg
+                    tmp[1, n_elements(ti0[1,*]) + j] = tmp[1,n_elements(ti0[1,*]) - 1 + j] +timg
                 endfor
                 ti0 = tmp
                 tmp = 0
             endif
     endfor
+    att_ind = where(ti0[1,*] - ti0[0, *] eq 2.*timebuff)
+    bad_ind = where(ti0[1,*] - ti0[0, *] eq 0.)
+    tot_remove = n_elements(att_ind) + n_elements(bad_ind)
+    ti00 = reform(ti0[0,*])
+    ti01 = reform(ti0[1,*])
+    index = [att_ind, bad_ind]
+    remove, index, ti00
+    remove, index, ti01
+    ti0 = 0
+    ti0 = fltarr(2, n_elements(ti00))
+    ti0[0,*] = ti00
+    ti0[1,*] = ti01
 
+    ;tti0[*, ???] = ti0[*, ???]
+    ;ti0 = 0   
     ;convert ti0 to string
     time_ints = anytim(ti0 + zero, /yoh)
 endif
 
-
+;;;;make where(time interval is less than timg) style statement... grab indices...fill new array with good intervals...i.e., removing bad intervals
 
 
 ;;;Image Construction                           
