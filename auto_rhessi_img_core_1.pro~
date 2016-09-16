@@ -4,7 +4,7 @@
 e1 = 10.D ;keV
 e2 = 30.D
 energy_range = [e1, e2]
-increment = 5. ;keV
+increment = 2. ;keV
 yrst = '2014'
 yrend = '2014'
 mthst = 'Mar'
@@ -17,7 +17,7 @@ secst = '42'
 hrend = '17'
 minend = '48'
 secend = '50'
-timg = 16.
+timg = 30.
 
 
 
@@ -28,4 +28,4 @@ algorithm = 'PIXON'
 ;algorithm = 'FORWARDFIT'
 ;algorithm = 'VIS_FWDFIT' 
 
-rhessi_img, energy_range = energy_range, increment, hrstart, minstart, secst, hrend, minend, secend, timg, algorithm
+rhessi_img, energy_range = energy_range, increment, yrst, yrend, mthst, mthend, dyst, dyend,  hrstart, minstart, secst, hrend, minend, secend, timg, algorithm

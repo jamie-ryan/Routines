@@ -7,6 +7,12 @@ increment, $
 ;dayend, $
 ;monthend, $
 ;yearend, $
+yrst, $
+yrend, $
+mthst, $
+mthend, $
+dyst, $
+dyend, $
 hrstart, $ 
 minstart, $
 secst, $
@@ -166,21 +172,21 @@ if (zero gt -1) then begin
         ti0[*, wwe[1,0] + 2 : -1] =  ti0[*, wwe[1,0]+ 2 : -1] - (ti0[0,wwe[1,0] + 2] - ti0[1,wwe[1,0] + 1]) 
     ;    arrayextra = ceil(abs(maxt[1, -1] - max(ti0[1,*]))/increment) - n_elements(ti0[0,*])
         arrayextra = ceil(abs(maxt[1, -1] - max(ti0[1,*]))/timg)
-;;;;;;;up to here is fine at i = 0!!!!!
 
-            if (arrayextra gt 0.) then begin   
-                if (ti0[1,-1] gt  max(attend0) - timg) and (ti0[1,-1] lt  max(attend0) + timg) then arrayextra = arrayextra + 1 
-                tmp = fltarr(2, n_elements(ti0[0,*]) + arrayextra)
-                tmp[0, 0:n_elements(ti0[0,*])-1] = ti0[0,*]
-                tmp[1, 0:n_elements(ti0[1,*])-1] = ti0[1,*]
-                for j = 0, arrayextra - 1 do begin
-                    print, n_elements(ti0[0,*]) - 1 + j
-                    tmp[0, n_elements(ti0[0,*]) + j] = tmp[0,n_elements(ti0[0,*]) - 1 + j] +timg
-                    tmp[1, n_elements(ti0[1,*]) + j] = tmp[1,n_elements(ti0[1,*]) - 1 + j] +timg
-                endfor
-                ti0 = tmp
-                tmp = 0
-            endif
+
+        if (arrayextra gt 0.) then begin   
+            if (ti0[1,-1] gt  max(attend0) - timg) and (ti0[1,-1] lt  max(attend0) + timg) then arrayextra = arrayextra + 1 
+            tmp = fltarr(2, n_elements(ti0[0,*]) + arrayextra)
+            tmp[0, 0:n_elements(ti0[0,*])-1] = ti0[0,*]
+            tmp[1, 0:n_elements(ti0[1,*])-1] = ti0[1,*]
+            for j = 0, arrayextra - 1 do begin
+                print, n_elements(ti0[0,*]) - 1 + j
+                tmp[0, n_elements(ti0[0,*]) + j] = tmp[0,n_elements(ti0[0,*]) - 1 + j] +timg
+                tmp[1, n_elements(ti0[1,*]) + j] = tmp[1,n_elements(ti0[1,*]) - 1 + j] +timg
+            endfor
+            ti0 = tmp
+            tmp = 0
+        endif
     endfor
     att_ind = where(ti0[1,*] - ti0[0, *] eq 2.*timebuff)
     bad_ind = where(ti0[1,*] - ti0[0, *] eq 0.)
@@ -198,10 +204,15 @@ if (zero gt -1) then begin
     ;tti0[*, ???] = ti0[*, ???]
     ;ti0 = 0   
     ;convert ti0 to string
-    time_ints = anytim(ti0 + zero, /yoh)
+    time_intervals = 0
+    time_intervals = anytim(ti0 + zero, /yoh)
+    ;clean up a bit
+    ti0 = 0
+    ti00 = 0
+    ti01 = 0
 endif
 
-;;;;make where(time interval is less than timg) style statement... grab indices...fill new array with good intervals...i.e., removing bad intervals
+
 
 
 ;;;Image Construction                           
@@ -210,7 +221,7 @@ obj = hsi_image()
 obj-> set, im_energy_binning = [erng]
 
 ;set use detectors 1,2,3,4,5,6,7,8 [0 = off, 1 = on]
-obj-> set, det_index_mask= [1, 0, 0, 0, 0, 0, 0, 0, 0]  ;detector 1 based on de Costa 2016
+obj-> set, det_index_mask= [1, 0, 0, 1, 1, 1, 0, 0, 1]  ;based on de Costa 2016
 
 ;choose time interval
 ;        obj-> set, im_time_interval= [ [time_intervals[0, t]], [time_intervals[1, t]] ]

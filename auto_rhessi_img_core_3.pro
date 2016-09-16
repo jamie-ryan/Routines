@@ -27,5 +27,4 @@ algorithm = 'PIXON'
 ;algorithm = 'MEM_NJIT' 
 ;algorithm = 'FORWARDFIT'
 ;algorithm = 'VIS_FWDFIT' 
-
-rhessi_img, energy_range = energy_range, increment, hrstart, minstart, secst, hrend, minend, secend, timg, algorithm
+rhessi_img, energy_range = energy_range, increment, yrst, yrend, mthst, mthend, dyst, dyend,  hrstart, minstart, secst, hrend, minend, secend, timg, algorithm

@@ -4,7 +4,7 @@
 e1 = 70.D ;keV
 e2 = 90.D
 energy_range = [e1, e2]
-increment = 5. ;keV
+increment = 10. ;keV
 yrst = '2014'
 yrend = '2014'
 mthst = 'Mar'
