@@ -8,8 +8,8 @@ iris_y_pix = 0
 ncoords = 0
 balmdat = 0
 balmerdata = 0
-times = 0
-texp = 0
+;times = 0
+;texp = 0
 balmwidth = 0
 fout = 0
 eout = 0
@@ -77,24 +77,24 @@ endfor
 
 ;;;;;;;;;;;;;;;;;area pix;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-if keyword_set(area_pixel) then begin
+;if keyword_set(area_pixel) then begin
 ;;;fill array with intensity summed over an area equal to sunquake area 
 ;alldat[where(alldat lt 0., /null)] = 0 
-for j = 0, ncoords - 1 do begin 
-    for i = 0, nfiles -1 do begin
+;for j = 0, ncoords - 1 do begin 
+;    for i = 0, nfiles -1 do begin
 ;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
-        times[j,i] = times_corrected[common_x_pix[j], i]
-        ;fill array with intensity summed over an area equal to sunquake area
-        texp[j,i]  = exp1[common_x_pix[j], i] 
-        balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], common_x_pix[j], iris_y_pix[j], iradius, /sg)        
+;        times[j,i] = times_corrected[common_x_pix[j], i]
+;        ;fill array with intensity summed over an area equal to sunquake area
+;        texp[j,i]  = exp1[common_x_pix[j], i] 
+;        balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], common_x_pix[j], iris_y_pix[j], iradius, /sg)        
         ;balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
-    endfor
-endfor
-endif
+;    endfor
+;endfor
+;endif
 
 ;;;;;;;;;;;;;;;;;single pix;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-if keyword_set(single_pixel) then begin
+;if keyword_set(single_pixel) then begin
 for j = 0,  ncoords - 1 do begin 
     for i = 0, nfiles -1 do begin
 ;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
@@ -106,33 +106,33 @@ for j = 0,  ncoords - 1 do begin
         ;balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
     endfor
 endfor
-endif
+;endif
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;calculate energy;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-balmwidth = (3600. - 1400.)/0.1  ;in angstroms
-wav1 = wave[39]
-wav2 = wave[44]
-for j = 0 , ncoords - 1 do begin 
+;balmwidth = (3600. - 1400.)/0.1  ;in angstroms
+;wav1 = wave[39]
+;wav2 = wave[44]
+;for j = 0 , ncoords - 1 do begin 
 
 ;convert DN to energy [erg]
 ;iris_radiometric_calibration_texp, $
-iris_radiometric_calibration, $
-balmdat[j,*]*balmwidth, $
-reform(texp[j,*]), $
-wave=[wav1,wav2], $
-n_pixels=1, $
-fout, eout, f_err, e_err, $
-/sg ;, slitpos = j
+;iris_radiometric_calibration, $
+;balmdat[j,*]*balmwidth, $
+;reform(texp[j,*]), $
+;wave=[wav1,wav2], $
+;n_pixels=1, $
+;fout, eout, f_err, e_err, $
+;/sg ;, slitpos = j
 
 ;fill array with energies
-balmerdata[2, j, *] = fout
-balmerdata[3, j, *] = eout
-endfor
+;balmerdata[2, j, *] = fout
+;balmerdata[3, j, *] = eout
+;endfor
 
 savf = '/unsafe/jsr2/Mar18-2016/balm-dat-final-coords.sav'
-save, 
+save, /variables, filename = savf
 
 end
