@@ -23,7 +23,8 @@ restore, '/unsafe/jsr2/iris-16-03-15.sav'
 restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
 ;restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
 ;restore, '/unsafe/jsr2/'+datestring+'/balm_data-'+datestring+'.sav'
-restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
+;restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
+restore, '/unsafe/jsr2/Mar18-2016/balm-dat-final-coords.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 ;;;iris spectra fits
@@ -120,7 +121,7 @@ hmierr = fltarr(fande, slitpos, n_elements(thmi))
 ;;;based on naming convention (no zero, always start with 1), eg, hmicoords, hmicoords2, hmicoords3 etc.
 dataset = ['si', 'mg', 'mgw', 'hmi']
 for k = 0, n_elements(dataset)-1 do begin
-    flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords.txt
+    flnm = dataset[k]+'coordsfinal.txt' ;eg, flnm=hmicoords.txt
     openr, lun, flnm, /get_lun
     nlin =  file_lines(flnm)
     tmp = fltarr(2, nlin)
@@ -232,6 +233,7 @@ endfor
 
 ;spawn, 'mkdir /unsafe/jsr2/'+datestring......this is now done in master.pro
 ;;;or maybe write individual sav files for each dataset?
+savfile = '/unsafe/jsr2/'+datestring+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+datestring+'.sav'
 save, $
 ;quake area
 sidata, $
@@ -256,6 +258,6 @@ tmg, $
 times, $
 tmgw, $
 thmi, $
-filename = '/unsafe/jsr2/'+datestring+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+datestring+'.sav'
+filename = savfile
 toc
 end

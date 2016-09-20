@@ -25,9 +25,11 @@ nx = n_elements(hmidata[*,0,0])
 ny = n_elements(hmidata[0,*,0])
 nt = n_elements(hmidata[0,0,*])
 smthdat = fltarr(nx, ny, nt)
+logsmthdat = fltarr(nx, ny, nt)
 ;ri = alog10(rdato) - alog10(SMOOTH(rdato,10))
 ;bi = alog10(bdato) - alog10(SMOOTH(bdato,10))
 ;gi = alog10(gdato) - alog10(SMOOTH(gdato,10))
+;logsmthdat = alog10(hmidata) - alog10(SMOOTH(hmidata,10))
 smthdat = hmidata - SMOOTH(hmidata,10)
 index2map, hmiindex, smthdat, hmimap
 
@@ -80,7 +82,7 @@ d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
 date_today = d1+'-'+d2
 save, hmidiff, diffind, diffdat, filename = '/unsafe/jsr2/'+date_today+'/hmifullfilt-'+date_today+'.sav'
-save, /variables, filename = '/unsafe/jsr2/hmifullfilt-all-arrays-'+date_today+'.sav'
+
 endif
 if keyword_set(restore_sav) then restore, '/unsafe/jsr2/'+date_today+'/hmifullfilt-'+sav_date+'.sav'
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

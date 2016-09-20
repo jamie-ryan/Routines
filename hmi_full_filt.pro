@@ -25,9 +25,11 @@ nx = n_elements(hmidata[*,0,0])
 ny = n_elements(hmidata[0,*,0])
 nt = n_elements(hmidata[0,0,*])
 smthdat = fltarr(nx, ny, nt)
+;logsmthdat = fltarr(nx, ny, nt)
 ;ri = alog10(rdato) - alog10(SMOOTH(rdato,10))
 ;bi = alog10(bdato) - alog10(SMOOTH(bdato,10))
 ;gi = alog10(gdato) - alog10(SMOOTH(gdato,10))
+;logsmthdat = alog10(hmidata) - alog10(SMOOTH(hmidata,10))
 smthdat = hmidata - SMOOTH(hmidata,10)
 index2map, hmiindex, smthdat, hmimap
 
