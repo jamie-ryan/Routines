@@ -46,7 +46,8 @@ inp = (iradius + 1)*(iradius + 1) ;npixels for iris radiometric calibration
 snp = (sradius + 1)*(sradius + 1) ;npixels for sdo radiometric calibration
 
 ;continuum scaling factors
-balmwidth = (3600. - 1400.)/0.1  ;in angstroms
+;balmwidth = (3600. - 1400.)/0.1  ;in angstroms
+balmwidth = (6563. - 3646.)/0.1  ;in angstroms
 visiblewidth = (7500. - 3800.)/76.e-3 ;in angstroms
 
 
@@ -207,7 +208,7 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     tmp = 0
 endfor
 
-balmwidth = (3600. - 1400.)/0.1  ;in angstroms
+
 wav1 = wave[39]
 wav2 = wave[44]
 for j = 0 , ncoords - 1 do begin 

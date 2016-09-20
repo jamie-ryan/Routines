@@ -1,4 +1,4 @@
-pro iris_hmi_energy, datestringstring, single_pixel = single_pixel
+pro iris_hmi_energy, datestring, single_pixel = single_pixel
 
 
 ;tmp = total(map1400.data[sidata[0, 0, npt-1, 0], sidata[0, 1, i, 0]], $
@@ -46,7 +46,8 @@ inp = (iradius + 1)*(iradius + 1) ;npixels for iris radiometric calibration
 snp = (sradius + 1)*(sradius + 1) ;npixels for sdo radiometric calibration
 
 ;continuum scaling factors
-balmwidth = (3600. - 1400.)/0.1  ;in angstroms
+;balmwidth = (3600. - 1400.)/0.1  ;in angstroms
+balmwidth = (6563. - 3646.)/0.1  ;in angstroms
 visiblewidth = (7500. - 3800.)/76.e-3 ;in angstroms
 
 
