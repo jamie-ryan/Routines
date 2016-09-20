@@ -11,6 +11,7 @@ datstr = d1+'-'+d2
 ;iris_remap
 ;hmi_full_filt, /process
 ;balm_data, datstr, /single_pixel
+iris_raster_lightcurve
 iris_hmi_energy, datstr, /single_pixel
 
 

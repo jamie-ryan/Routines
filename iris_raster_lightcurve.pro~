@@ -1,0 +1,105 @@
+pro iris_raster_lightcurve
+
+restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
+
+balmercoords = 0
+common_x_pix = 0
+iris_y_pix = 0
+ncoords = 0
+balmdat = 0
+balmerdata = 0
+times = 0
+texp = 0
+balmwidth = 0
+fout = 0
+eout = 0
+f_err = 0
+e_err = 0
+
+dataset = ['balmer']
+for k = 0, n_elements(dataset)-1 do begin
+    flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords1.txt
+    openr, lun, flnm, /get_lun
+    nlin =  file_lines(flnm)
+    tmp = fltarr(2, nlin)
+    readf, lun, tmp
+    com = dataset[k]+'coords = tmp' ;readf,lun,hmg
+    exe = execute(com)
+    free_lun, lun
+endfor
+
+;common pix will contain the pixel locations of the x coords in balmercoords.txt
+;common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos)
+common_x_pix = find_iris_slit_pos_new(balmercoords[0,*], iris_x_pos[*,23])
+iris_y_pix = find_iris_slit_pos_new(balmercoords[1, *], iris_y_pos[*,23])
+
+ncoords = n_elements(balmercoords[0,*])
+balmdat = fltarr(ncoords, nfiles)
+balmerdata = fltarr(4, ncoords, nfiles)
+
+for i = 0, n_elements(balmerdata[0,0,*]) - 1 do begin 
+balmerdata[0, *, i] = common_x_pix[*] ;think this will give a constant x y pix? check
+balmerdata[1, *, i] = iris_y_pix[*]
+endfor
+
+;;;;;;;;;;;;;;;;;area pix;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+if keyword_set(area_pixel) then begin
+;;;fill array with intensity summed over an area equal to sunquake area 
+;alldat[where(alldat lt 0., /null)] = 0 
+for j = 0, ncoords - 1 do begin 
+    for i = 0, nfiles -1 do begin
+;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
+        times[j,i] = times_corrected[common_x_pix[j], i]
+        ;fill array with intensity summed over an area equal to sunquake area
+        texp[j,i]  = exp1[common_x_pix[j], i] 
+        balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], common_x_pix[j], iris_y_pix[j], iradius, /sg)        
+        ;balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
+    endfor
+endfor
+endif
+
+;;;;;;;;;;;;;;;;;single pix;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+if keyword_set(single_pixel) then begin
+for j = 0,  ncoords - 1 do begin 
+    for i = 0, nfiles -1 do begin
+;	    times[j,i] =  t_x_pos[common_x_pix[i], i]
+	    times[j,i] =  times_corrected[common_x_pix[j], i]
+        texp[j,i]  = exp1[common_x_pix[j], i]
+
+        ;fill array with intensity summed over an area equal to sunquake area
+        balmdat[j, i] = dat_bk_subtract_exp_weighted[common_x_pix[j], iris_y_pix[j] ,i]
+        ;balmdat[j, i] = sumarea(dat_bk_subtract_exp_weighted[*,*,i], j, iris_y_pix[j, i], iradius, /sg)
+    endfor
+endfor
+endif
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;calculate energy;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+balmwidth = (3600. - 1400.)/0.1  ;in angstroms
+wav1 = wave[39]
+wav2 = wave[44]
+for j = 0 , ncoords - 1 do begin 
+
+;convert DN to energy [erg]
+;iris_radiometric_calibration_texp, $
+iris_radiometric_calibration, $
+balmdat[j,*]*balmwidth, $
+reform(texp[j,*]), $
+wave=[wav1,wav2], $
+n_pixels=1, $
+fout, eout, f_err, e_err, $
+/sg ;, slitpos = j
+
+;fill array with energies
+balmerdata[2, j, *] = fout
+balmerdata[3, j, *] = eout
+endfor
+
+savf = '/unsafe/jsr2/Mar18-2016/balm-dat-final-coords.sav'
+save, 
+
+end
