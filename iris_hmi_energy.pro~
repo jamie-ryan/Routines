@@ -20,7 +20,8 @@ tic
 ;;;restore data sav files
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/'+datestring+'/hmifullfilt-'+datestring+'.sav'
-restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
+;restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
+restore, '/unsafe/jsr2/Sep21-2016/hmifullfilt-Feb12-2016.sav'
 ;restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
 ;restore, '/unsafe/jsr2/'+datestring+'/balm_data-'+datestring+'.sav'
 ;restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
@@ -233,6 +234,7 @@ endfor
 
 ;spawn, 'mkdir /unsafe/jsr2/'+datestring......this is now done in master.pro
 ;;;or maybe write individual sav files for each dataset?
+savfile = '/unsafe/jsr2/'+datestring+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+datestring+'.sav'
 save, $
 ;quake area
 sidata, $
@@ -257,6 +259,6 @@ tmg, $
 times, $
 tmgw, $
 thmi, $
-filename = '/unsafe/jsr2/'+datestring+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+datestring+'.sav'
+filename = savfile
 toc
 end

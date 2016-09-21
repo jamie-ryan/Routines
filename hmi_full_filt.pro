@@ -13,11 +13,22 @@ date_today = d1+'-'+d2
 if keyword_set(process) then begin
 ;read in fits file names
 files = findfile('/disk/solar4/sz2/SDO/20140329/Ic/hmi.Ic_45s.20140329_17*')
-files2 = findfile('/disk/solar4/sz2/SDO/20140329/Ic/hmi.Ic_45s.20140329_18*')
-files = [files,files2]
+;files2 = findfile('/disk/solar4/sz2/SDO/20140329/Ic/hmi.Ic_45s.20140329_18*')
+;files = [files,files2]
 
 ;process sdo hmi data
-aia_prep, files,-1, hmiindex, hmidata, /despike
+;aia_prep, files,-1, hmiindex, hmidata, /despike
+;process sdo hmi data
+read_sdo, files, hmiindex, hmidata
+
+;rotate images 180 degrees
+for i = 0, n_elements(files) - 1 do begin
+a = hmidata[*,*,i]
+b = rotate(a,2)
+hmidata[*,*,i] = b
+a = 0
+b = 0
+endfor
 
 ;;;kerr & fletcher 2014 data processing
 ;log unsharp filter (ri) 

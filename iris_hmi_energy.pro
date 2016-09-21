@@ -20,7 +20,8 @@ tic
 ;;;restore data sav files
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/'+datestring+'/hmifullfilt-'+datestring+'.sav'
-restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
+;restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
+restore, '/unsafe/jsr2/Sep21-2016/hmi_smth_diff.sav'
 ;restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
 ;restore, '/unsafe/jsr2/'+datestring+'/balm_data-'+datestring+'.sav'
 ;restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
