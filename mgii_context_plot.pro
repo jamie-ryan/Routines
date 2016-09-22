@@ -3,8 +3,19 @@ restore, '/disk/solar8/sam/29mar14/egmap6_arcsec_masked_lev1.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/he_fe_hxr_egress_maps.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/hmap50.sav'
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
-restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
+;restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 
+dataset = ['balmer']
+for k = 0, n_elements(dataset)-1 do begin
+    flnm = dataset[k]+'coordsfinal.txt' ;eg, flnm=hmicoords1.txt
+    openr, lun, flnm, /get_lun
+    nlin =  file_lines(flnm)
+    tmp = fltarr(2, nlin)
+    readf, lun, tmp
+    com = dataset[k]+'coords = tmp' ;readf,lun,hmg
+    exe = execute(com)
+    free_lun, lun
+endfor
 
 ;sub_map, submg, smgb, xrange = [450., 590.], yrange = [240.,340.]
 sub_map, submg, smgbig, xrange = [490., 530.], yrange = [250.,290.]

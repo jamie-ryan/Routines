@@ -4,7 +4,8 @@ pro ribcord2oplot_cp, date
 
 restore, '/disk/solar3/jsr2/Data/SDO/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
-restore, '/unsafe/jsr2/Feb7-2016/hmifullfilt-Feb7-2016.sav'
+;restore, '/unsafe/jsr2/Feb7-2016/hmifullfilt-Feb7-2016.sav'
+restore, '/unsafe/jsr2/Sep21-2016/hmi_smth_diff.sav'
 dir = '/unsafe/jsr2/'+date+'/'
 
 nrb = 6 ; number ribbon coords
@@ -20,9 +21,9 @@ sub_map, hmidiff, shmi, xrange = [490., 540.], yrange = [240., 290.]
 
 
 
-dataset = ['si', 'mg', 'mgw', 'hmi']
+dataset = ['balmer']
 for k = 0, n_elements(dataset)-1 do begin
-    flnm = dataset[k]+'coords.txt' ;eg, flnm=hmicoords1.txt
+    flnm = dataset[k]+'coordsfinal.txt' ;eg, flnm=hmicoords1.txt
     openr, lun, flnm, /get_lun
     nlin =  file_lines(flnm)
     tmp = fltarr(2, nlin)
@@ -31,7 +32,10 @@ for k = 0, n_elements(dataset)-1 do begin
     exe = execute(com)
     free_lun, lun
 endfor
-
+sicoords = balmercoords
+mgcoords = balmercoords
+mgwcoords = balmercoords
+hmicoords = balmercoords
 
 ;;;si ribbon Coord-oplots
 mydevice=!d.name
@@ -51,6 +55,7 @@ set_plot,'ps'
 device,filename=dir+'29-Mar-14-MG_II-Ribbon-Coord-oplot.eps',/portrait,/encapsulated, decomposed=0,color=1, bits=8
 loadct, 0
 plot_map, smg[662], /log
+;plot_map, smg[663], /log
 oplot_ribbon_coords, mgcoords, iradius, /box;, /set_2
 device,/close
 set_plot,mydevice

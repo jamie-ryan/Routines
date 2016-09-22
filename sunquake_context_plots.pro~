@@ -7,11 +7,13 @@ pro sunquake_context_plots, date, qksource1 = qksource1, qksource2 = qksource2, 
 ;detailed sunquake context plots including sunquake egression and hxr
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;restore save files;;;;;;;;;;;;;;;;;;
+date = 'Sep21-2016'
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/'+date+'/hmifullfilt-'+date+'.sav'
-restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
-date = 'Feb10-2016'
-restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
+;restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
+restore, '/unsafe/jsr2/'+date+'/hmi_smth_diff.sav'
+;date = 'Feb10-2016'
+;restore, '/unsafe/jsr2/'+date+'/balm_data-'+date+'.sav'
 restore, '/disk/solar8/sam/29mar14/egmap6_arcsec_masked_lev1.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/he_fe_hxr_egress_maps.sav'
 restore, '/disk/solar3/jsr2/Data/SDO/hmap50.sav'
@@ -67,6 +69,12 @@ if keyword_set(qksource1) then begin
         loadct, 0
 
         ;HMI;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;loadct, 0
+;plot_map, shmi[62]
+;linecolors ;activate coloured lines in oplot
+;plot_map, shmi[62], /over, /percent, levels = [40, 50, 60, 70, 80]
+;plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 10, thick = 1 
+;loadct, 0
         plot_map, hmidiff[63] ;17:46:16  directly over quake in egmap6
         linecolors ;activate coloured lines in oplot
         plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 10, thick = 1 
