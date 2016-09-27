@@ -93,7 +93,7 @@ utplot, tsi[458:*], sidata[3, simaxi[1], 458:*], /nodata, $
 linestyle = 0, $
 ycharsize = 0.70, $
 xcharsize = 0.75, $
-xstyle = 8, $
+;xstyle = 8, $
 ;ytitle = ytitl, $
 /nolabel, $
 ytickname=[' '], $
@@ -109,7 +109,8 @@ endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Energy Radiated From Region Comparable to Sunquake Area', /norm
+;xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Energy Radiated From Region Comparable to Sunquake Area', /norm
+xyouts, 0.06, 0.92, charsize = 0.7, 'Energy Radiated From Region Comparable to Sunquake Area', /norm
 xyouts, xyx, xyy*1.01, charsize = 0.5, 'Si IV', /norm
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -123,7 +124,7 @@ utplot, tmg[611:*], mgdata[3, mgmaxi[1], 611:*], $
 linestyle = 0, $
 ycharsize = 0.70 , $
 xcharsize = 0.75, $
-xstyle = 8, $
+;xstyle = 8, $
 ;ytitle = ytitl, $
 /nolabel, $
 ytickname=[' '], $
@@ -158,7 +159,7 @@ timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
 ycharsize = 0.70 , $
 xcharsize = 0.75, $
-xstyle = 8, $
+;xstyle = 8, $
 ytitle = ytitl, $
 /nolabel, $
 yticks = 2, $
@@ -188,7 +189,7 @@ timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
 ycharsize = 0.70 , $
 xcharsize = 0.75, $
-xstyle = 8, $
+;xstyle = 8, $
 ;ytitle = ytitl, $
 /nolabel, $
 yticks = 2, $
@@ -219,7 +220,7 @@ timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
 ycharsize = 0.70 , $
 xcharsize = 0.75, $
-xstyle = 8, $
+;xstyle = 8, $
 yticks = 2, $
 ytickname=[' '], $
 ;ytitle = ytitl, $
@@ -270,7 +271,7 @@ timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
 ycharsize = 0.70 , $
 xcharsize = 0.75, $
-xstyle = 8, $
+;xstyle = 8, $
 ytitle = ytitl, $
 /nolabel, $
 yticks = 4, $
@@ -286,7 +287,7 @@ endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Energy Radiated From Region Comparable to Sunquake Area', /norm
+xyouts, 0.22, 0.92, charsize = 0.9, 'Energy Radiated From Region Comparable to Sunquake Area', /norm
 xyouts, xyx, xyy*1.01, charsize = 0.5, 'Balmer Continuum', /norm
 
 
@@ -294,7 +295,7 @@ o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
 ;        titl =  strcompress('29-Mar-14-Flare-Flux' ,/remove_all)
-ytitl = power
+;ytitl = power
 linecolors
 utplot, thmi[41:74], hmidata[3, hmimaxi[1], 41:74], $
 /nodata, $
@@ -302,7 +303,7 @@ timerange = '29-Mar-14 '+['17:30:00','17:53:00'], $
 linestyle = 0, $
 ycharsize = 0.70 , $
 xcharsize = 0.75, $
-xstyle = 8, $
+;xstyle = 8, $
 yticks = 4, $
 ytickname=[' '], $
 ytitle = ytitl, $

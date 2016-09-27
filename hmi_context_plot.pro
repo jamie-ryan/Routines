@@ -23,9 +23,12 @@ for k = 0, n_elements(dataset)-1 do begin
     free_lun, lun
 endfor
 
+;set thickness
 !p.thick=3 ;data
 !x.thick=2 ;x axis
 !y.thick=2 ;y axis
+
+;setup plotting environment
 !p.multi = [0,2,1]	
 flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-HMI-Sunquake-Context-Plot.eps'
 set_plot, 'ps'
@@ -35,7 +38,7 @@ cs=1 	;charcter size
 
 loadct,0
 ctload, 3, /reverse
-plot_map, hmismall[62], dmin = 0 , dmax = 5000, color = 255, title = ( )  ;;17:46:04  directly over quake in egmap6
+plot_map, hmismall[62], dmin = 0 , dmax = 5000, color = 255, title = ' '  ;;17:46:04  directly over quake in egmap6
 loadct, 0
 linecolors ;activate coloured lines in oplot
 ; INDEX NUMBER   COLOR PRODUCED (if use default colors)
@@ -61,9 +64,15 @@ XYouts, 517.3, 260.0, 'HXR', COLOR=FSC_Color('yellow'), ALIGN=0.5, CHARSIZE=1.1
 
 loadct,0
 ctload, 3, /reverse
-plot_map, hmismall[62], dmin = 0 , dmax = 5000, color = 255   ;;17:46:04  directly over quake in egmap6
+plot_map, hmismall[62], dmin = 0 , dmax = 5000, color = 255, title = ' '  ;;17:46:04  directly over quake in egmap6
 iradius = 1.
 oplot_ribbon_coords, hmicoords, iradius, /cross
+
+;make single title
+!p.multi = [0,1,1]	
+;XYouts, 300, 400, 'SDO HMI Continuum 29 Mar 2014 17:46 UT', COLOR=FSC_Color('black'), ALIGN=0.5, CHARSIZE=3.1, /device
+XYouts, 0.5, 0.8, 'SDO HMI Continuum 29 Mar 2014 17:46 UT', COLOR=FSC_Color('black'), ALIGN=0.5, CHARSIZE=1.9, /normal
+
 device,/close
 set_plot,'x'
 !p.font=-1 			;go back to default (Vector Hershey fonts)
@@ -97,7 +106,7 @@ cs=1 	;charcter size
 
 ;PLOT 1) SMGBIG
 ctload, 3, /reverse
-plot_map, hmibig[62], dmin = 0 , dmax = 5000, color = 255, title = ( )   ;;17:46:04  directly over quake in egmap6
+plot_map, hmibig[62], dmin = 0 , dmax = 5000, color = 255, title = ' '   ;;17:46:04  directly over quake in egmap6
 loadct, 0
 linecolors ;activate coloured lines in oplot
 ; INDEX NUMBER   COLOR PRODUCED (if use default colors)
@@ -126,7 +135,7 @@ oplot, [527., 527.], [259., 271.], color = 11
 ;inverse colour table :D
 ctload, 3, /reverse
 ;PLOT 2) SMGSMALL
-plot_map, hmismall[62], dmin = 0 , dmax = 17000;;17:46:04  directly over quake in egmap6
+plot_map, hmismall[62], dmin = 0 , dmax = 17000, title = ' ';;17:46:04  directly over quake in egmap6
 linecolors ;activate coloured lines in oplot
 plot_map, hmap50[0], /over, /drot, color = 2, levels = [0.8], /percent
 plot_map,egmap6,/over,levels=[1.2,1.5,2,2.4],/drot, color = 9 ;cyan sunquake
@@ -135,6 +144,9 @@ XYouts, 520.2, 261.9, 'SQ', COLOR=FSC_Color('red'), ALIGN=0.5, CHARSIZE=0.65
 ;plot_map, hmap50[0], /over, /drot, color = 2 ;red hard xray 50-100keV 
 oplot_ribbon_coords, hmicoords, iradius, /cross
 loadct, 0
+!p.multi = [0,1,1]
+;XYouts, 300, 400, 'SDO HMI Continuum 29 Mar 2014 17:46 UT', COLOR=FSC_Color('black'), ALIGN=0.5, CHARSIZE=3.1, /device
+XYouts, 0.5, 0.8, 'SDO HMI Continuum 29 Mar 2014 17:46 UT', COLOR=FSC_Color('black'), ALIGN=0.5, CHARSIZE=1.9, /normal
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 device,/close
 set_plot,'x'

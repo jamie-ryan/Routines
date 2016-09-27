@@ -22,19 +22,25 @@ d1 = strcompress(strmid(systime(),4,7),/remove_all)
 d2 = strcompress(strmid(systime(),20),/remove_all)
 datstr = d1+'-'+d2
 
+;;;context plots
+;ribcord2oplot_cp, datstr;, /tables
+;mgii_context_plot, datstr
+hmi_context_plot, datstr
+;sunquake_context_plots, /qksource1, /no, /xzoom, /xxzoom
+;plot_energy_dist, datstr
+
+
+;ladder plots
 fluxladder1, datstr
 energyladder, datstr
 powerladder, datstr
+
+;
 power_latex_table, fdate
 intimpulse3_cp, datstr
 impulsive_phase_latex_table, datstr
 power_momenta, datstr 
 
-;ribcord2oplot_cp, datstr;, /tables
-;mgii_context_plot, datstr
-
-;sunquake_context_plots, /qksource1, /no, /xzoom, /xxzoom
-;plot_energy_dist, datstr
 toc
 end
 
