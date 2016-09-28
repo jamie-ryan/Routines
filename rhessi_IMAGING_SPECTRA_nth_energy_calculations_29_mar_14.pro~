@@ -88,7 +88,7 @@ pp_174706_174722_sth = nth_momentum_p(pe_174706_174722_sth)
 pp_south[2] = pp_174706_174722_sth
 
 dir = '/unsafe/jsr2/rhessi-spectra-Sep14-2016/'
-savf = dir+'29_mar_14_imaging_hxr_energies_momenta.sav'
+savf = dir+'29_mar_14_hxr_energies_momenta.sav'
 save, /variables, filename = savf
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

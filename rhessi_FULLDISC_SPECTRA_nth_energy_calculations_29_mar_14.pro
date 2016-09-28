@@ -1,4 +1,4 @@
-rhessi_FULLDISC_SPECTRA_fulldisc_energy_calculations_29_mar_14
+pro rhessi_FULLDISC_SPECTRA_fulldisc_energy_calculations_29_mar_14
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;FULL DISC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -57,7 +57,7 @@ pp_fulldisc[2] = pp_174706_174722_fulldisc
 
 
 dir = '/unsafe/jsr2/rhessi-spectra-Sep14-2016/'
-savf = dir+'29_mar_14_hxr_energies_momenta.sav'
+savf = dir+'29_mar_14_fulldisc_hxr_energies_momenta.sav'
 save, /variables, filename = savf
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
