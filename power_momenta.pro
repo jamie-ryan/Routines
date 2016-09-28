@@ -14,27 +14,30 @@ strmsqk = string(momsqk[0], format = '(E0.2)')
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;PARTICLE BEAM;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
-abeam = 6.61e16 ;cm^2 based on 90% 50-100kev hxr contour size
-tau = 100. ;secs
-powelec = 1.0e28 ;erg/s emitted from an area abeam
-strpelec = string(powelec, format = '(E0.2)')
-me = !const.me*1.e3 ;g
-mp = !const.mp*1.e3 ;g
-n_e = 1.e35 ;n_e = n_p
-ve = 1.21e8 ;cm/s electron velocity
-strne = string(n_e, format = '(E0.2)')
+;abeam = 6.61e16 ;cm^2 based on 90% 50-100kev hxr contour size
+;tau = 100. ;secs
+;powelec = 1.0e28 ;erg/s emitted from an area abeam
+;strpelec = string(powelec, format = '(E0.2)')
+;me = !const.me*1.e3 ;g
+;mp = !const.mp*1.e3 ;g
+;n_e = 1.e35 ;n_e = n_p
+;ve = 1.21e8 ;cm/s electron velocity
+;strne = string(n_e, format = '(E0.2)')
 ;electron
 ;momelec = tau*sqrt(2*me)*powelec ;g.cm/s 
-momelec = (powelec*tau)/(ve) ;g.cm/s
+;momelec = (powelec*tau)/(ve) ;g.cm/s
 ;momebeam = n_e*momelec ;g.cm/s
 ;proton
-momprot = momelec*sqrt(mp/me) ;g.cm/s
+;momprot = momelec*sqrt(mp/me) ;g.cm/s
 ;mompbeam = n_e*momprot ;g.cm/s
 ;strings
-strmelec = string(momelec, format = '(E0.2)')
-strmprot = string(momprot, format = '(E0.2)')
+;strmelec = string(momelec, format = '(E0.2)')
+;strmprot = string(momprot, format = '(E0.2)')
 ;strmeb = string(momebeam, format = '(E0.2)')
 ;strmpb = string(mompbeam, format = '(E0.2)')
+dir = '/unsafe/jsr2/rhessi-spectra-Sep14/'
+savf = dir+'29_mar_14_hxr_energies_momenta.sav'
+restore, dir+savf
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;RADIATIVE BACKWARMING;;;;;;;;;;;;;;;;;;;;;;; 

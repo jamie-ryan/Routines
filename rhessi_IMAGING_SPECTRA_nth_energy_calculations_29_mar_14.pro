@@ -1,5 +1,7 @@
-pro rhessi_nth_energy_calculations_29_mar_14
+pro rhessi_IMAGING_SPECTRA_nth_energy_calculations_29_mar_14
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;IMAGING SPECTROSCOPY;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;time interval
 timg = 16.0 ;secs
 timp = 100. ;secs
@@ -88,5 +90,7 @@ pp_south[2] = pp_174706_174722_sth
 dir = '/unsafe/jsr2/rhessi-spectra-Sep14-2016/'
 savf = dir+'29_mar_14_hxr_energies_momenta.sav'
 save, /variables, filename = savf
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 end
