@@ -76,10 +76,25 @@ hmimaxi = array_indices(hmidata[2, *, *], hmimx)
    ;device, xsize=18.6267, ysize=8.89		;RECTANGLE two column figure
     cs=1 	;charcter size
 
+; INDEX NUMBER   COLOR PRODUCED (if use default colors)
+; 	0		black
+;	1		maroon
+;	2       red
+;	3		pink
+;	4		orange
+;	5		yellow
+;	6		olive
+;	7		green
+;	8		dark green
+;	9		cyan
+;	10		blue
+;	11		dark blue
+;	12      magenta
+;	13      purple
+;
+;['518.5, 264', '519, 262','519.70, 263.20','520.81, 264.91','523.39, 265.13', '511.00, 269.00']
 
-
-;i = 3
-col = 2 ;dark red
+col = 0 ;dark red
 o = 4
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
@@ -108,10 +123,12 @@ outplot, tsi[458:*], sidata[2, i, 458:*], color = col + 2*i, linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
-loadct,0
+
 ;xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Flux Radiated From a Unit Solid Angle', /norm
 xyouts, 0.105, 0.92, charsize = 0.9, 'Flux Radiated From a Unit Solid Angle', /norm
 xyouts, xyx, xyy*1.01, charsize = 0.5, 'Si IV', /norm
+legend, ['518.50, 264.00', '519.00, 262.00','519.70, 263.20','520.81, 264.91','523.39, 265.13', '511.00, 269.00'],linestyle = 0,color = [0,2,4,6,8, 10]
+loadct,0
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
@@ -253,7 +270,7 @@ device, filename= flnm, encapsulated=eps, $
 ;device, xsize=8.89, ysize=8.89		;SQUARE one panel, one column figure 
 ;device, xsize=18.6267, ysize=8.89		;RECTANGLE two column figure
 cs=1 	;charcter size
-col = 2 ;dark red
+col = 0 ;dark red
 
 o = 1
 ;mn = 0.8*min(balmerdata[2, i, *])
@@ -286,12 +303,12 @@ outplot, times[i, 10:*], balmerdata[2, i, 10:*], color = col + 2*i, linestyle = 
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
-loadct,0
+
 ;xyouts, xyx*0.9, xyy*1.1, charsize = 0.9, 'Flux Radiated From a Unit Solid Angle', /norm
 xyouts, 0.32, 0.92, charsize = 0.9, 'Flux Radiated From a Unit Solid Angle', /norm
 xyouts, xyx, xyy*1.01, charsize = 0.5, 'Balmer Continuum', /norm
-
-
+legend, ['518.50, 264.00', '519.00, 262.00','519.70, 263.20','520.81, 264.91','523.39, 265.13', '511.00, 269.00'],linestyle = 0,color = [0,2,4,6,8, 10]
+loadct,0
 o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
 xyy = ypos[0,o] + ((ypos[1, o] - ypos[0, o])*0.80) ;y0 plus 90% of yrange
