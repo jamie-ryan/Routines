@@ -42,13 +42,13 @@ restore, savfimg
 restore, savffd
 
 
-enst = string(e_north[*], format = '(e0.2)')
+enst = string(p_north[*], format = '(e0.2)')
 penst = string(pe_north[*], format = '(e0.2)')
 ppnst = string(pp_north, format = '(e0.2)')
-esst = string(e_south, format = '(e0.2)')
+esst = string(p_south, format = '(e0.2)')
 pesst = string(pe_south, format = '(e0.2)')
 ppsst = string(pp_south, format = '(e0.2)')
-efdst = string(e_fulldisc, format = '(e0.2)')
+efdst = string(p_fulldisc, format = '(e0.2)')
 pefdst = string(pe_fulldisc, format = '(e0.2)')
 ppfdst = string(pp_fulldisc, format = '(e0.2)')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -62,26 +62,51 @@ c = !const.c*1.e2 ;cm/s
 radbk = strarr(3, 3)
 
 ;energy emitted from A = asqk over sunquake location
-radbk[0,0] = string(balmerdata[3,0,23], format = '(E0.2)') ;sq1
-radbk[0,1] = string(balmerdata[3,0,23], format = '(E0.2)') ;sq1
-radbk[0,2] = string(balmerdata[3,0,24], format = '(E0.2)') ;sq1
-radbk[1,0] = string(balmerdata[3,1,23], format = '(E0.2)') ;sq2
-radbk[1,1] = string(balmerdata[3,1,23], format = '(E0.2)') ;sq2
-radbk[1,2] = string(balmerdata[3,1,24], format = '(E0.2)') ;sq2
-radbk[2,0] = string(balmerdata[3,5,23], format = '(E0.2)') ;north
-radbk[2,1] = string(balmerdata[3,5,23], format = '(E0.2)') ;north
-radbk[2,2] = string(balmerdata[3,5,24], format = '(E0.2)') ;north
+;radbk[0,0] = string(balmerdata[3,0,23], format = '(E0.2)') ;sq1
+;radbk[0,1] = string(balmerdata[3,0,23], format = '(E0.2)') ;sq1
+;radbk[0,2] = string(balmerdata[3,0,24], format = '(E0.2)') ;sq1
+;radbk[1,0] = string(balmerdata[3,1,23], format = '(E0.2)') ;sq2
+;radbk[1,1] = string(balmerdata[3,1,23], format = '(E0.2)') ;sq2
+;radbk[1,2] = string(balmerdata[3,1,24], format = '(E0.2)') ;sq2
+;radbk[2,0] = string(balmerdata[3,5,23], format = '(E0.2)') ;north
+;radbk[2,1] = string(balmerdata[3,5,23], format = '(E0.2)') ;north
+;radbk[2,2] = string(balmerdata[3,5,24], format = '(E0.2)') ;north
+;momentum
+;radbkmom = strarr(3,3) 
+;radbkmom[0,0] = string(balmerdata[3,0,23]/c, format = '(E0.2)') ;sq1
+;radbkmom[0,1] = string(balmerdata[3,0,23]/c, format = '(E0.2)') ;sq1
+;radbkmom[0,2] = string(balmerdata[3,0,24]/c, format = '(E0.2)') ;sq1
+;radbkmom[1,0] = string(balmerdata[3,1,23]/c, format = '(E0.2)') ;sq2
+;radbkmom[1,1] = string(balmerdata[3,1,23]/c, format = '(E0.2)') ;sq2
+;radbkmom[1,2] = string(balmerdata[3,1,24]/c, format = '(E0.2)') ;sq2
+;radbkmom[2,0] = string(balmerdata[3,5,23]/c, format = '(E0.2)') ;north
+;radbkmom[2,1] = string(balmerdata[3,5,23]/c, format = '(E0.2)') ;north
+;radbkmom[2,2] = string(balmerdata[3,5,24]/c, format = '(E0.2)') ;north
+
+
+;power emitted from A = asqk over sunquake location
+radbk[0,0] = string(balmerdata[4,0,23], format = '(E0.2)') ;sq1
+radbk[0,1] = string(balmerdata[4,0,23], format = '(E0.2)') ;sq1
+radbk[0,2] = string(balmerdata[4,0,24], format = '(E0.2)') ;sq1
+radbk[1,0] = string(balmerdata[4,1,23], format = '(E0.2)') ;sq2
+radbk[1,1] = string(balmerdata[4,1,23], format = '(E0.2)') ;sq2
+radbk[1,2] = string(balmerdata[4,1,24], format = '(E0.2)') ;sq2
+radbk[2,0] = string(balmerdata[4,5,23], format = '(E0.2)') ;north
+radbk[2,1] = string(balmerdata[4,5,23], format = '(E0.2)') ;north
+radbk[2,2] = string(balmerdata[4,5,24], format = '(E0.2)') ;north
 ;momentum
 radbkmom = strarr(3,3) 
-radbkmom[0,0] = string(balmerdata[3,0,23]/c, format = '(E0.2)') ;sq1
-radbkmom[0,1] = string(balmerdata[3,0,23]/c, format = '(E0.2)') ;sq1
-radbkmom[0,2] = string(balmerdata[3,0,24]/c, format = '(E0.2)') ;sq1
-radbkmom[1,0] = string(balmerdata[3,1,23]/c, format = '(E0.2)') ;sq2
-radbkmom[1,1] = string(balmerdata[3,1,23]/c, format = '(E0.2)') ;sq2
-radbkmom[1,2] = string(balmerdata[3,1,24]/c, format = '(E0.2)') ;sq2
-radbkmom[2,0] = string(balmerdata[3,5,23]/c, format = '(E0.2)') ;north
-radbkmom[2,1] = string(balmerdata[3,5,23]/c, format = '(E0.2)') ;north
-radbkmom[2,2] = string(balmerdata[3,5,24]/c, format = '(E0.2)') ;north
+radbkmom[0,0] = string(balmerdata[4,0,23]/c, format = '(E0.2)') ;sq1
+radbkmom[0,1] = string(balmerdata[4,0,23]/c, format = '(E0.2)') ;sq1
+radbkmom[0,2] = string(balmerdata[4,0,24]/c, format = '(E0.2)') ;sq1
+radbkmom[1,0] = string(balmerdata[4,1,23]/c, format = '(E0.2)') ;sq2
+radbkmom[1,1] = string(balmerdata[4,1,23]/c, format = '(E0.2)') ;sq2
+radbkmom[1,2] = string(balmerdata[4,1,24]/c, format = '(E0.2)') ;sq2
+radbkmom[2,0] = string(balmerdata[4,5,23]/c, format = '(E0.2)') ;north
+radbkmom[2,1] = string(balmerdata[4,5,23]/c, format = '(E0.2)') ;north
+radbkmom[2,2] = string(balmerdata[4,5,24]/c, format = '(E0.2)') ;north
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;LATEX TABLES;;;;;;;;;;;;;;;;;;;;;;;;;; 

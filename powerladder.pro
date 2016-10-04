@@ -31,6 +31,7 @@ plot_pos_calc, n_plots = 5, xpos, ypos
 ;finds maximum coordinates. Needed to set y-axis size in utplot below
 simax = max(sidata[4, *, *], simx)
 simaxi = array_indices(sidata[4, *, *], simx)
+simin = min(sidata[4, *, 458:*])
 mgmax = max(mgdata[4, *, *], mgmx)
 mgmaxi = array_indices(mgdata[4, *, *], mgmx)
 balmermax = max(balmerdata[4, *, *], balmermx)
@@ -125,7 +126,23 @@ endfor
 
 xyouts, 0.06, 0.92, charsize = 0.7, 'Power Radiated From Region Comparable to Sunquake Area', /norm
 xyouts, xyx, xyy*1.01, charsize = 0.5, 'Si IV', /norm
-legend, ['518.50, 264.00', '519.00, 262.00','519.70, 263.20','520.81, 264.91','523.39, 265.13', '511.00, 269.00'],linestyle = 0,color = [0,2,4,6,8, 10]
+;;;LEGEND
+;legend, ['518.50, 264.00', '519.00, 262.00','519.70, 263.20','520.81, 264.91','523.39, 265.13', '511.00, 269.00'],linestyle = 0,color = [0,2,4,6,8, 10]
+labels = ['SQK Coord 1: 518.50, 264.00', 'SQK Coord 2: 519.00, 262.00','Non-SQK Coord 3: 519.70, 263.20','Non-SQK Coord 4: 520.81, 264.91','Non-SQK Coord 5: 523.39, 265.13', 'Non-SQK Coord 6: 511.00, 269.00']
+linesty = [0,0,0,0,0,0]
+line_colours = [0,2,4,6,8, 10] 
+x0 = 120. ;secs after t0
+xf = 600. ;secs after t0
+
+;figure out y coords
+delt_y = simax - simin
+quart_y = delt_y/4.
+y0 = simin + 1.5*quart_y
+yf = simin + 3.5*quart_y
+leg_coords = [x0, xf, y0, yf] 
+charsz = 0.2
+leg_end, labels = labels, coords = leg_coords, linestylee = linesty, box_colour = [0], line_colour = line_colours, char_size = charsz
+
 loadct,0
 o = 3
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -303,8 +320,25 @@ endfor
 ;vert_line,sec,1, color = 2
 
 xyouts, 0.22, 0.92, charsize = 0.9, 'Power Radiated From Region Comparable to Sunquake Area', /norm
-xyouts, xyx, xyy*1.01, charsize = 0.5, 'Balmer Continuum', /norm
-legend, ['518.50, 264.00', '519.00, 262.00','519.70, 263.20','520.81, 264.91','523.39, 265.13', '511.00, 269.00'],linestyle = 0,color = [0,2,4,6,8, 10]
+xyouts, xyx, xyy*1.06, charsize = 0.5, 'Balmer Continuum', /norm
+;;;LEGEND
+;legend, ['518.50, 264.00', '519.00, 262.00','519.70, 263.20','520.81, 264.91','523.39, 265.13', '511.00, 269.00'],linestyle = 0,color = [0,2,4,6,8, 10]
+labels = ['SQK Coord 1: 518.50, 264.00', 'SQK Coord 2: 519.00, 262.00','Non-SQK Coord 3: 519.70, 263.20','Non-SQK Coord 4: 520.81, 264.91','Non-SQK Coord 5: 523.39, 265.13', 'Non-SQK Coord 6: 511.00, 269.00']
+linesty = [0,0,0,0,0,0]
+line_colours = [0,2,4,6,8, 10] 
+x0 = 120. ;secs after t0
+xf = 600. ;secs after t0
+
+;figure out y coords
+balmermin = min(balmerdata[4, *, 10:*])
+delt_y = balmermax - balmermin
+quart_y = delt_y/4.
+y0 = balmermin + 1.5*quart_y
+yf = balmermin + 3.5*quart_y
+leg_coords = [x0, xf, y0, yf] 
+charsz = 0.5
+leg_end, labels = labels, coords = leg_coords, linestylee = linesty, box_colour = [0], line_colour = line_colours, char_size = charsz
+
 loadct,0
 o = 0
 xyx = xpos[0] + 0.1*((xpos[1] - xpos[0])/2) ;middle of xrange
@@ -333,7 +367,7 @@ endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.5, 'HMI Continuum', /norm
+xyouts, xyx, xyy*1.06, charsize = 0.5, 'HMI Continuum', /norm
 device,/close
 set_plot,'x'
 !p.font=-1 			;go back to default (Vector Hershey fonts)
