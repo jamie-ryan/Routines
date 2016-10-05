@@ -1,8 +1,9 @@
-pro hmi_process_filter, process = process, restore_sav = restore_sav, savf = savf, log = log
+pro hmi_process_filter, process = process, restore_sav = restore_sav, savf = savf, log = log, difffilt = difffilt, bksub = bksub
 
 ;process = /process
-;savf =
-;log =
+;savf = savfile location string to be restored
+;log = log boxsmooth filter option, default is just box smoothing
+;difffilt = difference filtering option, default is non-differenced.
 
 ;make dir based on date
 d1 = strcompress(strmid(systime(),4,7),/remove_all)
@@ -37,14 +38,31 @@ fnm = '/unsafe/jsr2/'+datstr+'/hmi_mp.sav'
 save, mp, filename = fnm
 endif
 
-if keyword_set(sav) then begin
+if keyword_set(restore_sav) then begin
 restore, savf
 endif
 
-;log smth or smth filter
-if keyword_set(log) then mp.data = alog10(mp.data) - alog10(SMOOTH(mp.data,10)) else $
-mp.data = mp.data - SMOOTH(mp.data,10)
+if keyword_set(bksub) then begin
+;background subtract
+bk_sample = mp[0].data[80.:90. ,90.:100.]
+bk = avg(bk_sample)
+mp.data = mp.data - bk
+filemod = '-bksub'
+endif
 
+;log smth or smth filter
+if keyword_set(log) then begin 
+mp.data = alog10(mp.data) - alog10(SMOOTH(mp.data,10)) 
+filemod = '-log-smth'
+endif
+
+
+if not keyword_set(log) then begin
+mp.data = mp.data - SMOOTH(mp.data,10)
+filemod = '-smth'
+endif
+
+if keyword_set(difffilt) then begin
 sub = coreg_map(mp,mp[60])
 ;diff = diff_map(sub(1),sub(0),/rotate)
 hmidiff = diff_map(sub(2),sub(0),/rotate)
@@ -59,9 +77,16 @@ endfor
 
 ;make seperate header and data array for hmidiff.... iris_hmi_energy needs it
 map2index, hmidiff, diffind, diffdat
+filemod = filemod+'-diff'
+endif
 
-if keyword_set(log) then savff =  '/unsafe/jsr2/'+datstr+'/hmi_logsmth_diff.sav' else $
-savff =  '/unsafe/jsr2/'+datstr+'/hmi_smth_diff.sav'
+savff =  '/unsafe/jsr2/'+datstr+'/hmi'+filemod+'.sav'
+
+if not keyword_set(difffilt) then begin 
+hmidiff = mp ;non differenced but named it hmidiff because every other code relies on that variable name :(
+map2index, hmidiff, diffind, diffdat
+save, hmidiff, diffind, diffdat, filename = savff 
+endif else begin 
 save, hmidiff, diffind, diffdat, filename = savff
-
+endelse
 end

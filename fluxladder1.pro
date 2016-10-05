@@ -1,6 +1,7 @@
-pro fluxladder1, date
+pro fluxladder1, date, altdir = altdir, altdirstr = altdirstr
 
-restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
+if keyword_set(altdir) then restore, '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav' $
+else restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'

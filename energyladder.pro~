@@ -1,4 +1,4 @@
-pro energyladder, date
+pro energyladder, date, altdir = altdir, altdirstr = altdirstr
 
 restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 
@@ -334,7 +334,7 @@ xf = 600. ;secs after t0
 balmermin = min(balmerdata[3, *, 10:*])
 delt_y = balmermax - balmermin
 quart_y = delt_y/4.
-y0 = balmermin + 1.5*quart_y
+y0 = balmermin + 1.8*quart_y
 yf = balmermin + 3.5*quart_y
 leg_coords = [x0, xf, y0, yf] 
 charsz = 0.5

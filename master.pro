@@ -30,7 +30,7 @@ hmi_context_plot, datstr
 ;plot_energy_dist, datstr
 
 
-;ladder plots
+;ladder plots...... fluxladder1, datstr, /altdir, altdirstr = 'bksub-results'
 fluxladder1, datstr
 energyladder, datstr
 powerladder, datstr

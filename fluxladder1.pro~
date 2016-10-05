@@ -1,4 +1,4 @@
-pro fluxladder1, date
+pro fluxladder1, date, altdir = altdir, altdirstr = altdirstr
 
 restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 
@@ -372,7 +372,7 @@ endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.5, 'HMI Continuum', /norm
+xyouts, xyx, xyy*1.06, charsize = 0.5, 'HMI Continuum', /norm
 device,/close
 set_plot,'x'
 !p.font=-1 			;go back to default (Vector Hershey fonts)

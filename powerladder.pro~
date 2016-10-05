@@ -1,4 +1,4 @@
-pro powerladder, date
+pro powerladder, date, altdir = altdir, altdirstr = altdirstr
 
 restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 
@@ -320,7 +320,7 @@ endfor
 ;vert_line,sec,1, color = 2
 
 xyouts, 0.22, 0.92, charsize = 0.9, 'Power Radiated From Region Comparable to Sunquake Area', /norm
-xyouts, xyx, xyy*1.01, charsize = 0.5, 'Balmer Continuum', /norm
+xyouts, xyx, xyy*1.06, charsize = 0.5, 'Balmer Continuum', /norm
 ;;;LEGEND
 ;legend, ['518.50, 264.00', '519.00, 262.00','519.70, 263.20','520.81, 264.91','523.39, 265.13', '511.00, 269.00'],linestyle = 0,color = [0,2,4,6,8, 10]
 labels = ['SQK Coord 1: 518.50, 264.00', 'SQK Coord 2: 519.00, 262.00','Non-SQK Coord 3: 519.70, 263.20','Non-SQK Coord 4: 520.81, 264.91','Non-SQK Coord 5: 523.39, 265.13', 'Non-SQK Coord 6: 511.00, 269.00']
@@ -367,7 +367,7 @@ endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
 loadct,0
-xyouts, xyx, xyy*1.01, charsize = 0.5, 'HMI Continuum', /norm
+xyouts, xyx, xyy*1.06, charsize = 0.5, 'HMI Continuum', /norm
 device,/close
 set_plot,'x'
 !p.font=-1 			;go back to default (Vector Hershey fonts)

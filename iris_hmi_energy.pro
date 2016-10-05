@@ -21,7 +21,16 @@ tic
 restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/'+datestring+'/hmifullfilt-'+datestring+'.sav'
 ;restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
-restore, '/unsafe/jsr2/Sep21-2016/hmi_smth_diff.sav'
+;restore, '/unsafe/jsr2/Sep21-2016/hmi_smth_diff.sav'
+
+;;;;;;HMI filters
+;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-smth.sav
+;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-bksub-log-smth.sav
+;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-bksub-smth.sav
+;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-log-smth-diff.sav
+;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-log-smth.sav
+restore, '/unsafe/jsr2/Oct5-2016/hmihmi-smth-diff.sav' ;can use various processing...see above
+
 ;restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
 ;restore, '/unsafe/jsr2/'+datestring+'/balm_data-'+datestring+'.sav'
 ;restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
@@ -215,20 +224,20 @@ wav1 = wave[39]
 wav2 = wave[44]
 for j = 0 , ncoords - 1 do begin 
 
-;convert DN to energy [erg]
-;iris_radiometric_calibration_texp, $
-iris_radiometric_calibration, $
-balmdat[j,*]*balmwidth, $
-reform(texp[j,*]), $
-wave=[wav1,wav2], $
-n_pixels=1, $
-f, e, pow, f_err , e_err, $
-/sg ;, slitpos = j
+    ;convert DN to energy [erg]
+    ;iris_radiometric_calibration_texp, $
+    iris_radiometric_calibration, $
+    balmdat[j,*]*balmwidth, $
+    reform(texp[j,*]), $
+    wave=[wav1,wav2], $
+    n_pixels=1, $
+    f, e, pow, f_err , e_err, $
+    /sg ;, slitpos = j
 
-;fill array with energies
-balmerdata[2, j, *] = f
-balmerdata[3, j, *] = e
-balmerdata[4, j, *] = pow
+    ;fill array with energies
+    balmerdata[2, j, *] = f
+    balmerdata[3, j, *] = e
+    balmerdata[4, j, *] = pow
 endfor
 
 
