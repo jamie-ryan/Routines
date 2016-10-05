@@ -1,4 +1,4 @@
-pro powerladder, date, alt_dir = alt_dir, altdirstr = altdirstr
+pro powerladder, date, alt_dir = alt_dir, altdirstr
 
 if keyword_set(alt_dir) then begin
 restore, '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'

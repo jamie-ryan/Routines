@@ -1,6 +1,6 @@
 pro powerladder, date, alt_dir = alt_dir, altdirstr = altdirstr
 
-if keyword_set(altdir) then begin
+if keyword_set(alt_dir) then begin
 restore, '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 flnma = '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-14-A_sqk-Power-Ladder-hmi-filter-'+altdirstr+'.eps'
 flnmb = '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-14-A_sqk-Power-Ladder-Balm-HMI-Only-hmi-filter-'+altdirstr+'.eps'
