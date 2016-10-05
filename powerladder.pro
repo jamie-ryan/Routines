@@ -1,7 +1,14 @@
 pro powerladder, date, altdir = altdir, altdirstr = altdirstr
 
-if keyword_set(altdir) then restore, '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav' $
-else restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
+if keyword_set(altdir) then begin
+restore, '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
+flnma = '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-14-A_sqk-Power-Ladder-hmi-filter-'+altdirstr+'.eps'
+flnmb = '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-14-A_sqk-Power-Ladder-Balm-HMI-Only-hmi-filter-'+altdirstr+'.eps'
+endif else begin 
+restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
+flnma = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder.eps'
+flnmb = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder-Balm-HMI-Only.eps'
+endelse
 
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'
@@ -68,11 +75,11 @@ hmimaxi = array_indices(hmidata[4, *, *], hmimx)
 ;setup for postscript or eps output
 ;-------
 
-    flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder.eps'
+
     !p.font=0			;use postscript fonts
     set_plot, 'ps'
 ;    @symbols_ps_kc		;load string symbols and greek letters for Postscript
-    device, filename= flnm, encapsulated=eps, $
+    device, filename= flnma, encapsulated=eps, $
     /helvetica,/isolatin1, landscape=0, color=1
     ;device, xsize=8.89, ysize=8.89		;SQUARE one panel, one column figure 
    ;device, xsize=18.6267, ysize=8.89		;RECTANGLE two column figure
@@ -277,11 +284,11 @@ loadct,0 			;go back to default greyscale color table
 
 
 plot_pos_calc, n_plots = 2, xpos, ypos
-flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder-Balm-HMI-Only.eps'
+
 !p.font=0			;use postscript fonts
 set_plot, 'ps'
 ;    @symbols_ps_kc		;load string symbols and greek letters for Postscript
-device, filename= flnm, encapsulated=eps, $
+device, filename= flnmb, encapsulated=eps, $
 /helvetica,/isolatin1, landscape=0, color=1
 ;device, xsize=8.89, ysize=8.89		;SQUARE one panel, one column figure 
 ;device, xsize=18.6267, ysize=8.89		;RECTANGLE two column figure
