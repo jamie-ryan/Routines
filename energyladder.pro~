@@ -4,8 +4,11 @@ if keyword_set(altdir) then begin
 restore, '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
 flnma = '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-14-A_sqk-Energy-Ladder-hmi-filter-'+altdirstr+'.eps'
 flnmb = '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-14-A_sqk-Energy-Ladder-Balm-HMI-Only-hmi-filter-'+altdirstr+'.eps'
-endif else begin restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
-
+endif else begin 
+restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
+flnma = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Energy-Ladder.eps'
+flnmb = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Energy-Ladder-Balm-HMI-Only.eps'
+endelse
 
 ang = STRING("305B)
 angstrom = '!3' +ang+ '!x'
