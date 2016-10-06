@@ -302,6 +302,7 @@ for j = 0 , ncoords - 1 do begin
 ;iris_radiometric_calibration_texp, $
 iris_radiometric_calibration, $
 balmdat[j,*]*balmwidth, $
+reform(texp[j,*]), $
 wave=[wav1,wav2], $
 n_pixels=1, $
 fout, eout, f_err, e_err, $

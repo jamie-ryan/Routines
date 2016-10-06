@@ -23,13 +23,13 @@ restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
 ;restore, '/unsafe/jsr2/Sep21-2016/hmi_smth_diff.sav'
 
-;;;;;;HMI
-;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-smth.sav
+;;;;;;HMI filters
+restore, '/unsafe/jsr2/Oct5-2016/hmihmi-smth.sav
 ;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-bksub-log-smth.sav
 ;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-bksub-smth.sav
 ;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-log-smth-diff.sav
 ;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-log-smth.sav
-restore, '/unsafe/jsr2/Oct5-2016/hmihmi-smth-diff.sav' ;can use various processing...see above
+;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-smth-diff.sav' ;can use various processing...see above
 
 ;restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
 ;restore, '/unsafe/jsr2/'+datestring+'/balm_data-'+datestring+'.sav'

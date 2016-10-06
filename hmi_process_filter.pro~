@@ -41,25 +41,25 @@ endif
 if keyword_set(restore_sav) then begin
 restore, savf
 endif
-
+filemod = 'hmi'
 if keyword_set(bksub) then begin
 ;background subtract
 bk_sample = mp[0].data[80.:90. ,90.:100.]
 bk = avg(bk_sample)
 mp.data = mp.data - bk
-filemod = '-bksub'
+filemod = filemod+'-bksub'
 endif
 
 ;log smth or smth filter
 if keyword_set(log) then begin 
 mp.data = alog10(mp.data) - alog10(SMOOTH(mp.data,10)) 
-filemod = '-log-smth'
+filemod = filemod+'-log-smth'
 endif
 
 
 if not keyword_set(log) then begin
 mp.data = mp.data - SMOOTH(mp.data,10)
-filemod = '-smth'
+filemod = filemod+'-smth'
 endif
 
 if keyword_set(difffilt) then begin

@@ -39,7 +39,7 @@ dt = 0.005 ;uncertainty in t
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;[DN.s^-1] / [area_on_sun] = DN/s.cm^2
-pixel_length = 0.505
+pixel_length = 0.6
 dpl = 0.0005 ;uncertainty in pixel length
 dacm = 5.0e4 ;uncertainty in arcseconds to cm
 h = 6.63e-27  ; planck's constant erg.s
