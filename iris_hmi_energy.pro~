@@ -23,8 +23,9 @@ restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/Feb12-2016/hmifullfilt-Feb12-2016.sav'
 ;restore, '/unsafe/jsr2/Sep21-2016/hmi_smth_diff.sav'
 
-;;;;;;HMI filters
-restore, '/unsafe/jsr2/Oct5-2016/hmihmi-smth.sav
+;;;;;;HMI filters....choose one
+restore, '/unsafe/jsr2/Oct7-2016/hmihmi-smth-diff.sav'
+;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-smth.sav
 ;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-bksub-log-smth.sav
 ;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-bksub-smth.sav
 ;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-log-smth-diff.sav
@@ -34,7 +35,8 @@ restore, '/unsafe/jsr2/Oct5-2016/hmihmi-smth.sav
 ;restore, '/unsafe/jsr2/Feb15-2016/balm_data-Feb15-2016.sav'
 ;restore, '/unsafe/jsr2/'+datestring+'/balm_data-'+datestring+'.sav'
 ;restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
-restore, '/unsafe/jsr2/Mar18-2016/balm-dat-final-coords.sav'
+;restore, '/unsafe/jsr2/Mar18-2016/balm-dat-final-coords.sav'
+restore, '/unsafe/jsr2/Oct7-2016/balmerdataOct7-2016.sav'
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 ;;;iris spectra fits
@@ -43,7 +45,7 @@ fsp = findfile('/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(fsp)
 
 fsji = findfile('/unsafe/jsr2/IRIS/sji/')
-;nsji = n_elements(fsji)
+nsji = n_elements(fsji)
 
 ;;;some variables for loops, arrays element definition and header info 
 slitpos = 6
@@ -59,7 +61,7 @@ snp = (sradius + 1)*(sradius + 1) ;npixels for sdo radiometric calibration
 ;continuum scaling factors
 ;balmwidth = (3600. - 1400.)/0.1  ;in angstroms
 balmwidth = (6563. - 3646.)/0.1  ;in angstroms
-visiblewidth = (7500. - 3800.)/76.e-3 ;in angstroms
+visiblewidth = (7000. - 3900.)/76.e-3 ;in angstroms
 
 
 ;;;set time series to run from 17:30 to 17:55 
@@ -104,9 +106,9 @@ endfor
 ;eg: sidata[time_frame, xcoord, ycoord, time]....have to have seperate arrays due to different cadence
 sidata = fltarr(columns, slitpos, n_elements(tsi))
 mgdata = fltarr(columns, slitpos, n_elements(tmg))
-bdtmp0 = balmerdata[0,*,*]
-bdtmp1 = balmerdata[1,*,*]
-balmerdata = fltarr(columns, slitpos, n_elements(times[0,*]))
+;bdtmp0 = balmerdata[0,*,*]
+;bdtmp1 = balmerdata[1,*,*]
+;balmerdata = fltarr(columns, slitpos, n_elements(times[0,*]))
 ;balmerdata = fltarr(columns, slitpos, nfiles)
 mgwdata = fltarr(columns, slitpos, n_elements(tmgw))
 hmidata = fltarr(columns, slitpos, n_elements(thmi))
@@ -129,7 +131,7 @@ hmierr = fltarr(fande, slitpos, n_elements(thmi))
 ;;;read in coord files for each data set
 ;;;(to change coords ammend file, eg, hmicoords.txt)
 ;;;based on naming convention (no zero, always start with 1), eg, hmicoords, hmicoords2, hmicoords3 etc.
-dataset = ['si', 'mg', 'mgw', 'hmi']
+dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 for k = 0, n_elements(dataset)-1 do begin
     flnm = dataset[k]+'coordsfinal.txt' ;eg, flnm=hmicoords.txt
     openr, lun, flnm, /get_lun
@@ -141,11 +143,11 @@ for k = 0, n_elements(dataset)-1 do begin
     free_lun, lun
 endfor
 
-nsji = n_elements(fsji) ;3
+
 exp_time = dblarr(nsji)
 for i = 0, nsji - 1 do begin
-    ;load data and put into data array
-    d = iris_obj(f[i])
+
+    d = iris_obj(fsji[i])
     if (i eq 0) then spec_line = 4 else $ ;1400
     if (i eq 1) then spec_line = 8 else spec_line = 5 ;2796 else 2832
     exp_time[i] = avg(d->getexp(iexp,iwin=spec_line))

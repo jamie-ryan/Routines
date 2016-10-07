@@ -147,14 +147,14 @@ exp_weight = max(texp)/texp
 
 for i = 0, n_elements(array) - 1 do begin
     ;intensity
-;    fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
-    fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*exp_weight[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
+    fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
+;    fout[i] = (array[i]*n_pixels*dn2photon*E_photon)/(A_float*texp[i]*exp_weight[i]*pixlambda*w) ;erg/s.cm^2.sr.Å
     ;energy (produces odd looking profile due to texp scaling done on blam_data....need to fix!)
-;    eout[i] = fout[i]*asqk*pixlambda*4*!pi*texp[i] ;erg/s.cm^2 
-    eout[i] = fout[i]*asqk*pixlambda*4*!pi*texp[i]*exp_weight[i] ;erg/s.cm^2 
+    eout[i] = fout[i]*asqk*pixlambda*4*!pi*texp[i] ;erg/s.cm^2 
+;    eout[i] = fout[i]*asqk*pixlambda*4*!pi*texp[i]*exp_weight[i] ;erg/s.cm^2 
     ;power
-;    pout[i] = fout[i]*asqk*pixlambda*4*!pi ;erg/s emitted over sunquake
-    pout[i] = fout[i]*asqk*pixlambda*4*!pi**exp_weight[i] ;erg/s emitted over sunquake
+    pout[i] = fout[i]*asqk*pixlambda*4*!pi ;erg/s emitted over sunquake
+;    pout[i] = fout[i]*asqk*pixlambda*4*!pi**exp_weight[i] ;erg/s emitted over sunquake
 endfor
 endif
 

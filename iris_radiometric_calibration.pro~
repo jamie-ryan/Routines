@@ -142,15 +142,8 @@ pout = fltarr(n_elements(array))
 array = reform(array)
 texp_combined = total(texp)/n_elements(texp)
 
-;;;exposure time: correct dn data
-texp_normalised = texp/max(texp)
+;;;exposure time correct
 exp_weight = max(texp)/texp
-alldat_exp_weighted = dblarr(xpix,ypix,nfiles)
-for i = 0, nfiles - 1 do begin
-    for j = 0, xpix - 1 do begin
-        alldat_exp_weighted[j, *, i] = exp_weight[j,i]*alldat[j, *, i]
-    endfor
-endfor
 
 for i = 0, n_elements(array) - 1 do begin
     ;intensity

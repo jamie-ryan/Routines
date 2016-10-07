@@ -10,9 +10,10 @@ spawn, 'mkdir /unsafe/jsr2/'+datstr
 
 ;iris_remap
 ;hmi_full_filt, /process;;;;;;old
-hmi_process_filter, /process, ;/log ;;;;first time processing, uncomment /log for log smooth filter
+;hmi_process_filter, /process, ;/log ;;;;first time processing, uncomment /log for log smooth filter
 hmi_process_filter, savf = '/unsafe/jsr2/Sep21-2016/hmi_mp.sav' ;;;secondtime round, if processed sav exists
 
+balm_simple, datstr
 ;balm_data, datstr, /single_pixel
 ;iris_raster_lightcurve ; depends on sav from balm_dat
 iris_hmi_energy, datstr, /single_pixel ;depends on sav from iris_raster_lightcurve
