@@ -19,9 +19,9 @@ nwav = n_elements(wave)
 ypix =  n_elements(dat[0,*,0]) ;y pixels
 xpix =  n_elements(dat[0,0,*]) ;slit position
 rawdat = fltarr(nfiles, nwav, ypix, xpix) ;raw data array
-a = fltarr(nfiles, nwav, ypix, xpix) ;raw data array
 corrdat = fltarr(nfiles, nwav, ypix, xpix) ;corrected data array
 alldat = fltarr(xpix,ypix,nfiles)
+alldat_exp_weighted = dblarr(xpix,ypix,nfiles)
 ;balmbk = fltarr(xpix, ypix) ;currently redundant
 ;bk = fltarr(xpix) ;currently redundant
 dat_bk_subtract_exp_weighted = fltarr(xpix, ypix, nfiles)    
@@ -58,26 +58,24 @@ for i = 0, nfiles -1 do begin
     for j = 0, xpix - 1 do begin
         for k = 0, ypix -1 do begin
 
-
-            ;;;EXPOSURE NORMALISATION            
-            a[i,*,*,*] = rawdat[i,*,*,*]/exp1[j,i]
-
-
             ;;;;WAVELENGTH ORBITAL CORRECTIONS
             ;;;corrected for fuv wavelengths 
             ;corrdat[*, j, i] = interpol(rawdat[*, j, i], wave + wavecorr.corr_fuv[i], wave)            
 
             ;;;corrected for nuv wavelengths
-            corrdat[i, *, k, j] = interpol(a[i, *, k, j], wave + wavecorr.corr_nuv[j], wave) 
+            corrdat[i, *, k, j] = interpol(rawdat[i, *, k, j], wave + wavecorr.corr_nuv[j], wave) 
             ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
             
             ;;;SUM BALMER WAVELENGTH SELECTION
             alldat[j,k,i] = total(corrdat[i, 41:44, k, j])
             ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+            ;;;EXPOSURE NORMALISATION
+            alldat_exp_weighted[*, k, i] = alldat[*, k, i]/exp1[*,i] ;exposure corrected            
 
             ;;;;BK SUBTRACTION
-            dat_bk_subtract_exp_weighted[j,k,i] = alldat - bk ;subtract bk
+            dat_bk_subtract_exp_weighted[j,k,i] = alldat_exp_weighted[j,k,i] - bk ;subtract bk
         endfor
     endfor
 endfor
