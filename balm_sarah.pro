@@ -1,3 +1,4 @@
+pro balm_sarah, date
 file = findfile('/unsafe/jsr2/IRIS/Oct6/iris_l2_20140329_140938_3860258481_raster_t000*')
 
 nfiles = n_elements(file)                                 
@@ -69,3 +70,4 @@ endfor
 ;;;;Save variables for iris_hmi_energy.pro
 fsav = '/unsafe/jsr2/'+date+'/balmerdata-sarah-'+date+'.sav'
 save, balmerdata, balmdat, times, wave, texp, wd,  filename = fsav
+end

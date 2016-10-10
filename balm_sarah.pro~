@@ -49,7 +49,7 @@ ncoords = n_elements(balmercoords[0,*])
 balmdat = fltarr(ncoords, nfiles)
 columns = 5 ;x,y,F,E,P
 balmerdata = fltarr(columns, ncoords, nfiles)
-texp = strarr(ncoords, nfiles)
+texp = fltarr(ncoords, nfiles)
 
 
 ;common pix will contain the pixel locations of the x coords in balmercoords.txt

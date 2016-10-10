@@ -11,7 +11,8 @@ spawn, 'mkdir /unsafe/jsr2/'+datstr
 ;iris_remap
 ;hmi_full_filt, /process;;;;;;old
 ;hmi_process_filter, /process, ;/log ;;;;first time processing, uncomment /log for log smooth filter
-hmi_process_filter, savf = '/unsafe/jsr2/Sep21-2016/hmi_mp.sav', /difffilt ;;;secondtime round, if processed sav exists
+;hmi_process_filter, process = process, restore_sav = restore_sav, savf = savf, log = log, difffilt = difffilt, bksub = bksub
+hmi_process_filter, /restore_sav, savf = '/unsafe/jsr2/Sep21-2016/hmi_mp.sav', /difffilt ;;;secondtime round, if processed sav exists
 
 balm_simple, datstr
 ;balm_data, datstr, /single_pixel
@@ -28,9 +29,9 @@ hmi_context_plot, datstr
 
 
 ;ladder plots...... fluxladder1, datstr, /altdir, altdirstr = 'bksub-results'
-fluxladder1, datstr
-energyladder, datstr
-powerladder, datstr
+fluxladder2, datstr
+energyladde2, datstr
+powerladder2, datstr
 
 ;rhessi after full disc or imaging spectroscopy in ospex
 rhessi_IMAGING_SPECTRA_nth_energy_calculations_29_mar_14 ;contains nth_energy.pro, nth_momentum_e.pro, nth_momentum_p.pro 

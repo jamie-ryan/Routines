@@ -14,7 +14,8 @@ spawn, 'mkdir /unsafe/jsr2/'+datstr
 ;hmi_process_filter, process = process, restore_sav = restore_sav, savf = savf, log = log, difffilt = difffilt, bksub = bksub
 hmi_process_filter, /restore_sav, savf = '/unsafe/jsr2/Sep21-2016/hmi_mp.sav', /difffilt ;;;secondtime round, if processed sav exists
 
-balm_simple, datstr
+;balm_simple, datstr
+balm_sarah, date
 ;balm_data, datstr, /single_pixel
 ;iris_raster_lightcurve ; depends on sav from balm_dat
 iris_hmi_energy, datstr, /single_pixel ;depends on sav from iris_raster_lightcurve
@@ -29,9 +30,9 @@ hmi_context_plot, datstr
 
 
 ;ladder plots...... fluxladder1, datstr, /altdir, altdirstr = 'bksub-results'
-fluxladder1, datstr
-energyladder, datstr
-powerladder, datstr
+fluxladder2, datstr
+energyladde2, datstr
+powerladder2, datstr
 
 ;rhessi after full disc or imaging spectroscopy in ospex
 rhessi_IMAGING_SPECTRA_nth_energy_calculations_29_mar_14 ;contains nth_energy.pro, nth_momentum_e.pro, nth_momentum_p.pro 
