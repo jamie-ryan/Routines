@@ -67,7 +67,7 @@ hmimaxi = array_indices(hmidata[4, *, *], hmimx)
 ;-------
 ;setup for postscript or eps output
 ;-------
-    flnm = '/unsafe/jsr2/Oct6-2016/29-Mar-14-A_sqk-Power-Ladder.eps'
+    flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder.eps'
 ;    flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder.eps'
     !p.font=0			;use postscript fonts
     set_plot, 'ps'
@@ -169,7 +169,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, tmg[611:*], mgdata[4, i, 611:*],color = col + 2*i, linestyle = 0
+outplot, tmg[611:*], mgdata[4, i, 611:*],color = col + 2*i,linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -203,7 +203,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, times[i, 10:*], balmerdata[4, i, 10:*],color = col + 2*i, linestyle = 0
+outplot, times[i, 10:*], balmerdata[4, i, 10:*],color = col + 2*i,linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2
@@ -234,7 +234,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $ 
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, tmgw[153:*], mgwdata[4, i, 153:*],color = col + 2*i, linestyle = 0
+outplot, tmgw[153:*], mgwdata[4, i, 153:*],color = col + 2*i,linestyle = 0
 endfor
 ;loadct,34
 ;vert_line,sec,1, color = 2
@@ -277,7 +277,7 @@ loadct,0 			;go back to default greyscale color table
 
 
 plot_pos_calc, n_plots = 2, xpos, ypos
-flnm = '/unsafe/jsr2/Oct6-2016/29-Mar-14-A_sqk-Power-Ladder-Balm-HMI-Only.eps'
+flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder-Balm-HMI-Only.eps'
 ;flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-A_sqk-Power-Ladder-Balm-HMI-Only.eps'
 !p.font=0			;use postscript fonts
 set_plot, 'ps'
@@ -335,7 +335,7 @@ xf = 600. ;secs after t0
 balmermin = min(balmerdata[4, *, 10:*])
 delt_y = balmermax - balmermin
 quart_y = delt_y/4.
-y0 = balmermin + 1.5*quart_y
+y0 = balmermin + 2.0*quart_y
 yf = balmermin + 3.5*quart_y
 leg_coords = [x0, xf, y0, yf] 
 charsz = 0.5
@@ -364,7 +364,7 @@ xmargin = [12,3], $
 position = [xpos[0],ypos[0,o],xpos[1], ypos[1,o]], $
 /NoErase
 for i = 0, n_elements(sidata[4, *, 458]) - 1 do begin
-outplot, thmi[41:74], hmidata[4, i, 41:74],color = col + 2*i, linestyle = 0
+outplot, thmi[41:74], hmidata[4, i, 41:74],color = col + 2*i,linestyle = 0
 endfor
 ;loadct,3
 ;vert_line,sec,1, color = 2

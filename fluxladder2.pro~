@@ -1,4 +1,4 @@
-pro fluxladder2, date, altdir = alt_dir, altdirstr
+pro fluxladder2, date, alt_dir = alt_dir, altdirstr
 
 if keyword_set(alt_dir) then restore, '/unsafe/jsr2/'+date+'/'+altdirstr+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav' $
 else restore, '/unsafe/jsr2/'+date+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+date+'.sav'
@@ -67,7 +67,7 @@ hmimaxi = array_indices(hmidata[2, *, *], hmimx)
 ;-------
 ;setup for postscript or eps output
 ;-------
-    flnm = '/unsafe/jsr2/Oct6-2016/29-Mar-14-Flux-Ladder.eps'
+    flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Flux-Ladder.eps'
 ;    flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Flux-Ladder.eps'
     !p.font=0			;use postscript fonts
     set_plot, 'ps'
@@ -280,7 +280,7 @@ loadct,0 			;go back to default greyscale color table
 
 
 plot_pos_calc, n_plots = 2, xpos, ypos
-flnm = '/unsafe/jsr2/Oct6-2016/29-Mar-14-Flux-Ladder-Balm-HMI-Only.eps'
+flnm = '/unsafe/jsr2/'+date+'/29-Mar-14-Flux-Ladder-Balm-HMI-Only.eps'
 !p.font=0			;use postscript fonts
 set_plot, 'ps'
 ;    @symbols_ps_kc		;load string symbols and greek letters for Postscript
@@ -338,7 +338,7 @@ xf = 600. ;secs after t0
 balmermin = min(balmerdata[2, *, 10:*])
 delt_y = balmermax - balmermin
 quart_y = delt_y/4.
-y0 = balmermin + 1.5*quart_y
+y0 = balmermin + 1.2*quart_y
 yf = balmermin + 3.5*quart_y
 leg_coords = [x0, xf, y0, yf] 
 charsz = 0.5

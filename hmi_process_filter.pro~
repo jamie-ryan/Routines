@@ -69,8 +69,8 @@ hmidiff = diff_map(sub(2),sub(0),/rotate)
 
 for i=1, n_elements(mp) - 1 do begin
     ;;differencing
-    diff1=diff_map(sub[i],sub[i-2],/rotate)
-
+;    diff1=diff_map(sub[i],sub[i-2],/rotate) ;running difference
+    diff1=diff_map(sub[i],sub[0],/rotate)
     ;;;concatenate arrays to form one difference array
     hmidiff=str_concat(hmidiff,diff1)    
 endfor

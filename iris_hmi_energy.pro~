@@ -24,7 +24,7 @@ restore, '/unsafe/jsr2/iris-16-03-15.sav'
 ;restore, '/unsafe/jsr2/Sep21-2016/hmi_smth_diff.sav'
 
 ;;;;;;HMI filters....choose one
-restore, '/unsafe/jsr2/Oct7-2016/hmihmi-smth-diff.sav'
+restore, '/unsafe/jsr2/Oct10-2016/hmihmi-smth-diff.sav'
 ;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-smth.sav
 ;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-bksub-log-smth.sav
 ;restore, '/unsafe/jsr2/Oct5-2016/hmihmi-bksub-smth.sav
@@ -36,7 +36,10 @@ restore, '/unsafe/jsr2/Oct7-2016/hmihmi-smth-diff.sav'
 ;restore, '/unsafe/jsr2/'+datestring+'/balm_data-'+datestring+'.sav'
 ;restore, '/unsafe/jsr2/Mar18-2016/balm_data-Mar18-2016.sav'
 ;restore, '/unsafe/jsr2/Mar18-2016/balm-dat-final-coords.sav'
-restore, '/unsafe/jsr2/Oct7-2016/balmerdataOct7-2016.sav'
+;restore, '/unsafe/jsr2/Oct7-2016/balmerdataOct7-2016.sav'
+;times = 0
+;restore, '/unsafe/jsr2/Oct10-2016/balm_times.sav' ;read in corrected time array
+restore, '/unsafe/jsr2/Oct10-2016/balmerdata-sarah-Oct10-2016.sav
 ;restore, '/unsafe/jsr2/sp2826-Jan19-2016.sav'
 restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 ;;;iris spectra fits
@@ -44,7 +47,7 @@ restore, '/unsafe/jsr2/sp2826-Feb8-2016.sav'
 fsp = findfile('/unsafe/jsr2/IRIS/old/')
 nfiles = n_elements(fsp)
 
-fsji = findfile('/unsafe/jsr2/IRIS/sji/')
+fsji = findfile('/unsafe/jsr2/IRIS/sji/*')
 nsji = n_elements(fsji)
 
 ;;;some variables for loops, arrays element definition and header info 
@@ -61,8 +64,7 @@ snp = (sradius + 1)*(sradius + 1) ;npixels for sdo radiometric calibration
 ;continuum scaling factors
 ;balmwidth = (3600. - 1400.)/0.1  ;in angstroms
 balmwidth = (6563. - 3646.)/0.1  ;in angstroms
-visiblewidth = (7000. - 3900.)/76.e-3 ;in angstroms
-
+visiblewidth = (7000. - 4800.)*1.0e2 ;in cm
 
 ;;;set time series to run from 17:30 to 17:55 
 tsi = map1400.time ;[]
@@ -145,13 +147,14 @@ endfor
 
 
 exp_time = dblarr(nsji)
-for i = 0, nsji - 1 do begin
+exp_time[*] = 8.000
+;for i = 0, nsji - 1 do begin
 
-    d = iris_obj(fsji[i])
-    if (i eq 0) then spec_line = 4 else $ ;1400
-    if (i eq 1) then spec_line = 8 else spec_line = 5 ;2796 else 2832
-    exp_time[i] = avg(d->getexp(iexp,iwin=spec_line))
-endfor
+;    d = iris_obj(fsji[i])
+;    if (i eq 0) then spec_line = 4 else $ ;1400
+;    if (i eq 1) then spec_line = 8 else spec_line = 5 ;2796 else 2832
+;    exp_time[i] = avg(d->getexp(iexp,iwin=spec_line))
+;endfor
 
 ;;;;use tmp, e and f arrays to save memory
 tmp = 0
@@ -195,8 +198,9 @@ for i = 0, n_elements(sicoords[0,*]) - 1 do begin
     ;;;iris 2832 \AA\ section
     mgwdata[0, i, *] = convert_coord_iris(mgwcoords[0, i], sji_2832_hdr[167], /x, /a2p)
     mgwdata[1, i, *] = convert_coord_iris(mgwcoords[1, i], sji_2832_hdr[167], /y, /a2p)
-    if keyword_set(single_pixel) then tmp = diff2832.data[mgwdata[0, i, 0], mgwdata[1, i, 0]] else $
-    tmp = sumarea(diff2832.data, mgwdata[0, i, 0], mgwdata[1, i, 0], iradius)
+    if keyword_set(single_pixel) then tmp = map2832.data[mgwdata[0, i, 0], mgwdata[1, i, 0]] else $
+;    tmp = sumarea(diff2832.data, mgwdata[0, i, 0], mgwdata[1, i, 0], iradius)
+    tmp = sumarea(map2832.data, mgwdata[0, i, 0], mgwdata[1, i, 0], iradius)
 ;    iris_radiometric_calibration, tmp, exp_time, sji_2832_hdr, wave = 2832., n_pixels = inp, f, e, pow, f_err , e_err, /sji
     iris_radiometric_calibration, tmp, exp_time[2], wave = 2832., n_pixels = inp, f, e, pow, f_err , e_err, /sji
     mgw_tmp[i,*] = tmp
@@ -224,7 +228,7 @@ endfor
 
 wav1 = wave[39]
 wav2 = wave[44]
-for j = 0 , ncoords - 1 do begin 
+for j = 0 , n_elements(balmercoords[0,*]) - 1 do begin 
 
     ;convert DN to energy [erg]
     ;iris_radiometric_calibration_texp, $

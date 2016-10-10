@@ -65,14 +65,13 @@ for i = 0, nfiles -1 do begin
             ;;;corrected for nuv wavelengths
             corrdat[i, *, k, j] = interpol(rawdat[i, *, k, j], wave + wavecorr.corr_nuv[j], wave) 
             ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-            ;;;EXPOSURE NORMALISATION            
 
             
             ;;;SUM BALMER WAVELENGTH SELECTION
             alldat[j,k,i] = total(corrdat[i, 41:44, k, j])
             ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
+            ;;;EXPOSURE NORMALISATION
             alldat_exp_weighted[*, k, i] = alldat[*, k, i]/exp1[*,i] ;exposure corrected            
 
             ;;;;BK SUBTRACTION
@@ -133,6 +132,6 @@ endfor
 
 ;;;;Save variables for iris_hmi_energy.pro
 fsav = '/unsafe/jsr2/'+date+'/balmerdata'+date+'.sav'
-save, balmerdata, balmdat, times, texp, filename = fsav
+save, balmerdata, balmdat, times, texp, wave, filename = fsav
 
 end

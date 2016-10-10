@@ -1,4 +1,4 @@
-pro read_iris_l2_cp, l2files, index, data, _extra=_extra, keep_null=keep_null, append=append, silent=silent, $
+pro read_iris_l2, l2files, index, data, _extra=_extra, keep_null=keep_null, append=append, silent=silent, $
    wave=wave,remove_bad=remove_bad, rows=rows, imagen=imagen, $
    adata=adata, aindex=aindex, eindex=eindex, timerange=timerange
 ;
@@ -52,6 +52,7 @@ pro read_iris_l2_cp, l2files, index, data, _extra=_extra, keep_null=keep_null, a
 ;      13-mar-2015 - slf - fix null removal logic for SJI
 ;      15-mar-2015 - slf - fix 13-mar fix(!)
 ;       3-jun-2015 - slf - naxis -> 2 (SJI only for now) + PC matrix updates per J.P.Wuelser
+;      21-sep-2015 - slf - protect against All images are null!
 ;-
 
 loud=1-keyword_set(silent)
@@ -206,7 +207,7 @@ for f=0,nf-1 do begin
    pnt=pnt+ndata
 endfor
 
-
+remove_null=1-keyword_set(keep_null)
 okcnt=n_elements(index)
 if n_elements(data) gt 0 then begin
    totdn=total(total(data>0,2),1) 
@@ -215,12 +216,16 @@ if n_elements(data) gt 0 then begin
    ok=tdd gt 0
    okss=where(ok,okcnt)
 if get_logenv('check_null') ne '' then stop,'okss,totdn
-   if okcnt lt n_elements(index) and 1-keyword_set(keep_null) then begin 
+   if okcnt lt n_elements(index) and remove_null then begin 
       box_message,'removing null images; use /KEEP_NULL to avoid this default'
-      index=index[okss]
-      temp=make_array(data_chk(data,/nx),data_chk(data,/ny),okcnt,type=data_chk(data,/type),/nozero)
-      for i=0,okcnt-1 do temp[0,0,i]=data[*,*,okss[i]]
-      data=temporary(temp)
+      if okcnt eq 0 then begin
+         box_message,'Upon further review, ALL Images are NULL, no action'
+      endif else begin
+         index=index[okss]
+         temp=make_array(data_chk(data,/nx),data_chk(data,/ny),okcnt,type=data_chk(data,/type),/nozero)
+         for i=0,okcnt-1 do temp[0,0,i]=data[*,*,okss[i]]
+         data=temporary(temp)
+      endelse
    endif
 endif
 
@@ -250,4 +255,3 @@ endif
       
 return
 end
-

@@ -63,7 +63,7 @@ for i = 0, nfiles -1 do begin
             ;corrdat[*, j, i] = interpol(rawdat[*, j, i], wave + wavecorr.corr_fuv[i], wave)            
 
             ;;;corrected for nuv wavelengths
-            corrdat[i, *, k, j] = interpol(rawdat[i, *, k, j], wave + wavecorr.corr_nuv[j], wave) 
+;            corrdat[i, *, k, j] = interpol(rawdat[i, *, k, j], wave + wavecorr.corr_nuv[j], wave) 
             ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
             
@@ -132,6 +132,6 @@ endfor
 
 ;;;;Save variables for iris_hmi_energy.pro
 fsav = '/unsafe/jsr2/'+date+'/balmerdata'+date+'.sav'
-save, balmerdata, balmdat, times, texp, filename = fsav
+save, balmerdata, balmdat, times, texp, wave, filename = fsav
 
 end

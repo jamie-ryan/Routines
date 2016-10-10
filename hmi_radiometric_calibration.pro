@@ -81,7 +81,10 @@ A_eff = area*(transmittance_med/100.) ;area multiplied by relative transmittance
 
 ;;;;;;;;;;;;;;DNs to erg/s.cm^2.sr.Å....;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-fout = (array*dn2photon*E_photon)/(A_eff*texp*pixlambda*w) ;erg/s.cm^2.sr.Å
+nickel_scale = 0.1;scale result based on Nickel labs
+
+
+fout = (array*dn2photon*E_photon)/(A_eff*texp*pixlambda*w) * nickel_scale ;erg/s.cm^2.sr.Å
 ;eout = (array*dn2photon*E_photon)/(A_eff*texp) ;erg/s.cm^2
 eout = fout*asqk*pixlambda*4*!pi*texp ;erg emmitted over the sunquake area
 pout = fout*asqk*pixlambda*4*!pi ;erg/s emmitted over the sunquake area
