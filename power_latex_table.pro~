@@ -2,7 +2,7 @@ pro power_latex_table, fdate
 fil = '/unsafe/jsr2/'+fdate+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energies-'+fdate+'.sav'
 restore, fil
 
-ncoords = n_elements(si_eimp)
+ncoords = n_elements(sidata[0,*,0])
 
 
 dataset = ['si', 'hmi']

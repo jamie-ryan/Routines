@@ -50,7 +50,7 @@ for i = 0, ncoords-1 do begin
     printf, lun, sixy+' & '+si+' & '+mg+' & '+balm+' & '+mgw+' & '+hmi+'\\'
     if (i eq ncoords -1) then begin
     printf, lun, '\end{tabular}'
-    printf, lun, '\caption{Power values are the maximum emitted during the flare impulsive phase, 17:44 to 17:48 for ribbon sample locations 1 to 6 (see table \ref{}).}\label{ribpowertab}'
+    printf, lun, '\caption{Power values are the maximum emitted during the flare impulsive phase, 17:44 to 17:48 for ribbon sample locations 1 to 6 (see table \ref{coordtab}).}\label{ribpowertab}'
     printf, lun, '\end{sidewaystable}'
     endif
 endfor

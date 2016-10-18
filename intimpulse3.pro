@@ -4,31 +4,31 @@ restore, '/unsafe/jsr2/'+fdate+'/29-Mar-2014-bk-subtracted-iris-hmi-area-energie
 
 dataset = ['si', 'mg', 'balmer', 'mgw', 'hmi']
 cadence = [26., 19., 72., 75., 45. ] ;si, mg  , balmer  , mgw  , hmi 
-time_frames = 2
-nrb = 20
-npt = 1 + (nrb/time_frames)
+
+nrb = 6
+;npt = 1 + (nrb/time_frames)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;IMPULSIVE PHASE TIME FROM RHESSI 50 - 100 keV???;;;
 ;impulsive phase start time
-t_start = '*17:44*'
-t1find = '*17:43*'
+t_start = '*17:46*'
+t1find = '*17:45*'
 ;impulsive phase end time
-t_end = '*17:48*'
-t2find = '*17:49*'
+t_end = '*17:47*'
+t2find = '*17:48*'
 
 ;impulsive phase time in seconds
 rhessi_timp = 60. 
 
 
 ;array to contain dataset specific impulsive phase 
-eimp = fltarr(time_frames, npt)
+eimp = fltarr(nrb)
 rhessi_eimp = 1.0e29
 nset = n_elements(dataset)
 for k = 0, nset -1 do begin  
     print, k  
-    for j = 0, time_frames - 1 do begin
-        for i = 0, npt - 1 do begin
+
+        for i = 0, nrb - 1 do begin
 
             ;select dataset
             if (k eq 0) then begin
@@ -41,7 +41,7 @@ for k = 0, nset -1 do begin
             endif
             if (k eq 2) then begin
             dd = balmerdata
-            t = reform(tbalm[j, i, *])
+            t = reform(times[i, *])
             endif
             if (k eq 3) then begin
             dd = mgwdata
@@ -54,7 +54,7 @@ for k = 0, nset -1 do begin
 
             ;make 1D energy array
             d = 0
-            d = reform(dd[j,3,i,*])
+            d = reform(dd[4,i,*])
 
             ;find time array indices for impulsive phase
             t1 = where(strmatch(t, t_start))
@@ -91,13 +91,13 @@ for k = 0, nset -1 do begin
             
             ;integrate energy
             e = int_tabulated(ti, d[t1[t1ind]:t2[t2ind]])
-            eimp[j,i] = e
+            eimp[i] = e
         endfor
-    endfor
+
     ;make dataset specific arrays
     com = dataset[k]+'_timp = deltt'
     exe = execute(com)
-    com = dataset[k]+'_eimp = fltarr(time_frames, npt)'
+    com = dataset[k]+'_eimp = fltarr(nrb)'
     exe = execute(com)
     com = dataset[k]+'_eimp = eimp'
     exe = execute(com)

@@ -18,12 +18,12 @@ t_end = '*17:47:*'
 t2find = '*17:48:*'
 
 ;impulsive phase time in seconds
-rhessi_timp = 60. 
+rhessi_timp = 100. 
 
 
 ;array to contain dataset specific impulsive phase 
 eimp = fltarr(nrb)
-rhessi_eimp = 1.0e28 ;needs verifying
+rhessi_eimp = 2.48e28 ;added up manually from imaging spec 
 nset = n_elements(dataset)
 for k = 0, nset -1 do begin  
     print, k  

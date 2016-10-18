@@ -38,11 +38,10 @@ powerladder2, datstr
 rhessi_IMAGING_SPECTRA_nth_energy_calculations_29_mar_14 ;contains nth_energy.pro, nth_momentum_e.pro, nth_momentum_p.pro 
 rhessi_FULLDISC_SPECTRA_nth_energy_calculations_29_mar_14  ;contains nth_energy.pro, nth_momentum_e.pro, nth_momentum_p.pro 
 power_momenta, datstr ;produces power-momentum-table.tex
-;
-power_latex_table, fdate
+power_latex_table, fdate 
 intimpulse3_cp, datstr
 impulsive_phase_latex_table, datstr
-power_momenta, datstr 
+
 
 toc
 end
