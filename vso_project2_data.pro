@@ -1,5 +1,9 @@
 pro vso_project2_data
 
+
+
+;a = vso_get( vso_search( date='2004.1.1', inst='eit' ) )
+
 ;see /unsafe/jsr2/project2 directory for downloaded files
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;X2.1 flare 2015/03/11 16:11 to 16:22
@@ -59,16 +63,6 @@ srch = vso_search('2014/01/07 10:06', '2014/01/07 10:26', instr = 'hmi',physobs 
 dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;everything above is currently downloading
-
-
-
-
-
-
-
-;to be downloaded
-
 ;HMI Continuum
 srch = vso_search('2013/11/07 14:18', '2013/11/07 14:38', instr = 'hmi',physobs = 'intensity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
@@ -104,7 +98,6 @@ dat = vso_get(srch, /rice, site = 'NSO')
 srch = vso_search('2013/07/08 01:12', '2013/07/08 01:32', instr = 'hmi',physobs = 'LOS_velocity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 ;HMI Continuum
 srch = vso_search('2013/02/13 15:40', '2013/02/13 16:00', instr = 'hmi',physobs = 'intensity', sample = 10 )
@@ -142,6 +135,7 @@ srch = vso_search('2012/07/05 11:34', '2012/07/05 11:54', instr = 'hmi',physobs 
 dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 ;HMI Continuum
 srch = vso_search('2012/07/05 03:25', '2012/07/05 03:45', instr = 'hmi',physobs = 'intensity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
@@ -169,6 +163,7 @@ srch = vso_search('2012/05/10 04:07', '2012/05/10 04:27', instr = 'hmi',physobs 
 dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 ;HMI Continuum
 srch = vso_search('2012/05/09 03:24', '2012/05/09 03:44', instr = 'hmi',physobs = 'intensity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
@@ -178,6 +173,7 @@ srch = vso_search('2012/05/09 03:24', '2012/05/09 03:44', instr = 'hmi',physobs 
 dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 ;HMI Continuum
 srch = vso_search('2011/09/26 04:57', '2011/09/26 05:17', instr = 'hmi',physobs = 'intensity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
@@ -186,6 +182,22 @@ dat = vso_get(srch, /rice, site = 'NSO')
 srch = vso_search('2011/09/26 04:57', '2011/09/26 05:17', instr = 'hmi',physobs = 'LOS_velocity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;everything above is currently downloading
+
+
+
+
+
+;to be downloaded
+
+;redo
+;20110926 velocity
+;20120510 velocity
+
+
+
 
 ;HMI Continuum
 srch = vso_search('2011/07/30 01:59', '2011/07/30 02:19', instr = 'hmi',physobs = 'intensity', sample = 10 )
