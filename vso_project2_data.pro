@@ -192,6 +192,8 @@ dat = vso_get(srch, /rice, site = 'NSO')
 
 ;to be downloaded
 
+;check 20120509 velocity
+
 ;redo
 ;20110926 velocity
 ;20120510 velocity
