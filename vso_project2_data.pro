@@ -184,23 +184,6 @@ dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;everything above is currently downloading
-
-
-
-
-
-;to be downloaded
-
-;check 20120509 velocity
-
-;redo
-;20110926 velocity
-;20120510 velocity
-
-
-
-
 ;HMI Continuum
 srch = vso_search('2011/07/30 01:59', '2011/07/30 02:19', instr = 'hmi',physobs = 'intensity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
@@ -209,6 +192,14 @@ dat = vso_get(srch, /rice, site = 'NSO')
 srch = vso_search('2011/07/30 01:59', '2011/07/30 02:19', instr = 'hmi',physobs = 'LOS_velocity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;everything above is currently downloading
+
+
+
+
+
+;to be downloaded
 
 ;HMI Continuum
 srch = vso_search('2011/02/15 01:45', '2011/02/15 02:05', instr = 'hmi',physobs = 'intensity', sample = 10 )
