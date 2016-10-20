@@ -1,20 +1,16 @@
-pro hmi_process_filter, process = process, restore_sav = restore_sav, savf = savf, log = log, difffilt = difffilt, bksub = bksub
+pro hmi_process_filter_universal, process = process, directory, submap_range = submap_range, phys_units = phys_units, dopp = dopp, restore_sav = restore_sav, savf = savf, log = log, difffilt = difffilt, bksub = bksub
 
 ;process = /process
 ;savf = savfile location string to be restored
 ;log = log boxsmooth filter option, default is just box smoothing
 ;difffilt = difference filtering option, default is non-differenced.
-
-;make dir based on date
-d1 = strcompress(strmid(systime(),4,7),/remove_all)
-d2 = strcompress(strmid(systime(),20),/remove_all)
-datstr = d1+'-'+d2
-spawn, 'mkdir /unsafe/jsr2/'+datstr
-
+;directory = dir where data fits files are
+;....maybe;submap_range = array with [x0, xf, y0, yf] for sub map
+;submap_range = array with [x_central, y_central] for sub map
 
 if keyword_set(process) then begin
 
-files = findfile('/disk/solar4/sz2/SDO/20140329/Ic/hmi.Ic_45s.20140329_17*')
+files = findfile(directory+'/*')
 
 ;read_sdo, files, out_ind, out_dat
 aia_prep, files,-1, out_ind, out_dat, /despike
@@ -31,7 +27,8 @@ aia_prep, files,-1, out_ind, out_dat, /despike
 index2map, out_ind, out_dat, map
 
 ;full disc 2 crop
-sub_map, map, xr=[490,570], yr=[230,300], mp 
+;sub_map, map, xr=[submap_range[0],submap_range[1]], yr=[submap_range[2],submap_range[3]], mp 
+sub_map, map, xr=[submap_range[0] - 50.,submap_range[0] + 50.], yr=[submap_range[1] - 50.,submap_range[1] + 50.], mp 
 
 ;make sav file
 fnm = '/unsafe/jsr2/'+datstr+'/hmi_mp.sav'
@@ -57,13 +54,13 @@ filemod = filemod+'-log-smth'
 endif
 
 
-if not keyword_set(log) then begin
+if not keyword_set(log) and not keyword_set(dopp) then begin
 mp.data = mp.data - SMOOTH(mp.data,10)
 filemod = filemod+'-smth'
 endif
 
 if keyword_set(difffilt) then begin
-sub = coreg_map(mp,mp[60])
+sub = coreg_map(mp,mp[n_elements(mp)/2])
 ;diff = diff_map(sub(1),sub(0),/rotate)
 hmidiff = diff_map(sub(2),sub(0),/rotate)
 
@@ -80,13 +77,33 @@ map2index, hmidiff, diffind, diffdat
 filemod = filemod+'-diff'
 endif
 
-savff =  '/unsafe/jsr2/'+datstr+'/hmi'+filemod+'.sav'
 
-if not keyword_set(difffilt) then begin 
+if not keyword_set(difffilt) and not keyword_set(dopp) then begin 
 hmidiff = mp ;non differenced but named it hmidiff because every other code relies on that variable name :(
 map2index, hmidiff, diffind, diffdat
-save, hmidiff, diffind, diffdat, filename = savff 
-endif else begin 
-save, hmidiff, diffind, diffdat, filename = savff
-endelse
+endif
+
+if not keyword_set(dopp) then begin
+;add hmi rad cal to calculate flux, energy, power for each pixel in each map.data
+hmifep = fltarr(3, n_elements(mp[0].data[*,0]), n_elements(mp[0].data[*,0]), n_elements(mp))
+visiblewidth = (7000. - 4800.)*1.0e2
+for i = 0, n_elements(mp) - 1 do begin
+    hmi_radiometric_calibration, hmidiff[i].data*visiblewidth, n_pixels = 1, f, e, p, ferr, err
+    hmifep[0, *,*,i] = f
+    hmifep[1, *,*,i] = e
+    hmifep[2, *,*,i] = p    
+endfor
+
+
+savff =  directory+'/hmi'+filemod+'.sav'
+save, hmifep, hmidiff, diffind, diffdat, filename = savff
+endif
+
+if keyword_set(dopp) then begin
+hmidopp = mp
+map2index, mp, hmidopp_ind, hmidopp_dat
+savff = directory+'/hmi-dopp.sav'
+save, doppmp, filename = savff
+endif
+
 end

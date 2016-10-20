@@ -23,6 +23,11 @@ srch = vso_search('2015/03/11 16:11', '2015/03/11 16:29', instr = 'hmi',physobs 
 dat = vso_get(srch, /rice, site = 'NSO')
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;HMI Dopplergram
+srch = vso_search('2014/03/29 17:37', '2014/03/29 17:57', instr = 'hmi',physobs = 'LOS_velocity', sample = 10 )
+dat = vso_get(srch, /rice, site = 'NSO')
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;HMI Continuum
 srch = vso_search('2014/02/07 10:18', '2014/02/07 10:38', instr = 'hmi',physobs = 'intensity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
@@ -193,13 +198,6 @@ srch = vso_search('2011/07/30 01:59', '2011/07/30 02:19', instr = 'hmi',physobs 
 dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;everything above is currently downloading
-
-
-
-
-
-;to be downloaded
 
 ;HMI Continuum
 srch = vso_search('2011/02/15 01:45', '2011/02/15 02:05', instr = 'hmi',physobs = 'intensity', sample = 10 )
