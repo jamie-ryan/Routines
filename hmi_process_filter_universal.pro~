@@ -10,7 +10,7 @@ pro hmi_process_filter_universal, process = process, directory, submap_range = s
 
 if keyword_set(process) then begin
 
-files = findfile(directory)
+files = findfile(directory+'hmi.*')
 
 ;read_sdo, files, out_ind, out_dat
 aia_prep, files,-1, out_ind, out_dat, /despike
@@ -31,7 +31,7 @@ index2map, out_ind, out_dat, map
 sub_map, map, xr=[submap_range[0] - 50.,submap_range[0] + 50.], yr=[submap_range[1] - 50.,submap_range[1] + 50.], mp 
 
 ;make sav file
-fnm = '/unsafe/jsr2/'+datstr+'/hmi_mp.sav'
+fnm = directory+'/hmi_mp.sav'
 save, mp, filename = fnm
 endif
 
@@ -85,7 +85,7 @@ endif
 
 if not keyword_set(dopp) then begin
 ;add hmi rad cal to calculate flux, energy, power for each pixel in each map.data
-hmifep = fltarr(3, n_elements(mp[0].data[*,0]), n_elements(mp[0].data[*,0]), n_elements(mp))
+hmifep = fltarr(3, n_elements(mp[0].data[*,0]), n_elements(mp[0].data[0,*]), n_elements(mp))
 visiblewidth = (7000. - 4800.)*1.0e2
 for i = 0, n_elements(mp) - 1 do begin
     hmi_radiometric_calibration, hmidiff[i].data*visiblewidth, n_pixels = 1, f, e, p, ferr, err
@@ -103,7 +103,7 @@ if keyword_set(dopp) then begin
 hmidopp = mp
 map2index, mp, hmidopp_ind, hmidopp_dat
 savff = directory+'/hmi-dopp.sav'
-save, doppmp, filename = savff
+save, hmidopp, filename = savff
 endif
 
 end
