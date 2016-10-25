@@ -5,10 +5,10 @@ maindir = '/unsafe/jsr2/project2/'
 ;processes hmi dopplergrams
 
 
-eventdir = '20110215/HMI/v/'
-print, eventdir
-dir = maindir+eventdir
-hmi_process_filter_universal, /process, dir, submap_range = [205.,-222.],  /dopp
+;eventdir = '20110215/HMI/v/'
+;print, eventdir
+;dir = maindir+eventdir
+;hmi_process_filter_universal, /process, dir, submap_range = [205.,-222.],  /dopp
 
 eventdir = '20110730/HMI/v/'
 print, eventdir

@@ -103,7 +103,7 @@ if keyword_set(dopp) then begin
 hmidopp = mp
 map2index, mp, hmidopp_ind, hmidopp_dat
 savff = directory+'/hmi-dopp.sav'
-save, hmidopp, filename = savff
+save, hmidopp,hmidopp_ind, hmidopp_dat, filename = savff
 endif
 
 end
