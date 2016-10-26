@@ -13,7 +13,7 @@ if keyword_set(process) then begin
 files = findfile(directory+'hmi.*')
 
 ;read_sdo, files, out_ind, out_dat
-aia_prep, files,-1, out_ind, out_dat, /despike
+aia_prep, temporary(files),-1, out_ind, out_dat, /despike
 ;rotate 180 deg
 ;for i = 0, n_elements(files) - 1 do begin
 ;a = out_dat[*,*,i]
@@ -24,11 +24,11 @@ aia_prep, files,-1, out_ind, out_dat, /despike
 ;endfor
 
 ;dat 2 map
-index2map, out_ind, out_dat, map
+index2map, temporary(out_ind), temporary(out_dat), map
 
 ;full disc 2 crop
 ;sub_map, map, xr=[submap_range[0],submap_range[1]], yr=[submap_range[2],submap_range[3]], mp 
-sub_map, map, xr=[submap_range[0] - 50.,submap_range[0] + 50.], yr=[submap_range[1] - 50.,submap_range[1] + 50.], mp 
+sub_map, temporary(map), xr=[submap_range[0] - 50.,submap_range[0] + 50.], yr=[submap_range[1] - 50.,submap_range[1] + 50.], mp 
 
 ;make sav file
 fnm = directory+'/hmi_mp.sav'
@@ -43,19 +43,19 @@ if keyword_set(bksub) then begin
 ;background subtract
 bk_sample = mp[0].data[80.:90. ,90.:100.]
 bk = avg(bk_sample)
-mp.data = mp.data - bk
+mp.data = temporary(mp.data) - bk
 filemod = filemod+'-bksub'
 endif
 
 ;log smth or smth filter
 if keyword_set(log) then begin 
-mp.data = alog10(mp.data) - alog10(SMOOTH(mp.data,10)) 
+mp.data = alog10(temporary(mp.data)) - alog10(SMOOTH(temporary(mp.data),10)) 
 filemod = filemod+'-log-smth'
 endif
 
 
 if not keyword_set(log) and not keyword_set(dopp) then begin
-mp.data = mp.data - SMOOTH(mp.data,10)
+mp.data = temporary(mp.data) - SMOOTH(temporary(mp.data),10)
 filemod = filemod+'-smth'
 endif
 
@@ -69,7 +69,7 @@ for i=1, n_elements(mp) - 1 do begin
     diff1=diff_map(sub[i],sub[i-2],/rotate) ;running difference
 ;    diff1=diff_map(sub[i],sub[0],/rotate)
     ;;;concatenate arrays to form one difference array
-    hmidiff=str_concat(hmidiff,diff1)    
+    hmidiff=str_concat(temporary(hmidiff),diff1)    
 endfor
 
 ;make seperate header and data array for hmidiff.... iris_hmi_energy needs it

@@ -1,6 +1,8 @@
 pro dopp_tran_detect, velocity_threshold
 
 
+velothresh = string(abs(velocity_threshold), format = '(I0)')
+
 ;velocity_threshold = a negative velocity value
 
 
@@ -39,7 +41,8 @@ for ddd = 0, ndir - 1 do begin
     tmp = 0
 
     restore, '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/hmi-dopp.sav'
-
+    spawn, 'mkdir /unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/v'+velothresh
+    nmap = n_elements(hmidopp)
 ;    tmp = hmidopp.data
     tmp = hmidopp
 
@@ -52,8 +55,8 @@ for ddd = 0, ndir - 1 do begin
 
     for i=1, n_elements(hmidopp) - 1 do begin
         ;;differencing
-        diff1=diff_map(sub[i],sub[i-2],/rotate) ;running difference
-    ;    diff1=diff_map(sub[i],sub[0],/rotate)
+;        diff1=diff_map(sub[i],sub[i-2],/rotate) ;running difference
+        diff1=diff_map(sub[i],sub[0],/rotate)
         ;;;concatenate arrays to form one difference array
         doppdiff=str_concat(doppdiff,diff1)    
     endfor
@@ -66,14 +69,15 @@ for ddd = 0, ndir - 1 do begin
     b = 0
 
     ;find time range indices covering impulsive phase
-    a = where(strmatch(doppdiff.time, '*'+peaks[ddd]+'*') eq 1, ind)
-    b = array_indices(doppdiff.time, a)
+;    a = where(strmatch(doppdiff.time, '*'+peaks[ddd]+'*') eq 1, ind)
+;    b = array_indices(doppdiff.time, a)
     
     ;open file for doppler transient coords and time element
-    filename = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/dopp_transient_coords_'+directories[ddd]+'.txt'
+    filename = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/v'+velothresh+'/dopp_transient_v'+velothresh+'_coords_'+directories[ddd]+'.txt'
     openw, lun, filename, /get_lun, /append
-    for j = b[0] - 3, b[0]  + 3 do begin
-;        image_statistics, doppdiff[j].data, maximum = ma, minimum = mi, mean = me, stddev = s, sum_of_squares = sos, variance = v
+;    for j = b[0] - 8, b[0]  + 8 do begin ;based on visual inspection
+    for j = 0, nmap - 1 do begin
+;        findtrans = where(doppdiff[j].data lt velocity_threshold, ind)
         findtrans = where(doppdiff[j].data lt velocity_threshold, ind)
         if (findtrans[0] ne -1) then begin
         dopptrans = array_indices(doppdiff.data, findtrans)
@@ -81,13 +85,13 @@ for ddd = 0, ndir - 1 do begin
             ;if only one transient location
             if (n_elements(sz) eq 1) then begin
             dopptrans[2] = j 
-            
+            dtxy = fltarr(2,1)            
             ;convert pixels locations into helioseismic coords
-            dtx = convert_coord_hmi(dopptrans[0], hmidopp_ind[j], /x, /p2a)
-            dty = convert_coord_hmi(dopptrans[1], hmidopp_ind[j], /y, /p2a);coord, index, x = x, y = y, p2a = p2a, a2p = a2p
+            dtxy[0,0] = convert_coord_hmi(dopptrans[0], hmidopp_ind[j], /x, /p2a)
+            dtxy[1,0] = convert_coord_hmi(dopptrans[1], hmidopp_ind[j], /y, /p2a);coord, index, x = x, y = y, p2a = p2a, a2p = a2p
 
             ;make plot
-            dopp_plot, doppdiff[j].time, doppdiff[j].data[dopptrans[0], dopptrans[1]], directories[ddd], coords = [dtx,dty]
+            dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0], dopptrans[1]], directories[ddd], coords = dtxy, velothresh
 
 
             ;multiple transient locations
@@ -95,20 +99,21 @@ for ddd = 0, ndir - 1 do begin
             ;fill with correct time element
             dopptrans[2, *] = j
             ;arrays to contain heliocentric coords            
-            dtx = fltarr(sz[1])
-            dty = fltarr(sz[1])
+            dtxy = fltarr(2,sz[1])
+
                 ;iterate through each row in dopptrans for coord conversion to heliocentric
                 for k = 0, sz[1] - 1 do begin
                     ;convert pixels locations into helioseismic coords
-                    dtx[k] = convert_coord_hmi(dopptrans[0, k], hmidopp_ind[j], /x, /p2a)
-                    dty[k] = convert_coord_hmi(dopptrans[1, k], hmidopp_ind[j], /y, /p2a);coord, index, x = x, y = y, p2a = p2a, a2p = a2p
+                    dtxy[0,k] = convert_coord_hmi(dopptrans[0, k], hmidopp_ind[j], /x, /p2a)
+                    dtxy[1,k] = convert_coord_hmi(dopptrans[1, k], hmidopp_ind[j], /y, /p2a);coord, index, x = x, y = y, p2a = p2a, a2p = a2p
 
                     ;make plot
-                    dopp_plot, doppdiff[j].time, doppdiff[j].data[dopptrans[0,k], dopptrans[1,k]], directories[ddd], coords = [dtx[k],dty[k]]
+                    dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0,k], dopptrans[1,k]], directories[ddd], coords = [dtxy[0,k],dtxy[1,k]], velothresh
                 endfor
             endelse
         ;put pixel, time element and heliocentric coords into a file
-        printf, lun, dopptrans, dtx, dty        
+        dopptran = [dopptrans, dtxy]
+        printf, lun, dopptran       
         endif
 
     endfor
