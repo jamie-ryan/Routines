@@ -30,16 +30,26 @@ npk = n_elements(peaks)
 
 
 
-;;;detect
-;restore, '/unsafe/jsr2/project2/20140329/HMI/v/hmi-dopp.sav'
 
+logfile = '/unsafe/jsr2/project2/v'+velothresh+'.log'
+openw, lunl, logfile, /get_lun, /append
+printf,lunl ,'***************************************************************'
+printf,lunl ,'***************************************************************'
+printf,lunl ,'***************** HMI DOPPLER TRANSIENT LOG *******************'
+printf,lunl ,'***************************************************************'
+printf,lunl ,'***************************************************************'
+printf,lunl ,'***************** VELOCITY = '+velothresh+'********************'
+printf,lunl ,'***************************************************************'
+count = 0
 for ddd = 0, ndir - 1 do begin
     hmidopp = 0
     doppdiff = 0
     sub = 0
     diff1 = 0
     tmp = 0
-
+    printf,lunl ,'***************************************************************'
+    printf,lunl ,'***************************************************************'
+    printf,lunl ,'DIRECTORY = '+directories[ddd]
     restore, '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/hmi-dopp.sav'
     spawn, 'mkdir /unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/v'+velothresh
     nmap = n_elements(hmidopp)
@@ -80,6 +90,9 @@ for ddd = 0, ndir - 1 do begin
 ;        findtrans = where(doppdiff[j].data lt velocity_threshold, ind)
         findtrans = where(doppdiff[j].data lt velocity_threshold, ind)
         if (findtrans[0] ne -1) then begin
+        count = temporary(count) + 1
+        jj = string(j, format = '(I0)')
+        printf,lunl ,'Doppler transient detected in doppdiff['+jj+']'
         dopptrans = array_indices(doppdiff.data, findtrans)
         sz = size(dopptrans, /dimensions) ;gives array dimensions sz[0] = columns sz[1] = rows
             ;if only one transient location
@@ -105,7 +118,7 @@ for ddd = 0, ndir - 1 do begin
                 for k = 0, sz[1] - 1 do begin
                     ;convert pixels locations into helioseismic coords
                     dtxy[0,k] = convert_coord_hmi(dopptrans[0, k], hmidopp_ind[j], /x, /p2a)
-                    dtxy[1,k] = convert_coord_hmi(dopptrans[1, k], hmidopp_ind[j], /y, /p2a);coord, index, x = x, y = y, p2a = p2a, a2p = a2p
+                    dtxy[1,k] = convert_coord_hmi(dopptrans[1, k], hmidopp_ind[j], /y, /p2a)
 
                     ;make plot
                     dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0,k], dopptrans[1,k]], directories[ddd], coords = [dtxy[0,k],dtxy[1,k]], velothresh
@@ -123,4 +136,10 @@ for ddd = 0, ndir - 1 do begin
     dtx = 0
     dty = 0
 endfor
+cnt = string(count, format = '(I0)')
+nd = string(ndir, format = '(I0)')
+printf,lunl ,'***************************************************************'
+printf,lunl ,'***************************************************************'
+printf, lunl, 'A total of '+cnt+' Doppler transients were detected in '+nd+' directories.'
+free_lun, lunl
 end
