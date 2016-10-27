@@ -1,4 +1,4 @@
-pro dopp_tran_detect, velocity_threshold
+pro dopp_tran_detect, velocity_threshold, sav_dopp_diff = sav_dopp_diff
 
 
 velothresh = string(abs(velocity_threshold), format = '(I0)')
@@ -70,6 +70,10 @@ for ddd = 0, ndir - 1 do begin
         ;;;concatenate arrays to form one difference array
         doppdiff=str_concat(temporary(doppdiff),diff1)    
     endfor
+    if keyword_set(sav_dopp_diff) then begin
+        savf = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/doppdiff.sav'
+        save, doppdiff, filename = savf
+    endif
     tmp = 0
 
 
