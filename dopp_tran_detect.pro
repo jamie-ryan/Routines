@@ -94,11 +94,16 @@ for ddd = 0, ndir - 1 do begin
 ;        findtrans = where(doppdiff[j].data lt velocity_threshold, ind)
         findtrans = where(doppdiff[j].data lt velocity_threshold, ind)
         if (findtrans[0] ne -1) then begin
-        count = temporary(count) + 1
-        jj = string(j, format = '(I0)')
-        printf,lunl ,'Doppler transient detected in doppdiff['+jj+']'
+;        count = temporary(count) + 1
+;        jj = string(j, format = '(I0)')
+;        printf,lunl ,'Doppler transient detected in doppdiff['+jj+']'
         dopptrans = array_indices(doppdiff.data, findtrans)
         sz = size(dopptrans, /dimensions) ;gives array dimensions sz[0] = columns sz[1] = rows
+        count = temporary(count) + sz[1]
+        jj = string(j, format = '(I0)')
+        szst = string(sz[1], format = '(I0)')
+        printf,lunl ,szst+'Doppler transients detected in doppdiff['+jj+']'
+
             ;if only one transient location
             if (n_elements(sz) eq 1) then begin
             dopptrans[2] = j 
