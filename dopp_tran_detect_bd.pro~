@@ -1,22 +1,24 @@
-pro dopp_tran_detect_version1, velocity_threshold, sav_dopp_diff = sav_dopp_diff
+pro dopp_tran_detect_bd, velocity_threshold, backdiff = backdiff,runndiff = runndiff,basediff = basediff, sav_dopp_diff = sav_dopp_diff
 
 
 velothresh = string(abs(velocity_threshold), format = '(I0)')
-
+filemod = velothresh+'_diffb4posrem'
 ;velocity_threshold = a negative velocity value
 
 
 
 ;;read in directories.txt and peaks.txt
 
-flnm = '/unsafe/jsr2/project2/directories.txt' ;eg, flnm=hmicoords.txt
+if keyword_set(basediff) then flnm = '/unsafe/jsr2/project2/directories_correction.txt' else $
+flnm = '/unsafe/jsr2/project2/directories.txt'
 openr, lun, flnm, /get_lun
 nlin =  file_lines(flnm)
 directories = strarr(nlin)
 readf, lun, directories 
 free_lun, lun
 
-flnm = '/unsafe/jsr2/project2/peaks.txt' ;eg, flnm=hmicoords.txt
+if keyword_set(basediff) then flnm = '/unsafe/jsr2/project2/peaks_correction.txt' else $
+flnm = '/unsafe/jsr2/project2/peaks.txt'
 openr, lun, flnm, /get_lun
 nlin =  file_lines(flnm)
 peaks = strarr(nlin)
@@ -24,14 +26,13 @@ readf, lun, peaks
 free_lun, lun
 
 ndir = n_elements(directories)
-nmap = n_elements(hmidopp)
 npk = n_elements(peaks)
 
 
 
 
 
-logfile = '/unsafe/jsr2/project2/v'+velothresh+'.log'
+logfile = '/unsafe/jsr2/project2/diff_then_remove_positives/'+velothresh+'.log'
 openw, lunl, logfile, /get_lun, /append
 printf,lunl ,'***************************************************************'
 printf,lunl ,'***************************************************************'
@@ -55,28 +56,54 @@ for ddd = 0, ndir - 1 do begin
     nmap = n_elements(hmidopp)
 ;    tmp = hmidopp.data
     tmp = hmidopp
+    sub = coreg_map(tmp,tmp[n_elements(tmp)/2])
 
-    if no -ves...blah blah
+    if keyword_set(backdiff) then begin 
+    savf = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/doppbackdiff.sav'
+    doppdiff = diff_map(sub(0),sub(1),/rotate)
+        for i=1, n_elements(hmidopp) - 2 do begin 
+            diff1=diff_map(sub[i],sub[i+1],/rotate) ;backwards difference
+    ;        diff1=diff_map(sub[i],sub[0],/rotate)
+            ;;;concatenate arrays to form one difference array
+            doppdiff=str_concat(temporary(doppdiff),diff1)    
+        endfor
+    endif 
+    if keyword_set(runndiff) then begin
+    doppdiff = diff_map(sub(1),sub(0),/rotate)
+    savf = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/dopprunndiff.sav'
+        for i=1, n_elements(hmidopp) - 1 do begin
+            ;;differencing
+            diff1=diff_map(sub[i],sub[i-1],/rotate) ;running difference
+
+            ;;;concatenate arrays to form one difference array
+            doppdiff=str_concat(temporary(doppdiff),diff1)    
+        endfor
+    endif
+    if keyword_set(basediff) then begin
+    savf = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/doppbasediff.sav'
+    doppdiff = diff_map(sub(1),sub(0),/rotate)
+        for i=1, n_elements(hmidopp) - 1 do begin
+            ;;differencing
+    ;        diff1=diff_map(sub[i],sub[i-2],/rotate) ;running difference
+            diff1=diff_map(sub[i],sub[0],/rotate)
+            ;;;concatenate arrays to form one difference array
+            doppdiff=str_concat(temporary(doppdiff),diff1)    
+        endfor
+    endif
+    nmap = n_elements(doppdiff)
+    tmp = doppdiff.data
 
     ;remove positiiive velocities
-    for i = 0, n_elements(hmidopp) - 1 do begin
-        tmp[i].data[where(temporary(tmp[i].data) gt 0, /null)] = 0
-    endfor
-    sub = coreg_map(tmp,tmp[n_elements(tmp)/2])
-    doppdiff = diff_map(sub(2),sub(0),/rotate)
-
-    for i=1, n_elements(hmidopp) - 1 do begin
-        ;;differencing
-;        diff1=diff_map(sub[i],sub[i-2],/rotate) ;running difference
-        diff1=diff_map(sub[i],sub[0],/rotate)
-        ;;;concatenate arrays to form one difference array
-        doppdiff=str_concat(temporary(doppdiff),diff1)    
-    endfor
+;    for i = 0, n_elements(hmidopp) - 1 do begin
+;        tmp[i].data[where(temporary(tmp[i].data) gt 0, /null)] = 0
+;    endfor
+    tmp[where(tmp gt 0)] = 0
+    doppdiff.data = temporary(tmp)
     if keyword_set(sav_dopp_diff) then begin
-        savf = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/doppdiff.sav'
+        
         save, doppdiff, filename = savf
     endif
-    tmp = 0
+
 
 
     ;define array range to look for doppler transients, based on peak emission time
@@ -96,30 +123,27 @@ for ddd = 0, ndir - 1 do begin
 ;        findtrans = where(doppdiff[j].data lt velocity_threshold, ind)
         findtrans = where(doppdiff[j].data lt velocity_threshold, ind)
         if (findtrans[0] ne -1) then begin
-;        count = temporary(count) + 1
-;        jj = string(j, format = '(I0)')
-;        printf,lunl ,'Doppler transient detected in doppdiff['+jj+']'
         dopptrans = array_indices(doppdiff.data, findtrans)
         sz = size(dopptrans, /dimensions) ;gives array dimensions sz[0] = columns sz[1] = rows
-        count = temporary(count) + sz[1]
         jj = string(j, format = '(I0)')
-        szst = string(sz[1], format = '(I0)')
-        printf,lunl ,szst+'Doppler transients detected in doppdiff['+jj+']'
-
             ;if only one transient location
             if (n_elements(sz) eq 1) then begin
+            count = temporary(count) + 1
+            szst = string(1, format = '(I0)')
             dopptrans[2] = j 
             dtxy = fltarr(2,1)            
             ;convert pixels locations into helioseismic coords
             dtxy[0,0] = convert_coord_hmi(dopptrans[0], hmidopp_ind[j], /x, /p2a)
-            dtxy[1,0] = convert_coord_hmi(dopptrans[1], hmidopp_ind[j], /y, /p2a);coord, index, x = x, y = y, p2a = p2a, a2p = a2p
+            dtxy[1,0] = convert_coord_hmi(dopptrans[1], hmidopp_ind[j], /y, /p2a)
 
             ;make plot
-            dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0], dopptrans[1]], directories[ddd], coords = dtxy, velothresh
+            dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0], dopptrans[1]], directories[ddd], coords = dtxy, filemod
 
 
             ;multiple transient locations
             endif else begin
+            count = temporary(count) + sz[1]
+            szst = string(sz[1], format = '(I0)')
             ;fill with correct time element
             dopptrans[2, *] = j
             ;arrays to contain heliocentric coords            
@@ -132,9 +156,10 @@ for ddd = 0, ndir - 1 do begin
                     dtxy[1,k] = convert_coord_hmi(dopptrans[1, k], hmidopp_ind[j], /y, /p2a)
 
                     ;make plot
-                    dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0,k], dopptrans[1,k]], directories[ddd], coords = [dtxy[0,k],dtxy[1,k]], velothresh
+                    dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0,k], dopptrans[1,k]], directories[ddd], coords = [dtxy[0,k],dtxy[1,k]], filemod
                 endfor
             endelse
+        printf,lunl ,szst+'Doppler transients detected in doppdiff['+jj+']'
         ;put pixel, time element and heliocentric coords into a file
         dopptran = [dopptrans, dtxy]
         printf, lun, dopptran       

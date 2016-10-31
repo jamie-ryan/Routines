@@ -56,7 +56,7 @@ for ddd = 0, ndir - 1 do begin
 ;    tmp = hmidopp.data
     tmp = hmidopp
 
-    if
+    if no -ves...blah blah
 
     ;remove positiiive velocities
     for i = 0, n_elements(hmidopp) - 1 do begin

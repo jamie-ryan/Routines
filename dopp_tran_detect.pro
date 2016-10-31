@@ -1,8 +1,8 @@
-pro dopp_tran_detect_diff_then_rempos, velocity_threshold, sav_dopp_diff = sav_dopp_diff
+pro dopp_tran_detect, velocity_threshold, sav_dopp_diff = sav_dopp_diff
 
 
 velothresh = string(abs(velocity_threshold), format = '(I0)')
-
+filemod = velothresh+'_diffb4posrem'
 ;velocity_threshold = a negative velocity value
 
 
@@ -114,7 +114,7 @@ for ddd = 0, ndir - 1 do begin
             dtxy[1,0] = convert_coord_hmi(dopptrans[1], hmidopp_ind[j], /y, /p2a)
 
             ;make plot
-            dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0], dopptrans[1]], directories[ddd], coords = dtxy, velothresh
+            dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0], dopptrans[1]], directories[ddd], coords = dtxy, filemod
 
 
             ;multiple transient locations
@@ -131,7 +131,7 @@ for ddd = 0, ndir - 1 do begin
                     dtxy[1,k] = convert_coord_hmi(dopptrans[1, k], hmidopp_ind[j], /y, /p2a)
 
                     ;make plot
-                    dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0,k], dopptrans[1,k]], directories[ddd], coords = [dtxy[0,k],dtxy[1,k]], velothresh
+                    dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0,k], dopptrans[1,k]], directories[ddd], coords = [dtxy[0,k],dtxy[1,k]], filemod
                 endfor
             endelse
         ;put pixel, time element and heliocentric coords into a file
