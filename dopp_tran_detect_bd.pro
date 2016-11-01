@@ -1,15 +1,16 @@
-pro dopp_tran_detect_bd, velocity_threshold, backdiff = backdiff,runndiff = runndiff,basediff = basediff, sav_dopp_diff = sav_dopp_diff
+pro dopp_tran_detect_bd, velocity_threshold = velocity_threshold, backdiff = backdiff,runndiff = runndiff,basediff = basediff, sav_dopp_diff = sav_dopp_diff
 
 
-velothresh = string(abs(velocity_threshold), format = '(I0)')
-filemod = velothresh+'_diffb4posrem'
-;velocity_threshold = a negative velocity value
+velothresh0 = string(abs(velocity_threshold[0]), format = '(I0)')
+velothresh1 = string(abs(velocity_threshold[1]), format = '(I0)')
+velothresh = velothresh0+'-'+velothresh1
+;velocity_threshold = an array containing 2 negative velocity values, upper and lower limit. velocity_threshold = [-2000., -3000]
 
 
 
 ;;read in directories.txt and peaks.txt
 
-if keyword_set(basediff) then flnm = '/unsafe/jsr2/project2/directories_correction.txt' else $
+
 flnm = '/unsafe/jsr2/project2/directories.txt'
 openr, lun, flnm, /get_lun
 nlin =  file_lines(flnm)
@@ -17,7 +18,7 @@ directories = strarr(nlin)
 readf, lun, directories 
 free_lun, lun
 
-if keyword_set(basediff) then flnm = '/unsafe/jsr2/project2/peaks_correction.txt' else $
+
 flnm = '/unsafe/jsr2/project2/peaks.txt'
 openr, lun, flnm, /get_lun
 nlin =  file_lines(flnm)
@@ -32,7 +33,7 @@ npk = n_elements(peaks)
 
 
 
-logfile = '/unsafe/jsr2/project2/diff_then_remove_positives/'+velothresh+'.log'
+logfile = '/unsafe/jsr2/project2/'+velothresh+'.log'
 openw, lunl, logfile, /get_lun, /append
 printf,lunl ,'***************************************************************'
 printf,lunl ,'***************************************************************'
@@ -121,7 +122,7 @@ for ddd = 0, ndir - 1 do begin
 ;    for j = b[0] - 8, b[0]  + 8 do begin ;based on visual inspection
     for j = 0, nmap - 1 do begin
 ;        findtrans = where(doppdiff[j].data lt velocity_threshold, ind)
-        findtrans = where(doppdiff[j].data lt velocity_threshold, ind)
+        findtrans = where((doppdiff[j].data lt velocity_threshold[0]) and (doppdiff[j].data gt velocity_threshold[1]), ind)
         if (findtrans[0] ne -1) then begin
         dopptrans = array_indices(doppdiff.data, findtrans)
         sz = size(dopptrans, /dimensions) ;gives array dimensions sz[0] = columns sz[1] = rows
@@ -159,7 +160,7 @@ for ddd = 0, ndir - 1 do begin
                     dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0,k], dopptrans[1,k]], directories[ddd], coords = [dtxy[0,k],dtxy[1,k]], velothresh
                 endfor
             endelse
-        printf,lunl ,szst+'Doppler transients detected in doppdiff['+jj+']'
+        printf,lunl ,szst+' Doppler transients detected in doppdiff['+jj+']'
         ;put pixel, time element and heliocentric coords into a file
         dopptran = [dopptrans, dtxy]
         printf, lun, dopptran       
