@@ -87,8 +87,8 @@ for ddd = 0, nlin - 1 do begin
 
 
 
-av = avg(doppdiff.data)
-sd = stddev(doppdiff.data)
+av = avg(doppdiff[0:2].data)
+sd = stddev(doppdiff[0:2].data)
 findtrans = where(depth_image gt av + 3*sd, ind)
 findtrans = where(depth_image - 1000. gt 1000., ind)
 dopptrans = array_indices(depth_image, temporary(findtrans))
