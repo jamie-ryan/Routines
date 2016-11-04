@@ -58,52 +58,18 @@ for ddd = 0, nlin - 1 do begin
     ypix = n_elements(doppdiff[0].data[0,*])
     nt = n_elements(doppdiff)
     depth_image = fltarr(xpix,ypix)
-    sum_di = fltarr(xpix,ypix)
-    inv_di = fltarr(xpix,ypix)
-    avg_image = fltarr(xpix,ypix)
-    stddev_image = fltarr(xpix,ypix)
+
     for i = 0, xpix - 1 do begin 
         for j = 0, ypix - 1 do begin
             mint = min(doppdiff[*].data[i,j])
             maxt = max(doppdiff[*].data[i,j])
             depth_image[i,j] =  maxt - mint
-            sum_di[i,j] = maxt + mint
-            inv_di[i,j] = mint - maxt
         endfor
     endfor
 
     ;use depth image to identify regions with velocities larger than 3*sigma over mean.... this seems more sensible
-    IMAGE_STATISTICS, depth_image, MAXIMUM=ma, MINIMUM=mi, MEAN=me, STDDEV=s, SUM_OF_SQUARES=sos, VARIANCE=v
-    findtrans = where(depth_image gt me + 3*s, ind)
-
-
-;;;;;;;;;;;;;;;;;;trying stuff
-    for i = 0, xpix - 1 do begin 
-        for j = 0, ypix - 1 do begin
-            avg_image[i,j] = avg(doppdiff[0:2].data[i,j])
-            stddev_image[i,j] = stddev(doppdiff[0:2].data[i,j])
-        endfor
-    endfor
-
-
-
-av = avg(doppdiff[0:2].data)
-sd = stddev(doppdiff[0:2].data)
-findtrans = where(depth_image gt av + 3*sd, ind)
-findtrans = where(depth_image - 1000. gt 1000., ind)
-dopptrans = array_indices(depth_image, temporary(findtrans))
-flnm = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/context_depth_image.eps'
-!p.font=0			;use postscript fonts
-set_plot, 'ps'
-device, filename= flnm, encapsulated=eps, $
-/helvetica,/isolatin1, landscape=0, color=1
-plot_image, depth_image, title = directories[ddd]+' Depth Image with Circled Detections', ytitle = 'Pixels', xtitle = 'Pixels'
-tvcircle, 3., dopptrans[0,*], dopptrans[1,*], color = 'red'
-device,/close
-set_plot,'x'
-!p.font=-1 
-
-    findtrans = where(depth_image gt avg_image + 3*stddev_image, ind)
+;    IMAGE_STATISTICS, depth_image, MAXIMUM=ma, MINIMUM=mi, MEAN=me, STDDEV=s, SUM_OF_SQUARES=sos, VARIANCE=v
+    findtrans = where(depth_image gt 1000., ind)
 
     ;if dopp trans are found in the depth image then findtrans will not equal -1
     if (findtrans[0] ne -1) then begin
@@ -121,7 +87,16 @@ set_plot,'x'
         dopptrans = array_indices(depth_image, temporary(findtrans))
 
         ;context depth image
-
+        flnm = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/context_depth_image.eps'
+        !p.font=0			;use postscript fonts
+        set_plot, 'ps'
+        device, filename= flnm, encapsulated=eps, $
+        /helvetica,/isolatin1, landscape=0, color=1
+        plot_image, depth_image, title = directories[ddd]+' Depth Image with Circled Detections', ytitle = 'Pixels', xtitle = 'Pixels'
+        tvcircle, 3., dopptrans[0,*], dopptrans[1,*], color = 'red'
+        device,/close
+        set_plot,'x'
+        !p.font=-1 
 
         ;how many detections?
         sz = size(dopptrans, /dimensions)
