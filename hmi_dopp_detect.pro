@@ -1,4 +1,4 @@
-pro hmi_dopp_detect
+pro hmi_dopp_detect, plot = plot
 
 ;open and read in file containing data directories
 flnm = '/unsafe/jsr2/project2/directories.txt'
@@ -58,21 +58,20 @@ for ddd = 0, nlin - 1 do begin
     ypix = n_elements(doppdiff[0].data[0,*])
     nt = n_elements(doppdiff)
     depth_image = fltarr(xpix,ypix)
-
+    sum_image = fltarr(xpix,ypix)
     for i = 0, xpix - 1 do begin 
         for j = 0, ypix - 1 do begin
             mint = min(doppdiff[*].data[i,j])
             maxt = max(doppdiff[*].data[i,j])
             depth_image[i,j] =  maxt - mint
-
-
-
+            sum_image[i,j] = total(doppdiff[*].data[i,j])
         endfor
     endfor
-
+    isolate = depth_image^10/sum_image
+    isolate = isolate/(max(isolate))
     ;use depth image to identify regions with velocities larger than 3*sigma over mean.... this seems more sensible
 ;    IMAGE_STATISTICS, depth_image, MAXIMUM=ma, MINIMUM=mi, MEAN=me, STDDEV=s, SUM_OF_SQUARES=sos, VARIANCE=v
-    findtrans = where(depth_image gt 1000., ind)
+    findtrans = where(depth_image gt 1400., ind)
 
     ;if dopp trans are found in the depth image then findtrans will not equal -1
     if (findtrans[0] ne -1) then begin
@@ -89,6 +88,11 @@ for ddd = 0, nlin - 1 do begin
         ;convert array elements given by findtrans into array pixel locations
         dopptrans = array_indices(depth_image, temporary(findtrans))
 
+        ;differentiate flagged pixels looking for steep gradients in data 
+        ;how many detections?
+        sz = size(dopptrans, /dimensions)
+
+
         ;context depth image
         flnm = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/context_depth_image.eps'
         !p.font=0			;use postscript fonts
@@ -101,8 +105,7 @@ for ddd = 0, nlin - 1 do begin
         set_plot,'x'
         !p.font=-1 
 
-        ;how many detections?
-        sz = size(dopptrans, /dimensions)
+
 
         ;if only one detection
         if (n_elements(sz) eq 1) then begin
@@ -119,9 +122,10 @@ for ddd = 0, nlin - 1 do begin
             dtxy[0,0] = convert_coord_hmi(dopptrans[0], hmidopp_ind[j], /x, /p2a)
             dtxy[1,0] = convert_coord_hmi(dopptrans[1], hmidopp_ind[j], /y, /p2a)
 
+            if keyword_set(plot) then begin
             ;make plot
             dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0], dopptrans[1]], directories[ddd], coords = dtxy
-
+            endif
 
         ;if multiple detections
         endif else begin
@@ -142,10 +146,11 @@ for ddd = 0, nlin - 1 do begin
                 dtxy[0,k] = convert_coord_hmi(dopptrans[0, k], hmidopp_ind[j], /x, /p2a)
                 dtxy[1,k] = convert_coord_hmi(dopptrans[1, k], hmidopp_ind[j], /y, /p2a)
     
-
+                if keyword_set(plot) then begin
                 ;make plot
                 dopp_plot, doppdiff.time, doppdiff.data[dopptrans[0,k], dopptrans[1,k]], directories[ddd], $
                 coords = [dtxy[0,k],dtxy[1,k]]
+                endif
             endfor
         endelse
 
