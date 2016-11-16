@@ -9,6 +9,25 @@ readf, lun, directories
 free_lun, lun
 
 
+;depth image context plot pamphlet 
+depthdir = '/unsafe/jsr2/project2/depth_images/'
+texfile = depthdir+'hmi_depth_images.tex'
+openw, lunn, texfile, /get_lun, /append
+printf,lunn ,'\documentclass[11pt,a4paper]{report}'
+printf,lunn ,'%Sets up margins'
+printf,lunn ,'\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}'
+printf,lunn ,'%package to set up column style page layout'
+printf,lunn ,'\usepackage{multicol}'
+printf,lunn ,'%calls a maths package for writing equations'
+printf,lunn ,'\usepackage{amsmath}'
+printf,lunn ,'%package allows the inclusion of graphics files (.eps,.jpeg....etc)'
+printf,lunn ,'\usepackage{graphicx}'
+printf,lunn ,'%converts eps to pdf'
+printf,lunn ,'\usepackage{epstopdf}'
+printf,lunn ,'\DeclareGraphicsExtensions{.pdf,.png,.jpg,.eps}'
+printf,lunn ,'\begin{document}' 
+
+
 
 ;open and set up log file for overall view of all detections
 logfile = '/unsafe/jsr2/project2/hmi_dopp_detect.log'
@@ -22,6 +41,7 @@ printf,lunl ,'***************************************************************'
 
 ;this is used to count the number of detections
 count = 0
+
 
 ;loop through directories
 for ddd = 0, nlin - 1 do begin
@@ -58,20 +78,28 @@ for ddd = 0, nlin - 1 do begin
     ypix = n_elements(doppdiff[0].data[0,*])
     nt = n_elements(doppdiff)
     depth_image = fltarr(xpix,ypix)
-    sum_image = fltarr(xpix,ypix)
+
     for i = 0, xpix - 1 do begin 
         for j = 0, ypix - 1 do begin
             mint = min(doppdiff[*].data[i,j])
             maxt = max(doppdiff[*].data[i,j])
             depth_image[i,j] =  maxt - mint
-            sum_image[i,j] = total(doppdiff[*].data[i,j])
+
         endfor
     endfor
-    isolate = depth_image^10/sum_image
-    isolate = isolate/(max(isolate))
+    img = alog10(depth_image)
+	dopp_trans_find, img, dopptrans
+
+;    lndepth = alog(depth_image)
+;    nlogsub = alog(depth_image) - depth_image
+;    isolate = depth_image^10/sum_image
+;    isolate = isolate/(max(isolate))
     ;use depth image to identify regions with velocities larger than 3*sigma over mean.... this seems more sensible
 ;    IMAGE_STATISTICS, depth_image, MAXIMUM=ma, MINIMUM=mi, MEAN=me, STDDEV=s, SUM_OF_SQUARES=sos, VARIANCE=v
-    findtrans = where(depth_image gt 1400., ind)
+
+
+;    findtrans = where(depth_image gt 1400., ind)
+	
 
     ;if dopp trans are found in the depth image then findtrans will not equal -1
     if (findtrans[0] ne -1) then begin
@@ -81,10 +109,9 @@ for ddd = 0, nlin - 1 do begin
         openw, lun, filename, /get_lun, /append
 
         ;remove background to make pure -ve velocity enhancement for plotting
-        tmp = doppdiff.data
-        tmp[where(tmp gt 0)] = 0
-        doppdiff.data = temporary(tmp)
-
+ ;       tmp = doppdiff.data
+ ;       tmp[where(tmp gt 0)] = 0
+ ;       doppdiff.data = temporary(tmp)
         ;convert array elements given by findtrans into array pixel locations
         dopptrans = array_indices(depth_image, temporary(findtrans))
 
@@ -94,7 +121,8 @@ for ddd = 0, nlin - 1 do begin
 
 
         ;context depth image
-        flnm = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/context_depth_image.eps'
+	fdir = '/unsafe/jsr2/project2/'
+        flnm = fdir+''+directories[ddd]+'/HMI/v/'+directories[ddd]+'context_depth_image.eps'
         !p.font=0			;use postscript fonts
         set_plot, 'ps'
         device, filename= flnm, encapsulated=eps, $
@@ -104,8 +132,8 @@ for ddd = 0, nlin - 1 do begin
         device,/close
         set_plot,'x'
         !p.font=-1 
-
-
+	spawn, 'cp '+flnm+' '+depthdir+''+directories[ddd]+'context_depth_image.eps'
+	printf,lunn ,'\includegraphics{'+depthdir+''+directories[ddd]+'context_depth_image.eps}' 
 
         ;if only one detection
         if (n_elements(sz) eq 1) then begin
@@ -160,7 +188,17 @@ for ddd = 0, nlin - 1 do begin
         printf, lun, dopptran 
         free_lun, lun      
     endif
+spawn, 'cp '+filename+' '+depthdir+''
+
 endfor
+
+;tex
+printf,lunn ,'\end{document}'
+free_lun, lunn
+spawn, 'pdflatex -shell-escape '+texfile+''
+spawn, 'pdflatex '+texfile+''
+
+;log
 cnt = string(count, format = '(I0)')
 nd = string(nlin, format = '(I0)')
 printf,lunl ,'***************************************************************'
