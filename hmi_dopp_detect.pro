@@ -88,8 +88,85 @@ for ddd = 0, nlin - 1 do begin
         endfor
     endfor
     img = alog10(depth_image)
-	dopp_trans_find, img, dopptrans
 
+	maxi = max(img)
+	mini = min(img)
+	sd = (maxi - (mini + ((maxi - mini)/2)))/9
+	;sd = stddev(img)
+	sweep = fltarr(10)
+	colors = strarr(10)
+	colors[0] = 'green'
+	colors[1] = 'lime green'
+	colors[2] = 'chartreuse'
+	colors[3] = 'green yellow'
+	colors[4] = 'yellow'
+	colors[5] = 'goldenrod'
+	colors[6] = 'orange'
+	colors[7] = 'orange red'
+	colors[8] = 'red'
+	colors[9] = 'dark red'
+
+	;;;ten sweeps... backwards for tvcircle
+
+	;case select to setup number of sweeps
+	case 1 of
+		(maxi - 9*sd lt mini) and (maxi - 8*sd gt mini): swp = 8
+		(maxi - 8*sd lt mini) and (maxi - 7*sd gt mini): swp = 7
+		(maxi - 7*sd lt mini) and (maxi - 6*sd gt mini): swp = 6
+		(maxi - 6*sd lt mini) and (maxi - 5*sd gt mini): swp = 5
+		(maxi - 5*sd lt mini) and (maxi - 4*sd gt mini): swp = 4
+		(maxi - 4*sd lt mini) and (maxi - 3*sd gt mini): swp = 3
+		(maxi - 3*sd lt mini) and (maxi - 2*sd gt mini): swp = 2
+		(maxi - 2*sd lt mini) and (maxi - 1*sd gt mini): swp = 1
+		(maxi - 1*sd lt mini) and (maxi - 0*sd gt mini): swp = 0
+		else: swp = 9
+	endcase
+	fdir = '/unsafe/jsr2/project2/'
+	flnm = fdir+''+directories[ddd]+'/HMI/v/'+directories[ddd]+'context_depth_image.eps'
+	!p.font=0			;use postscript fonts
+	set_plot, 'ps'
+	device, filename= flnm, encapsulated=eps, $
+	/helvetica,/isolatin1, landscape=0, color=1
+	plot_image, depth_image, title = directories[ddd]+' Depth Image', ytitle = 'Pixels', xtitle = 'Pixels'
+	device,/close
+	set_plot,'x'
+	!p.font=-1 
+
+	fdir = '/unsafe/jsr2/project2/'
+	flnm1 = fdir+''+directories[ddd]+'/HMI/v/'+directories[ddd]+'context_depth_image_with_detections.eps'
+	!p.font=0			;use postscript fonts
+	set_plot, 'ps'
+	device, filename= flnm1, encapsulated=eps, $
+	/helvetica,/isolatin1, landscape=0, color=1
+	plot_image, depth_image, title = directories[ddd]+' Depth Image with Circled Detections', ytitle = 'Pixels', xtitle = 'Pixels'
+	for i = swp, 0, -1 do begin
+		thresh = maxi - i*sd
+		findtrans = where(img gt thresh, ind)
+		if (findtrans[0] gt -1) then begin 
+			sweep[i] = 1.
+			loc = array_indices(img, findtrans)
+			if (i eq swp) then dopptrans = loc else $
+			dopptrans = [[dopptrans], [loc]]		
+			tvcircle, 3., loc[0,*], loc[1,*], color = colors[i]   
+		endif else begin 
+		sweep[i] = 0. 
+		endelse
+	endfor
+	;tvcircle, 3., dopptrans[0,*], dopptrans[1,*], color = 'red'
+	device,/close
+	set_plot,'x'
+	!p.font=-1 
+
+
+
+
+	spawn, 'cp '+flnm+' '+depthdir+''+directories[ddd]+'context_depth_image.eps'
+	spawn, 'cp '+flnm1+' '+depthdir+''+directories[ddd]+'context_depth_image_with_detections.eps'
+	printf,lunn ,'\includegraphics{'+depthdir+''+directories[ddd]+'context_depth_image.eps}' 
+	printf,lunn ,'\includegraphics{'+depthdir+''+directories[ddd]+'context_depth_image_with_detections.eps}' 
+
+
+;old techniques... dlete when final
 ;    lndepth = alog(depth_image)
 ;    nlogsub = alog(depth_image) - depth_image
 ;    isolate = depth_image^10/sum_image
@@ -97,13 +174,12 @@ for ddd = 0, nlin - 1 do begin
     ;use depth image to identify regions with velocities larger than 3*sigma over mean.... this seems more sensible
 ;    IMAGE_STATISTICS, depth_image, MAXIMUM=ma, MINIMUM=mi, MEAN=me, STDDEV=s, SUM_OF_SQUARES=sos, VARIANCE=v
 
-
 ;    findtrans = where(depth_image gt 1400., ind)
 	
 
     ;if dopp trans are found in the depth image then findtrans will not equal -1
-    if (findtrans[0] ne -1) then begin
-
+;    if (findtrans[0] ne -1) then begin
+;    if (sz[0] ne -1) then begin
         ;open alog file to document locations of dopp trans found in depth image... 
         filename = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/dopp_transient_coords_'+directories[ddd]+'.txt'
         openw, lun, filename, /get_lun, /append
@@ -113,27 +189,14 @@ for ddd = 0, nlin - 1 do begin
  ;       tmp[where(tmp gt 0)] = 0
  ;       doppdiff.data = temporary(tmp)
         ;convert array elements given by findtrans into array pixel locations
-        dopptrans = array_indices(depth_image, temporary(findtrans))
+;        dopptrans = array_indices(depth_image, temporary(findtrans))
 
-        ;differentiate flagged pixels looking for steep gradients in data 
-        ;how many detections?
-        sz = size(dopptrans, /dimensions)
+    ;differentiate flagged pixels looking for steep gradients in data 
+    ;how many detections?
+    sz = size(dopptrans, /dimensions)
 
 
-        ;context depth image
-	fdir = '/unsafe/jsr2/project2/'
-        flnm = fdir+''+directories[ddd]+'/HMI/v/'+directories[ddd]+'context_depth_image.eps'
-        !p.font=0			;use postscript fonts
-        set_plot, 'ps'
-        device, filename= flnm, encapsulated=eps, $
-        /helvetica,/isolatin1, landscape=0, color=1
-        plot_image, depth_image, title = directories[ddd]+' Depth Image with Circled Detections', ytitle = 'Pixels', xtitle = 'Pixels'
-        tvcircle, 3., dopptrans[0,*], dopptrans[1,*], color = 'red'
-        device,/close
-        set_plot,'x'
-        !p.font=-1 
-	spawn, 'cp '+flnm+' '+depthdir+''+directories[ddd]+'context_depth_image.eps'
-	printf,lunn ,'\includegraphics{'+depthdir+''+directories[ddd]+'context_depth_image.eps}' 
+
 
         ;if only one detection
         if (n_elements(sz) eq 1) then begin
@@ -187,7 +250,7 @@ for ddd = 0, nlin - 1 do begin
         dopptran = [temporary(dopptrans), temporary(dtxy), temporary(velocity)]
         printf, lun, dopptran 
         free_lun, lun      
-    endif
+;    endif
 spawn, 'cp '+filename+' '+depthdir+''
 
 endfor
