@@ -105,11 +105,11 @@ dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;HMI Continuum
-srch = vso_search('2013/02/13 15:40', '2013/02/13 16:00', instr = 'hmi',physobs = 'intensity', sample = 10 )
+srch = vso_search('2013/02/17 15:40', '2013/02/17 16:00', instr = 'hmi',physobs = 'intensity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
 
 ;HMI Dopplergram
-srch = vso_search('2013/02/13 15:40', '2013/02/13 16:00', instr = 'hmi',physobs = 'LOS_velocity', sample = 10 )
+srch = vso_search('2013/02/17 15:40', '2013/02/17 16:00', instr = 'hmi',physobs = 'LOS_velocity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -170,11 +170,11 @@ dat = vso_get(srch, /rice, site = 'NSO')
 
 
 ;HMI Continuum
-srch = vso_search('2012/05/09 03:24', '2012/05/09 03:44', instr = 'hmi',physobs = 'intensity', sample = 10 )
+srch = vso_search('2012/03/09 03:24', '2012/03/09 03:44', instr = 'hmi',physobs = 'intensity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
 
 ;HMI Dopplergram
-srch = vso_search('2012/05/09 03:24', '2012/05/09 03:44', instr = 'hmi',physobs = 'LOS_velocity', sample = 10 )
+srch = vso_search('2012/03/09 03:24', '2012/03/09 03:44', instr = 'hmi',physobs = 'LOS_velocity', sample = 10 )
 dat = vso_get(srch, /rice, site = 'NSO')
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
