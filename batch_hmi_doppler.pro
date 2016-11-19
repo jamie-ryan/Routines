@@ -43,7 +43,7 @@ hmi_process_filter_universal, /process, dir, submap_range = [-519., 116.],  /dop
 
 maindir = '/unsafe/jsr2/project2/'
 
-eventdir = '20120509/HMI/v/'
+eventdir = '20120309/HMI/v/'
 print, eventdir
 dir = maindir+eventdir
 hmi_process_filter_universal, /process, dir, submap_range = [0., 389.],  /dopp
@@ -113,7 +113,7 @@ hmi_process_filter_universal, /process, dir, submap_range = [-795., -272.],  /do
 
 maindir = '/unsafe/jsr2/project2/'
 
-eventdir = '20130213/HMI/v/'
+eventdir = '20130217/HMI/v/'
 print, eventdir
 dir = maindir+eventdir
 hmi_process_filter_universal, /process, dir, submap_range = [-338., 307.],  /dopp

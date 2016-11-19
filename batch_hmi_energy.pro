@@ -40,7 +40,7 @@ hmi_process_filter_universal, /process, dir, submap_range = [-519., 116.], /diff
 
 
 maindir = '/unsafe/jsr2/project2/'
-eventdir = '20120509/HMI/ic/'
+eventdir = '20120309/HMI/ic/'
 print, eventdir
 dir = maindir+eventdir
 hmi_process_filter_universal, /process, dir, submap_range = [0., 389.], /difffilt, /phys_units
@@ -103,7 +103,7 @@ hmi_process_filter_universal, /process, dir, submap_range = [-795., -272.], /dif
 
 
 maindir = '/unsafe/jsr2/project2/'
-eventdir = '20130213/HMI/ic/'
+eventdir = '20130217/HMI/ic/'
 print, eventdir
 dir = maindir+eventdir
 hmi_process_filter_universal, /process, dir, submap_range = [-338., 307.], /difffilt, /phys_units
