@@ -101,10 +101,10 @@ for ddd = 0, nlin - 1 do begin
     endfor
 	sd = avg(stddev_image)
 	av = avg(avg_image)
-	thresh = (av + 3*sd)
+	thresh = -(av + 3*sd)
 
 	for i = 0, nt - 1 do begin
-		findtrans = where((doppdiff[i].data gt thresh) or (doppdiff[i].data lt -thresh), ind)
+		findtrans = where((doppdiff[i].data lt thresh) or (doppdiff[i].data eq thresh), ind)
 		if (findtrans[0] gt -1) then begin 
 			loc = array_indices(doppdiff[i].data, findtrans)
 ;			loc = [loc, i]

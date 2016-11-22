@@ -1,4 +1,4 @@
-pro hmi_dopp_detect, depth_image = depth_image, diff_image = diff_image, plot = plot
+pro hmi_dopp_detect, plot = plot
 tic
 ;open and read in file containing data directories
 flnm = '/unsafe/jsr2/project2/directories.txt'
@@ -62,72 +62,74 @@ for ddd = 0, nlin - 1 do begin
     restore, '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/hmi-dopp.sav'
 
     ;set up and run backwards difference filter
-    tmp = hmidopp
+    tmp = temporary(hmidopp)
     sub = coreg_map(tmp,tmp[n_elements(tmp)/2])
     doppdiff = diff_map(sub(0),sub(1),/rotate)
     print, 'making diff map'
-    for i=1, n_elements(hmidopp) - 2 do begin 
+    for i=1, n_elements(tmp) - 2 do begin 
         diff1=diff_map(sub[i],sub[i+1],/rotate) ;backwards difference
     ;        diff1=diff_map(sub[i],sub[0],/rotate)
         ;;;concatenate arrays to form one difference array
         doppdiff=str_concat(temporary(doppdiff),diff1)    
     endfor
 
-    if keyword_set(depth_image) then begin
+    ;preflare
+    restore, '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/pre-flare/hmi-dopp.sav'
+    tmp_pf = temporary(hmidopp)
+    sub_pf = coreg_map(tmp_pf,tmp_pf[n_elements(tmp_pf)/2])
+    doppdiff_pf = diff_map(sub_pf(0),sub_pf(1),/rotate)
+    for i=1, n_elements(tmp_pf) - 2 do begin 
+        diff_pf=diff_map(sub_pf[i],sub_pf[i+1],/rotate) ;backwards difference
+    ;        diff1=diff_map(sub[i],sub[0],/rotate)
+        ;;;concatenate arrays to form one difference array
+        doppdiff_pf=str_concat(temporary(doppdiff_pf),diff_pf)    
+    endfor
+
     ;create depth image: difference between min and max for each pixel across entire time series
     ;used to find locations with greatest doppler shift
     xpix = n_elements(doppdiff[0].data[*,0])
     ypix = n_elements(doppdiff[0].data[0,*])
     nt = n_elements(doppdiff)
-    depth_image = fltarr(xpix,ypix)
+    depth_image = fltarr(xpix,ypix)    
+    di_pf = fltarr(xpix,ypix)
+    stddev_image = fltarr(xpix,ypix)
+    avg_image = fltarr(xpix,ypix)
+    thresh_image = fltarr(xpix,ypix)
     print, 'making depth image'
     for i = 0, xpix - 1 do begin 
         for j = 0, ypix - 1 do begin
             mint = min(doppdiff[*].data[i,j])
             maxt = max(doppdiff[*].data[i,j])
-            depth_image[i,j] =  maxt - mint
+            mint_pf = min(doppdiff_pf[*].data[i,j])
+            maxt_pf = max(doppdiff_pf[*].data[i,j])
+            depth_image[i,j] =  maxt - abs(mint)
+            di_pf[i,j] = maxt_pf - abs(mint_pf)
+            stddev_image[i,j] = stddev(doppdiff_pf[*].data[i,j])
+			avg_image[i,j] = avg(doppdiff_pf[*].data[i,j])
+            thresh_image[i,j]= avg_image[i,j] + 3*stddev_image[i,j]
         endfor
     endfor
-    endif
+    ;remove differencing artifacts    
+    depth_image[*,-1]=0
+    depth_image[-1,*]=0
+    depth_image[*,0]=0
+    depth_image[0,*]=0
+    di_pf[*,-1]=0
+    di_pf[-1,*]=0
+    di_pf[*,0]=0
+    di_pf[0,*]=0
 
-    ;make log10 image for detection scheme
-    img = alog10(depth_image)
-    ;find range of values for detection scheme
-	maxi = max(img)
-	mini = min(img)
-    ;set a suitable increment for each detection sweep.... 
-    ;add half the difference between max and min to min, then subtract from max and divide by a number which produces a reasonable increment
-	sd = (maxi - (mini + ((maxi - mini)/2)))/9
-
-    ;sweep array will contain a 1 if sweep was succeful and a 0 if not
-	sweep = fltarr(10)
+    findtrans_pos = where((depth_image gt thresh_image), ind)
+    loc_pos = array_indices(depth_image,findtrans)
+    findtrans_neg = where((depth_image lt -thresh_image), ind)
+    loc_neg = array_indices(depth_image,findtrans)
+    dopptrans = [loc_pos,loc_neg]
     ;colours for context image detection circles
-	colors = strarr(10)
-	colors[0] = 'green'
-	colors[1] = 'lime green'
-	colors[2] = 'chartreuse'
-	colors[3] = 'green yellow'
-	colors[4] = 'yellow'
-	colors[5] = 'goldenrod'
-	colors[6] = 'orange'
-	colors[7] = 'orange red'
-	colors[8] = 'red'
-	colors[9] = 'dark red'
+	colors = strarr(2)
+	colors[0] = 'red'
+	colors[1] = 'blue'
 
 	;case select to setup number of detection sweeps, the higher the number, the more sensitive, the more low velocity transients are detected
-    print, 'choosing detection sweep case'
-	case 1 of
-;		(maxi - 9*sd lt mini) and (maxi - 8*sd gt mini): swp = 8
-;		(maxi - 8*sd lt mini) and (maxi - 7*sd gt mini): swp = 7
-;		(maxi - 7*sd lt mini) and (maxi - 6*sd gt mini): swp = 6
-;		(maxi - 6*sd lt mini) and (maxi - 5*sd gt mini): swp = 5
-		(maxi - 5*sd lt mini) and (maxi - 4*sd gt mini): swp = 4
-		(maxi - 4*sd lt mini) and (maxi - 3*sd gt mini): swp = 3
-		(maxi - 3*sd lt mini) and (maxi - 2*sd gt mini): swp = 2
-		(maxi - 2*sd lt mini) and (maxi - 1*sd gt mini): swp = 1
-		(maxi - 1*sd lt mini) and (maxi - 0*sd gt mini): swp = 0
-		else: swp = 5
-	endcase
     ;context eps without detection circles
     print, 'making context image'    
 	fdir = '/unsafe/jsr2/project2/'
@@ -149,28 +151,12 @@ for ddd = 0, nlin - 1 do begin
 	device, filename= flnm1, encapsulated=eps, $
 	/helvetica,/isolatin1, landscape=0, color=1
 	plot_image, depth_image, title = directories[ddd]+' Depth Image with Circled Detections', ytitle = 'Pixels', xtitle = 'Pixels'
-
-    ;detection sweep loop, stores coordinates in dopptrans, also performs tvcircle on context eps
-    sw = string(swp, format = '(I0)')
-    print, 'sweeping depth image with '+sw+' thresholding schemes'   
-	for i = swp, 0, -1 do begin
-		thresh = maxi - i*sd
-		findtrans = where(img gt thresh, ind)
-		if (findtrans[0] gt -1) then begin 
-			sweep[i] = 1.
-			loc = array_indices(img, findtrans)
-			if (i eq swp) then dopptrans = loc else $
-			dopptrans = [[dopptrans], [loc]]		
-			tvcircle, 3., loc[0,*], loc[1,*], color = colors[i]   
-		endif else begin 
-		sweep[i] = 0. 
-		endelse
-	endfor
-    
+	tvcircle, 3., loc_pos[0,*], loc_pos[1,*], color = colors[0]   
+	tvcircle, 3., loc_neg[0,*], loc_neg[1,*], color = colors[1]   
 	device,/close
 	set_plot,'x'
 	!p.font=-1 
-    print, 'finished sweeping depth image and making detections context image'
+    print, 'finished making detections context image'
 
     ;copies context eps files into depth_image dir ready for latex plot pamphlet
     print, 'moving files about, adding lines to hmi_depth_images.tex'
