@@ -1,0 +1,5 @@
+function drot_time, peak_time, preflare_time, decimal_hours
+
+
+return, decimal_hours
+end

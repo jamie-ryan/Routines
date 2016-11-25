@@ -1,0 +1,69 @@
+;+
+; NAME:
+;          drot
+; PURPOSE:
+;          differntially rotate image contained within structure created 
+;           by ST_IMG
+; CATEGORY:
+;          utility
+; CALLING SEQUENCE:
+;         rimg=drot(img,dt)
+; INPUTS:
+;         img = input image structure
+;         dt = decimal hours by which to rotate (+ for E to W)
+; OUTPUTS:
+;          rimg= differentially rotated output structure 
+; PROCEDURE:
+;          uses synodic rotation rate in sunspot zone (Allen p.180):
+;          rate = 13.45 - 3.0 * sin(lat)^2 degrees per day
+; RESTRICTIONS: 
+;          only coordinate arrays are transformed. Image data is not changed.
+; MODIFICATION HISTORY:
+;          written Aug 1991 (DMZ, ARC) 
+;-
+
+function drot,img,dt
+
+on_error,1
+
+;-- compute solar radius, and b angle for image time
+
+ctime=where('TIME' eq tag_names(img),count)
+if count eq 0 then message,'input image does not have time tag'
+
+ut=img.time 
+secs79=utime(ut) &  radius=solrad(secs79,b0)
+bangle=b0*!radeg
+
+if n_elements(dt) eq 0 then begin
+ print,'* current image time (UT) : ',ut
+ repeat begin
+  dt='' &  read,'* enter hours by which to rotate image: ',dt
+ endrep until dt ne ''
+endif
+
+;-- cartesian coordinates of image pixels
+
+ rust,img,pic,xarr,yarr
+ roll=img.roll
+
+;-- convert (x,y) to heliographic coordinates (lon,lat) (allowing for roll)
+
+ xytolb,xarr,yarr,lon,lat,radius,bangle,roll
+
+;-- differentially rotate image
+;   (rate = 13.45 - 3.0 * sin(lat)^2 degrees per day)
+
+ rate=13.45-3.0*sin(lat*!dtor)^2
+ new_lon=lon+rate*(dt/24.)
+
+;-- convert back to (x,y) and update image coordinate arrays
+
+ xytolb,xrot,yrot,new_lon,lat,radius,bangle,roll,/inverse
+
+ new_time=atime(secs79+dt*3600.)
+ nimg=img & nimg.xp=xrot(*) & nimg.yp=yrot(*) & nimg.time=new_time
+
+ return,nimg & end
+
+

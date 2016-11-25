@@ -1,4 +1,16 @@
-pro hmi_process_filter_universal, process = process, directory, submap_range = submap_range, phys_units = phys_units, dopp = dopp, restore_sav = restore_sav, savf = savf, log = log, difffilt = difffilt, bksub = bksub
+pro hmi_process_filter_universal, $
+process = process, $
+directory, $
+submap_range = submap_range, $
+phys_units = phys_units, $
+dopp = dopp, $
+restore_sav = restore_sav, $
+savf = savf, $
+log = log, $
+difffilt = difffilt, $
+bksub = bksub, $
+drot=drot, $
+peak_time
 
 ;process = /process
 ;savf = savfile location string to be restored
@@ -10,7 +22,7 @@ pro hmi_process_filter_universal, process = process, directory, submap_range = s
 
 if keyword_set(process) then begin
 
-files = findfile(directory+'hmi.*')
+files = findfile(directory+'hmi.*.fits')
 
 ;read_sdo, files, out_ind, out_dat
 aia_prep, temporary(files),-1, out_ind, out_dat, /despike
@@ -25,6 +37,17 @@ aia_prep, temporary(files),-1, out_ind, out_dat, /despike
 
 ;dat 2 map
 index2map, temporary(out_ind), temporary(out_dat), map
+
+;drotate map: used to align preflare and flare datasets
+if keyword_set(drot) then begin
+rmap=drot_map(map[0],time = peak_time)
+for i = 1,  n_elements(map) - 1 do begin
+    rmp=drot_map(map[i],time = peak_time)
+    rmap = str_concat(temporary(rmap), rmp)
+endfor
+map = temporary(rmap)
+endif
+
 
 ;full disc 2 crop
 ;sub_map, map, xr=[submap_range[0],submap_range[1]], yr=[submap_range[2],submap_range[3]], mp 
