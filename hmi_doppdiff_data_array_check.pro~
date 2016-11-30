@@ -92,19 +92,19 @@ refmap = doppdiff[12]
 save, refmap, filename='/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/refmap.sav'
 endfor
 
-directory = '/unsafe/jsr2/project2/20110215/HMI/v/pre-flare/'
+directory = '/unsafe/jsr2/project2/20150311/HMI/v/pre-flare/'
 files = findfile(directory+'hmi.*.fits')
 aia_prep, files,-1, out_ind, out_dat, /despike
 index2map, out_ind, out_dat, map
-peak_time = '15-Feb-2011 01:55'
+peak_time = '11-Mar-2015 16:22'
 rmap=drot_map(map[0],time = peak_time)
 for i = 1,  n_elements(map) - 1 do begin
     rmp=drot_map(map[i],time = peak_time)
     rmap = str_concat(temporary(rmap), rmp)
 endfor
 map = temporary(rmap)
-
+directory = '/unsafe/jsr2/project2/20150311/HMI/v/'
 restore, directory+'refmap.sav'
-sub_map, temporary(map), ref_map = refmap, /preserve, /pixel, mp 
+sub_map, map, ref_map = refmap, /preserve, /pixel, mp 
 
 end

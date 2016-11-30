@@ -105,6 +105,6 @@ endfor
 map = temporary(rmap)
 directory = '/unsafe/jsr2/project2/20150311/HMI/v/'
 restore, directory+'refmap.sav'
-sub_map, map, ref_map = refmap, /preserve, /pixel, mp 
+sub_map, map, ref_map = refmap, /preserve, mp 
 
 end
