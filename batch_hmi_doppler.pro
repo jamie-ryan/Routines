@@ -2,14 +2,6 @@
 
 maindir = '/unsafe/jsr2/project2/'
 
-;processes hmi dopplergrams
-
-;pre-flare
-eventdir = '20110215/HMI/v/pre-flare/'
-print, eventdir
-dir = maindir+eventdir
-hmi_process_filter_universal, /process, dir, submap_range = [205.,-222.],  /dopp
-
 ;impulsive phase
 eventdir = '20110215/HMI/v/'
 print, eventdir

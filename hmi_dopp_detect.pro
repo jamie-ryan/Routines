@@ -92,8 +92,8 @@ for ddd = 0, nlin - 1 do begin
 
     ;create depth image: difference between min and max for each pixel across entire time series
     ;used to find locations with greatest doppler shift
-    xpix = n_elements(doppdiff[0].data[*,0])
-    ypix = n_elements(doppdiff[0].data[0,*])
+    xpix = n_elements(doppdiff_pf[0].data[*,0])
+    ypix = n_elements(doppdiff_pf[0].data[0,*])
     nt = n_elements(doppdiff)
     depth_image = fltarr(xpix,ypix)    
     stddev_image = fltarr(xpix,ypix)
@@ -221,7 +221,7 @@ for ddd = 0, nlin - 1 do begin
         ;iterate through each row in dopptrans for coord conversion to heliocentric
         for k = 0, sz_pos[1] - 1 do begin
             ;grab velocities                
-            velocity_pos[k] = max(doppdiff.data[los_pos[0,k], loc_pos[1,k]],ind)
+            velocity_pos[k] = max(doppdiff.data[loc_pos[0,k], loc_pos[1,k]],ind)
             ;grab time element of peak velocities
             j_pos[k] = array_indices(doppdiff, ind)
 
