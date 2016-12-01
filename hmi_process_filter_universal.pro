@@ -59,7 +59,7 @@ endif
 ;               DIMENSIONS = [n1,n2] = dimensions of SMAP
 if keyword_set(refmap) then begin
 restore, directory+'refmap.sav'
-sub_map, temporary(map), ref_map = refmap, /preserve, /pixel, mp 
+sub_map, map, ref_map = refmap, /preserve, mp 
 endif else begin
 sub_map, temporary(map), xr=[submap_range[0] - 50.,submap_range[0] + 50.], yr=[submap_range[1] - 50.,submap_range[1] + 50.], mp 
 endelse
