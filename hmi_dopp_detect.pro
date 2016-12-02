@@ -1,4 +1,9 @@
-pro hmi_dopp_detect, plot = plot
+pro hmi_dopp_detect, sd, plot = plot
+
+;sd = standard deviations above the norm
+;/plot to output time vs velocity plots of each detection
+
+
 tic
 ;open and read in file containing data directories
 flnm = '/unsafe/jsr2/project2/directories.txt'
@@ -8,9 +13,11 @@ directories = strarr(nlin)
 readf, lun, directories 
 free_lun, lun
 
+sdstr = string(sd, format = '(I0)')
 
 ;depth image context plot pamphlet 
-depthdir = '/unsafe/jsr2/project2/depth_images/'
+depthdir = '/unsafe/jsr2/project2/depth_images/thresh_'+sdstr+'sd/'
+spawn, 'mkdir '+depthdir
 texfile = depthdir+'hmi_depth_images.tex'
 openw, lunn, texfile, /get_lun, /append
 printf,lunn ,'\documentclass[11pt,a4paper]{report}'
@@ -42,6 +49,11 @@ printf,lunl ,'***************************************************************'
 ;this is used to count the number of detections
 count = 0
 
+;colours for context image detection circles
+colors = strarr(2)
+colors[0] = 'red'
+colors[1] = 'blue'
+
 
 ;loop through directories
 for ddd = 0, nlin - 1 do begin
@@ -65,36 +77,14 @@ for ddd = 0, nlin - 1 do begin
     restore, '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/doppdiff.sav'
     restore, '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/hmi-dopp.sav'
 
-    ;set up and run backwards difference filter
-;    tmp = temporary(hmidopp)
-;    sub = coreg_map(tmp,tmp[n_elements(tmp)/2])
-;    doppdiff = diff_map(sub(0),sub(1),/rotate)
-;    print, 'making diff map'
-;    for i=1, n_elements(tmp) - 2 do begin 
-;        diff1=diff_map(sub[i],sub[i+1],/rotate) ;backwards difference
-    ;        diff1=diff_map(sub[i],sub[0],/rotate)
-        ;;;concatenate arrays to form one difference array
-;        doppdiff=str_concat(temporary(doppdiff),diff1)    
-;    endfor
-
     ;preflare
     restore, '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/pre-flare/doppdiff_pf.sav'
-    ;restore, '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/pre-flare/hmi-dopp.sav'
-;    tmp_pf = temporary(hmidopp)
-;    sub_pf = coreg_map(tmp_pf,tmp_pf[n_elements(tmp_pf)/2])
-;    doppdiff_pf = diff_map(sub_pf(0),sub_pf(1),/rotate)
-;    for i=1, n_elements(tmp_pf) - 2 do begin 
-;        diff_pf=diff_map(sub_pf[i],sub_pf[i+1],/rotate) ;backwards difference
-;    ;        diff1=diff_map(sub[i],sub[0],/rotate)
-        ;;;concatenate arrays to form one difference array
-;        doppdiff_pf=str_concat(temporary(doppdiff_pf),diff_pf)    
-;    endfor
+
 
     ;create depth image: difference between min and max for each pixel across entire time series
     ;used to find locations with greatest doppler shift
     xpix = n_elements(doppdiff_pf[0].data[*,0])
     ypix = n_elements(doppdiff_pf[0].data[0,*])
-    nt = n_elements(doppdiff)
     depth_image = fltarr(xpix,ypix)    
     stddev_image = fltarr(xpix,ypix)
     avg_image = fltarr(xpix,ypix)
@@ -104,12 +94,10 @@ for ddd = 0, nlin - 1 do begin
         for j = 0, ypix - 1 do begin
             mint = min(doppdiff[*].data[i,j])
             maxt = max(doppdiff[*].data[i,j])
-            mint_pf = min(doppdiff_pf[*].data[i,j])
-            maxt_pf = max(doppdiff_pf[*].data[i,j])
             depth_image[i,j] =  abs(maxt) - abs(mint)
             stddev_image[i,j] = stddev(doppdiff_pf[*].data[i,j])
 			avg_image[i,j] = avg(doppdiff_pf[*].data[i,j])
-            thresh_image[i,j]= avg_image[i,j] + 3*stddev_image[i,j]
+            thresh_image[i,j]= avg_image[i,j] + sd*stddev_image[i,j]
         endfor
     endfor
     ;remove differencing artifacts    
@@ -126,8 +114,27 @@ for ddd = 0, nlin - 1 do begin
     findtrans_pos = where((depth_image gt thresh_image), ind)
     findtrans_neg = where((depth_image lt -thresh_image), ind)
 
-    if (findtrans_pos[0] ne -1) then loc_pos = array_indices(depth_image,findtrans_pos) else print, 'No positive velocity transients found'
-    if (findtrans_neg[0] ne -1) then loc_neg = array_indices(depth_image,findtrans_neg) else print, 'No negative velocity transients found'
+    if (findtrans_pos[0] ne -1) then begin
+        loc_pos = array_indices(depth_image,findtrans_pos) 
+    endif else begin 
+    print, 'No positive velocity transients found'
+    loc_pos = -1
+    sz_pos = 0
+;    j_pos = -1
+;    dtxy_pos = -1
+;    velocity_pos = -1
+    endelse
+
+    if (findtrans_neg[0] ne -1) then begin
+        loc_neg = array_indices(depth_image,findtrans_neg) 
+    endif else begin  
+    print, 'No negative velocity transients found'
+    loc_neg = -1
+    sz_neg = 0
+;    j_neg = -1
+;    dtxy_neg = -1
+;    velocity_neg = -1
+    endelse
 
     if (findtrans_pos[0] eq -1) and (findtrans_neg[0] eq -1) then begin
     print, 'No Doppler transient were detected during the '+directories[ddd]+' event, moving onto next directory.'
@@ -135,16 +142,14 @@ for ddd = 0, nlin - 1 do begin
     endif
 
     
-    ;colours for context image detection circles
-	colors = strarr(2)
-	colors[0] = 'red'
-	colors[1] = 'blue'
 
 	;case select to setup number of detection sweeps, the higher the number, the more sensitive, the more low velocity transients are detected
     ;context eps without detection circles
     print, 'making context image'    
 	fdir = '/unsafe/jsr2/project2/'
-	flnm = fdir+''+directories[ddd]+'/HMI/v/'+directories[ddd]+'context_depth_image.eps'
+    plotdir = fdir+''+directories[ddd]+'/HMI/v/thresh_'+sdstr+'sd/'
+    spawn, 'mkdir '+plotdir
+	flnm = plotdir+''+directories[ddd]+'context_depth_image.eps'
 	!p.font=0			;use postscript fonts
 	set_plot, 'ps'
 	device, filename= flnm, encapsulated=eps, $
@@ -155,8 +160,7 @@ for ddd = 0, nlin - 1 do begin
 	!p.font=-1 
 
     ;context eps with detection circles
-	fdir = '/unsafe/jsr2/project2/'
-	flnm1 = fdir+''+directories[ddd]+'/HMI/v/'+directories[ddd]+'context_depth_image_with_detections.eps'
+	flnm1 = plotdir+''+directories[ddd]+'context_depth_image_with_detections.eps'
 	!p.font=0			;use postscript fonts
 	set_plot, 'ps'
 	device, filename= flnm1, encapsulated=eps, $
@@ -178,7 +182,7 @@ for ddd = 0, nlin - 1 do begin
 
 
     ;open alog file to document locations of dopp trans found in depth image... 
-    filename = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/dopp_transient_coords_'+directories[ddd]+'.txt'
+    filename = plotdir+'dopp_transient_coords_'+directories[ddd]+'.txt'
     openw, lun, filename, /get_lun, /append
 
     
@@ -188,7 +192,7 @@ for ddd = 0, nlin - 1 do begin
 
     ;positive velocities section
     ;if only one detection
-    if (n_elements(sz_pos) eq 1) then begin
+    if ((n_elements(sz_pos) eq 1) and (findtrans_pos[0] ne -1)) then begin
     print, 'For sz eq 1, Grabbing velocity values, converting pixel locations into heliocentric coordinates'    
         count = temporary(count) + 1
         szst_pos = string(1, format = '(I0)')
@@ -198,8 +202,8 @@ for ddd = 0, nlin - 1 do begin
 
         ;convert pixels locations into helioseismic coords
         dtxy_pos = fltarr(2,1)            
-        dtxy_pos[0,0] = convert_coord_hmi(loc_pos[0], hmidopp_ind[j], /x, /p2a)
-        dtxy_pos[1,0] = convert_coord_hmi(loc_pos[1], hmidopp_ind[j], /y, /p2a)
+        dtxy_pos[0,0] = convert_coord_hmi(loc_pos[0], hmidopp_ind[j_pos], /x, /p2a)
+        dtxy_pos[1,0] = convert_coord_hmi(loc_pos[1], hmidopp_ind[j_pos], /y, /p2a)
 
         if keyword_set(plot) then begin
             print, 'making plots'    
@@ -208,15 +212,16 @@ for ddd = 0, nlin - 1 do begin
         endif
 
     ;if multiple detections
-    endif else begin
+    endif 
+    if ((n_elements(sz_pos) ne 1) and (findtrans_pos[0] ne -1)) then begin
     print, 'For sz ne 1, Grabbing velocity values, converting pixel locations into heliocentric coordinates'    
         count = temporary(count) + sz_pos[1]
         szst_pos = string(sz_pos[1], format = '(I0)')
 
         ;arrays to contain heliocentric coords and velocities
         dtxy_pos = fltarr(2,sz_pos[1])
-        velocity_pos = fltarr(1,sz_pos[1])
-        j_pos = fltarr(1,sz_pos[1])
+        velocity_pos = fltarr(sz_pos[1])
+        j_pos = fltarr(sz_pos[1])
 
         ;iterate through each row in dopptrans for coord conversion to heliocentric
         for k = 0, sz_pos[1] - 1 do begin
@@ -226,31 +231,30 @@ for ddd = 0, nlin - 1 do begin
             j_pos[k] = array_indices(doppdiff, ind)
 
             ;convert pixels locations into helioseismic coords
-            dtxy_pos[0,k] = convert_coord_hmi(loc_pos[0, k], hmidopp_ind[j[k]], /x, /p2a)
-            dtxy_pos[1,k] = convert_coord_hmi(loc_pos[1, k], hmidopp_ind[j[k]], /y, /p2a)
+            dtxy_pos[0,k] = convert_coord_hmi(loc_pos[0, k], hmidopp_ind[j_pos[k]], /x, /p2a)
+            dtxy_pos[1,k] = convert_coord_hmi(loc_pos[1, k], hmidopp_ind[j_pos[k]], /y, /p2a)
 
             if keyword_set(plot) then begin
                 ;make plot
-            print, 'For sz eq 1, making plot'    
+            print, 'making plot'    
                 dopp_plot, doppdiff.time, doppdiff.data[loc_pos[0,k], loc_pos[1,k]], directories[ddd], $
                 coords = [dtxy_pos[0,k],dtxy_pos[1,k]]
             endif
         endfor
-    endelse
+    endif
 
     ;negative velocities section
-    if (n_elements(sz_neg) eq 1) then begin
+    if ((n_elements(sz_neg) eq 1) and (findtrans_neg[0] ne -1)) then begin
     print, 'For sz eq 1, Grabbing velocity values, converting pixel locations into heliocentric coordinates'    
         count = temporary(count) + 1
         szst_neg = string(1, format = '(I0)')
-
         velocity_neg = min(doppdiff.data[loc_neg[0], loc_neg[1]],ind)
         j_neg = array_indices(doppdiff,ind)
 
         ;convert pixels locations into helioseismic coords
         dtxy_neg = fltarr(2,1)            
-        dtxy_neg[0,0] = convert_coord_hmi(loc_neg[0], hmidopp_ind[j], /x, /p2a)
-        dtxy_neg[1,0] = convert_coord_hmi(loc_neg[1], hmidopp_ind[j], /y, /p2a)
+        dtxy_neg[0,0] = convert_coord_hmi(loc_neg[0], hmidopp_ind[j_neg], /x, /p2a)
+        dtxy_neg[1,0] = convert_coord_hmi(loc_neg[1], hmidopp_ind[j_neg], /y, /p2a)
 
         if keyword_set(plot) then begin
             print, 'making plots'    
@@ -259,50 +263,118 @@ for ddd = 0, nlin - 1 do begin
         endif
 
     ;if multiple detections
-    endif else begin
+    endif
+    if ((n_elements(sz_neg) ne 1) and (findtrans_neg[0] ne -1)) then begin    
     print, 'For sz ne 1, Grabbing velocity values, converting pixel locations into heliocentric coordinates'    
         count = temporary(count) + sz_neg[1]
         szst_neg = string(sz_neg[1], format = '(I0)')
 
         ;arrays to contain heliocentric coords and velocities
         dtxy_neg = fltarr(2,sz_neg[1])
-        velocity_neg = fltarr(1,sz_neg[1])
-        j_neg = fltarr(1,sz_neg[1])
+        velocity_neg = fltarr(sz_neg[1])
+        j_neg = fltarr(sz_neg[1])
 
         ;iterate through each row in dopptrans for coord conversion to heliocentric
         for k = 0, sz_neg[1] - 1 do begin
             ;grab velocities                
-            velocity_neg[k] = min(doppdiff.data[los_neg[0,k], loc_neg[1,k]],ind)
+            velocity_neg[k] = min(doppdiff.data[loc_neg[0,k], loc_neg[1,k]],ind)
             ;grab time element of peak velocities
             j_neg[k] = array_indices(doppdiff, ind)
 
             ;convert pixels locations into helioseismic coords
-            dtxy_neg[0,k] = convert_coord_hmi(loc_neg[0, k], hmidopp_ind[j[k]], /x, /p2a)
-            dtxy_neg[1,k] = convert_coord_hmi(loc_neg[1, k], hmidopp_ind[j[k]], /y, /p2a)
+            dtxy_neg[0,k] = convert_coord_hmi(loc_neg[0, k], hmidopp_ind[j_neg[k]], /x, /p2a)
+            dtxy_neg[1,k] = convert_coord_hmi(loc_neg[1, k], hmidopp_ind[j_neg[k]], /y, /p2a)
 
             if keyword_set(plot) then begin
                 ;make plot
-            print, 'For sz eq 1, making plot'    
+            print, 'making plot'    
                 dopp_plot, doppdiff.time, doppdiff.data[loc_neg[0,k], loc_neg[1,k]], directories[ddd], $
                 coords = [dtxy_neg[0,k],dtxy_neg[1,k]]
             endif
         endfor
-    endelse
+    endif
 
+    ;make array containing pixel coords, time element, heliocentric coords and velocities
+    if ((findtrans_pos[0] ne -1) and (findtrans_neg[0] ne -1)) then begin
+    j = [[j_pos],[j_neg]]
     dtxy = [[dtxy_pos],[dtxy_neg]]
     velocity_all = [[velocity_pos],[velocity_neg]]
+
+    stdd = [[stddev_image[loc_pos[],loc_pos[]]],     [stddev_image[loc_neg[],loc_neg[]]]]
+    avgg = [[avg_image[loc_pos[],loc_pos[]]],[avg_image[loc_neg[],loc_neg[]]]]
+;    thresh = [[thresh_image[loc_pos[],loc_pos[]]],[thresh_image[loc_neg[],loc_neg[]]]]
+
     dopptrans = [[loc_pos], [loc_neg]]
+    dopptran = [dopptrans, j, dtxy, velocity_all, stdd, avgg]
+    ;clean up
+    undefine, stdd
+    undefine, avgg
+    undefine, dtxy_neg
+    undefine, dtxy_pos
+    undefine, dtxy
+    undefine, velocity_neg
+    undefine, velocity_pos
+    undefine, velocity_all
+    undefine, loc_neg
+    undefine, loc_pos
+    undefine, j_neg
+    undefine, j_pos
+    undefine, j
+    undefine, dopptrans
+    endif
+
+    if ((findtrans_pos[0] ne -1) and (findtrans_neg[0] eq -1)) then begin
+    stdd = stddev_image[loc_pos[],loc_pos[]]
+    avgg = avg_image[loc_pos[],loc_pos[]]
+    dopptran = [loc_pos, j_pos, dtxy_pos, velocity_pos, stdd, avgg]    
+    undefine, stdd
+    undefine, avgg
+    undefine, dtxy_pos
+    undefine, velocity_pos
+    undefine, loc_pos
+    undefine, j_pos
+    endif
+
+    if ((findtrans_pos[0] eq -1) and (findtrans_neg[0] ne -1)) then begin
+    stdd = stddev_image[loc_neg[],loc_neg[]]
+    avgg = avg_image[loc_neg[],loc_neg[]]
+    dopptran = [loc_neg, j_neg, dtxy_neg, velocity_neg, stdd, avgg]
+    undefine, stdd
+    undefine, avgg
+    undefine, dtxy_neg
+    undefine, velocity_neg
+    undefine, loc_neg
+    undefine, j_neg
+    endif
+
+    
     print, 'putting dopptrans, heliocoords and velocity into file'    
     printf,lunl ,szst_pos+' positive Doppler transients detected
     printf,lunl ,szst_neg+' negative Doppler transients detected
-    ;put pixel, heliocentric coords into file
-    dopptran = [temporary(dopptrans), temporary(j), temporary(dtxy), temporary(velocity)]
     printf, lun, dopptran 
     free_lun, lun      
     print, 'copying file to depth image directory'    
     spawn, 'cp '+filename+' '+depthdir+''
-;   spawn, 'rm tmp.dat'
-;   spawn, 'rm tmp1.dat'
+
+    ;clean up
+    undefine, doppdiff
+    undefine, doppdiff_pf
+    undefine, szst_neg
+    undefine, szst_pos
+    undefine, i
+    undefine, dopptran
+    undefine, xpix
+    undefine, ypix
+    undefine, depth_image
+    undefine, stddev_image
+    undefine, avg_image
+    undefine, thresh_image
+    undefine, mint
+    undefine, maxt
+    undefine, findtrans_neg
+    undefine, findtrans_pos
+    undefine, sz_pos
+    undefine, sz_neg
 endfor
 
 ;tex
@@ -320,9 +392,19 @@ printf,lunl ,'***************************************************************'
 printf, lunl, 'A total of '+cnt+' Doppler transients were detected in '+nd+' directories.'
 free_lun, lunl
 
-;	print, 'Just what do you think you are doing, Dave?'
-;	print, 'Look Dave, I can see you are really upset about this. I honestly think you ought to sit down calmly, take a stress pill, and think things over.'
-    
+;clean up
+undefine, colors    
+undefine, flnm
+undefine, nlin
+undefine, directories
+undefine, depthdir
+undefine, texfile
+undefine, logfile
+undefine, count
+undefine, ddd
+undefine, fdir
+undefine, flnm1
+undefine, filename
 
 ;Time elapsed
 tsec_total = toc()
@@ -337,4 +419,11 @@ tmin = string(tmin, format = '(I0)')
 if (tsec lt 0.01) then tsec = string(tsec, format = '(E0.2)') else $
 tsec = string(tsec, format = '(F0.2)')
 print, 'Time elapsed: '+thr+' hours, '+tmin+' minutes and '+tsec+' seconds.
+;clean up
+undefine, tsec_total
+undefine, thr
+undefine, thr_remainder
+undefine, tmin
+undefine, tmin_remainder
+undefine, tsec
 end
