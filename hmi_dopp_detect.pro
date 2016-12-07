@@ -296,12 +296,12 @@ for ddd = 0, nlin - 1 do begin
 
     ;make array containing pixel coords, time element, heliocentric coords and velocities
     if ((findtrans_pos[0] ne -1) and (findtrans_neg[0] ne -1)) then begin
-    j = [[j_pos],[j_neg]]
+    j = [j_pos,j_neg]
     dtxy = [[dtxy_pos],[dtxy_neg]]
-    velocity_all = [[velocity_pos],[velocity_neg]]
+    velocity_all = [velocity_pos,velocity_neg]
 
-    stdd = [[stddev_image[loc_pos[],loc_pos[]]],     [stddev_image[loc_neg[],loc_neg[]]]]
-    avgg = [[avg_image[loc_pos[],loc_pos[]]],[avg_image[loc_neg[],loc_neg[]]]]
+    stdd = [reform(stddev_image[loc_pos[0,*],loc_pos[1,*]]), reform(stddev_image[loc_neg[0,*],loc_neg[1,*]])]
+    avgg = [reform(avg_image[loc_pos[0,*],loc_pos[1,*]]),reform(avg_image[loc_neg[0,*],loc_neg[1,*]])]
 ;    thresh = [[thresh_image[loc_pos[],loc_pos[]]],[thresh_image[loc_neg[],loc_neg[]]]]
 
     dopptrans = [[loc_pos], [loc_neg]]
@@ -324,8 +324,8 @@ for ddd = 0, nlin - 1 do begin
     endif
 
     if ((findtrans_pos[0] ne -1) and (findtrans_neg[0] eq -1)) then begin
-    stdd = stddev_image[loc_pos[],loc_pos[]]
-    avgg = avg_image[loc_pos[],loc_pos[]]
+    stdd = reform(stddev_image[loc_pos[0,*],loc_pos[1,*]])
+    avgg = reform(avg_image[loc_pos[0,*],loc_pos[1,*]])
     dopptran = [loc_pos, j_pos, dtxy_pos, velocity_pos, stdd, avgg]    
     undefine, stdd
     undefine, avgg
@@ -336,8 +336,8 @@ for ddd = 0, nlin - 1 do begin
     endif
 
     if ((findtrans_pos[0] eq -1) and (findtrans_neg[0] ne -1)) then begin
-    stdd = stddev_image[loc_neg[],loc_neg[]]
-    avgg = avg_image[loc_neg[],loc_neg[]]
+    stdd = reform(stddev_image[loc_neg[0,*],loc_neg[1,*]])
+    avgg = reform(avg_image[loc_neg[0,*],loc_neg[1,*]])
     dopptran = [loc_neg, j_neg, dtxy_neg, velocity_neg, stdd, avgg]
     undefine, stdd
     undefine, avgg
