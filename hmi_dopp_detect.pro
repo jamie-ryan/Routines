@@ -13,7 +13,7 @@ directories = strarr(nlin)
 readf, lun, directories 
 free_lun, lun
 
-sdstr = string(sd, format = '(I0)')
+sdstr = string(sd, format = '(F0.1)')
 
 ;depth image context plot pamphlet 
 depthdir = '/unsafe/jsr2/project2/depth_images/thresh_'+sdstr+'sd/'
@@ -208,7 +208,7 @@ for ddd = 0, nlin - 1 do begin
         if keyword_set(plot) then begin
             print, 'making plots'    
             ;make plot
-            dopp_plot, doppdiff.time, doppdiff.data[loc_pos[0], loc_pos[1]], directories[ddd], coords = dtxy_pos
+            dopp_plot, doppdiff.time, doppdiff.data[loc_pos[0], loc_pos[1]], directories[ddd], coords = dtxy_pos, sdstr
         endif
 
     ;if multiple detections
@@ -238,7 +238,7 @@ for ddd = 0, nlin - 1 do begin
                 ;make plot
             print, 'making plot'    
                 dopp_plot, doppdiff.time, doppdiff.data[loc_pos[0,k], loc_pos[1,k]], directories[ddd], $
-                coords = [dtxy_pos[0,k],dtxy_pos[1,k]]
+                coords = [dtxy_pos[0,k],dtxy_pos[1,k]], sdstr
             endif
         endfor
     endif
@@ -259,7 +259,7 @@ for ddd = 0, nlin - 1 do begin
         if keyword_set(plot) then begin
             print, 'making plots'    
             ;make plot
-            dopp_plot, doppdiff.time, doppdiff.data[loc_neg[0], loc_neg[1]], directories[ddd], coords = dtxy_neg
+            dopp_plot, doppdiff.time, doppdiff.data[loc_neg[0], loc_neg[1]], directories[ddd], coords = dtxy_neg, sdstr
         endif
 
     ;if multiple detections
@@ -289,46 +289,45 @@ for ddd = 0, nlin - 1 do begin
                 ;make plot
             print, 'making plot'    
                 dopp_plot, doppdiff.time, doppdiff.data[loc_neg[0,k], loc_neg[1,k]], directories[ddd], $
-                coords = [dtxy_neg[0,k],dtxy_neg[1,k]]
+                coords = [dtxy_neg[0,k],dtxy_neg[1,k]], sdstr
             endif
         endfor
     endif
 
     ;make array containing pixel coords, time element, heliocentric coords and velocities
     if ((findtrans_pos[0] ne -1) and (findtrans_neg[0] ne -1)) then begin
+    printf,lunl ,szst_pos+' positive Doppler transients detected
+    printf,lunl ,szst_neg+' negative Doppler transients detected
     j = [j_pos,j_neg]
     dtxy = [[dtxy_pos],[dtxy_neg]]
     velocity_all = [velocity_pos,velocity_neg]
-
     stdd = [reform(stddev_image[loc_pos[0,*],loc_pos[1,*]]), reform(stddev_image[loc_neg[0,*],loc_neg[1,*]])]
     avgg = [reform(avg_image[loc_pos[0,*],loc_pos[1,*]]),reform(avg_image[loc_neg[0,*],loc_neg[1,*]])]
 ;    thresh = [[thresh_image[loc_pos[],loc_pos[]]],[thresh_image[loc_neg[],loc_neg[]]]]
-
     dopptrans = [[loc_pos], [loc_neg]]
-    dopptran = [dopptrans, j, dtxy, velocity_all, stdd, avgg]
     ;clean up
-    undefine, stdd
-    undefine, avgg
     undefine, dtxy_neg
     undefine, dtxy_pos
-    undefine, dtxy
     undefine, velocity_neg
     undefine, velocity_pos
-    undefine, velocity_all
     undefine, loc_neg
     undefine, loc_pos
     undefine, j_neg
     undefine, j_pos
-    undefine, j
-    undefine, dopptrans
+
+
     endif
 
     if ((findtrans_pos[0] ne -1) and (findtrans_neg[0] eq -1)) then begin
+    printf,lunl ,szst_pos+' positive Doppler transients detected
+    printf,lunl ,'Zero negative Doppler transients detected
     stdd = reform(stddev_image[loc_pos[0,*],loc_pos[1,*]])
     avgg = reform(avg_image[loc_pos[0,*],loc_pos[1,*]])
-    dopptran = [loc_pos, j_pos, dtxy_pos, velocity_pos, stdd, avgg]    
-    undefine, stdd
-    undefine, avgg
+    dopptrans = loc_pos
+    j = j_pos
+    dtxy = dtxy_pos
+    velocity_all = velocity_pos    
+    ;clean up
     undefine, dtxy_pos
     undefine, velocity_pos
     undefine, loc_pos
@@ -336,33 +335,55 @@ for ddd = 0, nlin - 1 do begin
     endif
 
     if ((findtrans_pos[0] eq -1) and (findtrans_neg[0] ne -1)) then begin
+    printf,lunl ,'Zero positive Doppler transients detected
+    printf,lunl ,szst_neg+' negative Doppler transients detected
     stdd = reform(stddev_image[loc_neg[0,*],loc_neg[1,*]])
     avgg = reform(avg_image[loc_neg[0,*],loc_neg[1,*]])
-    dopptran = [loc_neg, j_neg, dtxy_neg, velocity_neg, stdd, avgg]
-    undefine, stdd
-    undefine, avgg
+    dopptrans = loc_neg
+    j = j_neg
+    dtxy = dtxy_neg
+    velocity_all = velocity_neg
+    ;clean up
     undefine, dtxy_neg
     undefine, velocity_neg
     undefine, loc_neg
     undefine, j_neg
     endif
 
-    
+    dopptran = fltarr(8, n_elements(j))
+    dopptran[0,*] = dopptrans[0,*]
+    dopptran[1,*] = dopptrans[1,*]
+    dopptran[2,*] = j[*]
+    dopptran[3,*] = dtxy[0,*]
+    dopptran[4,*] = dtxy[1,*]
+    dopptran[5,*] = velocity_all[*]
+    dopptran[6,*] = avgg[*]
+    dopptran[7,*] = stdd[*]
+    print, 'making dopptran sav file'
+    savfile = depthdir+''+directories[ddd]+'-dopptran.sav'
+    save, dopptran, filename = savfile
+    spawn, 'cp '+savfile+' /unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/'
     print, 'putting dopptrans, heliocoords and velocity into file'    
-    printf,lunl ,szst_pos+' positive Doppler transients detected
-    printf,lunl ,szst_neg+' negative Doppler transients detected
+
     printf, lun, dopptran 
+;    printf, lun, dopptrans, j, dtxy, velocity_all, avgg, stdd
     free_lun, lun      
     print, 'copying file to depth image directory'    
     spawn, 'cp '+filename+' '+depthdir+''
 
     ;clean up
+    undefine, j
+    undefine, velocity_all
+    undefine, stdd
+    undefine, avgg
+    undefine, dtxy
     undefine, doppdiff
     undefine, doppdiff_pf
     undefine, szst_neg
     undefine, szst_pos
     undefine, i
     undefine, dopptran
+    undefine, dopptrans
     undefine, xpix
     undefine, ypix
     undefine, depth_image

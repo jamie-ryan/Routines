@@ -1,4 +1,4 @@
-pro dopp_plot, time, array, dir, coords = coords, filemod
+pro dopp_plot, time, array, dir, coords = coords, sdstr
 
 ;coords = [x,y]
 
@@ -17,13 +17,13 @@ t3 = t1+' - '+t2
 ;-------
 ;setup for postscript or eps output
 ;-------
-flnm = '/unsafe/jsr2/project2/'+dir+'/HMI/v/v'+filemod+'/Dopp_Trans_v'+filemod+'_'+stcoords[0]+'_'+stcoords[1]+'.eps'
+flnm = '/unsafe/jsr2/project2/'+dir+'/HMI/v/thresh_'+sdstr+'sd/Dopp_Trans_'+stcoords[0]+'_'+stcoords[1]+'.eps'
 !p.font=0			;use postscript fonts
 set_plot, 'ps'
 device, filename= flnm, encapsulated=eps, $
 /helvetica,/isolatin1, landscape=0, color=1
 
-utplot, time, array, title = t3+' Doppler Velocity ('+stcoords[0]+'", '+stcoords[1]+'")', ytitle = 'm/s', charsize =
+utplot, time, array, title = t3+' Doppler Velocity ('+stcoords[0]+'", '+stcoords[1]+'")', ytitle = 'm/s', charsize = 0.5
 
 device,/close
 set_plot,'x'

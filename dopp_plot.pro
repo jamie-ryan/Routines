@@ -1,4 +1,4 @@
-pro dopp_plot, time, array, dir, coords = coords
+pro dopp_plot, time, array, dir, coords = coords, sdstr
 
 ;coords = [x,y]
 
@@ -17,7 +17,7 @@ t3 = t1+' - '+t2
 ;-------
 ;setup for postscript or eps output
 ;-------
-flnm = '/unsafe/jsr2/project2/'+dir+'/HMI/v/Dopp_Trans_'+stcoords[0]+'_'+stcoords[1]+'.eps'
+flnm = '/unsafe/jsr2/project2/'+dir+'/HMI/v/thresh_'+sdstr+'sd/Dopp_Trans_'+sdstr+'sd_'+stcoords[0]+'_'+stcoords[1]+'.eps'
 !p.font=0			;use postscript fonts
 set_plot, 'ps'
 device, filename= flnm, encapsulated=eps, $
