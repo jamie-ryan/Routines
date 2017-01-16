@@ -96,7 +96,8 @@ for ddd = 0, nlin - 1 do begin
             maxt = max(doppdiff[*].data[i,j])
             depth_image[i,j] =  abs(maxt) - abs(mint)
             stddev_image[i,j] = stddev(doppdiff_pf[*].data[i,j])
-			avg_image[i,j] = avg(doppdiff_pf[*].data[i,j])
+;      			avg_image[i,j] = avg(doppdiff_pf[*].data[i,j])
+      			avg_image[i,j] = avg(abs(doppdiff_pf[*].data[i,j]))
             thresh_image[i,j]= avg_image[i,j] + sd*stddev_image[i,j]
         endfor
     endfor
@@ -362,7 +363,7 @@ for ddd = 0, nlin - 1 do begin
     print, 'making dopptran sav file'
     savfile = depthdir+''+directories[ddd]+'-dopptran.sav'
     save, dopptran, filename = savfile
-    spawn, 'cp '+depthdir+''+directories[ddd]+'-dopptran.sav /unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/'
+    spawn, 'cp '+savfile+' /unsafe/jsr2/project2/'+directories[ddd]+'/HMI/v/'
     print, 'putting dopptrans, heliocoords and velocity into file'    
 
     printf, lun, dopptran 
