@@ -11,7 +11,8 @@ directories = strarr(nlin)
 readf, lun, directories 
 free_lun, lun
 
-sd = 3.0+findgen(23)*.5
+;sd = 3.0+findgen(23)*.5
+sd = 3.0
 for s = 0, n_elements(sd) - 1 do begin 
   sdstr = string(sd[s], format = '(F0.1)')
   depthdir = '/unsafe/jsr2/project2/depth_images/thresh_'+sdstr+'sd/'

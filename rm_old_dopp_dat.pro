@@ -1,0 +1,33 @@
+pro rm_old_dopp_dat
+
+;gets rid of old txt and eps files from individual data directories
+
+flnm = '/unsafe/jsr2/project2/directories.txt'
+openr, lun, flnm, /get_lun
+nlin =  file_lines(flnm)
+directories = strarr(nlin)
+readf, lun, directories 
+free_lun, lun
+
+
+sd = 3.5+findgen(22)*.5
+sdstr = string(sd, format = '(f0.1)')
+
+for ddd = 0, nlin - 1 do begin
+  for sdd = 0, n_elements(sd) - 1 do begin
+    dir = '/unsafe/jsr2/project2/'+directories[ddd]+'/HMI/' 
+    fileexist = file_test(dir+'v/thresh_'+sdstr[sdd]+'sd/')
+    if (fileexist eq 1) then begin
+      vdir = dir+'v/thresh_'+sdstr[sdd]+'sd/'
+      icdir = dir+'ic/thresh_'+sdstr[sdd]+'sd/'
+      spawn, 'rmall '+vdir+'*.eps'
+      spawn, 'rmall '+vdir+'*.txt'
+      spawn, 'rmall '+icdir+'*.eps'
+      spawn, 'rmdir '+vdir
+      spawn, 'rmdir '+icdir
+    endif
+
+  endfor
+endfor
+
+end
