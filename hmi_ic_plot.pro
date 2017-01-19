@@ -31,7 +31,7 @@ t3 = t1+' - '+t2
 ;-------
 ;setup for postscript or eps output
 ;-------
-flnm = '/unsafe/jsr2/project2/'+dir+'/HMI/ic/thresh_'+sdstr+'sd/IC_'+titl+'_'+sdstr+'sd_'+stcoords[0]+'_'+stcoords[1]+'.eps'
+flnm = dir+'IC_'+titl+'_'+sdstr+'sd_'+stcoords[0]+'_'+stcoords[1]+'.eps'
 !p.font=0			;use postscript fonts
 set_plot, 'ps'
 device, filename= flnm, encapsulated=eps, $

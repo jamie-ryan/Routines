@@ -16,7 +16,7 @@ free_lun, lun
 
 
 
-vel_thresh = [-1000, -1500, -2000, -2500, -3000]
+vel_thresh = [-500, -1000, -1500, -2000, -2500, -3000]
 nv = n_elements(vel_thresh)
 
 for ddd = 0, nlin - 1 do begin
@@ -106,7 +106,7 @@ for ddd = 0, nlin - 1 do begin
     ;cp new rearranged file into data directory
     spawn, 'cp '+threshdfile+' '+datdir 
     ;save fileout into array, incase it's needed for something else
-    save, fileout, filename = datdir+'vthreshd-v'+vtstr+'-dopp_transients_'+directories[ddd]+'.txt'
+    save, fileout, filename = datdir+'vthreshd-v'+vtstr+'-dopp_transients_'+directories[ddd]+'.sav'
   endfor
 undefine, fmap
 undefine, emap

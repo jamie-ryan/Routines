@@ -1,4 +1,4 @@
-pro dopp_plot, time, array, dir, coords = coords, sdstr
+pro dopp_plot, time, array, dir, coords = coords, sdstr, vthresh = vthresh
 
 ;coords = [x,y]
 
@@ -17,6 +17,7 @@ t3 = t1+' - '+t2
 ;-------
 ;setup for postscript or eps output
 ;-------
+if keyword_set(vthresh) then flnm = dir+'Dopp_Trans_'+sdstr+'sd_'+stcoords[0]+'_'+stcoords[1]+'.eps' else $
 flnm = '/unsafe/jsr2/project2/'+dir+'/HMI/v/thresh_'+sdstr+'sd/Dopp_Trans_'+sdstr+'sd_'+stcoords[0]+'_'+stcoords[1]+'.eps'
 !p.font=0			;use postscript fonts
 set_plot, 'ps'
