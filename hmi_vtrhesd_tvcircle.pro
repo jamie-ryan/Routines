@@ -14,55 +14,59 @@ free_lun, lun
 vel_thresh = [-500, -1000, -1500, -2000, -2500, -3000]
 nv = n_elements(vel_thresh)
 
+depthdir = '/unsafe/jsr2/project2/depth_images/thresh_'+sdstr+'sd/'
 
-for ddd = 0, nlin - 1 do begin
-  ;differenced Doppler
-  restore, fdir+''+directories[ddd]+'/HMI/v/doppdiff.sav'
-  restore, fdir+''+directories[ddd]+'/HMI/ic/fepmaps.sav'
-  for vvv = 0, nv - 1 do begin
-    vtstr = string(abs(vel_thresh[vvv]), format = '(I0)' )
+for vvv = 0, nv - 1 do begin
+  vtstr = string(abs(vel_thresh[vvv]), format = '(I0)' )
+  texfilev = depthdir+'doppdiff-vthreshd-v'+vtstr+'.tex'
+  texfilevpdf = depthdir+'doppdiff-vthreshd-v'+vtstr+'.pdf'
+  openw, lunn, texfilev, /get_lun, /append
+  printf,lunn ,'\documentclass[11pt,a4paper]{report}'
+  printf,lunn ,'%Sets up margins'
+  printf,lunn ,'\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}'
+  printf,lunn ,'%package to set up column style page layout'
+  printf,lunn ,'\usepackage{multicol}'
+  printf,lunn ,'%calls a maths package for writing equations'
+  printf,lunn ,'\usepackage{amsmath}'
+  printf,lunn ,'%package allows the inclusion of graphics files (.eps,.jpeg....etc)'
+  printf,lunn ,'\usepackage{graphicx}'
+  printf,lunn ,'%converts eps to pdf'
+  printf,lunn ,'\usepackage{epstopdf}'
+  printf,lunn ,'\DeclareGraphicsExtensions{.pdf,.png,.jpg,.eps}'
+  printf,lunn ,'\begin{document}' 
+
+  texfileic = depthdir+'hmidiff-vthreshd-v'+vtstr+'.tex'
+  texfileicpdf = depthdir+'hmidiff-vthreshd-v'+vtstr+'.pdf'    
+  openw, lunnn, texfileic, /get_lun, /append
+  printf,lunnn ,'\documentclass[11pt,a4paper]{report}'
+  printf,lunnn ,'%Sets up margins'
+  printf,lunnn ,'\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}'
+  printf,lunnn ,'%package to set up column style page layout'
+  printf,lunnn ,'\usepackage{multicol}'
+  printf,lunnn ,'%calls a maths package for writing equations'
+  printf,lunnn ,'\usepackage{amsmath}'
+  printf,lunnn ,'%package allows the inclusion of graphics files (.eps,.jpeg....etc)'
+  printf,lunnn ,'\usepackage{graphicx}'
+  printf,lunnn ,'%converts eps to pdf'
+  printf,lunnn ,'\usepackage{epstopdf}'
+  printf,lunnn ,'\DeclareGraphicsExtensions{.pdf,.png,.jpg,.eps}'
+  printf,lunnn ,'\begin{document}' 
+  for ddd = 0, nlin - 1 do begin
+    ;differenced Doppler
+    restore, fdir+''+directories[ddd]+'/HMI/v/doppdiff.sav'
+    restore, fdir+''+directories[ddd]+'/HMI/ic/fepmaps.sav'
+    plotdirv = fdir+''+directories[ddd]+'/HMI/v/thresh_'+sdstr+'sd/vthreshd-v'+vtstr+'/'
+    plotdiric = fdir+''+directories[ddd]+'/HMI/ic/thresh_'+sdstr+'sd/vthreshd-v'+vtstr+'/'
+
+
     checkfile = file_test(fdir+''+directories[ddd]+'/HMI/vthreshd-v'+vtstr+'-dopp_transients_'+directories[ddd]+'.sav')
     if (checkfile eq 0) then continue else $
     restore, fdir+''+directories[ddd]+'/HMI/vthreshd-v'+vtstr+'-dopp_transients_'+directories[ddd]+'.sav'
     doptran = fileout
     undefine, fileout
 
-    plotdirv = fdir+''+directories[ddd]+'/HMI/v/thresh_'+sdstr+'sd/vthreshd-v'+vtstr+'/'
-    plotdiric = fdir+''+directories[ddd]+'/HMI/ic/thresh_'+sdstr+'sd/vthreshd-v'+vtstr+'/'
 
-    texfilev = plotdirv+'doppdiff-vthreshd-v'+vtstr+'.tex'
-    texfilevpdf = plotdirv+'doppdiff-vthreshd-v'+vtstr+'.pdf'
-    openw, lunn, texfilev, /get_lun, /append
-    printf,lunn ,'\documentclass[11pt,a4paper]{report}'
-    printf,lunn ,'%Sets up margins'
-    printf,lunn ,'\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}'
-    printf,lunn ,'%package to set up column style page layout'
-    printf,lunn ,'\usepackage{multicol}'
-    printf,lunn ,'%calls a maths package for writing equations'
-    printf,lunn ,'\usepackage{amsmath}'
-    printf,lunn ,'%package allows the inclusion of graphics files (.eps,.jpeg....etc)'
-    printf,lunn ,'\usepackage{graphicx}'
-    printf,lunn ,'%converts eps to pdf'
-    printf,lunn ,'\usepackage{epstopdf}'
-    printf,lunn ,'\DeclareGraphicsExtensions{.pdf,.png,.jpg,.eps}'
-    printf,lunn ,'\begin{document}' 
 
-    texfileic = plotdiric+'hmidiff-vthreshd-v'+vtstr+'.tex'
-    texfileicpdf = plotdiric+'hmidiff-vthreshd-v'+vtstr+'.pdf'    
-    openw, lunnn, texfileic, /get_lun, /append
-    printf,lunnn ,'\documentclass[11pt,a4paper]{report}'
-    printf,lunnn ,'%Sets up margins'
-    printf,lunnn ,'\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}'
-    printf,lunnn ,'%package to set up column style page layout'
-    printf,lunnn ,'\usepackage{multicol}'
-    printf,lunnn ,'%calls a maths package for writing equations'
-    printf,lunnn ,'\usepackage{amsmath}'
-    printf,lunnn ,'%package allows the inclusion of graphics files (.eps,.jpeg....etc)'
-    printf,lunnn ,'\usepackage{graphicx}'
-    printf,lunnn ,'%converts eps to pdf'
-    printf,lunnn ,'\usepackage{epstopdf}'
-    printf,lunnn ,'\DeclareGraphicsExtensions{.pdf,.png,.jpg,.eps}'
-    printf,lunnn ,'\begin{document}' 
 
 
     ;sort into time order
@@ -137,18 +141,18 @@ for ddd = 0, nlin - 1 do begin
       printf,lunnn ,'\includegraphics{'+flnm2+'}' 
       printf,lunnn ,'\includegraphics{'+flnm3+'}' 
     endfor
-    print, 'making latex files'    
-    printf,lunn ,'\end{document}'
-    free_lun, lunn
-    spawn, 'cd '+plotdirv+'; pdflatex -shell-escape '+texfilev+''
-    spawn, 'cd '+plotdirv+'; pdflatex '+texfilev+''
-    spawn, 'cp '+texfilevpdf+' /unsafe/jsr2/project2/depth_images/thresh_'+sdstr+'sd/'
-
-    printf,lunnn ,'\end{document}'
-    free_lun, lunnn
-    spawn, 'cd '+plotdiric+'; pdflatex -shell-escape '+texfileic+''
-    spawn, 'cd '+plotdiric+'; pdflatex '+texfileic+''
-    spawn, 'cp '+texfileicpdf+' /unsafe/jsr2/project2/depth_images/thresh_'+sdstr+'sd/'
   endfor
+  print, 'making latex files'    
+  printf,lunn ,'\end{document}'
+  free_lun, lunn
+  spawn, 'cd '+depthdir+'; pdflatex -shell-escape '+texfilev+''
+  spawn, 'cd '+depthdir+'; pdflatex '+texfilev+''
+;  spawn, 'cp '+texfilevpdf+' /unsafe/jsr2/project2/depth_images/thresh_'+sdstr+'sd/'
+
+  printf,lunnn ,'\end{document}'
+  free_lun, lunnn
+  spawn, 'cd '+depthdir+'; pdflatex -shell-escape '+texfileic+''
+  spawn, 'cd '+depthdir+'; pdflatex '+texfileic+''
+;  spawn, 'cp '+texfileicpdf+' /unsafe/jsr2/project2/depth_images/thresh_'+sdstr+'sd/'
 endfor
 end
